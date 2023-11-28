@@ -1,0 +1,119 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.banner{
+    color: white;
+    background-color: #2f67d0;
+    margin: 20px;
+    line-height: 1.5;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.settings{
+    position: relative;
+    display: inline-block;
+}
+
+.menu{
+    display: none;
+    position: absolute;
+    background-color: gray;
+    border: 1px solid #ccc;
+    min-width: 80px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.menu ul{
+    color: black;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li{
+    padding: 10px;
+}
+
+.imageContainer{
+    position: relative;
+    top: 10px;
+}
+
+.imageContainer img{
+    width: 30px;
+    right: 10px;
+    top: 10px;
+}
+
+.settingsBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+.show{
+    display: block;
+}
+
+
+.buttons{
+    width: 100%;
+    position: sticky;
+    display: flex;
+    margin: 20px;
+    align-items: center;
+}
+
+.screen{
+    display: flex;
+    justify-content: row;   
+}
+
+.container {
+    width: 300px; /* Set a fixed width for the container */
+    max-height: 650px; /* Set a maximum height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sensor {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid gray;
+    background-color: #dddcdf;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.item.active {
+    height: auto;
+    border: 1px solid #333;
+}
+
+.viewSensorInfo{
+    margin-bottom: 5px;
+}
+
+.display{
+    border-radius: 10px;
+    border-width: 1px solid gray;
+    background-color: #dddcdf;
+    width: 100%;
+    height: 650px;
+    padding: 20px;
+    margin: 20px;
+}

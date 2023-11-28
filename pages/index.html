@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgriSense</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="banner">
+        <h1>AgriSense</h1>
+        <div class="settings">
+            <div class="imageContainer">
+                <img src="images/cog-xxl.png">
+                <button class="settingsBtn" onclick="openSettings()"></button>
+            </div>
+            <div class="menu" id="menu">
+                <ul>
+                    <li><button id="addItemButton">Add Sensor</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="screen">
+        <div class="container">
+            <div class="sensors">
+                <!-- New sensors will be added dynamically here -->
+            </div>
+        </div>
+        <div class="display">
+            <!-- Sensor information will be displayed here -->
+                
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
