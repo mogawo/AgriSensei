@@ -10,12 +10,13 @@ use std::
 pub struct ThreadPool
 {
     workers: Vec<Worker>,
-    sender: mpsc::Sender<Job>,
+    sender: Option<mpsc::Sender<Job>>,
 }
-type Job = Box<dyn FnOnce() + Send + 'static>;
+
 
 impl ThreadPool {
-    pub fn new(size: usize) -> ThreadPool {
+    pub fn new(size: usize) -> ThreadPool 
+    {
         assert!(size > 0);
         
         let (sender, receiver) = mpsc::channel();
@@ -23,9 +24,9 @@ impl ThreadPool {
         let mut workers = Vec::with_capacity(size);
         for id in 0..size
         {
-            workers.push(Worker::new(id, receiver.clone()))
+            workers.push(Worker::new(id, receiver.clone()));
         }
-        ThreadPool {workers, sender}
+        ThreadPool {workers, sender: Some(sender)}
     }
 
     pub fn execute<F>(&self, f: F) 
@@ -33,14 +34,17 @@ impl ThreadPool {
         F: FnOnce() + Send + 'static,
     {
         let job = Box::new(f);
-        self.sender.send(job).unwrap();
+        self.sender.as_ref().unwrap().send(job).unwrap();
     }
 }
+
+
+type Job = Box<dyn FnOnce() + Send + 'static>;
 
 struct Worker
 {
     id: usize,
-    thread: thread::JoinHandle<Arc<Mutex<mpsc::Receiver<Job>>>>
+    thread: Option<thread::JoinHandle<()>>,
 }
 
 impl Worker
@@ -49,13 +53,41 @@ impl Worker
     {
         let thread = thread::spawn(move || loop 
             {
-                let job = receiver.lock().unwrap().recv().unwrap();
-                
-                println!("Worker {id} got a job; executing.");
+                let message = receiver.lock().unwrap().recv();
 
-                job();
+                match message
+                {
+                    Ok(job) => 
+                    {
+                        println!("Worker {id} got a job; executing.");
+                        job();
+                    }
+
+                    Err(_) => 
+                    {
+                        println!("Worker {id} disconnected; shutting down.");
+                        break;
+                    }
+                }
             });
-        Worker{id, thread}
+        Worker{id, thread: Some(thread)}
+    }
+}
+
+impl Drop for ThreadPool
+{
+    fn drop(&mut self) 
+    {
+        drop(self.sender.take());
+        for worker in &mut self.workers 
+        {
+            println!("Shutting down worker {}", worker.id);
+
+            if let Some(thread) = worker.thread.take()
+            {
+                thread.join().unwrap();
+            }
+        }
     }
 }
 
