@@ -106,4 +106,5 @@ fn error_response<S: AsRef<str>>(err_msg: S, status: http::StatusCode)-> Vec<u8>
         .body(err_data).unwrap();
     println!("{}", err_msg.as_ref());
     
+    "TEST COMMIT TO ENSURE I DIDNT JUST ERASE THE MAIN BRANCH"
 }
