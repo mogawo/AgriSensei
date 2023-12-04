@@ -1,11 +1,8 @@
-use std::
-{
-    sync::
-    {
-        mpsc, Arc, Mutex
-    }, 
+use std::{
+    sync::{mpsc, Arc, Mutex},
     thread,
 };
+
 
 pub struct ThreadPool
 {
@@ -13,6 +10,7 @@ pub struct ThreadPool
     sender: Option<mpsc::Sender<Job>>,
 }
 
+type Job = Box<dyn FnOnce() + Send + 'static>;
 
 impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool 
@@ -39,7 +37,7 @@ impl ThreadPool {
 }
 
 
-type Job = Box<dyn FnOnce() + Send + 'static>;
+
 
 struct Worker
 {
