@@ -6,7 +6,7 @@ use std::{
 
 use server::ThreadPool;
 
-use http::{self, header, Extensions};
+use http::{self, header, StatusCode, Extensions};
 use httparse::{self, Status};
 
 use mime_guess::{self, from_ext};
@@ -36,7 +36,7 @@ fn handle_connection(mut stream: TcpStream) {
     let resp = if req_status.is_complete() {
         handle_response(&req)
     } else {
-        error_response("Partial Request Error")
+        error_response("Partial Request Error", StatusCode::NOT_FOUND)
     };
 
     stream.write(&resp).unwrap();
@@ -53,11 +53,12 @@ fn handle_response(req: &httparse::Request) -> Vec<u8>
             "/style.css" => return build_response("pages\\main_page\\style.css"),
             "/script.js" => return build_response( "pages\\main_page\\script.js"),
             "/images/cog-xxl.png" => return build_response( "pages\\main_page\\images\\cog-xxl.png"),
-            err_path => return error_response(format!("Request Path cannot be found: {err_path}")),
+            "/favicon.ico" => return build_response("pages\\main_page\\images\\icons8-potted-plant-96.png"),
+            err_path => return error_response(format!("Request Path cannot be found: {err_path}"), StatusCode::NOT_FOUND),
         }
     }
     else {
-        return error_response(format!("Unhandled HTTP Method {}", req.method.unwrap()));
+        return error_response(format!("Unhandled HTTP Method {}", req.method.unwrap()), StatusCode::NOT_FOUND);
     }   
 }
 
@@ -92,8 +93,17 @@ fn build_response<S: AsRef<str>>(path: S) -> Vec<u8>
 }
 
 
-fn error_response<S: AsRef<str>>(err_msg: S)-> Vec<u8>
+fn error_response<S: AsRef<str>>(err_msg: S, status: http::StatusCode)-> Vec<u8>
 {
+    let err_path = Path::new("pages\\404.html");
+    let err_data = fs::read(err_path).unwrap();
+    let err_length = err_data.len();
+
+    let response = http::Response::builder()
+        .status(status)
+        .header(header::CONTENT_TYPE, "text/html")
+        .header(header::CONTENT_LENGTH, err_length) 
+        .body(err_data).unwrap();
     println!("{}", err_msg.as_ref());
-    build_response("pages\\404.html")
+    
 }
