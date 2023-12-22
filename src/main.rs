@@ -1,110 +1,160 @@
 use std::{
-    io::{prelude::*, BufReader, Cursor},
-    net::{TcpListener, TcpStream}, fs, str::from_utf8, error,
-    path::Path
+    io::{prelude::*, BufReader, Error},
+    net::{TcpListener, TcpStream}, 
+    fs,
+    convert::{AsRef, Infallible}, fmt::{Display, Debug}, ops::Deref,
+    // string::String
 };
 
-use server::ThreadPool;
+use image::EncodableLayout;
+use server::
+{
+    ThreadPool,
+    ServerError::{self, HTTPError, PathError, MimeTypeError},
+};
 
-use http::{self, header, StatusCode, Extensions};
-use httparse::{self, Status};
+use //External Libs
+{
+    http::{self, Method, Request, Response, header, method, status, uri},
+};
 
-use mime_guess::{self, from_ext};
-
-use image::{self, io::Reader as ImageReader};
+const HOST_ADDRESS: &str = "127.0.0.1:7878";
+const ASSEMBLE_VEC_CAPACITY: usize = (1 << 10);
 
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let listener = TcpListener::bind(HOST_ADDRESS).unwrap();
     let pool = ThreadPool::new(4);
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        // pool.execute(|| handle_connection(stream));
-        handle_connection(stream);
+        pool.execute(|| {handle_connection(stream);});
     }
 }
 
-fn handle_connection(mut stream: TcpStream) {
-//Stream --> get a array of bytes --> into http parser --> get headers
+fn handle_connection<'s>(mut stream: TcpStream) -> ServerError {
     let mut buf_reader = BufReader::new(&mut stream);
-
+    
     let mut headers = [httparse::EMPTY_HEADER; 16];
-    let mut req = httparse::Request::new(&mut headers);
+    let mut req: httparse::Request<'_, '_> = httparse::Request::new(&mut headers);
     let req_status = req.parse(buf_reader.fill_buf().unwrap()).unwrap();
-    
-    let resp = if req_status.is_complete() {
-        handle_response(&req)
-    } else {
-        error_response("Partial Request Error", StatusCode::NOT_FOUND)
-    };
+    if req_status.is_partial() {
+        return ServerError::ThreadError { msg: "Partial Request, Retry Request" };
+    }; //TODO Handle partial request
+    let body_offset = req_status.unwrap();
+    let req_body = &buf_reader.buffer()[body_offset..];
+    //                                        ^^^^^^^^^^^
+    //BufReader::fill_buf docs advise to 'consume' to tell IO source to skip the amount of bytes that filled the buf
+    //That is if we are dealing with a singular IO stream.
+    //  e.g. IO stream is locked and 'consume' is ASSUMED to unlock and incremented for # of bytes
+    //This server is multi-threaded and TcpStream continually sends bytes so no need for consume
 
-    stream.write(&resp).unwrap();
+    //convert httparse struct -> http struct
+    let req_builder =  Request::builder()
+        .method(req.method.unwrap())
+        .uri(format!("{}", req.path.unwrap()));
 
-    
-}
-
-fn handle_response(req: &httparse::Request) -> Vec<u8>
-{
-    if req.method.unwrap() == "GET"
+    for head in headers
     {
-        match req.path.unwrap(){
-            "/" => return build_response("pages\\main_page\\index.html"),
-            "/style.css" => return build_response("pages\\main_page\\style.css"),
-            "/script.js" => return build_response( "pages\\main_page\\script.js"),
-            "/images/cog-xxl.png" => return build_response( "pages\\main_page\\images\\cog-xxl.png"),
-            "/favicon.ico" => return build_response("pages\\main_page\\images\\icons8-potted-plant-96.png"),
-            err_path => return error_response(format!("Request Path cannot be found: {err_path}"), StatusCode::NOT_FOUND),
+        if head != httparse::EMPTY_HEADER
+        {
+            let key = head.name;
+            let value = head.value;
+            req_builder.header(key, value);
         }
     }
-    else {
-        return error_response(format!("Unhandled HTTP Method {}", req.method.unwrap()), StatusCode::NOT_FOUND);
-    }   
+    let built_request = match req_builder.body(req_body){
+        Ok(built_req) => built_req,
+        Err(err) => return err.into()
+    };
+    let built_response = match handle_response(built_request){
+        Ok(handled_resp) => handled_resp,
+        Err(err) => return err
+    };
+
+    let response_bytes = match built_response.assemble(){
+        Ok(resp_bytes) => resp_bytes,
+        Err(err) => return err
+    };
+        
+    stream.write_all(response_bytes);
+    
+    ServerError::ThreadError { msg: "Thread has been closed" }
 }
-
-fn build_response<S: AsRef<str>>(path: S) -> Vec<u8>
-{
-    let path = path.as_ref();
-    let file_path: &Path = Path::new(path);
-    let ext = file_path.extension().unwrap().to_str();
-    let mime_type = from_ext(ext.unwrap()).first().unwrap();
-    let file_data = fs::read(file_path).unwrap();
-    let file_length = file_data.len();
-
-    let response = http::Response::builder()
-        .status(http::StatusCode::OK)
-        .header(header::CONTENT_TYPE, mime_type.as_ref())
-        .header(header::CONTENT_LENGTH, file_length) 
-        .body(file_data).unwrap();
-
-    let (parts, body) = response.into_parts();
-    let http::response::Parts {status, version, headers, ..} = parts;
-    let status_line = format!("{version:?} {status}");
-    let mut str_headers = String::new();
-    for (key, value) in headers.iter()
-    {
-        str_headers.push_str(format!("{}: {}\r\n", key.as_str(), value.to_str().unwrap()).as_str());
+//TODO turn Response into Vec<u8> of bytes
+trait Assemble{
+    fn assemble(&self) -> Result<&[u8], ServerError>; 
+}
+impl Assemble for Response<Vec<u8>>{
+    //Assembles the Response key/values to vec of bytes
+    //Mostly to used to send response as bytes to TCPStream
+    fn assemble(&self) -> Result<&[u8], ServerError>{
+        let mut to_send = Vec::<u8>::with_capacity(ASSEMBLE_VEC_CAPACITY);
+        let (parts, body) = self.into_parts();
+        // if let parts_version = {
+        //     Ok()
+        // };
+        to_send.extend(format!("{:?}", parts.version).bytes());
+        to_send.extend(format!("{:?}", parts.status).bytes());
+        for (name, value) in parts.headers{
+            to_send.extend(format!("{:?}: {:?}\r\n", name, value).bytes());
+        }
+        Ok(&to_send)
     }
-
-    let head_fmt = format!("{status_line}\r\n{str_headers}\r\n\r\n");
-    let head  = head_fmt.as_bytes().to_vec();
-    
-    return [head, body].concat();
 }
 
-
-fn error_response<S: AsRef<str>>(err_msg: S, status: http::StatusCode)-> Vec<u8>
+fn handle_response(req: http::Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
 {
-    let err_path = Path::new("pages\\404.html");
-    let err_data = fs::read(err_path).unwrap();
-    let err_length = err_data.len();
+    match *req.method()
+    {
+        Method::GET => get_request(req),
+        meth => error_response("Unhandled method request", meth.as_str())
+    }
+}
 
-    let response = http::Response::builder()
-        .status(status)
-        .header(header::CONTENT_TYPE, "text/html")
-        .header(header::CONTENT_LENGTH, err_length) 
-        .body(err_data).unwrap();
-    println!("{}", err_msg.as_ref());
-    
-    "TEST COMMIT TO ENSURE I DIDNT JUST ERASE THE MAIN BRANCH"
+fn get_request(req: Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
+{
+    let (parts, body) = req.into_parts();
+    let uri_path: String = parts.uri.to_string();
+    let response = match uri_path.as_ref().map(String::as_ref)
+    {
+        "\\" => get_response("pages\\main_page\\index.html"),
+        "\\script.js" => get_response("pages\\main_page\\index.html"),
+        "\\style.css" => get_response("pages\\main_page\\index.html"),
+        "\\cog-xxl.png" => get_response("pages\\main_page\\images\\cog-xxl.png"),
+        "\\icons8-potted-plant-16.png" => get_response("pages\\main_page\\index.html"),
+        off_path => error_response("Requested Path not Found", ServerError::PathError { msg: "Requested Path not Found", path: off_path })
+    };
+    response
+}
+
+fn get_response(file_path: &'static str) -> Result<Response<Vec<u8>>, ServerError>
+{
+    // let file_path = path.clone();
+
+    let (_, extension) = file_path.split_once('.').ok_or(PathError{msg: "Requested File has no extension", path: file_path})?;
+    let mime_type = mime_guess::from_ext(extension).first_raw().ok_or(MimeTypeError{msg: "Requested File Extension has no MIME Type", path: file_path})?;
+    let file_data = fs::read(file_path).unwrap();
+
+    let response = Response::builder()
+        .header("Content-Type", mime_type)
+        .header("Content-Length", file_data.len())
+        .body(file_data);
+
+    Ok(response?)
+}
+
+trait Print : Display + Debug {}
+impl<T: Display + Debug> Print for T {}
+
+fn error_response<S: Print, E: Print>(msg: S, value: E) -> Result<Response<Vec<u8>>, ServerError>
+{
+    println!("{}: {}", msg, value);
+    let err_file = fs::read("pages\\404.html").unwrap();
+    let err_response = Response::builder()
+        .status(404)
+        .header("Content-Type", "text/html")
+        .header("Content-Length", err_file.len())
+        .body(err_file);
+    Ok(err_response?)
 }

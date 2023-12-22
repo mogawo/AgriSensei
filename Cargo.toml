@@ -3,6 +3,14 @@ name = "server"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "server"
+path = "src/main.rs"
+
+[lib]
+name = "server"
+path = "src/lib.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -10,5 +18,5 @@ http = "1.0.0"
 httparse = "1.8.0"
 image = "0.24.7"
 mime_guess = "2.0.4"
+png = "0.17.10"
 rusqlite = "0.30.0"
-threadpool = "1.0"
