@@ -43,11 +43,6 @@ fn handle_connection<'s>(mut stream: TcpStream) -> ServerError {
     }; //TODO Handle partial request
     let body_offset = req_status.unwrap();
     let req_body = &buf_reader.buffer()[body_offset..];
-    //                                        ^^^^^^^^^^^
-    //BufReader::fill_buf docs advise to 'consume' to tell IO source to skip the amount of bytes that filled the buf
-    //That is if we are dealing with a singular IO stream.
-    //  e.g. IO stream is locked and 'consume' is ASSUMED to unlock and incremented for # of bytes
-    //This server is multi-threaded and TcpStream continually sends bytes so no need for consume
 
     //convert httparse struct -> http struct
     let req_builder =  Request::builder()
@@ -63,19 +58,20 @@ fn handle_connection<'s>(mut stream: TcpStream) -> ServerError {
             req_builder.header(key, value);
         }
     }
-    let built_request = match req_builder.body(req_body){
-        Ok(built_req) => built_req,
-        Err(err) => return err.into()
-    };
-    let built_response = match handle_response(built_request){
-        Ok(handled_resp) => handled_resp,
-        Err(err) => return err
-    };
+    // let builtreq = req_builder.body(req_body);
+    // let built_request = match req_builder.body(req_body){
+    //     Ok(built_req) => built_req,
+    //     Err(err) => return err.into()
+    // };
+    // let built_response = match handle_response(&built_request){
+    //     Ok(handled_resp) => handled_resp,
+    //     Err(err) => return err
+    // };
 
-    let response_bytes = match built_response.assemble(){
-        Ok(resp_bytes) => resp_bytes,
-        Err(err) => return err
-    };
+    // let response_bytes = match built_response.assemble(){
+    //     Ok(resp_bytes) => resp_bytes,
+    //     Err(err) => return err
+    // };
         
     stream.write_all(response_bytes);
     
@@ -103,7 +99,7 @@ impl Assemble for Response<Vec<u8>>{
     }
 }
 
-fn handle_response(req: http::Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
+fn handle_response(req: &http::Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
 {
     match *req.method()
     {
@@ -112,11 +108,10 @@ fn handle_response(req: http::Request<&[u8]>) -> Result<http::Response<Vec<u8>>,
     }
 }
 
-fn get_request(req: Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
+fn get_request(req: &Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
 {
     let (parts, body) = req.into_parts();
-    let uri_path: String = parts.uri.to_string();
-    let response = match uri_path.as_ref().map(String::as_ref)
+    let response = match parts.uri.path()
     {
         "\\" => get_response("pages\\main_page\\index.html"),
         "\\script.js" => get_response("pages\\main_page\\index.html"),
