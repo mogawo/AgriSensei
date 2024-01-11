@@ -9,12 +9,12 @@ pub enum ServerError
 {
     //HTTPError is the only one with String so it can easily convert a http::Error to a ServerError
     HTTPError{msg: String, err: http::Error},
-    RequestError{msg: &'static str},
-    ResponseError{msg: &'static str},
-    PathError{msg: &'static str, path: &'static str},
-    MimeTypeError{msg: &'static str, path: &'static str},
-    AssembleError{msg: &'static str},
-    ThreadError{msg: &'static str}
+    RequestError{msg: String},
+    ResponseError{msg: String},
+    PathError{msg: String, path: String},
+    MimeTypeError{msg: String, path: String},
+    AssembleError{msg: String},
+    ThreadError{msg: String}
 }
 
 impl fmt::Display for ServerError{
