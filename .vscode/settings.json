@@ -3,5 +3,11 @@
     "[lisp]": {
         "editor.wordSeparators": "`|;:'\",()"
     },
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "rust-analyzer.linkedProjects": [
+        ".\\Cargo.toml",
+        ".\\Cargo.toml",
+        ".\\Cargo.toml",
+        ".\\Cargo.toml"
+    ]
 }
