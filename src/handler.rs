@@ -8,7 +8,7 @@ use crate::rest::get;
 use http::{self, Method, Request, Response};
 
 
-const ASSEMBLE_VEC_CAPACITY: usize = (1 << 10);
+const ASSEMBLE_VEC_CAPACITY: usize = 1 << 10;
 
 pub fn handle_connection(mut stream: TcpStream) -> ServerError {
     let mut buf_reader = BufReader::new(&mut stream);

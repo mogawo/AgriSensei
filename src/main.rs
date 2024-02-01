@@ -28,11 +28,22 @@ use handler::handle_connection;
 
 
 const HOST_ADDRESS: &str = "127.0.0.1:7878";
-
-fn main() {
+const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
+                                "Kimberly", "Kara", "Juan", "Billy", 
+                                "Braulio", "Damien", "Ezra", "Margarita", 
+                                "Gisselle", "Leeann", "Davis", "Alex", 
+                                "Justin", "Kenna", "Jorden", "Valentin"];
+fn main(){
     // run();
+    Database::delete_database();
     let mut db = Database::new().unwrap();
-    db.newUser("Johnny");
+    for name in TEST_NAMES {
+        match db.new_user(name) {
+            Ok(()) => (),
+            Err(err) => println!("{}", err)
+        }
+    }
+    
 }
 
 fn run(){
