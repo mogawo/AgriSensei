@@ -25,20 +25,32 @@
     position: absolute;
     background-color: gray;
     border: 1px solid #ccc;
-    min-width: 80px;
+    min-width: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 2;
+    right: 0;
+    top: 100%;
 }
 
 .menu ul{
     color: black;
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
+    justify-content: center;
+    align-content: center;
+    align-items: stretch;
     padding: 0;
     margin: 0;
 }
 
 .menu li{
-    padding: 10px;
+    /* font-size: 0px; */
+    white-space: nowrap;
+    line-height: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 0;
 }
 
 .imageContainer{
@@ -116,4 +128,12 @@
     height: 650px;
     padding: 20px;
     margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.sensorData {
+    flex-direction: column;
 }

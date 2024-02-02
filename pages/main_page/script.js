@@ -1,41 +1,68 @@
 const addItemButton = document.getElementById('addItemButton');
 const itemsContainer = document.querySelector('.sensors');
+const sensorDisplay = document.querySelector('.display')
 
 let itemIdCounter = 0;
 
 addItemButton.addEventListener('click', () => {
-    const newItem = createItemElement();
-    itemsContainer.appendChild(newItem);
+    const newSensor = createSensorElement();
+    itemsContainer.appendChild(newSensor);
 });
 
-function createItemElement() {
-    const newItem = document.createElement('div');
-    newItem.classList.add('sensor');
-    newItem.dataset.itemId = itemIdCounter++;
+function createSensorElement() {
+    const newSensor = document.createElement('div');
+    newSensor.classList.add('sensor');
+    newSensor.dataset.itemId = itemIdCounter++;
 
-    newItem.innerHTML = `
-        <h2>Sensor ${newItem.dataset.itemId}</h2>
-        <p>Content for sensor ${newItem.dataset.itemId} goes here.</p>
+    newSensor.innerHTML = `
+        <h2>Sensor ${newSensor.dataset.itemId}</h2>
+        <p>Content for sensor ${newSensor.dataset.itemId} goes here.</p>
         <button class="viewSensorInfo">View Data</button>
         <br>
         <button class="removeItemButton">Remove Sensor</button>
     `;
 
-    newItem.addEventListener('click', () => {
-        newItem.classList.toggle('active');
+    newSensor.addEventListener('click', () => {
+        newSensor.classList.toggle('active');
         itemsContainer.querySelectorAll('.sensor').forEach(otherItem => {
-            if (otherItem !== newItem) {
+            if (otherItem !== newSensor) {
                 otherItem.classList.remove('active');
             }
         });
     });
 
-    const removeItemButton = newItem.querySelector('.removeItemButton');
+    const removeItemButton = newSensor.querySelector('.removeItemButton');
     removeItemButton.addEventListener('click', () => {
-        itemsContainer.removeChild(newItem);
+        itemsContainer.removeChild(newSensor);
     });
 
-    return newItem;
+    const viewSensorInfo = newSensor.querySelector('.viewSensorInfo');
+    viewSensorInfo.addEventListener('click', () =>{
+        showSensorInfo(newSensor)
+    });
+
+    return newSensor;
+}
+
+function showSensorInfo(sensorData) {
+    const elements = document.querySelectorAll('.sensorData')
+    elements.forEach(element => {
+        element.remove();
+    });
+
+    const showDisplay = document.createElement('div');
+    showDisplay.classList.add('sensorData')
+
+    showDisplay.innerHTML = `
+        <h2>Sensor ${sensorData.dataset.itemId}</h2>
+        <p>Content for sensor ${sensorData.dataset.itemId} goes here.</p>
+        <p>pH level for sensor goes here.</p>
+        <p>Temperature level for sensor goes here.</p>
+        <p>Humidity level for sensor goes here.</p>
+        <p>sensorData ${sensorData}.</p>
+    `;
+
+    sensorDisplay.appendChild(showDisplay)
 }
 
 function openSettings() {
