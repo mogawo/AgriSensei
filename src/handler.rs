@@ -4,7 +4,8 @@ use std::{
 };
 
 use crate::ServerError::{self, *};
-use crate::rest::get;
+use crate::rest::get::GetMessage;
+use crate::message::Message;
 use http::{self, Method, Request, Response};
 
 
@@ -100,7 +101,7 @@ fn handle_response(req: http::Request<&[u8]>) -> Result<http::Response<Vec<u8>>,
     let (parts, body) = req.into_parts();
     match parts.method
     {
-        Method::GET => get::request(parts.uri.path()),
-        meth => get::error_response("Unhandled method request", meth.as_str())
+        Method::GET => GetMessage::request(parts.uri.path()),
+        meth => GetMessage::error_response("Unhandled method request", meth.as_str())
     }
 }

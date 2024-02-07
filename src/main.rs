@@ -9,14 +9,17 @@ use std::net::TcpListener;
 // }
 // Then use 'use' actually use the modules
 // Modules using another module, just use crate::<file-path>
-mod server_error;
+pub mod server_error;
 use server_error::ServerError;
 
 mod thread_pool;
 use thread_pool::ThreadPool;
 
+pub mod message;
+use message::Message;
 mod rest{
     pub mod get;
+    pub mod post;
 }
 // use rest::get;
 

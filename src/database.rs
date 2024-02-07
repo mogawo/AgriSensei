@@ -68,10 +68,9 @@ impl<'d> Database<'d>{
                 FOREIGN KEY (userID) REFERENCES users (userID)
               );
               
-              CREATE TABLE IF NOT EXISTS [sensorData] (
+              CREATE TABLE IF NOT EXISTS [dataPacket] (
                 [dateTime] TEXT NOT NULL PRIMARY KEY,
                 [samplePeriod] INTEGER NOT NULL,
-                [sampleFrequency] INTEGER NOT NULL,
                 [sensorID] INTEGER NOT NULL,
                 FOREIGN KEY (sensorID) REFERENCES sensors (sensorID)
               );
@@ -91,6 +90,12 @@ impl<'d> Database<'d>{
         }
         Ok(())
     }
+
+    pub fn new_sensor(&mut self, userID: &u8){
+        
+    }
+
+
 
     fn new_database(&mut self) -> Result<Database<'d>>{
         Database::new()
