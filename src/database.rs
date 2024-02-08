@@ -1,18 +1,14 @@
 
-use std::fs::remove_file;
-use std::io::ErrorKind as IOError;
-use std::io::ErrorKind::NotFound;
-use std::fmt::{Display, Debug};
+pub use std::fs::remove_file;
+pub use std::io::ErrorKind as IOError;
+pub use std::io::ErrorKind::NotFound;
+pub use std::fmt::{Display, Debug};
 
-use rusqlite::{named_params, params, Connection};
-use rusqlite::Error as SQLError;
+pub use rusqlite::{named_params, params, Connection};
+pub use rusqlite::Error as SQLError;
 
-pub struct Database<'d>{
-    name: &'d str,
-    path: &'d str,
-    connection: Connection
-}
-type Result<T> = std::result::Result<T, DBError>;
+
+pub type Result<T> = std::result::Result<T, DBError>;
 #[derive(Debug)]
 pub enum DBError{
     SQLError(SQLError),
@@ -44,70 +40,92 @@ impl From<IOError> for DBError{
 }
 
 
-const DB_NAME: &str = "AgriSensei DB";
-const DB_PATH: &str = "data\\agrisensei.db";
-impl<'d> Database<'d>{
-    pub fn new() -> Result<Database<'d>>{
 
-        let db = Database{
-            name: DB_NAME,
-            path: DB_PATH,
-            connection: Connection::open(DB_PATH)?
-        };
+pub struct TableColumnNames{}
+impl TableColumnNames{
+    //User Table
+    pub const USERS: &'static str = "users";
+    pub const USER_ID: &'static str = "userID";
+    pub const USER_NAME: &'static str = "userName";
+    
+    //Sensor Table
+    pub const SENSORS: &'static str = "sensors";
+    pub const SENSOR_ID: &'static str = "sensorID";
+    pub const SENSOR_TYPE: &'static str = "sensorType";
+    
+    //Data Packet
+    pub const DATA_PACKET: &'static str = "dataPacket";
+    pub const DATE_TIME: &'static str = "dateTime";
+    pub const SAMPLE_FREQUENCY: &'static str = "sampleFrequency";
+    pub const SAMPLE_DURATION: &'static str = "sampleDuration";
+    pub const SAMPLE_AMOUNT: &'static str = "sampleAmount";
+}
 
-        let _ = db.connection.execute_batch(
-            "CREATE TABLE IF NOT EXISTS  [users] (
-                [userID]  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
-                [userName] TEXT DEFAULT 'John Smith'
+use TableColumnNames as Col;
+
+pub struct Database{}
+
+
+
+impl<'d> Database{
+    const DB_NAME: &'static str = "AgriSensei Database";
+    const DB_PATH: &'static str = r"data\agrisensei.db";
+
+    pub fn connect() -> Connection{
+        match Connection::open(Database::DB_NAME){
+            Ok(conn) => conn,
+            Err(_) => panic!("Can not connect to {0} @path=...\\{1}", Database::DB_NAME, Database::DB_PATH)
+        }
+    }
+
+    pub fn new(){
+        let _ = remove_file(Database::DB_PATH);
+
+        Database::connect().execute_batch(format!(
+            "CREATE TABLE IF NOT EXISTS  {users} (
+                {userID}  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+                {userName} TEXT DEFAULT 'John Smith'
               );
               
-              CREATE TABLE IF NOT EXISTS [sensors] (
-                [sensorID] INTEGER NOT NULL PRIMARY KEY,
-                [sensorType] TEXT NOT NULL,
-                [userID] INTEGER NOT NULL,
+              CREATE TABLE IF NOT EXISTS {sensors} (
+                {sensorID} INTEGER NOT NULL PRIMARY KEY,
+                {sensorType} TEXT NOT NULL,
+                {userID} INTEGER NOT NULL,
                 FOREIGN KEY (userID) REFERENCES users (userID)
               );
               
-              CREATE TABLE IF NOT EXISTS [dataPacket] (
-                [dateTime] TEXT NOT NULL PRIMARY KEY,
-                [samplePeriod] INTEGER NOT NULL,
-                [sensorID] INTEGER NOT NULL,
+              CREATE TABLE IF NOT EXISTS {dataPacket} (
+                {dateTime} TEXT NOT NULL PRIMARY KEY,
+                {sampleFrequency} INTEGER NOT NULL,
+                {sampleDuration} INTEGER NOT NULL,
+                {sampleAmount} INTEGER NOT NULL,
                 FOREIGN KEY (sensorID) REFERENCES sensors (sensorID)
-              );
-              ")?;
-        Ok(db)
+              );",
+              users=Col::USERS,
+              userID=Col::USER_ID,
+              userName=Col::USER_NAME,
+              sensors=Col::SENSORS,
+              sensorID=Col::SENSOR_ID,
+              sensorType=Col::SENSOR_TYPE,
+              dataPacket=Col::DATA_PACKET,
+              dateTime=Col::DATE_TIME,
+              sampleFrequency=Col::SAMPLE_FREQUENCY,
+              sampleDuration=Col::SAMPLE_DURATION,
+              sampleAmount=Col::SAMPLE_AMOUNT,
+            ).as_str()).unwrap();
     }
 
     //userId auto increments in sqlite
-    pub fn new_user(&mut self, name: &str) -> Result<()>{
-        let rows_updated = self.connection.execute(
-            "INSERT INTO users(userName) VALUES (?1)", 
-            params![name]
-        )?;
-
-        if rows_updated == 0{
-            println!("User Already Exists. No user was added")
-        }
-        Ok(())
+    pub fn new_user(name: &str) -> Option<u64>{
+        let user_insert = format!(r"INSERT INTO {user}({userName}) VALUES (?1)", user=Col::USERS, userName=Col::USER_NAME);
+        match Database::connect().execute(user_insert.as_str(), params![name]){
+                Ok(0) => None,
+                Ok(_rowsChanged) => Some(Database::connect().last_insert_rowid().try_into().unwrap()),
+                Err(err) => panic!("Bad SQL Insert in Database.rs")
+            }
     }
 
-    pub fn new_sensor(&mut self, userID: &u8){
-        
-    }
-
-
-
-    fn new_database(&mut self) -> Result<Database<'d>>{
-        Database::new()
-    }
-
-    pub fn delete_database(){
-        let _ = remove_file(DB_PATH);
-    }
-
-    pub fn reset_database(&mut self, del_file: bool) -> Result<()>{
-        Database::delete_database();
-        *self = self.new_database()?;
-        Ok(())
+    pub fn new_sensor(&mut self, user_id: &u8){
+        todo!()
     }
 }

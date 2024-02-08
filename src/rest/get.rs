@@ -1,34 +1,25 @@
-use crate::{
-    Message::{self},
-    ServerError::{self, PathError, MimeTypeError},
-};
-
-use crate::message::Print;
-use http::{self, Method, Request, Response, header, method, status, uri};
-use std::{
-    fmt::{Display, Debug},
-    fs
-};
+use crate::message::*;
+use crate::server_error::*;
 pub struct GetMessage{}
 
 impl Message for GetMessage{
-    fn request(uri_path: &str) -> Result<http::Response<Vec<u8>>, ServerError>
+    fn process_request(req: Request<String>) -> ResultResponse<Vec<u8>>
     {
-        return match uri_path
+        return match req.uri().path()
         {
-            "/" => GetMessage::response("pages\\main_page\\index.html"),
-            "/script.js" => GetMessage::response("pages\\main_page\\script.js"),
-            "/style.css" => GetMessage::response("pages\\main_page\\style.css"),
-            "/images/cog-xxl.png" => GetMessage::response("pages\\main_page\\images\\cog-xxl.png"),
-            "/favicon.ico" => GetMessage::response("pages\\main_page\\images\\favicon.ico"),
-            _ => GetMessage::error_response("Requested Path not Found", ServerError::PathError { msg: "Requested Path not Found".to_string(), path: uri_path.to_string() })
+            "/" => GetMessage::response(r"pages\main_page\index.html"),
+            "/script.js" => GetMessage::response(r"pages\main_page\script.js"),
+            "/style.css" => GetMessage::response(r"pages\main_page\style.css"),
+            "/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
+            "/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
+            _ => GetMessage::error_response("Requested Path not Found", ServerError::PathError { msg: "Requested Path not Found".to_string(), path: req.uri().path().to_string() })
         };
     }
 
-    fn response(file_path: &str) -> Result<Response<Vec<u8>>, ServerError>
+    fn response(file_path: &str) -> ResultResponse<Vec<u8>>
     {
-        let (_, extension) = file_path.split_once('.').ok_or(PathError{msg: "Requested File has no extension".to_string(), path: file_path.to_string()})?;
-        let mime_type = mime_guess::from_ext(extension).first_raw().ok_or(MimeTypeError{msg: "Requested File Extension has no MIME Type".to_string(), path: file_path.to_string()})?;
+        let (_, extension) = file_path.split_once('.').ok_or(ServerError::PathError{msg: "Requested File has no extension".to_string(), path: file_path.to_string()})?;
+        let mime_type = mime_guess::from_ext(extension).first_raw().ok_or(ServerError::MimeTypeError{msg: "Requested File Extension has no MIME Type".to_string(), path: file_path.to_string()})?;
         let file_data = match fs::read(file_path){
             Ok(data) => data,
             Err(e) => return Err(ServerError::ResponseError { msg: format!("{}\nCould not open file", e) })
@@ -43,7 +34,7 @@ impl Message for GetMessage{
         Ok(response?)
     }
 
-    fn error_response<S: Print, E: Print>(msg: S, value: E) -> Result<Response<Vec<u8>>, ServerError>
+    fn error_response<S: Print, E: Print>(msg: S, value: E) -> ResultResponse<Vec<u8>>
     {
         println!("{}: {}", msg, value);
         let err_file = fs::read("pages\\404.html").unwrap();

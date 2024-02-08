@@ -36,17 +36,17 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
                                 "Braulio", "Damien", "Ezra", "Margarita", 
                                 "Gisselle", "Leeann", "Davis", "Alex", 
                                 "Justin", "Kenna", "Jorden", "Valentin"];
+
+                      
 fn main(){
     // run();
-    Database::delete_database();
-    let mut db = Database::new().unwrap();
+    let mut main = Database::new();
     for name in TEST_NAMES {
-        match db.new_user(name) {
-            Ok(()) => (),
-            Err(err) => println!("{}", err)
+        match Database::new_user(name) {
+            Some(userID) => todo!("idk do something with this later seems important"),
+            None => println!("{}", format!("Username: \"{name}\" has already been taken!"))
         }
     }
-    
 }
 
 fn run(){

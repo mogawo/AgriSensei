@@ -3,7 +3,7 @@ use std::{
     io::{prelude::*, BufReader}
 };
 
-use crate::ServerError::{self, *};
+use crate::{rest::post::PostMessage, ServerError::{self, *}};
 use crate::rest::get::GetMessage;
 use crate::message::Message;
 use http::{self, Method, Request, Response};
@@ -24,7 +24,9 @@ pub fn handle_connection(mut stream: TcpStream) -> ServerError {
     }; //TODO Handle partial request
     
     let body_offset = req_status.unwrap();
-    let req_body = &req_buffer[body_offset..];
+    let req_body = &mut String::new();
+    let _ = (&req_buffer[body_offset..]).read_to_string(req_body);
+    let req_body: String = req_body.clone();
 
     //convert httparse struct -> http struct
     let mut req_builder =  Request::builder()
@@ -96,12 +98,12 @@ impl Assemble for Response<Vec<u8>>{
     }
 }
 
-fn handle_response(req: http::Request<&[u8]>) -> Result<http::Response<Vec<u8>>, ServerError>
+fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError>
 {
-    let (parts, body) = req.into_parts();
-    match parts.method
+    match req.method()
     {
-        Method::GET => GetMessage::request(parts.uri.path()),
+        &Method::GET => GetMessage::process_request(req),
+        &Method::POST => PostMessage::process_request(req),
         meth => GetMessage::error_response("Unhandled method request", meth.as_str())
     }
 }
