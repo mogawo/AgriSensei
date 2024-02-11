@@ -27,10 +27,7 @@ function createSensorElement() {
     newSensor.innerHTML = `
             <div class="sensorName">
                 <h2>Sensor ${newSensor.dataset.itemId}</h2>
-                <div class="changeNameButton" onclick="nameChange(newSensor)">
-                    <img src="images/pencil.png">
-                    <button class="nameChange"></button>
-                </div>
+                <button class="nameChange"><img src="images/pencil.png"></button> 
             </div>
             <p>${newSensor.dataset.description}</p>
             <!-- <button class="viewSensorInfo"></button> -->
@@ -64,16 +61,6 @@ function createSensorElement() {
 
     return newSensor;
 }
-
-// function viewSensor(sensorData)
-// {
-//     const viewSensorInfo = sensorData.querySelector('.sensor');
-//     viewSensorInfo.addEventListener('click', () => {
-//         showSensorInfo(sensorData);
-//         sensorDisplay.removeChild(sensorData);
-//         return;
-//     });
-// }
 
 function nameChange(sensorData)
 {

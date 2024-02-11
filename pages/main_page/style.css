@@ -91,11 +91,20 @@
 }
 
 .sensorName{
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 .sensorName img{
     width: 10px;
+}
+
+.sensorName h1{
+    margin: 0;
+}
+
+.sensorName button{
+    margin-left: auto;
 }
 
 .screen{
