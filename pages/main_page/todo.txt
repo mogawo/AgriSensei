@@ -1,0 +1,9 @@
+Settings:
+    Font change
+
+Sensors:
+    Name change
+
+Folders:
+    Allow grouping of Sensors
+    Change name of 

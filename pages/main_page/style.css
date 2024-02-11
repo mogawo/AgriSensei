@@ -5,8 +5,10 @@
 }
 
 .banner{
-    color: white;
-    background-color: #2f67d0;
+    color: #E0D493;
+    background-color: #743C07;
+    border-radius: 10px;
+    border: 2px solid ;
     margin: 20px;
     line-height: 1.5;
     padding: 8px 12px;
@@ -88,6 +90,14 @@
     align-items: center;
 }
 
+.sensorName{
+    display: inline-block;
+}
+
+.sensorName img{
+    width: 10px;
+}
+
 .screen{
     display: flex;
     justify-content: row;   
@@ -124,16 +134,41 @@
     border-radius: 10px;
     border-width: 1px solid gray;
     background-color: #dddcdf;
+    border: 1px solid gray;
     width: 100%;
     height: 650px;
     padding: 20px;
     margin: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
 }
 
-.sensorData {
+/* .sensorData {
     flex-direction: column;
+}
+
+.humidityReading{
+    padding: 10px;
+}
+
+.sensorBattery{
+    padding: 10px;
+}
+
+.readingTime{
+    padding: 10px;
+} */
+
+.sensorDisplay{
+    display: flex;
+    padding: 10px;
+    font-size: 16px;
+    gap: 10px;
+    flex-direction: column;
+    align-content: flex-start;
+}
+
+.sensorReadings{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
