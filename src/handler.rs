@@ -100,6 +100,7 @@ impl Assemble for Response<Vec<u8>>{
 
 fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError>
 {
+    println!("{:#?}", req);
     match req.method()
     {
         &Method::GET => GetMessage::process_request(req),

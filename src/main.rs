@@ -31,20 +31,31 @@ use handler::handle_connection;
 
 
 const HOST_ADDRESS: &str = "127.0.0.1:7878";
+// const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
+//                                 "Kimberly", "Kara", "Juan", "Billy", 
+//                                 "Braulio", "Damien", "Ezra", "Margarita", 
+//                                 "Gisselle", "Leeann", "Davis", "Alex", 
+//                                 "Justin", "Kenna", "Jorden", "Valentin"];
+
 const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
                                 "Kimberly", "Kara", "Juan", "Billy", 
                                 "Braulio", "Damien", "Ezra", "Margarita", 
                                 "Gisselle", "Leeann", "Davis", "Alex", 
-                                "Justin", "Kenna", "Jorden", "Valentin"];
+                                "Justin", "Kenna", "Jorden", "Remy"];
 
-                      
+                   
 fn main(){
-    // run();
-    let mut main = Database::new();
+    run();
+}
+
+fn database_testing(){
+    Database::new();
+    let name_numerate:&mut  Vec<(u64, &str)> = &mut Vec::new();
+
     for name in TEST_NAMES {
         match Database::new_user(name) {
-            Some(userID) => todo!("idk do something with this later seems important"),
-            None => println!("{}", format!("Username: \"{name}\" has already been taken!"))
+            Some(user_id) => println!("New user {name}#{user_id} has been created!"),
+            None => ()
         }
     }
 }

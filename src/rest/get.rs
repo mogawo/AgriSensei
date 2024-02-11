@@ -33,16 +33,4 @@ impl Message for GetMessage{
 
         Ok(response?)
     }
-
-    fn error_response<S: Print, E: Print>(msg: S, value: E) -> ResultResponse<Vec<u8>>
-    {
-        println!("{}: {}", msg, value);
-        let err_file = fs::read("pages\\404.html").unwrap();
-        let err_response = Response::builder()
-            .status(404)
-            .header("Content-Type", "text/html")
-            .header("Content-Length", err_file.len())
-            .body(err_file);
-        Ok(err_response?)
-    }
 }
