@@ -1,9 +1,10 @@
 Settings:
-    Font change
+    Allow font change
 
 Sensors:
-    Name change
+    Allow name change
+    Display graph of history
 
 Folders:
     Allow grouping of Sensors
-    Change name of 
+    Change name of folders

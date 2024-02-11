@@ -12,23 +12,30 @@ addItemButton.addEventListener('click', () => {
 function createSensorElement() {
     const newSensor = document.createElement('div');
     newSensor.classList.add('sensor');
+    newSensor.onclick = function ()
+    { 
+        showSensorInfo(newSensor);
+        // sensorDisplay.removeChild(newSensor);
+    };
     newSensor.dataset.itemId = itemIdCounter++;
     newSensor.dataset.batteryLevel = 100; // Change to take level from API
     newSensor.dataset.humidity = 84;
-    newSensor.dataset.recentTime = 1645; // Implement a time conversion function
+    newSensor.dataset.recentTime = 1640; // Implement a time conversion function
+    newSensor.dataset.description = "Add Description";
+    newSensor.dataset.name = "Sensor " + newSensor.dataset.itemId;
 
     newSensor.innerHTML = `
-        <div class="sensorName">
-            <h2>Sensor ${newSensor.dataset.itemId}</h2>
-            <div class="changeNameButton">
-                <img src="images/pencil.png">
-                <button class="nameChange"></button>
+            <div class="sensorName">
+                <h2>Sensor ${newSensor.dataset.itemId}</h2>
+                <div class="changeNameButton" onclick="nameChange(newSensor)">
+                    <img src="images/pencil.png">
+                    <button class="nameChange"></button>
+                </div>
             </div>
-        </div>
-        <p>Content for sensor ${newSensor.dataset.itemId} goes here.</p>
-        <button class="viewSensorInfo">View Data</button>
-        <br>
-        <button class="removeItemButton">Remove Sensor</button>
+            <p>${newSensor.dataset.description}</p>
+            <!-- <button class="viewSensorInfo"></button> -->
+            <br>
+            <button class="removeItemButton">Remove Sensor</button>
     `;
 
     newSensor.addEventListener('click', () => {
@@ -49,13 +56,29 @@ function createSensorElement() {
         }
     });
 
-    const viewSensorInfo = newSensor.querySelector('.viewSensorInfo');
-    viewSensorInfo.addEventListener('click', () =>{
-        showSensorInfo(newSensor)
-        sensorDisplay.removeChild(newSensor);
-    });
+    // const viewSensorInfo = newSensor.querySelector('.viewSensorInfo');
+    // viewSensorInfo.addEventListener('click', () =>{
+    //     showSensorInfo(newSensor);
+    //     sensorDisplay.removeChild(newSensor);
+    // });
 
     return newSensor;
+}
+
+// function viewSensor(sensorData)
+// {
+//     const viewSensorInfo = sensorData.querySelector('.sensor');
+//     viewSensorInfo.addEventListener('click', () => {
+//         showSensorInfo(sensorData);
+//         sensorDisplay.removeChild(sensorData);
+//         return;
+//     });
+// }
+
+function nameChange(sensorData)
+{
+    sensorData.dataset.name = "New name";
+    return;
 }
 
 function timeConversion(time) { // TODO
@@ -74,7 +97,7 @@ function showSensorInfo(sensorData) {
     showDisplay.innerHTML = `
         <div class="sensorDisplay">
             <h2>Sensor ${sensorData.dataset.itemId}</h2>
-            <p>Content for sensor ${sensorData.dataset.itemId} goes here.</p>
+            <p>${sensorData.dataset.description}</p>
             <div class="sensorReadings">
                 <div class="humidityReading">
                     <p>Humidity level: </p>
