@@ -26,8 +26,8 @@ function createSensorElement() {
 
     newSensor.innerHTML = `
             <div class="sensorName">
-                <h2>Sensor ${newSensor.dataset.itemId}</h2>
-                <button class="nameChange"><img src="images/pencil.png"></button> 
+                <h2>${newSensor.dataset.name}</h2>
+                <button class="nameChange" onclick="handleNameChange(event)"><img src="images/pencil.png"></button> 
             </div>
             <p>${newSensor.dataset.description}</p>
             <!-- <button class="viewSensorInfo"></button> -->
@@ -35,36 +35,38 @@ function createSensorElement() {
             <button class="removeItemButton">Remove Sensor</button>
     `;
 
-    newSensor.addEventListener('click', () => {
-        newSensor.classList.toggle('active');
-        itemsContainer.querySelectorAll('.sensor').forEach(otherItem => {
-            if (otherItem !== newSensor) {
-                otherItem.classList.remove('active');
-            }
-        });
-    });
+    // newSensor.addEventListener('click', () => {
+    //     newSensor.classList.toggle('active');
+    //     itemsContainer.querySelectorAll('.sensor').forEach(otherItem => {
+    //         if (otherItem !== newSensor) {
+    //             otherItem.classList.remove('active');
+    //         }
+    //     });
+    // });
 
     const removeItemButton = newSensor.querySelector('.removeItemButton');
-    removeItemButton.addEventListener('click', () => {
+    removeItemButton.addEventListener('click', (event) => {
+        event.stopPropagation();
         itemsContainer.removeChild(newSensor);
-        if (newSensor in showDisplay)
-        {
-            showDisplay.classList.remove(newSensor);
-        }
+        // if (newSensor in showDisplay)
+        // {
+        //     showDisplay.classList.remove(newSensor);
+        // }
     });
-
-    // const viewSensorInfo = newSensor.querySelector('.viewSensorInfo');
-    // viewSensorInfo.addEventListener('click', () =>{
-    //     showSensorInfo(newSensor);
-    //     sensorDisplay.removeChild(newSensor);
-    // });
 
     return newSensor;
 }
 
-function nameChange(sensorData)
+function handleNameChange(event)
 {
-    sensorData.dataset.name = "New name";
+    event.stopPropagation();
+
+    // console.log("Button inside div clicked");
+    // sensorData.dataset.name = "New name";
+
+    // const sensorNameElement = sensorData.querySelector('.sensorName h2');
+    // sensorNameElement.innerText = sensorData.dataset.name;
+
     return;
 }
 
@@ -83,7 +85,7 @@ function showSensorInfo(sensorData) {
     // Make these all divs so they can be changed in style.css
     showDisplay.innerHTML = `
         <div class="sensorDisplay">
-            <h2>Sensor ${sensorData.dataset.itemId}</h2>
+            <h2>${sensorData.dataset.name}</h2>
             <p>${sensorData.dataset.description}</p>
             <div class="sensorReadings">
                 <div class="humidityReading">
