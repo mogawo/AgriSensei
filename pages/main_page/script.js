@@ -70,6 +70,7 @@ function timeConversion(time) { // TODO
 }
 
 function showSensorInfo(sensorData) {
+    // Erase anything in the current display
     const elements = document.querySelectorAll('.sensorData')
     elements.forEach(element => {
         element.remove();
@@ -77,7 +78,6 @@ function showSensorInfo(sensorData) {
 
     const showDisplay = document.createElement('div');
     showDisplay.classList.add('sensorData')
-    // Make these all divs so they can be changed in style.css
     showDisplay.innerHTML = `
         <div class="displayName">
             <h2>${sensorData.dataset.name}</h2>
@@ -92,9 +92,11 @@ function showSensorInfo(sensorData) {
     sensorDisplay.appendChild(showDisplay);
 
     document.getElementById('summaryButton').addEventListener('click', function () {
+        // Change color of all tabs accordingly
         document.getElementById('summaryButton').style.backgroundColor = 'beige';
         document.getElementById('graphButton').style.backgroundColor = 'yellowgreen';
 
+        // Remove any currently displayed tab
         const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
         existingSummary.forEach(element => {
             element.remove();
@@ -104,9 +106,11 @@ function showSensorInfo(sensorData) {
     })
 
     document.getElementById('graphButton').addEventListener('click', function () {
+        // Change color of all tabs accordingly
         document.getElementById('graphButton').style.backgroundColor = 'beige';
         document.getElementById('summaryButton').style.backgroundColor = 'yellowgreen';
 
+        // Remove any currently displayed tab
         const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
         existingSummary.forEach(element => {
             element.remove();
