@@ -1,6 +1,6 @@
 const addItemButton = document.getElementById('addItemButton');
 const itemsContainer = document.querySelector('.sensors');
-const sensorDisplay = document.querySelector('.display')
+const sensorDisplay = document.querySelector('.display');
 
 let itemIdCounter = 0;
 
@@ -85,29 +85,69 @@ function showSensorInfo(sensorData) {
         </div>
 
         <div class="displayTabs">
-            <button class="summaryTab"><h3>Summary</h3></button>
-            <button class="graphTab"><h3>Graph</h3></button>
-        </div>
-    
-        <div class="sensorReadings">
-        <!--
-            <div class="humidityReading">
-                <p>Humidity level: </p>
-                <p>${sensorData.dataset.humidity}%</p>
-            </div>
-            <div class="sensorBattery">    
-                <p>Sensor Battery Level: </p>
-                <p>${sensorData.dataset.batteryLevel}%</p>
-            </div>
-            <div class="readingTime">
-                <p>Time of Last Reading: </p>
-                <p>${sensorData.dataset.recentTime}<p>
-            </div>
-            -->
+            <button class="summaryTab" id="summaryButton"><h3>Summary</h3></button>
+            <button class="graphTab" id="graphButton"><h3>Graph</h3></button>
         </div>
     `;
+    sensorDisplay.appendChild(showDisplay);
 
-    sensorDisplay.appendChild(showDisplay)
+    document.getElementById('summaryButton').addEventListener('click', function () {
+        const existingSummary = showDisplay.querySelector('sensorReadings');
+        if (existingSummary)
+        {
+            console.log("if");
+            existingSummary.remove();
+        }
+        else
+        {
+            console.log("else");
+        }
+        handleSummaryTab(sensorData);
+    })
+    document.getElementById('graphButton').addEventListener('click', function () {
+        handleGraphTab(sensorData);
+    })
+}
+
+function handleSummaryTab(sensorData)
+{
+    const summaryDisplay = document.createElement('div');
+    summaryDisplay.classList.add('sensorReadings');
+
+    summaryDisplay.innerHTML = `
+    <div class="humidityReading">
+        <p>Humidity level: </p>
+        <p>${sensorData.dataset.humidity}%</p>
+    </div>
+    <div class="sensorBattery">    
+        <p>Sensor Battery Level: </p>
+        <p>${sensorData.dataset.batteryLevel}%</p>
+    </div>
+    <div class="readingTime">
+        <p>Time of Last Reading: </p>
+        <p>${sensorData.dataset.recentTime}<p>
+    </div>
+    `;
+
+    const showDisplay = document.querySelector('.sensorData');
+    showDisplay.appendChild(summaryDisplay);
+    
+    return;
+}
+
+function handleGraphTab(sensorData)
+{ 
+    console.log("Pressed the button");
+    const graphDisplay = document.createElement('div');
+    graphDisplay.classList.add('sensorReadings');
+
+    graphDisplay.innerHTML = `
+    <!-- Graph -->`;
+
+    const showDisplay = document.querySelector('.sensorData');
+    showDisplay.appendChild(graphDisplay);
+
+    return;
 }
 
 function openSettings() {
