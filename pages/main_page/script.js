@@ -79,25 +79,28 @@ function showSensorInfo(sensorData) {
     showDisplay.classList.add('sensorData')
     // Make these all divs so they can be changed in style.css
     showDisplay.innerHTML = `
-        <div class="sensorDisplay">
+        <div class="displayName">
             <h2>${sensorData.dataset.name}</h2>
             <p>${sensorData.dataset.description}</p>
-            <div class="sensorReadings">
-                <div class="humidityReading">
-                    <p>Humidity level: </p>
-                    <p>${sensorData.dataset.humidity}%</p>
-                </div>
-                <div class="sensorBattery">    
-                    <p>Sensor Battery Level: </p>
-                    <p>${sensorData.dataset.batteryLevel}%</p>
-                </div>
-                <div class="readingTime">
-                    <p>Time of Last Reading: </p>
-                    <p>${sensorData.dataset.recentTime}<p>
-                </div>
+        </div>
+
+        <div class="displayTabs">
+            <button class="summaryTab"><h3>Summary</h3></button>
+            <button class="graphTab"><h3>Graph</h3></button>
+        </div>
+
+        <div class="sensorReadings">
+            <div class="humidityReading">
+                <p>Humidity level: </p>
+                <p>${sensorData.dataset.humidity}%</p>
             </div>
-            <div class="history">
-                <h>History:</h>
+            <div class="sensorBattery">    
+                <p>Sensor Battery Level: </p>
+                <p>${sensorData.dataset.batteryLevel}%</p>
+            </div>
+            <div class="readingTime">
+                <p>Time of Last Reading: </p>
+                <p>${sensorData.dataset.recentTime}<p>
             </div>
         </div>
     `;
