@@ -30,7 +30,6 @@ function createSensorElement() {
                 <button class="nameChange" onclick="handleNameChange(event)"><img src="images/pencil.png"></button> 
             </div>
             <p>${newSensor.dataset.description}</p>
-            <!-- <button class="viewSensorInfo"></button> -->
             <br>
             <button class="removeItemButton">Remove Sensor</button>
     `;
@@ -48,10 +47,6 @@ function createSensorElement() {
     removeItemButton.addEventListener('click', (event) => {
         event.stopPropagation();
         itemsContainer.removeChild(newSensor);
-        // if (newSensor in showDisplay)
-        // {
-        //     showDisplay.classList.remove(newSensor);
-        // }
     });
 
     return newSensor;
