@@ -1,7 +1,10 @@
 pub use crate::message::*;
 pub use crate::database::*;
+use crate::components::*;
 use http::response;
+use http::StatusCode;
 use regex::Regex;
+
 
 
 // \users\{userid}\                                 pulls up userid profile
@@ -9,30 +12,9 @@ use regex::Regex;
 
 // \users\{userid}\sensor\{sensorid}                pulls sensor of userid
 // \users\{userid}\sensor\new                       creats a new sensor attached to userid
+
+
 pub struct PostMessage{}
-pub struct UserProfile<'u>{
-    user_id: u64,
-    username: &'u str,
-    sensors: Vec<Sensors>
-}
-
-pub struct Sensors{
-    sensor_id: u64,
-    sensor_type: SensorType,
-}
-
-enum SensorType{
-    Moisture,
-    Temperature,
-    CustomUOM, 
-}
-
-impl<'u> UserProfile<'u>{
-    fn new(name: &'u str) -> Option<Self>{
-        todo!()
-    }
-}
-
 struct Patterns{}
 impl Patterns{
     const USER_OPTIONS: &str = r"\/user/(?<userOptions>new|\d+)";
@@ -74,9 +56,10 @@ impl Message for PostMessage{
     fn response(file_path: &str) -> ResultResponse<Vec<u8>> {
         let file_data = fs::read(file_path).unwrap(); //Panic if server pages is not set correctly
         let response = Response::builder()
+            .status(302)
             .header("Content-Type", "text/html")
             .header("Content-Length", file_data.len())
-            .header("Location", r"pages\main_page\index.html")
+            .header("Location", format!(r"{host}\pages\main_page\index.html", host=crate::HOST_ADDRESS))
             .body(file_data);
 
         match response{

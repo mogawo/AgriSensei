@@ -1,4 +1,6 @@
 
+use core::panic;
+use std::fmt::format;
 pub use std::fs::remove_file;
 use std::fs::File;
 use std::fs::OpenOptions;
@@ -9,6 +11,7 @@ pub use std::fmt::{Display, Debug};
 pub use rusqlite::{named_params, params, Connection};
 pub use rusqlite::Error as SQLError;
 
+pub use crate::components::*;
 
 pub type Result<T> = std::result::Result<T, DBError>;
 #[derive(Debug)]
@@ -65,7 +68,8 @@ impl TableColumnNames{
 
 use TableColumnNames as Col;
 
-use crate::rest::post::Sensors;
+use crate::components;
+
 
 pub struct Database{}
 
@@ -113,6 +117,7 @@ impl<'d> Database{
                 [{sampleDuration}] INTEGER NOT NULL,
                 [{sampleAmount}] INTEGER NOT NULL,
                 [{sensorID}] INTEGER NOT NULL,
+                FOREIGN KEY ({userID}) REFERENCES {users} ({userID})
                 FOREIGN KEY ({sensorID}) REFERENCES {sensors} ({sensorID})
               );",
               dataPacket=Col::DATA_PACKET,
@@ -120,8 +125,10 @@ impl<'d> Database{
               sampleFrequency=Col::SAMPLE_FREQUENCY,
               sampleDuration=Col::SAMPLE_DURATION,
               sampleAmount=Col::SAMPLE_AMOUNT,
+              users=Col::USERS,
+              userID=Col::USER_ID,
               sensors=Col::SENSORS,
-              sensorID=Col::SENSOR_ID,);
+              sensorID=Col::SENSOR_ID);
               
 
         let conn = Database::connect();
@@ -135,12 +142,30 @@ impl<'d> Database{
         let user_insert = format!(r"INSERT INTO {user}({userName}) VALUES (?1)", user=Col::USERS, userName=Col::USER_NAME);
         match conn.execute(user_insert.as_str(), params![name]){
                 Ok(0) => None,
-                Ok(_rows_changed) => Some(conn.last_insert_rowid().try_into().unwrap()),
-                Err(err) => panic!("Bad SQL Insert in Database.rs")
+                Ok(_) => {
+                    let user_id = conn.last_insert_rowid().try_into().unwrap();
+                    println!("Inserted New User with ID={user_id}"); 
+                    Some(user_id)
+                },
+                Err(err) => panic!("[New User] Bad SQL Insert in Database.rs")
             }
     }
 
-    pub fn new_sensor(user_id: &u8){
-        todo!()
+    pub fn new_sensor(sensor_type: SensorType, user_id: u64) -> Option<u64>{
+        let conn = Database::connect();
+        let sensor_insert = format!(r"INSERT INTO {sensors}({sensorType}, {userID}) VALUES (?1, ?2)", sensors=Col::SENSORS, sensorType=Col::SENSOR_TYPE, userID=Col::USER_ID);
+        match conn.execute(&sensor_insert, params![sensor_type, user_id]){
+            Ok(0) => None,
+            Ok(_) => {
+                let sensor_id = conn.last_insert_rowid().try_into().unwrap();
+                println!("Inserted New Sensor#{sensor_id} for User#{user_id}"); 
+                Some(sensor_id)
+            }
+            Err(e)  => panic!("[New Sensor] Bad SQL Insert in Database.rs")
+        }
+    }
+
+    pub fn add_packet(user_id: u64, sensor_id: u64, packets: DataPacket){
+        
     }
 }

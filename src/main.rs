@@ -29,6 +29,9 @@ use database::Database;
 mod handler;
 use handler::handle_connection;
 
+mod components;
+use components::*;
+
 
 const HOST_ADDRESS: &str = "127.0.0.1:7878";
 // const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
@@ -53,10 +56,7 @@ fn database_testing(){
     let name_numerate:&mut  Vec<(u64, &str)> = &mut Vec::new();
 
     for name in TEST_NAMES {
-        match Database::new_user(name) {
-            Some(user_id) => println!("New user {name}#{user_id} has been created!"),
-            None => ()
-        }
+        Database::new_user(name);
     }
 }
 
