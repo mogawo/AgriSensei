@@ -92,19 +92,26 @@ function showSensorInfo(sensorData) {
     sensorDisplay.appendChild(showDisplay);
 
     document.getElementById('summaryButton').addEventListener('click', function () {
-        const existingSummary = showDisplay.querySelector('sensorReadings');
-        if (existingSummary)
-        {
-            console.log("if");
-            existingSummary.remove();
-        }
-        else
-        {
-            console.log("else");
-        }
+        document.getElementById('summaryButton').style.backgroundColor = 'beige';
+        document.getElementById('graphButton').style.backgroundColor = 'yellowgreen';
+
+        const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
+        existingSummary.forEach(element => {
+            element.remove();
+        });
+
         handleSummaryTab(sensorData);
     })
+
     document.getElementById('graphButton').addEventListener('click', function () {
+        document.getElementById('graphButton').style.backgroundColor = 'beige';
+        document.getElementById('summaryButton').style.backgroundColor = 'yellowgreen';
+
+        const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
+        existingSummary.forEach(element => {
+            element.remove();
+        });
+
         handleGraphTab(sensorData);
     })
 }
@@ -142,7 +149,16 @@ function handleGraphTab(sensorData)
     graphDisplay.classList.add('sensorReadings');
 
     graphDisplay.innerHTML = `
-    <!-- Graph -->`;
+    <!-- Graph -->
+    <div class="graphs">
+        <div class="humidityGraph">
+            <img src="images/HumidityGraph.png">
+        </div>
+        <div class="batteryGraph">
+            <img src="images/BatteryGraph.png">
+        </div>
+    </div>
+    `;
 
     const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(graphDisplay);

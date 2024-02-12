@@ -198,3 +198,20 @@
     gap: 20%;
 }
 
+.graphs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 25px;
+    height: 450px;
+}
+
+.humidityGraph img{
+    height: 450px;
+}
+
+.batteryGraph img{
+    height: 450px;
+}
