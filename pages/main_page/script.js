@@ -88,8 +88,9 @@ function showSensorInfo(sensorData) {
             <button class="summaryTab"><h3>Summary</h3></button>
             <button class="graphTab"><h3>Graph</h3></button>
         </div>
-
+    
         <div class="sensorReadings">
+        <!--
             <div class="humidityReading">
                 <p>Humidity level: </p>
                 <p>${sensorData.dataset.humidity}%</p>
@@ -102,6 +103,7 @@ function showSensorInfo(sensorData) {
                 <p>Time of Last Reading: </p>
                 <p>${sensorData.dataset.recentTime}<p>
             </div>
+            -->
         </div>
     `;
 
