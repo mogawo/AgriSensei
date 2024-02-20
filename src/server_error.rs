@@ -1,53 +1,78 @@
-use std::error;
-use std::fmt;
 
+use std::fmt;
+pub use http::{Error as HTTPError};
+pub use httparse::Error as HTTParseError;
+pub use serde_json::Error as SerdeJSONError;
+
+use std::io::Error as IOError;
+pub type BoxedError = Box<dyn std::error::Error>;
 #[derive(Debug)]
-pub enum ServerError
+pub enum ServerError<'se>
 {
-    HTTPError{msg: String, err: http::Error},
-    RequestError{msg: String},
-    ResponseError{msg: String},
-    PathError{msg: String, path: String},
-    MimeTypeError{msg: String, path: String},
-    AssembleError{msg: String},
-    ThreadError{msg: String},
+    //Error Constructors
+    HTTPError(HTTPError),
+    HTTParseError(HTTParseError),
+    PathError((&'se str, String)),
+    IOError(IOError),
+    AssembleError(&'se str),
+    ThreadError(&'se str),
+    MessageError(&'se str),
+    JSONError(SerdeJSONError),
 }
 
-impl fmt::Display for ServerError{
+impl std::error::Error for ServerError<'_>{}
+impl fmt::Display for ServerError<'_>{
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self
         {
-            ServerError::HTTPError{msg, err} => {
-                write!(f, "[HttpError] {}\nDetails:\r\n{}\r\n", *msg, *err)
+            ServerError::HTTPError(e) => {
+                write!(f, "[HttpError]\r\n{}\r\n", e)
             },
-            ServerError::RequestError{msg} => {
-                write!(f, "[RequestError] {}\r\n", *msg)
+            ServerError::PathError((msg, path)) => {
+                write!(f, "[PathError]: {msg}\r\nPath:\r\n{path}\r\n")
             },
-            ServerError::ResponseError{msg} => {
-                write!(f, "[ResponseError] {}\r\n", *msg)
-            },
-            ServerError::PathError{msg, path} => {
-                write!(f, "[PathError] {}\r\nDetails:\r\n{}\r\n", *msg, *path)
-            },
-            ServerError::MimeTypeError{msg, path} => {
-                write!(f, "[MimeTypeError] {}\r\nDetails:\r\n{}\r\n", *msg, *path)
+            Self::IOError(e) => {
+                write!(f, "[IOError]:\r\n{e}\r\n")
             }
-            ServerError::AssembleError{msg} => {
-                write!(f, "[AssembleError] {}\r\n", *msg)
+            ServerError::HTTParseError(e) => {
+                write!(f, "[MimeTypeError]\r\n{e}\r\n")
             }
-            ServerError::ThreadError{msg} => {
-                write!(f, "[ThreadError] {}\r\n", *msg)
+            ServerError::AssembleError(msg) => {
+                write!(f, "[AssembleError] {msg}\r\n")
+            }
+            ServerError::ThreadError(msg) => {
+                write!(f, "[ThreadError] {msg}\r\n")
+            }
+            ServerError::MessageError(msg) => {
+                write!(f, "[MessageError] {msg}\r\n")
+            }
+            ServerError::JSONError(e) => {
+                write!(f, "[JSONError] {e}\r\n")
             }
         }
     }
 }
 
-impl error::Error for ServerError{}
-impl From<http::Error> for ServerError{
+impl From<http::Error> for ServerError<'_>{
     fn from(value: http::Error) -> Self {
-        ServerError::HTTPError{msg: value.to_string(), err: value}
+        Self::HTTPError(value)
     }
 }
 
+impl From<httparse::Error> for ServerError<'_>{
+    fn from(value: httparse::Error) -> Self {
+        Self::HTTParseError(value)
+    }
+}
 
+impl From<serde_json::Error> for ServerError<'_>{
+    fn from(value: serde_json::Error) -> Self {
+        Self::JSONError(value)
+    }
+}
 
+impl From<std::io::Error> for ServerError<'_>{
+    fn from(value: std::io::Error) -> Self {
+        Self::IOError(value)
+    }
+}
