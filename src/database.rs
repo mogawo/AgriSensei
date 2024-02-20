@@ -161,11 +161,38 @@ impl<'d> Database{
                 println!("Inserted New Sensor#{sensor_id} for User#{user_id}"); 
                 Some(sensor_id)
             }
-            Err(e)  => panic!("[New Sensor] Bad SQL Insert in Database.rs")
+            Err(e)  => panic!("[New Sensor] Bad SQL Insert")
         }
     }
 
-    pub fn add_packet(user_id: u64, sensor_id: u64, packets: DataPacket){
+    // dateTime: DateTime<Local>,
+    // frequency: u64,
+    // duration: u64,
+    // amount: u64,
+    // userID: u64,
+    // sensorID: u64,
+
+    pub fn add_packet(packets: DataPacket){
+        let conn = Database::connect();
+        let packet_insert = format!("INSERT INTO {dataPacket}({dateTime}, {samFreq}, {samDur}, {samAmnt}, {userID}, {sensorID}) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", 
+            dataPacket = Col::DATA_PACKET,
+            dateTime   = Col::DATE_TIME,
+            samFreq    = Col::SAMPLE_FREQUENCY,
+            samDur     = Col::SAMPLE_DURATION,
+            samAmnt    = Col::SAMPLE_AMOUNT,
+            userID     = Col::USER_ID,
+            sensorID   = Col::SENSOR_ID
+        );
         
+        match conn.execute(&packet_insert, //Args need to match order in sql insert
+            params![packets.date_time,
+                    packets.frequency,
+                    packets.duration,
+                    packets.amount,
+                    packets.sensor_id]){
+            Ok(0) => {print!("Same Packet was Inputted, packet was stored"); ()}
+            Ok(rows_inserted) => print!("{rows_inserted} was inserted into DataPackets Table"),
+            Err(_e) => panic!("[Add Packet] Bad SQL Insert"),
+        }
     }
 }

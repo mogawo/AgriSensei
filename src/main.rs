@@ -48,7 +48,9 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
 
                    
 fn main(){
-    run();
+    // run();
+    UserProfile::pull(1);
+    ()
 }
 
 fn database_testing(){
