@@ -4,6 +4,9 @@ use crate::components::*;
 use http::response;
 use http::StatusCode;
 use regex::Regex;
+pub use serde_json::{Result as JSONResult, Value};
+pub use http::Error as HTTPError;
+pub use crate::server_error::ServerError::*;
 
 
 
@@ -22,34 +25,23 @@ impl Patterns{
 
 impl Message for PostMessage{
     
-    fn process_request(req: Request<String>) -> ResultResponse<Vec<u8>> {
+    fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>> {
         println!("Processing POST Request...");
         let uri_path = req.uri().path();
         let Some(user_options) = Regex::new(Patterns::USER_OPTIONS).unwrap().captures(uri_path)
             .and_then(|c| c.name("userOptions"))
             .and_then(|m| Some(m.as_str()))
             else {
-                return PostMessage::error_response("[Invalid POST URI]", 
-                    ServerError::ResponseError { msg: "Incompatiable URI with server's Regex Pattern".to_string() });                    
+                return PostMessage::error_response(ServerError::MessageError(r"No User ID was provided e.g. ..\users\<user_id>\.."));                    
             };
-        
         match user_options {
-            "new" => {
-                if let Ok(body) = PostMessage::parse_body(req.body()){
-                    let name = body[TableColumnNames::USER_NAME]
-                        .as_str().and_then(|name| Database::new_user(name));
-                }
-                println!("(TODO) New User is being created");
-                PostMessage::response(r"pages\test_pages\post_forward.html")
-            }
+            "new" => PostMessage::new_user(PostMessage::parse_body(req.body())?), 
             maybe_num => {
-                println!("(TODO) Pulling Profile with user_id={maybe_num}");
-                if let Ok(id) = maybe_num.parse::<u64>(){
-                    todo!()
-                }
+                println!("(WIP) Pulling Profile with user_id={maybe_num}");
+                let user_id = maybe_num.parse::<u64>();
                 PostMessage::response(r"pages\test_pages\user_page.html")
             }   
-        }
+            }
     }
 
     fn response(file_path: &str) -> ResultResponse<Vec<u8>> {
@@ -63,7 +55,17 @@ impl Message for PostMessage{
 
         match response{
             Ok(r) => Ok(r),
-            Err(e) => PostMessage::error_response("Couldn't build Post Response", e)
+            Err(e) => PostMessage::error_response(ServerError::HTTPError(e))
         }
+    }
+}
+impl PostMessage{
+    fn new_user(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
+        let name = 
+            json_data[TableColumnNames::USER_NAME]
+            .as_str()
+            .and_then(|name| Database::new_user(name));
+        println!("New User is being created");
+        PostMessage::response(r"pages\test_pages\post_forward.html")
     }
 }

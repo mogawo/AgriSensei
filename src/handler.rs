@@ -11,7 +11,7 @@ use http::{self, Method, Request, Response};
 
 const ASSEMBLE_VEC_CAPACITY: usize = 1 << 10;
 
-pub fn handle_connection(mut stream: TcpStream) -> ServerError {
+pub fn handle_connection(mut stream: TcpStream) -> Result<(), ServerError<'static>> {
     let mut buf_reader = BufReader::new(&mut stream);
     
     let mut headers = [httparse::EMPTY_HEADER; 16];
@@ -20,7 +20,7 @@ pub fn handle_connection(mut stream: TcpStream) -> ServerError {
     let req_buffer = buf_reader.fill_buf().unwrap();
     let req_status = req.parse(&req_buffer).unwrap();
     if req_status.is_partial() {
-        return ServerError::ThreadError { msg: "Partial Request, Retry Request".to_string()};
+        return Err(ServerError::ThreadError("Partial Request, Retry Request"));
     }; //TODO Handle partial request
     
     let body_offset = req_status.unwrap();
@@ -43,34 +43,24 @@ pub fn handle_connection(mut stream: TcpStream) -> ServerError {
         }
     }
 
-    let built_request = match req_builder.body(req_body){
-        Ok(built_req) => built_req,
-        Err(err) => return err.into()
-    };
+    let built_request = req_builder.body(req_body)?;
 
-    let built_response = match handle_response(built_request){
-        Ok(handled_resp) => handled_resp,
-        Err(err) => return err
-    };
-
-    let response_bytes = match built_response.assemble(){
-        Ok(resp_bytes) => resp_bytes,
-        Err(err) => return err
-    };
+    let built_response = handle_response(built_request)?;
+    let response_bytes = built_response.assemble()?;
 
     stream.write_all(&response_bytes).unwrap();
     stream.flush().unwrap();
-    ServerError::ThreadError { msg: "Thread has been closed".to_string() }
+    Err(ServerError::ThreadError("Thread has been closed"))
 }
 
 pub trait Assemble{
-    fn assemble(&self) -> Result<Vec<u8>, ServerError>;
-    fn strip_cast<'h>(&self, line: &'h mut String) -> String; //Gets rid of quotes 
+    fn assemble(self) -> Result<Vec<u8>,  ServerError<'static>>;
+    fn strip_cast<'h>(&'h self, line: &'h mut String) -> String;
 }
 impl Assemble for Response<Vec<u8>>{
     //Assembles the Response key/values to vec of bytes
     //Mostly to used to send response as bytes to TCPStream
-    fn assemble(&self) -> Result<Vec<u8>, ServerError>{
+    fn assemble(self) -> Result<Vec<u8>, ServerError<'static>>{
         let mut to_send = Vec::<u8>::with_capacity(ASSEMBLE_VEC_CAPACITY);
 
         let mut version = format!("{:?}\r\n", self.version());
@@ -98,13 +88,13 @@ impl Assemble for Response<Vec<u8>>{
     }
 }
 
-fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError>
+fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError<'static>>
 {
     println!("{:#?}", req);
     match req.method()
     {
         &Method::GET => GetMessage::process_request(req),
         &Method::POST => PostMessage::process_request(req),
-        meth => GetMessage::error_response("Unhandled method request", meth.as_str())
+        meth => GetMessage::error_response(MessageError("=> ResponseError: Unhandled method request"))
     }
 }

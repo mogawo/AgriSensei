@@ -14,6 +14,7 @@ pub use rusqlite::Error as SQLError;
 pub use crate::components::*;
 
 pub type Result<T> = std::result::Result<T, DBError>;
+
 #[derive(Debug)]
 pub enum DBError{
     SQLError(SQLError),
@@ -165,13 +166,6 @@ impl<'d> Database{
         }
     }
 
-    // dateTime: DateTime<Local>,
-    // frequency: u64,
-    // duration: u64,
-    // amount: u64,
-    // userID: u64,
-    // sensorID: u64,
-
     pub fn add_packet(packets: DataPacket){
         let conn = Database::connect();
         let packet_insert = format!("INSERT INTO {dataPacket}({dateTime}, {samFreq}, {samDur}, {samAmnt}, {userID}, {sensorID}) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", 
@@ -184,7 +178,7 @@ impl<'d> Database{
             sensorID   = Col::SENSOR_ID
         );
         
-        match conn.execute(&packet_insert, //Args need to match order in sql insert
+        match conn.execute(&packet_insert, //Args need to match order in SQL Table Column index
             params![packets.date_time,
                     packets.frequency,
                     packets.duration,
