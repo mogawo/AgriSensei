@@ -11,6 +11,7 @@ impl Message for GetMessage{
             "/style.css" => GetMessage::response(r"pages\main_page\style.css"),
             "/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
             "/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
+            
             path => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", path.to_string())))
         };
     }

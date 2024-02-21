@@ -49,13 +49,13 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
                    
 fn main(){
     // run();
-    UserProfile::pull_user(1, Some(&[1,2]));
+    UserProfile::pull_user(1);
     
 }
 
 fn database_testing(){
     Database::new();
-    let name_numerate:&mut  Vec<(u64, &str)> = &mut Vec::new();
+    let name_numerate:&mut  Vec<(u32, &str)> = &mut Vec::new();
 
     for name in TEST_NAMES {
         Database::new_user(name);

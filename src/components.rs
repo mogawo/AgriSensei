@@ -1,55 +1,31 @@
 
 use core::panic;
 pub use std::fmt::Display;
+use std::fs::OpenOptions;
+use std::io::Chain;
 use std::str::from_utf8;
 
-use rusqlite::{ToSql, params, Row};
+use rusqlite::{params, OptionalExtension, Row, ToSql};
 use rusqlite::types::{FromSql, FromSqlError, ValueRef::*};
 
 pub use chrono::prelude::*;
 
 use crate::{database::{Database, TableColumnNames}};
+use std::marker::Copy;
+use std::vec::Vec;
+use std::option;
 
 pub struct UserProfile{
-    pub user_id: u64,
+    pub user_id: u32,
     pub username: String,
     pub sensors: Option<Vec<Sensor>>
 }
 
-impl UserProfile{
-    pub fn pull_user(user_id: u64, sensor_filter: Option<&[u64]>) -> Option<Self>{
-        match UserProfile::pull(user_id, None) {
-            Ok(sen) => Some(sen),
-            Err(e) => {println!("[Unable to Pull User#{user_id}]:\n{e}"); None}
-        }
-    }
-
-    //no sensors are filtered
-    fn pull(user_id: u64, sensor_filter: Option<&[u64]>) -> Result<UserProfile, rusqlite::Error>{ 
-       let sensor_filter = sensor_filter.unwrap_or(&[]);
-
-        let conn = Database::connect();
-        let (table, key) = (TableColumnNames::USERS, TableColumnNames::USER_ID);
-        let mut statement = conn.prepare(
-            &format!("SELECT * FROM {table} WHERE {key} = (?1)"))?;
-        Ok::<UserProfile, rusqlite::Error>(
-            statement.query_row(params![user_id], 
-            |row|{
-            Ok(
-                UserProfile{
-                    user_id: row.get(0)?,
-                    username: row.get(1)?,
-                    sensors: Sensor::pull_sensors(user_id, sensor_filter) // <--array stopping filters
-                }
-            )
-        })?)
-    }
-}
-pub struct Sensor{ 
-    pub sensor_id  : u64,
-    pub user_id    : u64,
+struct Sensor{ 
+    pub sensor_id  : u32,
+    pub user_id    : u32,
     pub sensor_type: SensorType,
-    pub packets    : Vec<DataPacket>
+    pub packets    : Option<Vec<DataPacket>>
 }
 
 pub enum SensorType{
@@ -57,15 +33,105 @@ pub enum SensorType{
     Temperature,
     UnknownType 
 }
-impl Sensor{
-    
-    pub fn pull_sensors(user_id: u64, sensor_filter: &[u64]) -> Option<Vec<Sensor>>{
-        match Sensor::pull(user_id, sensor_filter) {
-            Ok(sensors) => Some(sensors),
-            Err(_) => None
+
+pub struct DataPacket{
+    pub date_time : DateTime<Local>,
+    pub frequency: u32,
+    pub duration : u32,
+    pub amount   : u32,
+    pub sensor_id : u32,
+}
+enum Query{
+    TimeRange(TimeRange),
+    All,
+}
+pub struct TimeRange{
+    pub from: DateTime<Local>,
+    pub to: DateTime<Local>
+}
+
+pub enum FnChain<T> {
+    IsLink(Box<dyn Fn()  -> FnChain<T>>),
+    Value(T)
+}
+
+
+pub struct Log{}
+impl Log{
+
+    pub fn log<T>(chain: FnChain<T>) -> T{
+        let mut head = chain;
+        loop{
+                match head{
+                    FnChain::IsLink(f) => {
+                        head = f();
+                        
+                    },
+                    FnChain::Value(v) => return  v
+                }
+            }
+    }
+
+    fn stretch<T>(func: FnChain<T>) -> FnChain<T>{
+        match func {
+            FnChain::IsLink(f) => {
+                f()
+            },
+            FnChain::Value(f) =>{
+                FnChain::Value(f)
+            }
         }
     }
-    fn pull(user_id: u64, sensor_filter: &[u64]) -> Result<Vec<Self>, rusqlite::Error>{
+}
+
+
+impl UserProfile{
+    pub fn pull_user(user_id: u32) -> Option<Self>{
+        UserProfile::pull(user_id).ok()
+    }
+
+    pub fn without_sensors(mut self, filter_list: &[u32]) -> Self{
+        self.sensors = Sensor::pull_sensors(self.user_id, filter_list);
+        self
+    }
+
+    //Queries:
+    //None will pull no packets
+    //All pulls everything
+    //Time Range pulls within time frame
+    pub fn within(mut self, query: &Option<Query>) -> Self{
+        for sen in self.sensors.iter_mut().flatten(){
+            sen.within(query);
+        }
+        self
+    }
+
+    fn pull(user_id: u32) -> Result<Self, rusqlite::Error>{ 
+        let conn = Database::connect();
+        let (table, key) = (TableColumnNames::USERS, TableColumnNames::USER_ID);
+        let mut statement = conn.prepare(&format!("SELECT * FROM {table} WHERE {key} = (?1)"))?;
+        Ok::<UserProfile, rusqlite::Error>(
+            statement.query_row(params![user_id], 
+            |row|{
+            Ok(
+                UserProfile{
+                    user_id: row.get(0)?,
+                    username: row.get(1)?,
+                    sensors: None // <--array stopping filters
+                }
+            )
+        })?)
+    }
+
+
+}
+
+
+impl Sensor{    
+    pub fn pull_sensors(user_id: u32, sensor_filter: &[u32]) -> Option<Vec<Sensor>>{
+        Sensor::pull(user_id, sensor_filter).ok()
+    }
+    fn pull(user_id: u32, sensor_filter: &[u32]) -> Result<Vec<Self>, rusqlite::Error>{
         let conn = Database::connect();
         let (table, key) = (TableColumnNames::SENSORS, TableColumnNames::USER_ID);
         let mut statement = conn.prepare(
@@ -77,7 +143,7 @@ impl Sensor{
                         sensor_id: row.get(0)?,
                         sensor_type: row.get(1)?,
                         user_id: row.get(2)?,
-                        packets: DataPacket::pull(row.get(0)?)?
+                        packets: Some(DataPacket::pull(row.get(0)?, &None)?)
                     }
                 )
             })?;
@@ -86,18 +152,19 @@ impl Sensor{
             sen.as_ref()
                 .is_ok_and(|s| sensor_filter.contains(&s.sensor_id))})
                 .collect()
+        
     }
-}
-pub struct DataPacket{
-    pub date_time : DateTime<Local>,
-    pub frequency: u64,
-    pub duration : u64,
-    pub amount   : u64,
-    pub sensor_id : u64,
+    fn within(&mut self, query: &Option<Query>) -> &mut Self{
+        self.packets = DataPacket::pull_packets(self.sensor_id, query);
+        self
+    }
 }
 
 impl DataPacket{
-    fn pull(sensor_id: u64) -> Result<Vec<Self>, rusqlite::Error>{
+    pub fn pull_packets(sensor_id: u32, query: &Option<Query>) -> Option<Vec<Self>>{
+        DataPacket::pull(sensor_id, query).ok()
+    }
+    fn pull(sensor_id: u32, query: &Option<Query>) -> Result<Vec<Self>, rusqlite::Error>{
         let conn = Database::connect();
         let (table, key) = (TableColumnNames::DATA_PACKET, TableColumnNames::SENSOR_ID);
         let mut statement = conn.prepare(
@@ -118,9 +185,7 @@ impl DataPacket{
     }
 }
 
-
-
-
+//Trait Implementations
 impl Display for SensorType{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self{

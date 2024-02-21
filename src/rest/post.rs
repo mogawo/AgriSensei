@@ -35,15 +35,14 @@ impl Message for PostMessage{
                 return PostMessage::error_response(ServerError::MessageError(r"No User ID was provided e.g. ..\users\<user_id>\.."));                    
             };
         match user_options {
-            "new" => PostMessage::new_user(PostMessage::parse_body(req.body())?), 
-            maybe_num => {
-                println!("(WIP) Pulling Profile with user_id={maybe_num}");
-                let user_id = maybe_num.parse::<u64>();
-                PostMessage::response(r"pages\test_pages\user_page.html")
-            }   
+            "new"     => PostMessage::new_user(PostMessage::parse_body(req.body())?),
+            maybe_num =>{
+                            let user_id = maybe_num.parse::<u32>()?;
+                            let profile = UserProfile::pull_user(user_id);
+                            todo!()
+                        }   
             }
     }
-
     fn response(file_path: &str) -> ResultResponse<Vec<u8>> {
         let file_data = fs::read(file_path).unwrap(); //Panic if server pages is not set correctly
         let response = Response::builder()
@@ -59,6 +58,7 @@ impl Message for PostMessage{
         }
     }
 }
+
 impl PostMessage{
     fn new_user(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
         let name = 

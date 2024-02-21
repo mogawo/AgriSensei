@@ -138,7 +138,7 @@ impl<'d> Database{
         conn.execute(&packet_table, ()).unwrap();
     }
     //userId auto increments in sqlite
-    pub fn new_user(name: &str) -> Option<u64>{
+    pub fn new_user(name: &str) -> Option<u32>{
         let conn = Database::connect();
         let user_insert = format!(r"INSERT INTO {user}({userName}) VALUES (?1)", user=Col::USERS, userName=Col::USER_NAME);
         match conn.execute(user_insert.as_str(), params![name]){
@@ -152,7 +152,7 @@ impl<'d> Database{
             }
     }
 
-    pub fn new_sensor(sensor_type: SensorType, user_id: u64) -> Option<u64>{
+    pub fn new_sensor(sensor_type: SensorType, user_id: u32) -> Option<u32>{
         let conn = Database::connect();
         let sensor_insert = format!(r"INSERT INTO {sensors}({sensorType}, {userID}) VALUES (?1, ?2)", sensors=Col::SENSORS, sensorType=Col::SENSOR_TYPE, userID=Col::USER_ID);
         match conn.execute(&sensor_insert, params![sensor_type, user_id]){
