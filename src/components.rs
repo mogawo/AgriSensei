@@ -9,79 +9,55 @@ use rusqlite::{params, OptionalExtension, Row, ToSql};
 use rusqlite::types::{FromSql, FromSqlError, ValueRef::*};
 
 pub use chrono::prelude::*;
+use chrono::serde::ts_seconds;
 
 use crate::{database::{Database, TableColumnNames}};
 use std::marker::Copy;
 use std::vec::Vec;
 use std::option;
 
+use serde::{Serialize, Deserialize};
 pub struct UserProfile{
     pub user_id: u32,
     pub username: String,
     pub sensors: Option<Vec<Sensor>>
 }
 
-struct Sensor{ 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Sensor{ 
     pub sensor_id  : u32,
     pub user_id    : u32,
     pub sensor_type: SensorType,
     pub packets    : Option<Vec<DataPacket>>
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub enum SensorType{
     Moisture,
     Temperature,
     UnknownType 
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct DataPacket{
-    pub date_time : DateTime<Local>,
+    #[serde(with = "ts_seconds")]
+    pub date_time : DateTime<Utc>,
     pub frequency: u32,
     pub duration : u32,
     pub amount   : u32,
     pub sensor_id : u32,
 }
+#[derive(Serialize, Deserialize, Debug)]
 enum Query{
     TimeRange(TimeRange),
     All,
 }
+#[derive(Serialize, Deserialize, Debug)]
 pub struct TimeRange{
-    pub from: DateTime<Local>,
-    pub to: DateTime<Local>
-}
-
-pub enum FnChain<T> {
-    IsLink(Box<dyn Fn()  -> FnChain<T>>),
-    Value(T)
-}
-
-
-pub struct Log{}
-impl Log{
-
-    pub fn log<T>(chain: FnChain<T>) -> T{
-        let mut head = chain;
-        loop{
-                match head{
-                    FnChain::IsLink(f) => {
-                        head = f();
-                        
-                    },
-                    FnChain::Value(v) => return  v
-                }
-            }
-    }
-
-    fn stretch<T>(func: FnChain<T>) -> FnChain<T>{
-        match func {
-            FnChain::IsLink(f) => {
-                f()
-            },
-            FnChain::Value(f) =>{
-                FnChain::Value(f)
-            }
-        }
-    }
+    #[serde(with = "ts_seconds")]
+    pub from: DateTime<Utc>,
+    #[serde(with = "ts_seconds")]
+    pub to: DateTime<Utc>
 }
 
 
@@ -90,18 +66,14 @@ impl UserProfile{
         UserProfile::pull(user_id).ok()
     }
 
-    pub fn without_sensors(mut self, filter_list: &[u32]) -> Self{
-        self.sensors = Sensor::pull_sensors(self.user_id, filter_list);
+    pub fn without(mut self, sensors: &[u32]) -> Self{
+        self.sensors = Sensor::pull_sensors(self.user_id, sensors);
         self
     }
 
-    //Queries:
-    //None will pull no packets
-    //All pulls everything
-    //Time Range pulls within time frame
     pub fn within(mut self, query: &Option<Query>) -> Self{
         for sen in self.sensors.iter_mut().flatten(){
-            sen.within(query);
+            sen.within_range(query);
         }
         self
     }
@@ -154,11 +126,15 @@ impl Sensor{
                 .collect()
         
     }
-    fn within(&mut self, query: &Option<Query>) -> &mut Self{
+    fn within_range(&mut self, query: &Option<Query>) -> &mut Self{
         self.packets = DataPacket::pull_packets(self.sensor_id, query);
         self
     }
 }
+
+// impl Deserializer<Value> for Sensor{
+
+// }
 
 impl DataPacket{
     pub fn pull_packets(sensor_id: u32, query: &Option<Query>) -> Option<Vec<Self>>{

@@ -12,7 +12,9 @@ pub use serde_json::{Result as JSONResult, Value};
 pub trait Message {
     //required methods to overload
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>>;
-    fn response(file_path: &str) -> ResultResponse<Vec<u8>>;
+    fn response<S: AsRef<str>>(file_path: S) -> ResultResponse<'static, Vec<u8>>
+    where S: Display + Debug
+    ;
     fn error_response(err: ServerError) -> ResultResponse<Vec<u8>>
     {
         println!("{}", err);
@@ -26,8 +28,8 @@ pub trait Message {
     }
 
     //provided methods
-    fn parse_body(body: &String) -> JSONResult<Value>{
-        serde_json::from_str(body)
+    fn parse_body<S: AsRef<str>>(body: S) -> JSONResult<Value>{
+        serde_json::from_str(body.as_ref())
     }
 }
 

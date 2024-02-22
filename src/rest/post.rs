@@ -1,50 +1,48 @@
 pub use crate::message::*;
 pub use crate::database::*;
-use crate::components::*;
-use http::response;
-use http::StatusCode;
-use regex::Regex;
+pub use crate::components::*;
+pub use http::response;
+pub use http::StatusCode;
+pub use regex::Regex;
+pub use serde_json::json;
+pub use serde_json::value;
 pub use serde_json::{Result as JSONResult, Value};
 pub use http::Error as HTTPError;
 pub use crate::server_error::ServerError::*;
 
 
 
-// \users\{userid}\                                 pulls up userid profile
-// \users\new\                               creates new user profile and pulls the new user profile
+  // /user/{userid}/                                 pulls up userid profile
+  // /user/new/                               creates new user profile and pulls the new user profile
 
-// \users\{userid}\sensor\{sensorid}                pulls sensor of userid
-// \users\{userid}\sensor\new                       creats a new sensor attached to userid
-// \users\{userid}\data
+  // /user/{userid}/sensor/{sensorid}                pulls sensor of userid
+  // /user/{userid}/sensor/new                       creats a new sensor attached to userid
+  // /user/{userid}/data
 
 pub struct PostMessage{}
 struct Patterns{}
-impl Patterns{
-    const USER_OPTIONS: &'static str = r"\/user\/(?<userOptions>new|\d+)";
-}
-
+//TODO - Seperate Regex into 
+// /user/new
+// /user/##/sensor/new
+// /user/##/sensor/data/new            Body will have the data
+// /user/##/sensor/?=sen<#-#-...-#>&&data<> (IMPLEMENT ONLY IF HAVE TIME)
 impl Message for PostMessage{
     
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>> {
+        
         println!("Processing POST Request...");
         let uri_path = req.uri().path();
-        let Some(user_options) = Regex::new(Patterns::USER_OPTIONS).unwrap().captures(uri_path)
-            .and_then(|c| c.name("userOptions"))
-            .and_then(|m| Some(m.as_str()))
-            else {
-                return PostMessage::error_response(ServerError::MessageError(r"No User ID was provided e.g. ..\users\<user_id>\.."));                    
-            };
-        match user_options {
-            "new"     => PostMessage::new_user(PostMessage::parse_body(req.body())?),
-            maybe_num =>{
-                            let user_id = maybe_num.parse::<u32>()?;
-                            let profile = UserProfile::pull_user(user_id);
-                            todo!()
-                        }   
-            }
+        //TODO Deal with html headers for POST
+        let json_data = PostMessage::parse_body(req.body())?;
+        // match uri_path{
+        //     "/user/new" => PostMessage::new_user(json_data),
+        //     "/user/sensor/new" => , 
+        // }\
+        todo!()
     }
-    fn response(file_path: &str) -> ResultResponse<Vec<u8>> {
-        let file_data = fs::read(file_path).unwrap(); //Panic if server pages is not set correctly
+
+    fn response<S: AsRef<str>>(file_path: S) -> ResultResponse<'static, Vec<u8>> {
+        let file_data = fs::read(file_path.as_ref()).unwrap(); //Panic if server pages is not set correctly
         let response = Response::builder()
             .status(302)
             .header("Content-Type", "text/html")
@@ -61,11 +59,20 @@ impl Message for PostMessage{
 
 impl PostMessage{
     fn new_user(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
-        let name = 
-            json_data[TableColumnNames::USER_NAME]
-            .as_str()
-            .and_then(|name| Database::new_user(name));
         println!("New User is being created");
-        PostMessage::response(r"pages\test_pages\post_forward.html")
+        let Some(name) = json_data[TableColumnNames::USER_NAME].as_str() else{
+            return PostMessage::error_response(MessageError("No Name for User was Provided"));
+        };
+        let Some(user_id) = Database::new_user(name) else {
+            return PostMessage::error_response(MessageError("Could Not Insert New User into Database"));
+        };
+        PostMessage::response(format!(r"/user/{user_id}"))
+    }
+
+    fn new_sensor(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
+        println!("New Sensor is being created");
+        let sensor: Sensor = serde_json::from_value(json_data)?;
+        println!("{:?}", sensor);
+        todo!()
     }
 }

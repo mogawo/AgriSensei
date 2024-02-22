@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use crate::message::*;
 pub struct GetMessage{}
 
@@ -16,18 +18,18 @@ impl Message for GetMessage{
         };
     }
 
-    fn response(file_path: &str) -> ResultResponse<Vec<u8>>
+    fn response<S: AsRef<str>>(file_path: S) -> ResultResponse<'static, Vec<u8>>
     {
         let (_, extension) = 
-            file_path.split_once('.')
-            .ok_or(ServerError::PathError(("Requested File has no extension", file_path.to_string())))?;
+            file_path.as_ref().split_once('.')
+            .ok_or(ServerError::PathError(("Requested File has no extension", file_path.as_ref().to_string())))?;
         let mime_type = 
             mime_guess::from_ext(extension)
             .first_raw()
             .ok_or(MessageError("Unable to Parse HTTP extensions"))?;
-        let file_data = fs::read(file_path)?;
+        let file_data = fs::read(file_path.as_ref())?;
 
-        println!("{}, {}, {}", file_path, mime_type, file_data.len());
+        println!("{}, {}, {}", file_path.as_ref(), mime_type, file_data.len());
         let response = Response::builder()
             .header("Content-Type", mime_type)
             .header("Content-Length", file_data.len())
