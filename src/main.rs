@@ -29,8 +29,13 @@ use database::Database;
 mod handler;
 use handler::handle_connection;
 
-mod components;
-use components::*;
+pub mod comps{
+    pub mod components;
+    pub mod data_packet;
+    pub mod sensor;
+    pub mod user_profile;
+}
+use comps::*;
 
 
 const HOST_ADDRESS: &str = "127.0.0.1:7878";
@@ -49,7 +54,7 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
                    
 fn main(){
     // run();
-    UserProfile::pull_user(1);
+    user_profile::UserProfile::pull_user(1);
     
 }
 

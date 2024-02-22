@@ -9,7 +9,7 @@ pub use serde_json::value;
 pub use serde_json::{Result as JSONResult, Value};
 pub use http::Error as HTTPError;
 pub use crate::server_error::ServerError::*;
-
+pub use crate::comps::{sensor::Sensor};
 
 
   // /user/{userid}/                                 pulls up userid profile

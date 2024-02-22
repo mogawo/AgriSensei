@@ -11,7 +11,7 @@ pub use std::fmt::{Display, Debug};
 pub use rusqlite::{named_params, params, Connection};
 pub use rusqlite::Error as SQLError;
 
-pub use crate::components::*;
+pub use crate::comps::{user_profile, sensor, data_packet};
 
 pub type Result<T> = std::result::Result<T, DBError>;
 
@@ -152,7 +152,7 @@ impl<'d> Database{
             }
     }
 
-    pub fn new_sensor(sensor_type: SensorType, user_id: u32) -> Option<u32>{
+    pub fn new_sensor(sensor_type: sensor::SensorType, user_id: u32) -> Option<u32>{
         let conn = Database::connect();
         let sensor_insert = format!(r"INSERT INTO {sensors}({sensorType}, {userID}) VALUES (?1, ?2)", sensors=Col::SENSORS, sensorType=Col::SENSOR_TYPE, userID=Col::USER_ID);
         match conn.execute(&sensor_insert, params![sensor_type, user_id]){
@@ -166,7 +166,7 @@ impl<'d> Database{
         }
     }
 
-    pub fn add_packet(packets: DataPacket){
+    pub fn add_packet(packets: data_packet::DataPacket){
         let conn = Database::connect();
         let packet_insert = format!("INSERT INTO {dataPacket}({dateTime}, {samFreq}, {samDur}, {samAmnt}, {userID}, {sensorID}) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", 
             dataPacket = Col::DATA_PACKET,
