@@ -11,7 +11,7 @@ pub use std::fmt::{Display, Debug};
 pub use rusqlite::{named_params, params, Connection};
 pub use rusqlite::Error as SQLError;
 
-pub use crate::components::*;
+pub use crate::comps::{user_profile, sensor, data_packet};
 
 pub type Result<T> = std::result::Result<T, DBError>;
 
@@ -65,7 +65,23 @@ impl TableColumnNames{
     pub const SAMPLE_FREQUENCY: &'static str = r"sampleFrequency";
     pub const SAMPLE_DURATION: &'static str = r"sampleDuration";
     pub const SAMPLE_AMOUNT: &'static str = r"sampleAmount";
+
+    //(Self::USERS, Self::USER_ID, Self::USER_NAME)
+    pub fn users_columns() -> (&'static str, &'static str, &'static str){
+        (Self::USERS, Self::USER_ID, Self::USER_NAME)
+    }
+
+    //(Self::SENSORS, Self::SENSOR_ID, Self::SENSOR_TYPE, Self::USER_ID)
+    pub fn sensor_columns() -> (&'static str, &'static str, &'static str, &'static str){
+        (Self::SENSORS, Self::SENSOR_ID, Self::SENSOR_TYPE, Self::USER_ID)
+    }
+
+    //(Self::DATA_PACKET, Self::DATE_TIME, Self::SAMPLE_FREQUENCY, Self::SAMPLE_DURATION, Self::SAMPLE_AMOUNT, Self::SENSOR_ID)
+    pub fn packet_columns() -> (&'static str, &'static str, &'static str, &'static str, &'static str, &'static str){
+        (Self::DATA_PACKET, Self::DATE_TIME, Self::SAMPLE_FREQUENCY, Self::SAMPLE_DURATION, Self::SAMPLE_AMOUNT, Self::SENSOR_ID)
+    }
 }
+
 
 use TableColumnNames as Col;
 
@@ -152,7 +168,7 @@ impl<'d> Database{
             }
     }
 
-    pub fn new_sensor(sensor_type: SensorType, user_id: u64) -> Option<u64>{
+    pub fn new_sensor(sensor_type: sensor::SensorType, user_id: u64) -> Option<u64>{
         let conn = Database::connect();
         let sensor_insert = format!(r"INSERT INTO {sensors}({sensorType}, {userID}) VALUES (?1, ?2)", sensors=Col::SENSORS, sensorType=Col::SENSOR_TYPE, userID=Col::USER_ID);
         match conn.execute(&sensor_insert, params![sensor_type, user_id]){
@@ -166,7 +182,7 @@ impl<'d> Database{
         }
     }
 
-    pub fn add_packet(packets: DataPacket){
+    pub fn add_packet(packets: data_packet::DataPacket){
         let conn = Database::connect();
         let packet_insert = format!("INSERT INTO {dataPacket}({dateTime}, {samFreq}, {samDur}, {samAmnt}, {userID}, {sensorID}) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", 
             dataPacket = Col::DATA_PACKET,

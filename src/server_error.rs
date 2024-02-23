@@ -3,6 +3,7 @@ use std::fmt;
 pub use http::{Error as HTTPError};
 pub use httparse::Error as HTTParseError;
 pub use serde_json::Error as SerdeJSONError;
+pub use std::num::ParseIntError;
 
 use std::io::Error as IOError;
 pub type BoxedError = Box<dyn std::error::Error>;
@@ -12,12 +13,14 @@ pub enum ServerError<'se>
     //Error Constructors
     HTTPError(HTTPError),
     HTTParseError(HTTParseError),
+    ParseIntError(ParseIntError),
     PathError((&'se str, String)),
     IOError(IOError),
     AssembleError(&'se str),
     ThreadError(&'se str),
     MessageError(&'se str),
     JSONError(SerdeJSONError),
+    DatabaseError(rusqlite::Error)
 }
 
 impl std::error::Error for ServerError<'_>{}
@@ -37,6 +40,9 @@ impl fmt::Display for ServerError<'_>{
             ServerError::HTTParseError(e) => {
                 write!(f, "[MimeTypeError]\r\n{e}\r\n")
             }
+            ServerError::ParseIntError(e) => {
+                write!(f, "[ParseIntError]\r\n{e}\r\n")
+            }
             ServerError::AssembleError(msg) => {
                 write!(f, "[AssembleError] {msg}\r\n")
             }
@@ -48,6 +54,9 @@ impl fmt::Display for ServerError<'_>{
             }
             ServerError::JSONError(e) => {
                 write!(f, "[JSONError] {e}\r\n")
+            }
+            ServerError::DatabaseError(e) => {
+                write!(f, "[DatabaseError] {e}\r\n")
             }
         }
     }
@@ -74,5 +83,16 @@ impl From<serde_json::Error> for ServerError<'_>{
 impl From<std::io::Error> for ServerError<'_>{
     fn from(value: std::io::Error) -> Self {
         Self::IOError(value)
+    }
+}
+
+impl From<ParseIntError> for ServerError<'_>{
+    fn from(value: ParseIntError) -> Self {
+        Self::ParseIntError(value)
+    }
+}
+impl From<rusqlite::Error> for ServerError<'_>{
+    fn from(value: rusqlite::Error) -> Self {
+        Self::DatabaseError(value)
     }
 }

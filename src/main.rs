@@ -10,6 +10,8 @@ use std::net::TcpListener;
 // Then use 'use' actually use the modules
 // Modules using another module, just use crate::<file-path>
 pub mod server_error;
+use rest::post::PostMessage;
+use serde_json::json;
 use server_error::ServerError;
 
 mod thread_pool;
@@ -29,8 +31,13 @@ use database::Database;
 mod handler;
 use handler::handle_connection;
 
-mod components;
-use components::*;
+pub mod comps{
+    pub mod components;
+    pub mod data_packet;
+    pub mod sensor;
+    pub mod user_profile;
+}
+use comps::*;
 
 
 const HOST_ADDRESS: &str = "127.0.0.1:7878";
@@ -49,8 +56,10 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
                    
 fn main(){
     // run();
-    UserProfile::pull_user(1, Some(&[1,2]));
-    
+    let body = json!({
+        "user_id"    : 1,
+        "sensor_type": "Moisture",
+    });
 }
 
 fn database_testing(){
