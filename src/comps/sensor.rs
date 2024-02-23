@@ -1,10 +1,10 @@
 use crate::comps::{components::*, data_packet::DataPacket};
-use std::str::from_utf8;
+use std::{fmt::write, str::{from_utf8, FromStr}};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Sensor{ 
-    pub sensor_id  : u32,
-    pub user_id    : u32,
+    pub sensor_id  : u64,
+    pub user_id    : u64,
     pub sensor_type: SensorType,
     pub packets    : Option<Vec<DataPacket>>
 }
@@ -13,14 +13,22 @@ pub struct Sensor{
 pub enum SensorType{
     Moisture,
     Temperature,
-    UnknownType 
+    UnknownType,
 }
 
-impl Sensor{    
-    pub fn pull_sensors(user_id: u32, sensor_filter: &[u32]) -> Option<Vec<Sensor>>{
+
+impl Sensor{
+    pub fn push(self){
+        if let Some(sen_id) = Database::new_sensor(self.sensor_type, self.user_id){
+            let u_id = self.user_id;
+            let s_id = self. sensor_id;
+            println!("New User[{u_id}]-Sen[{s_id}] added to DB ")
+        }
+    }
+    pub fn pull_sensors(user_id: u64, sensor_filter: &[u64]) -> Option<Vec<Sensor>>{
         Sensor::pull(user_id, sensor_filter).ok()
     }
-    fn pull(user_id: u32, sensor_filter: &[u32]) -> Result<Vec<Self>, rusqlite::Error>{
+    fn pull(user_id: u64, sensor_filter: &[u64]) -> Result<Vec<Self>, rusqlite::Error>{
         let conn = Database::connect();
         let (table, key) = (TableColumnNames::SENSORS, TableColumnNames::USER_ID);
         let mut statement = conn.prepare(
@@ -49,13 +57,14 @@ impl Sensor{
     }
 }
 
+
 //Trait Implementations
 impl Display for SensorType{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self{
             SensorType::Moisture => write!{f, "Moisture"},
             SensorType::Temperature => write!{f, "Temperature"},
-            SensorType::UnknownType =>  write!{f, "UnkownType"}
+            SensorType::UnknownType => write!(f, "UnkownType")
         }
     }
 }
@@ -80,8 +89,17 @@ impl FromSql for SensorType{
         Ok(match sensor_type{
             Ok("Moisture") => SensorType::Moisture,
             Ok("Temperature") => SensorType::Temperature,
-            Ok("UnknownType") => SensorType::UnknownType,
             _ => return Err(FromSqlError::InvalidType)
         })
+    }
+}
+
+impl From<&str> for SensorType{
+    fn from(value: &str) -> Self {
+        match value {
+            "Moisture"    => SensorType::Moisture,
+            "Temperature" => SensorType::Temperature,
+            _             => SensorType::UnknownType
+        }
     }
 }

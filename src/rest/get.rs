@@ -17,7 +17,9 @@ impl Message for GetMessage{
             path => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", path.to_string())))
         };
     }
+}
 
+impl GetMessage{
     fn response<S: AsRef<str>>(file_path: S) -> ResultResponse<'static, Vec<u8>>
     {
         let (_, extension) = 

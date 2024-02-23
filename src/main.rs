@@ -10,6 +10,8 @@ use std::net::TcpListener;
 // Then use 'use' actually use the modules
 // Modules using another module, just use crate::<file-path>
 pub mod server_error;
+use rest::post::PostMessage;
+use serde_json::json;
 use server_error::ServerError;
 
 mod thread_pool;
@@ -54,13 +56,15 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
                    
 fn main(){
     // run();
-    user_profile::UserProfile::pull_user(1);
-    
+    let body = json!({
+        "user_id"    : 1,
+        "sensor_type": "Moisture",
+    });
 }
 
 fn database_testing(){
     Database::new();
-    let name_numerate:&mut  Vec<(u32, &str)> = &mut Vec::new();
+    let name_numerate:&mut  Vec<(u64, &str)> = &mut Vec::new();
 
     for name in TEST_NAMES {
         Database::new_user(name);

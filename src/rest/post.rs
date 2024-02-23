@@ -1,6 +1,11 @@
+use std::str::FromStr;
+
+use crate::data_packet::DataPacket;
 pub use crate::message::*;
 pub use crate::database::*;
 pub use crate::components::*;
+use crate::sensor::SensorType;
+use crate::user_profile::UserProfile;
 pub use http::response;
 pub use http::StatusCode;
 pub use regex::Regex;
@@ -40,14 +45,16 @@ impl Message for PostMessage{
         // }\
         todo!()
     }
+}
 
-    fn response<S: AsRef<str>>(file_path: S) -> ResultResponse<'static, Vec<u8>> {
+impl PostMessage{
+    pub fn response<S: AsRef<str>>(file_path: S, location: S) -> ResultResponse<'static, Vec<u8>> {
         let file_data = fs::read(file_path.as_ref()).unwrap(); //Panic if server pages is not set correctly
         let response = Response::builder()
             .status(302)
             .header("Content-Type", "text/html")
             .header("Content-Length", file_data.len())
-            .header("Location", format!(r"{host}\pages\main_page\index.html", host=crate::HOST_ADDRESS))
+            .header("Location", format!(r"{host}{locat}", host=crate::HOST_ADDRESS, locat=location.as_ref()))
             .body(file_data);
 
         match response{
@@ -55,10 +62,7 @@ impl Message for PostMessage{
             Err(e) => PostMessage::error_response(ServerError::HTTPError(e))
         }
     }
-}
-
-impl PostMessage{
-    fn new_user(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
+    pub fn new_user(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
         println!("New User is being created");
         let Some(name) = json_data[TableColumnNames::USER_NAME].as_str() else{
             return PostMessage::error_response(MessageError("No Name for User was Provided"));
@@ -66,13 +70,22 @@ impl PostMessage{
         let Some(user_id) = Database::new_user(name) else {
             return PostMessage::error_response(MessageError("Could Not Insert New User into Database"));
         };
-        PostMessage::response(format!(r"/user/{user_id}"))
+        PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}")) 
     }
 
-    fn new_sensor(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
+    pub fn new_sensor(user_id: u64, json_data: Value) -> ResultResponse<'static, Vec<u8>>{
         println!("New Sensor is being created");
-        let sensor: Sensor = serde_json::from_value(json_data)?;
-        println!("{:?}", sensor);
-        todo!()
+        let sensor_type = json_data["sensor_type"].as_str().ok_or(MessageError("No Sensor Type Provided"))?;
+        let sensor_type: SensorType = sensor_type.into();
+        if matches!(sensor_type, SensorType::UnknownType){ return Err(MessageError("No Sensor Type Provided"))};
+        let sensor_id = Database::new_sensor(sensor_type, user_id).ok_or(MessageError("Could not make a new Sensor"))?;
+        PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}/sensor/{sensor_id}"))
+    }
+
+    pub fn add_packet(user_id: u64, json_data: Value) -> ResultResponse<'static, Vec<u8>> {
+        println!("Adding Data Packets...");
+        let packet: DataPacket = serde_json::from_value(json_data)?;
+        packet.push_packet()?;
+        PostMessage::response(r"pages\test_pages\added_packet_confirm.html", &format!(r"/user/{user_id}/"))
     }
 }

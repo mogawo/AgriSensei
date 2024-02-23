@@ -20,6 +20,7 @@ pub enum ServerError<'se>
     ThreadError(&'se str),
     MessageError(&'se str),
     JSONError(SerdeJSONError),
+    DatabaseError(rusqlite::Error)
 }
 
 impl std::error::Error for ServerError<'_>{}
@@ -54,6 +55,9 @@ impl fmt::Display for ServerError<'_>{
             ServerError::JSONError(e) => {
                 write!(f, "[JSONError] {e}\r\n")
             }
+            ServerError::DatabaseError(e) => {
+                write!(f, "[DatabaseError] {e}\r\n")
+            }
         }
     }
 }
@@ -85,5 +89,10 @@ impl From<std::io::Error> for ServerError<'_>{
 impl From<ParseIntError> for ServerError<'_>{
     fn from(value: ParseIntError) -> Self {
         Self::ParseIntError(value)
+    }
+}
+impl From<rusqlite::Error> for ServerError<'_>{
+    fn from(value: rusqlite::Error) -> Self {
+        Self::DatabaseError(value)
     }
 }
