@@ -51,20 +51,20 @@ pub struct TableColumnNames{}
 impl TableColumnNames{
     //User Table
     pub const USERS: &'static str = r"users";
-    pub const USER_ID: &'static str = r"userID";
-    pub const USER_NAME: &'static str = r"userName";
+    pub const USER_ID: &'static str = r"user_id";
+    pub const USER_NAME: &'static str = r"user_name";
     
     //Sensor Table
     pub const SENSORS: &'static str = r"sensors";
-    pub const SENSOR_ID: &'static str = r"sensorID";
-    pub const SENSOR_TYPE: &'static str = r"sensorType";
+    pub const SENSOR_ID: &'static str = r"sensor_id";
+    pub const SENSOR_TYPE: &'static str = r"sensor_type";
     
     //Data Packet
-    pub const DATA_PACKET: &'static str = r"dataPacket";
-    pub const DATE_TIME: &'static str = r"dateTime";
-    pub const SAMPLE_FREQUENCY: &'static str = r"sampleFrequency";
-    pub const SAMPLE_DURATION: &'static str = r"sampleDuration";
-    pub const SAMPLE_AMOUNT: &'static str = r"sampleAmount";
+    pub const DATA_PACKET: &'static str = r"data_packet";
+    pub const DATE_TIME: &'static str = r"date_time";
+    pub const SAMPLE_FREQUENCY: &'static str = r"frequency";
+    pub const SAMPLE_DURATION: &'static str = r"duration";
+    pub const SAMPLE_AMOUNT: &'static str = r"amount";
 
     //(Self::USERS, Self::USER_ID, Self::USER_NAME)
     pub fn users_columns() -> (&'static str, &'static str, &'static str){

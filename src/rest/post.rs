@@ -26,24 +26,39 @@ pub use crate::comps::{sensor::Sensor};
 
 pub struct PostMessage{}
 struct Patterns{}
+impl Patterns{
+    const USER_OPTIONS: &'static str = r"^\/new\/user\/((?<user_id>\d+)\/(?<user_options>sensor|data)\/?)?$";
+}
 //TODO - Seperate Regex into 
-// /user/new
-// /user/##/sensor/new
-// /user/##/sensor/data/new            Body will have the data
-// /user/##/sensor/?=sen<#-#-...-#>&&data<> (IMPLEMENT ONLY IF HAVE TIME)
+// /new/user/
+// /new/user/##/sensor/
+// /new/user/##/data/            Body will have the data
+
 impl Message for PostMessage{
     
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>> {
         
         println!("Processing POST Request...");
+        
         let uri_path = req.uri().path();
-        //TODO Deal with html headers for POST
         let json_data = PostMessage::parse_body(req.body())?;
-        // match uri_path{
-        //     "/user/new" => PostMessage::new_user(json_data),
-        //     "/user/sensor/new" => , 
-        // }\
-        todo!()
+        let uri_capture = Regex::new(Patterns::USER_OPTIONS)
+            .unwrap()
+            .captures(uri_path)
+            .ok_or(MessageError("URI does not match Regex pattern"))?;
+
+        let user_id = uri_capture.name("user_id");
+        let user_options = uri_capture.name("user_options");
+
+        match (user_id, user_options){
+            (None, None) =>  PostMessage::new_user(json_data),   
+            (Some(id), Some(opt)) => match opt.as_str(){
+                "sensor" => PostMessage::new_sensor(id.as_str().parse()?, json_data),
+                "data" => PostMessage::add_packet(id.as_str().parse()?, json_data),
+                    _ => PostMessage::error_response(MessageError("Invalid User Options {sensor, data}"))
+            },
+            (_, _) => PostMessage::error_response(MessageError("Modifying Server Components have not been implemented yet"))
+        }
     }
 }
 
@@ -62,9 +77,9 @@ impl PostMessage{
             Err(e) => PostMessage::error_response(ServerError::HTTPError(e))
         }
     }
-    pub fn new_user(json_data: Value) -> ResultResponse<'static, Vec<u8>>{
+    pub fn new_user(json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
         println!("New User is being created");
-        let Some(name) = json_data[TableColumnNames::USER_NAME].as_str() else{
+        let Some(name) = json_data.get(TableColumnNames::USER_NAME).and_then(|n| n.as_str()) else{
             return PostMessage::error_response(MessageError("No Name for User was Provided"));
         };
         let Some(user_id) = Database::new_user(name) else {
@@ -73,18 +88,21 @@ impl PostMessage{
         PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}")) 
     }
 
-    pub fn new_sensor(user_id: u64, json_data: Value) -> ResultResponse<'static, Vec<u8>>{
+    pub fn new_sensor(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
         println!("New Sensor is being created");
-        let sensor_type = json_data["sensor_type"].as_str().ok_or(MessageError("No Sensor Type Provided"))?;
-        let sensor_type: SensorType = sensor_type.into();
+        let sensor_type: SensorType = json_data.get(TableColumnNames::SENSOR_TYPE)
+            .and_then(|sen| sen.as_str())
+            .unwrap_or("UnknownType")
+            .into();
+
         if matches!(sensor_type, SensorType::UnknownType){ return Err(MessageError("No Sensor Type Provided"))};
         let sensor_id = Database::new_sensor(sensor_type, user_id).ok_or(MessageError("Could not make a new Sensor"))?;
         PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}/sensor/{sensor_id}"))
     }
 
-    pub fn add_packet(user_id: u64, json_data: Value) -> ResultResponse<'static, Vec<u8>> {
+    pub fn add_packet(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>> {
         println!("Adding Data Packets...");
-        let packet: DataPacket = serde_json::from_value(json_data)?;
+        let packet: DataPacket = serde_json::from_value(Value::Object(json_data))?;
         packet.push_packet()?;
         PostMessage::response(r"pages\test_pages\added_packet_confirm.html", &format!(r"/user/{user_id}/"))
     }

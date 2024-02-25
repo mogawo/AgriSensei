@@ -39,6 +39,7 @@ pub mod comps{
 }
 use comps::*;
 
+mod testing;
 
 const HOST_ADDRESS: &str = "127.0.0.1:7878";
 // const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
@@ -47,28 +48,25 @@ const HOST_ADDRESS: &str = "127.0.0.1:7878";
 //                                 "Gisselle", "Leeann", "Davis", "Alex", 
 //                                 "Justin", "Kenna", "Jorden", "Valentin"];
 
-const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
-                                "Kimberly", "Kara", "Juan", "Billy", 
-                                "Braulio", "Damien", "Ezra", "Margarita", 
-                                "Gisselle", "Leeann", "Davis", "Alex", 
-                                "Justin", "Kenna", "Jorden", "Remy"];
+
 
                    
 fn main(){
     // run();
-    let body = json!({
-        "user_id"    : 1,
-        "sensor_type": "Moisture",
-    });
+    test_cases()
 }
 
-fn database_testing(){
-    Database::new();
-    let name_numerate:&mut  Vec<(u64, &str)> = &mut Vec::new();
+// Test Cases
+// Make new user
+// make new sensor
+// make new data
 
-    for name in TEST_NAMES {
-        Database::new_user(name);
-    }
+// get user# sensors + data
+
+fn test_cases(){
+    testing::init_database();
+    testing::add_sensor();
+    testing::add_packet();
 }
 
 fn run(){
