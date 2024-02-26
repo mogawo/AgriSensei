@@ -6,16 +6,17 @@ pub struct GetMessage{}
 impl Message for GetMessage{
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>>
     {
-        return match req.uri().path()
+
+
+        match req.uri().path()
         {
             "/" => GetMessage::response(r"pages\main_page\index.html"),
             "/script.js" => GetMessage::response(r"pages\main_page\script.js"),
             "/style.css" => GetMessage::response(r"pages\main_page\style.css"),
             "/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
             "/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
-            
             path => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", path.to_string())))
-        };
+        }
     }
 }
 

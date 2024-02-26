@@ -12,13 +12,13 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
 pub fn init_database(){
     Database::new();
     for name in TEST_NAMES{
-        let json_data = json!({"name" : name}).as_object().unwrap().to_owned();
+        let json_data = json!({"user_name" : name}).as_object().unwrap().to_owned();
         PostMessage::new_user(json_data);
     }
 }
 
 pub fn add_sensor(){
-    for user_id in 1..10{
+    for user_id in 1..11{
         let json_data = json!(
             {
                 "sensor_type" : "Moisture",
@@ -27,7 +27,7 @@ pub fn add_sensor(){
 
         PostMessage::new_sensor(user_id, json_data);
     }
-    for user_id in 11..20{
+    for user_id in 11..21{
         let json_data = json!(
             {
                 "sensor_type" : "Temperature",
@@ -39,17 +39,18 @@ pub fn add_sensor(){
 }
 
 pub fn add_packet(){
-    for user_id in 1..20 {
+    for user_id in 1..21 {
         let time_now = Utc::now();
         let json_data = json!(
             {
                 "date_time": time_now,
                 "frequency": 5, //seconds
                 "duration" : 5, //seconds
-                "amount"   : 5, 
+                "amount"   : 5,
+                "sensor_id": user_id 
             }
         ).as_object().unwrap().to_owned();
-        PostMessage::add_packet(user_id, json_data);
+        PostMessage::add_packet(user_id, json_data).unwrap();
     }
 }
 

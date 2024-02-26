@@ -2,7 +2,7 @@ use crate::comps::{components::*};
 use crate::database::TableColumnNames as Col;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DataPacket{
-    #[serde(with = "ts_seconds")]
+    // #[serde(with = "ts_seconds")]
     pub date_time : DateTime<Utc>,
     pub frequency: u64,
     pub duration : u64,
@@ -13,12 +13,8 @@ pub struct DataPacket{
 impl DataPacket{
 
     pub fn push_packet(&self) -> Result<(), rusqlite::Error>{
-        let conn = Database::connect();
-        let (packets_table, date_time, freq, duration, amount, sensor_id) = Col::packet_columns();
-        let mut statement = conn.prepare(&format!("
-            INSERT INTO {packets_table} ({date_time}, {freq}, {duration}, {amount}, {sensor_id}) VALUES (?1, ?2, ?3, ?4, ?5)
-        "))?;
-        let rows_changed = statement.execute(params![self.date_time, self.frequency, self.duration, self.amount, self.sensor_id])?;
+        let date_time = Database::add_packet(self).unwrap();
+        println!("@ {date_time} > New packet added!\n");
         Ok(())
     }
     pub fn pull_packets(sensor_id: u64, query: &Option<Query>) -> Option<Vec<Self>>{

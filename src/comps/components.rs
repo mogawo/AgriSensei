@@ -26,3 +26,9 @@ pub struct TimeRange{
     #[serde(with = "ts_seconds")]
     pub to: DateTime<Utc>
 }
+
+pub struct Patterns{}
+impl Patterns{
+    pub const USER_OPTIONS: &'static str = r"^\/new\/user\/((?<user_id>\d+)\/(?<user_options>sensor|data)\/?)?$";
+    pub const GET_USERID: &'static str = r"^\/user\/(?<user_id>\d+)\/?$";
+}

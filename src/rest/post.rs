@@ -14,7 +14,7 @@ pub use serde_json::value;
 pub use serde_json::{Result as JSONResult, Value};
 pub use http::Error as HTTPError;
 pub use crate::server_error::ServerError::*;
-pub use crate::comps::{sensor::Sensor};
+pub use crate::comps::{sensor::Sensor, components::Patterns};
 
 
   // /user/{userid}/                                 pulls up userid profile
@@ -24,16 +24,13 @@ pub use crate::comps::{sensor::Sensor};
   // /user/{userid}/sensor/new                       creats a new sensor attached to userid
   // /user/{userid}/data
 
-pub struct PostMessage{}
-struct Patterns{}
-impl Patterns{
-    const USER_OPTIONS: &'static str = r"^\/new\/user\/((?<user_id>\d+)\/(?<user_options>sensor|data)\/?)?$";
-}
+
 //TODO - Seperate Regex into 
 // /new/user/
 // /new/user/##/sensor/
 // /new/user/##/data/            Body will have the data
 
+pub struct PostMessage{}
 impl Message for PostMessage{
     
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>> {
