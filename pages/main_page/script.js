@@ -15,7 +15,7 @@ function createSensorElement() {
     newSensor.onclick = function ()
     { 
         showSensorInfo(newSensor);
-        // sensorDisplay.removeChild(newSensor);
+        handleSummaryTab(newSensor);
     };
     newSensor.dataset.itemId = itemIdCounter++;
     newSensor.dataset.batteryLevel = 100; // Change to take level from API
@@ -23,25 +23,24 @@ function createSensorElement() {
     newSensor.dataset.recentTime = 1640; // Implement a time conversion function
     newSensor.dataset.description = "Add Description";
     newSensor.dataset.name = "Sensor " + newSensor.dataset.itemId;
+    let array = [85, 82, 81, 82, 84];
+    newSensor.dataset.humidityHistory = JSON.stringify(array);
+    // Read from the list by doing
+    // let humidityHistoryArray = JSON.parse(newSensor.dataset.humidityHistory); to create a new array
+    // Store to the list by doing
+    // newSensor.dataset.humidityHistory = JSON.stringify(humidityHistoryArray); to convert the array to a string
+    let timeArray = [1600, 1610, 1620, 1630, 1640];
+    newSensor.dataset.timeHistory = JSON.stringify(timeArray);
 
     newSensor.innerHTML = `
             <div class="sensorName">
                 <h2>${newSensor.dataset.name}</h2>
-                <button class="nameChange" onclick="handleNameChange(event)"><img src="images/pencil.png"></button> 
+                <button class="nameChange"><img src="images/pencil.png"></button> 
             </div>
             <p>${newSensor.dataset.description}</p>
             <br>
             <button class="removeItemButton">Remove Sensor</button>
     `;
-
-    // newSensor.addEventListener('click', () => {
-    //     newSensor.classList.toggle('active');
-    //     itemsContainer.querySelectorAll('.sensor').forEach(otherItem => {
-    //         if (otherItem !== newSensor) {
-    //             otherItem.classList.remove('active');
-    //         }
-    //     });
-    // });
 
     const removeItemButton = newSensor.querySelector('.removeItemButton');
     removeItemButton.addEventListener('click', (event) => {
@@ -49,20 +48,12 @@ function createSensorElement() {
         itemsContainer.removeChild(newSensor);
     });
 
+    const changeNameButton = newSensor.querySelector('.nameChange');
+    changeNameButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+    })
+
     return newSensor;
-}
-
-function handleNameChange(event)
-{
-    event.stopPropagation();
-
-    // console.log("Button inside div clicked");
-    // sensorData.dataset.name = "New name";
-
-    // const sensorNameElement = sensorData.querySelector('.sensorName h2');
-    // sensorNameElement.innerText = sensorData.dataset.name;
-
-    return;
 }
 
 function timeConversion(time) { // TODO
@@ -87,6 +78,7 @@ function showSensorInfo(sensorData) {
         <div class="displayTabs">
             <button class="summaryTab" id="summaryButton"><h3>Summary</h3></button>
             <button class="graphTab" id="graphButton"><h3>Graph</h3></button>
+            <button class="detailsTab" id="detailsButton"><h3>Details</h3></button>
         </div>
     `;
     sensorDisplay.appendChild(showDisplay);
@@ -95,6 +87,7 @@ function showSensorInfo(sensorData) {
         // Change color of all tabs accordingly
         document.getElementById('summaryButton').style.backgroundColor = 'beige';
         document.getElementById('graphButton').style.backgroundColor = 'yellowgreen';
+        document.getElementById('detailsButton').style.backgroundColor = 'yellowgreen';
 
         // Remove any currently displayed tab
         const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
@@ -109,6 +102,7 @@ function showSensorInfo(sensorData) {
         // Change color of all tabs accordingly
         document.getElementById('graphButton').style.backgroundColor = 'beige';
         document.getElementById('summaryButton').style.backgroundColor = 'yellowgreen';
+        document.getElementById('detailsButton').style.backgroundColor = 'yellowgreen';
 
         // Remove any currently displayed tab
         const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
@@ -117,6 +111,21 @@ function showSensorInfo(sensorData) {
         });
 
         handleGraphTab(sensorData);
+    })
+
+    document.getElementById('detailsButton').addEventListener('click', function () {
+        // Change color of all tabs accordingly
+        document.getElementById('detailsButton').style.backgroundColor = 'beige';
+        document.getElementById('summaryButton').style.backgroundColor = 'yellowgreen';
+        document.getElementById('graphButton').style.backgroundColor = 'yellowgreen';
+
+        // Remove any currently displayed tab
+        const existingSummary = showDisplay.querySelectorAll('.sensorReadings');
+        existingSummary.forEach(element => {
+            element.remove();
+        });
+
+        handleDetailsTab(sensorData);
     })
 }
 
@@ -128,32 +137,41 @@ function handleSummaryTab(sensorData)
     summaryDisplay.innerHTML = `
     <div class="humidityReading">
         <p>Humidity level: </p>
-        <p>${sensorData.dataset.humidity}%</p>
     </div>
     <div class="sensorBattery">    
         <p>Sensor Battery Level: </p>
-        <p>${sensorData.dataset.batteryLevel}%</p>
-    </div>
-    <div class="readingTime">
-        <p>Time of Last Reading: </p>
-        <p>${sensorData.dataset.recentTime}<p>
+        <div class="batteryLevel">    
+            <p>${sensorData.dataset.batteryLevel}%</p>
+        </div>
     </div>
     `;
 
     const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(summaryDisplay);
-    
+
+    const humidityReading = document.querySelector('.humidityReading');
+    let humidityHistoryArray = JSON.parse(sensorData.dataset.humidityHistory);
+    let timeHistoryArray = JSON.parse(sensorData.dataset.timeHistory);
+    for (let i = humidityHistoryArray.length-1; i >= humidityHistoryArray.length-5; i--)
+    {
+        if (i < 0) { break; }
+        var newHistory = document.createElement('div');
+        newHistory.classList.add('humidityList');
+        newHistory.innerHTML = `
+        <p>${timeHistoryArray[i]}: &nbsp${humidityHistoryArray[i]}%</p>
+        `
+        humidityReading.appendChild(newHistory);
+    }
+        
     return;
 }
 
 function handleGraphTab(sensorData)
 { 
-    console.log("Pressed the button");
     const graphDisplay = document.createElement('div');
     graphDisplay.classList.add('sensorReadings');
 
     graphDisplay.innerHTML = `
-    <!-- Graph -->
     <div class="graphs">
         <div class="humidityGraph">
             <img src="images/HumidityGraph.png">
@@ -166,6 +184,22 @@ function handleGraphTab(sensorData)
 
     const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(graphDisplay);
+
+    return;
+}
+
+function handleDetailsTab(sensorData)
+{
+    const detailsDisplay = document.createElement('div');
+    detailsDisplay.classList.add('sensorReadings');
+    detailsDisplay.innerHTML = `
+    <div class = "details">
+        <img src="images/details.png">
+    </div>
+    `;
+    
+    const showDisplay= document.querySelector('.sensorData');
+    showDisplay.appendChild(detailsDisplay);
 
     return;
 }
