@@ -9,7 +9,7 @@ const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman",
                                 "Gisselle", "Leeann", "Davis", "Alex", 
                                 "Justin", "Kenna", "Jorden", "Remy"];
 
-pub fn init_database(){
+pub  fn init_database(){
     Database::new();
     for name in TEST_NAMES{
         let json_data = json!({"user_name" : name}).as_object().unwrap().to_owned();
@@ -17,40 +17,39 @@ pub fn init_database(){
     }
 }
 
-pub fn add_sensor(){
-    for user_id in 1..11{
-        let json_data = json!(
-            {
-                "sensor_type" : "Moisture",
-            }
-        ).as_object().unwrap().to_owned();
+pub  fn add_sensor(){
+    let json_data = json!(
+        {
+            "sensor_type" : "Moisture",
+        }
+    ).as_object().unwrap().to_owned();
 
-        PostMessage::new_sensor(user_id, json_data);
-    }
-    for user_id in 11..21{
-        let json_data = json!(
-            {
-                "sensor_type" : "Temperature",
-            }
-        ).as_object().unwrap().to_owned();
+    PostMessage::new_sensor(1, json_data);
 
-        PostMessage::new_sensor(user_id, json_data);
-    }
+    let json_data = json!(
+        {
+            "sensor_type" : "Temperature",
+        }
+    ).as_object().unwrap().to_owned();
+
+    PostMessage::new_sensor(1, json_data);
 }
 
-pub fn add_packet(){
-    for user_id in 1..21 {
-        let time_now = Utc::now();
-        let json_data = json!(
-            {
-                "date_time": time_now,
-                "frequency": 5, //seconds
-                "duration" : 5, //seconds
-                "amount"   : 5,
-                "sensor_id": user_id 
-            }
-        ).as_object().unwrap().to_owned();
-        PostMessage::add_packet(user_id, json_data).unwrap();
+pub  fn add_packet(){
+    for sensor_id in 1..=2 {
+        for _ in 0..3{
+            let time_now = Utc::now();
+            let json_data = json!(
+                {
+                    "date_time": time_now,
+                    "frequency": 5, //seconds
+                    "duration" : 5, //seconds
+                    "amount"   : 5,
+                    "sensor_id": sensor_id 
+                }
+            ).as_object().unwrap().to_owned();
+            PostMessage::add_packet(1, json_data).unwrap();
+        }
     }
 }
 

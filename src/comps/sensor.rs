@@ -1,12 +1,12 @@
-use crate::comps::{components::*, data_packet::DataPacket};
-use std::{fmt::write, str::{from_utf8, FromStr}};
+use crate::{comps::{components::*, data_packet::DataPacket}, message::Message};
+use std::{borrow::BorrowMut, fmt::write, str::{from_utf8, FromStr}};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Sensor{ 
     pub sensor_id  : u64,
     pub user_id    : u64,
     pub sensor_type: SensorType,
-    pub packets    : Option<Vec<DataPacket>>
+    pub packets    : Vec<DataPacket>
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -25,10 +25,14 @@ impl Sensor{
             println!("New User[{u_id}]-Sen[{s_id}] added to DB ")
         }
     }
-    pub fn pull_sensors(user_id: u64, sensor_filter: &[u64]) -> Option<Vec<Sensor>>{
+    pub fn pull_sensors(user_id: u64, sensor_filter: &Query) -> Option<Vec<Sensor>>{
         Sensor::pull(user_id, sensor_filter).ok()
     }
-    fn pull(user_id: u64, sensor_filter: &[u64]) -> Result<Vec<Self>, rusqlite::Error>{
+    fn pull(user_id: u64, sensor_filter: &Query) -> Result<Vec<Sensor>, ServerError<'static>>{
+        if !matches!(sensor_filter, Query::All | Query::SensorFilter(_)){
+            
+        }
+        
         let conn = Database::connect();
         let (table, key) = (TableColumnNames::SENSORS, TableColumnNames::USER_ID);
         let mut statement = conn.prepare(
@@ -40,19 +44,34 @@ impl Sensor{
                         sensor_id: row.get(0)?,
                         sensor_type: row.get(1)?,
                         user_id: row.get(2)?,
-                        packets: DataPacket::pull_packets(row.get(0)?, &None)
+                        packets: DataPacket::pull_packets(row.get(0)?, &Query::None).unwrap()
                     }
                 )
-            })?;
-
-        sensor_iter.filter(|sen|{
-            sen.as_ref()
-                .is_ok_and(|s| sensor_filter.contains(&s.sensor_id))})
-                .collect()
+            })?;    
+        // let result: &mut Vec<Self> = sensor_iter.filter(|sen|{
+        //     sen.is_ok_and(|s| sensor_filter.contains(&s.sensor_id))}).collect();
+        match sensor_filter{
+            Query::All => {
+                let mut ret_list: Vec<Sensor> = Vec::new();
+                sensor_iter.for_each(|sen| ret_list.push(sen.unwrap()));
+                Ok(ret_list)
+            },
+            Query::SensorFilter(filt) => {
+                let mut ret_list: Vec<Sensor> = Vec::new();
+                for sensor in sensor_iter{
+                    let sensor = sensor.unwrap();
+                    if filt.contains(&sensor.sensor_id){
+                        ret_list.push(sensor)
+                    }
+                }
+                Ok(ret_list)
+            },
+            _ => Err(ServerError::MessageError("Invalid Sensor Query"))
+        }
         
     }
-    pub fn within_range(&mut self, query: &Option<Query>) -> &mut Self{
-        self.packets = DataPacket::pull_packets(self.sensor_id, query);
+    pub fn within_range(&mut self, query: &Query) -> &mut Self{
+        self.packets = DataPacket::pull_packets(self.sensor_id, query).unwrap();
         self
     }
 }

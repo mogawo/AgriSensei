@@ -13,10 +13,12 @@ pub use crate::{database::{Database, TableColumnNames}};
 pub use serde::{Serialize, Deserialize};
 pub use crate::server_error::ServerError;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 pub enum Query{
+    SensorFilter(&'static [u64]),
     TimeRange(TimeRange),
     All,
+    None,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

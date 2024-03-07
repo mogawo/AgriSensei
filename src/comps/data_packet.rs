@@ -17,11 +17,11 @@ impl DataPacket{
         println!("@ {date_time} > New packet added!\n");
         Ok(())
     }
-    pub fn pull_packets(sensor_id: u64, query: &Option<Query>) -> Option<Vec<Self>>{
+    pub fn pull_packets(sensor_id: u64, query: &Query) -> Option<Vec<Self>>{
         DataPacket::pull(sensor_id, query).ok()
     }
     
-    fn pull(sensor_id: u64, query: &Option<Query>) -> Result<Vec<Self>, rusqlite::Error>{
+    fn pull(sensor_id: u64, query: &Query) -> Result<Vec<Self>, rusqlite::Error>{
         let conn = Database::connect();
         let (table, key) = (TableColumnNames::DATA_PACKET, TableColumnNames::SENSOR_ID);
         let mut statement = conn.prepare(&format!("SELECT * FROM {table} WHERE {key} = (?1)"))?;

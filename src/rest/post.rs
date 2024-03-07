@@ -33,7 +33,7 @@ pub use crate::comps::{sensor::Sensor, components::Patterns};
 pub struct PostMessage{}
 impl Message for PostMessage{
     
-    fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>> {
+     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>> {
         
         println!("Processing POST Request...");
         
@@ -60,13 +60,13 @@ impl Message for PostMessage{
 }
 
 impl PostMessage{
-    pub fn response<S: AsRef<str>>(file_path: S, location: S) -> ResultResponse<'static, Vec<u8>> {
+    pub  fn response<S: AsRef<str>>(file_path: S, location: S) -> ResultResponse<'static, Vec<u8>> {
         let file_data = fs::read(file_path.as_ref()).unwrap(); //Panic if server pages is not set correctly
         let response = Response::builder()
             .status(302)
             .header("Content-Type", "text/html")
             .header("Content-Length", file_data.len())
-            .header("Location", format!(r"{host}{locat}", host=crate::HOST_ADDRESS, locat=location.as_ref()))
+            .header("Location", format!(r"{locat}", locat=location.as_ref()))
             .body(file_data);
 
         match response{
@@ -74,7 +74,7 @@ impl PostMessage{
             Err(e) => PostMessage::error_response(ServerError::HTTPError(e))
         }
     }
-    pub fn new_user(json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
+    pub  fn new_user(json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
         println!("New User is being created");
         let Some(name) = json_data.get(TableColumnNames::USER_NAME).and_then(|n| n.as_str()) else{
             return PostMessage::error_response(MessageError("No Name for User was Provided"));
@@ -85,7 +85,7 @@ impl PostMessage{
         PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}")) 
     }
 
-    pub fn new_sensor(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
+    pub  fn new_sensor(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
         println!("New Sensor is being created");
         let sensor_type: SensorType = json_data.get(TableColumnNames::SENSOR_TYPE)
             .and_then(|sen| sen.as_str())
@@ -97,7 +97,7 @@ impl PostMessage{
         PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}/sensor/{sensor_id}"))
     }
 
-    pub fn add_packet(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>> {
+    pub  fn add_packet(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>> {
         println!("Adding Data Packets...");
         let packet: DataPacket = serde_json::from_value(Value::Object(json_data))?;
         packet.push_packet()?;
