@@ -44,7 +44,7 @@ impl Sensor{
                         sensor_id: row.get(0)?,
                         sensor_type: row.get(1)?,
                         user_id: row.get(2)?,
-                        packets: DataPacket::pull_packets(row.get(0)?, &Query::None).unwrap()
+                        packets: DataPacket::pull_packets(row.get(0)?, &Query::All).unwrap()
                     }
                 )
             })?;    

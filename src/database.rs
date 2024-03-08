@@ -67,6 +67,11 @@ impl TableColumnNames{
     pub const SAMPLE_DURATION: &'static str = r"duration";
     pub const SAMPLE_AMOUNT: &'static str = r"amount";
 
+    // Data table
+    pub const DATA_TABLE: &'static str = r"data_table";
+    pub const DATA_POINT: &'static str = r"data_point";
+    
+
     //(Self::USERS, Self::USER_ID, Self::USER_NAME)
     pub fn users_columns() -> (&'static str, &'static str, &'static str){
         (Self::USERS, Self::USER_ID, Self::USER_NAME)
@@ -129,27 +134,35 @@ impl<'d> Database{
           users      = Col::USERS,
           userID     = Col::USER_ID,);
               
-             let packet_table = format!("CREATE TABLE IF NOT EXISTS [{dataPacket}](
-                [{dateTime}] TEXT NOT NULL PRIMARY KEY,
-                [{sampleFrequency}] INTEGER NOT NULL,
-                [{sampleDuration}] INTEGER NOT NULL,
-                [{sampleAmount}] INTEGER NOT NULL,
-                [{sensorID}] INTEGER NOT NULL,
-                FOREIGN KEY ({sensorID}) REFERENCES {sensors} ({sensorID})
-              );",
-              dataPacket      = Col::DATA_PACKET,
-              dateTime        = Col::DATE_TIME,
-              sampleFrequency = Col::SAMPLE_FREQUENCY,
-              sampleDuration  = Col::SAMPLE_DURATION,
-              sampleAmount    = Col::SAMPLE_AMOUNT,
-              sensors         = Col::SENSORS,
-              sensorID        = Col::SENSOR_ID);
+        let packet_table = format!("CREATE TABLE IF NOT EXISTS [{dataPacket}](
+            [{dateTime}] TEXT NOT NULL PRIMARY KEY,
+            [{sampleFrequency}] INTEGER NOT NULL,
+            [{sampleDuration}] INTEGER NOT NULL,
+            [{sampleAmount}] INTEGER NOT NULL,
+            [{sensorID}] INTEGER NOT NULL,
+            FOREIGN KEY ({sensorID}) REFERENCES {sensors} ({sensorID})
+            );",
+            dataPacket      = Col::DATA_PACKET,
+            dateTime        = Col::DATE_TIME,
+            sampleFrequency = Col::SAMPLE_FREQUENCY,
+            sampleDuration  = Col::SAMPLE_DURATION,
+            sampleAmount    = Col::SAMPLE_AMOUNT,
+            sensors         = Col::SENSORS,
+            sensorID        = Col::SENSOR_ID);
               
+        let data_table = format!("CREATE TABLE IF NOT EXISTS [{dataTable}](
+            [{dateTime}] TEXT NOT NULL,
+            [{dataPoint}] INTEGER NOT NULL
+        );",
+        dataTable = Col::DATA_TABLE,
+        dateTime  = Col::DATE_TIME,
+        dataPoint = Col::DATA_POINT);
 
         let conn = Database::connect();
         conn.execute(&users_table, ()).unwrap();
         conn.execute(&sensor_table, ()).unwrap();
         conn.execute(&packet_table, ()).unwrap();
+        conn.execute(&data_table, ()).unwrap();
     }
     //userId auto increments in sqlite
     pub fn new_user(name: &str) -> Option<u64>{
@@ -162,7 +175,7 @@ impl<'d> Database{
                     println!("Inserted New User with ID={user_id}"); 
                     Some(user_id)
                 },
-                Err(err) => panic!("[New User] Bad SQL Insert in Database.rs")
+                Err(e) => panic!("\n[New User] Bad SQL Insert in Database.rs\n{e}\n")
             }
     }
 
@@ -176,7 +189,7 @@ impl<'d> Database{
                 println!("Inserted New Sensor#{sensor_id} for User#{user_id}"); 
                 Some(sensor_id)
             }
-            Err(e)  => panic!("\n\n[New Sensor] Bad SQL Insert \n{e}\n\n")
+            Err(e)  => panic!("\n[New Sensor] Bad SQL Insert \n{e}\n")
         }
     }
 
@@ -190,16 +203,36 @@ impl<'d> Database{
             samAmnt    = Col::SAMPLE_AMOUNT,
             sensorID   = Col::SENSOR_ID
         );
+
+        let points_added = Database::add_data_point(packet.date_time, &packet.data);
         match conn.execute(&packet_insert, //Args need to match order in SQL Table Column index
             params![packet.date_time,
                     packet.frequency,
                     packet.duration,
                     packet.amount,
                     packet.sensor_id]){
-            Ok(0) => {print!("Same Packet was Inputed, packet was not stored"); None}
+            Ok(0) => {println!("Same Packet was Inputed, packet was not stored"); return None;},
             Err(e) => panic!("\n[Add Packet] Bad SQL Insert\n{e}\n"),
-            Ok(_) => Some(packet.date_time)
+            Ok(_) => println!("Packet with {} points for Sensor {} was added", points_added, packet.sensor_id)
         }
+        Some(packet.date_time)
+    }
+
+    pub fn add_data_point(date_time: DateTime<Utc>, data: &Vec<u64>) -> u64{
+        let conn = Database::connect();
+        let point_insert = format!("INSERT INTO {dataTable}({dateTime}, {dataPoint}) VALUES (?1, ?2)",
+            dataTable = Col::DATA_TABLE,
+            dateTime  = Col::DATE_TIME,
+            dataPoint = Col::DATA_POINT);
         
+        let mut rows_added = 0;
+        for point in data{
+            match conn.execute(&point_insert, params![date_time, point]){
+                Ok(0) => print!("Same Data Point was Inputed, data point was not stored"),
+                Err(e) => panic!("\n[Add Data Point] Bad SQL Insert\n{e}\n"),
+                Ok(_) => rows_added+=1
+            }
+        }
+        rows_added
     }
 }

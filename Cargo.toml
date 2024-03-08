@@ -15,6 +15,7 @@ path = "src/lib.rs"
 # Sqlx has security layers if need adding. More info on their github
 [dependencies]
 chrono = {version = "0.4.34", features = ["serde"]}
+fluvio = "0.21.7"
 futures = "0.3.30"
 http = "1.0.0"
 httparse = "1.8.0"
