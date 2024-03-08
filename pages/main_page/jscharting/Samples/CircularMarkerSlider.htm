@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Circular ColorAxis Marker Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 400px; height: 380px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Interactive gauge with axis line breaks and a data point on top of the axis line.
+Learn how to:
+
+  - Draw a gauge chart.
+  - Use a function for dynamic shape label text.
+*/
+      // JS
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'gauge ',
+        animation_duration: 0,
+        legend_visible: false,
+        xAxis: {
+          scale: {
+            // Helps position the marker on top of the y Axis.
+            range: [0, 1],
+          },
+        },
+        palette: {
+          pointValue: '%yValue',
+          ranges: [
+            { value: [0, 30], color: '#FF5353' },
+            { value: [30, 70], color: '#FFD221' },
+            { value: [70, 100], color: '#77E6B4' },
+          ],
+        },
+        yAxis: {
+          defaultTick: {
+            // Distance between tick labels and colorized axis line
+            padding: 10,
+            label: { style_fontSize: '16px' },
+          },
+          line: {
+            width: 15,
+            // Gaps occur at tick intervals defined below.
+            breaks: {
+              gap: 0.03,
+              custom: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+            },
+            color: 'smartPalette',
+          },
+          scale: { range: [0, 100], interval: 20 },
+        },
+
+        defaultSeries: {
+          opacity: 1,
+          mouseTracking_enabled: false,
+          shape: {
+            label: {
+              text: labelText,
+              style: { fontSize: '68px' },
+              align: 'center',
+              verticalAlign: 'middle',
+            },
+          },
+        },
+        series: [
+          {
+            type: 'marker',
+            mouseTracking_enabled: false,
+            defaultPoint: {
+              marker: {
+                outline: { width: 8, color: 'currentColor' },
+                fill: 'white',
+                type: 'circle',
+                size: 35,
+              },
+            },
+            points: [{ y: 58 }],
+          },
+        ],
+        toolbar: {
+          defaultItem: {
+            position: 'top left',
+            boxVisible: false,
+            margin: 6,
+          },
+          items: {
+            // The 0% label
+            startLabel: {
+              type: 'label',
+              label: {
+                text: '0%',
+                style_fontSize: '18px',
+              },
+            },
+            slider: {
+              type: 'range',
+              width: 280,
+              // Reduce chart update frequency to smooth slider action.
+              debounce: 5,
+              value: 58,
+              min: 0,
+              max: 100,
+              events_change: moveSlider,
+            },
+            // The 100% label
+            endLabel: {
+              type: 'label',
+              label: {
+                text: '100%',
+                style_fontSize: '18px',
+              },
+            },
+          },
+        },
+      });
+
+      function moveSlider(val) {
+        // Update chart title and points. The then: cb update option will execute the callback once the animation is finished.
+        chart
+          .series(0)
+          .points(0)
+          .options({ y: Math.round(val * 10) / 10 });
+      }
+
+      function labelText(series) {
+        var value = series.points(0).options('y'),
+          fgg = value >= 70 ? 'Great!' : value >= 30 ? 'Good' : 'Fair';
+        return '%sum%<br/><span style="fontSize: 32px">' + fgg + '</span>';
+      }
+    </script>
+  </body>
+</html>

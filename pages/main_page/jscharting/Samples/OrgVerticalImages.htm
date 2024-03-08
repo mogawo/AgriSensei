@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Vercial Image Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 820px; height: 520px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with images in nodes and vertical leaf point layout.
+Learn how to:
+
+  - Use images with vertical leaf points.
+*/
+      // JS
+      var palette = ['white', 'white', '#ce93d8', '#f48fb1', '#90caf9', '#80cbc4', '#c5e1a5', '#ffe082'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          outline_color: '#e0e0e0',
+          color: 'white',
+          leafPointLayout: 'vertical',
+          connectorLine: {
+            width: 1,
+            color: '#e0e0e0',
+            radius: 0,
+          },
+          annotation: {
+            label: {
+              text: '<b>%position</b><br>%name<br><img margin_left=-60 margin_top=-40 width=51 height=51 src=%photo>',
+              align: 'left',
+              autoWrap: false,
+              margin_left: 60,
+              margin_bottom: -4,
+              verticalAlign: 'bottom',
+            },
+            syncWidth: 'all',
+            padding: [4, 16, 4, 0],
+            corners: 'square',
+            height: 52,
+            radius: 33,
+            margin: [4, 20, 4, 4],
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          {
+            name: 'Aubrey Shepherd',
+            id: 'gm',
+            attributes: { position: 'General Manager', photo: 'images/photo-avatars1/avatar_1.png', role: '' },
+          },
+          {
+            name: 'Blake Simmons',
+            id: 'pl',
+            parent: 'gm',
+            attributes: { position: 'Product Leader', photo: 'images/photo-avatars1/avatar_2.png', role: 'leader' },
+          },
+          {
+            name: 'Jade Mills',
+            id: 'pl_fed',
+            parent: 'pl',
+            attributes: { position: 'Front End Developer', photo: 'images/photo-avatars1/avatar_3.png', role: '' },
+          },
+          {
+            name: 'Kerry Eason',
+            id: 'pl_ad',
+            parent: 'pl',
+            attributes: { position: 'App Developer', photo: 'images/photo-avatars1/avatar_4.png', role: '' },
+          },
+          {
+            name: 'Rorie Woodham',
+            id: 'pl_sd',
+            parent: 'pl',
+            attributes: { position: 'Server Developer', photo: 'images/photo-avatars1/avatar_5.png', role: '' },
+          },
+          {
+            name: 'Grier Spear',
+            id: 'dtl',
+            parent: 'gm',
+            attributes: { position: 'Design Team Leader', photo: 'images/photo-avatars1/avatar_6.png', role: 'leader' },
+          },
+          {
+            name: 'Daly Walsh',
+            id: 'dtl_d1',
+            parent: 'dtl',
+            attributes: { position: 'Designer', photo: 'images/photo-avatars1/avatar_7.png', role: '' },
+          },
+          {
+            name: 'Ridley Tucker',
+            id: 'dtl_d2',
+            parent: 'dtl',
+            attributes: { position: 'Designer', photo: 'images/photo-avatars1/avatar_8.png', role: '' },
+          },
+          {
+            name: 'Wisdom Debenham',
+            id: 'ml',
+            parent: 'gm',
+            attributes: { position: 'Marketing Leader', photo: 'images/photo-avatars1/avatar_9.png', role: 'leader' },
+          },
+          {
+            name: 'Parker Graves',
+            id: 'ml_b',
+            parent: 'ml',
+            attributes: { position: 'Blogger', photo: 'images/photo-avatars1/avatar_10.png', role: '' },
+          },
+          {
+            name: 'Lennox Cleveland',
+            id: 'ml_am',
+            parent: 'ml',
+            attributes: { position: 'Ads Marketer', photo: 'images/photo-avatars1/avatar_11.png', role: '' },
+          },
+          {
+            name: 'Sloan Baldwin',
+            id: 'ml_snsm',
+            parent: 'ml',
+            attributes: { position: 'SNS Marketer', photo: 'images/photo-avatars1/avatar_12.png', role: '' },
+          },
+          {
+            name: 'Briar Wootton',
+            id: 'ml_b2bm',
+            parent: 'ml',
+            attributes: { position: 'B2B Marketer', photo: 'images/photo-avatars1/avatar_13.png', role: '' },
+          },
+        ];
+
+        // Remove units connector lines
+        points.forEach(function (point, i) {
+          if (point.attributes.role === 'leader') {
+            JSC.merge(point, { annotation_width: 222 });
+          }
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

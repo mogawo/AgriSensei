@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Point Select and Compare Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #chartWrapper {
+        display: flex;
+        margin: 0px auto;
+        width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 700px; height: 340px; margin: 0 auto;"></div>
+    <div id="chartWrapper">
+      <div id="chartDiv1" style="width: 400px; height: 240px;"></div>
+      <div id="chartDiv2" style="width: 400px; height: 240px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Allows selecting two employees from an organizational chart to compare key metrics with bar charts.
+Learn how to:
+
+  - Use point selection to compare two points.
+*/
+      // JS
+      var chart, chart1, chart2;
+      var palette = ['#B4EDD2', '#A0CFD3'];
+
+      var comparisonChartConfig = {
+        type: 'horizontal column solid',
+        animation_duration: 500,
+        yAxis: { visible: false, scale_range_max: 5 },
+        legend_visible: false,
+        defaultSeries_mouseTracking: false,
+        defaultPoint: {
+          outline_width: 0,
+          label: {
+            text: '<b>%yValue</b>',
+            placement: 'inside',
+            align: 'left',
+            offset: '10,0',
+          },
+        },
+        toolbar_visible: false,
+      };
+
+      JSC.fetch('./resources/orgData.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeOrgSeries(data));
+        });
+
+      function renderChart(series) {
+        return JSC.chart(
+          'chartDiv',
+          {
+            debug: true,
+            type: 'organizational',
+            events_pointSelectionChanged: selectNodes,
+            defaultTooltip_enabled: false,
+            defaultSeries: {
+              color: 'white',
+              pointSelection: { max: 2 },
+              defaultPoint: {
+                /* Default line styling for connector lines */
+                connectorLine: { color: '#b6b6b6', width: 1 },
+                outline_width: 0,
+                states_select_outline_width: 0,
+                annotation: { margin: 5 },
+                label: {
+                  style_fontSize: 10,
+                  text: '<b>%name</b><br>%position',
+                  maxWidth: 100,
+                },
+              },
+            },
+            series: series,
+          },
+          function (c) {
+            var series = c.series(0);
+            /* Select the first two points. */
+            series.points(0).options({ selected: true });
+            series.points(1).options({ selected: true });
+          }
+        );
+      }
+
+      function selectNodes(items) {
+        chart.series().points().options({ color: 'white' });
+
+        items.forEach(function (p, i) {
+          p.options({ color: palette[i] });
+        });
+
+        updateLeftChart(items[0]);
+        updateRightChart(items[1]);
+      }
+
+      function updateLeftChart(point) {
+        if (point) {
+          if (chart1) {
+            updateComparisonChart(chart1, point);
+          } else {
+            chart1 = renderComparisonChart1(point);
+          }
+        } else {
+          chart1 && chart1.dispose();
+          chart1 = null;
+        }
+        function renderComparisonChart1(point) {
+          return JSC.chart(
+            'chartDiv1',
+            JSC.merge(
+              {
+                palette: [palette[0]],
+                series: makeComparisonSeries(point),
+                annotations: makeComparisonAnnotations(point),
+              },
+              comparisonChartConfig
+            )
+          );
+        }
+      }
+
+      function updateRightChart(point) {
+        if (point) {
+          if (chart2) {
+            updateComparisonChart(chart2, point);
+          } else {
+            chart2 = renderComparisonChart2(point);
+          }
+        } else {
+          chart2 && chart2.dispose();
+          chart2 = null;
+        }
+        function renderComparisonChart2(point) {
+          return JSC.chart(
+            'chartDiv2',
+            JSC.merge(
+              {
+                palette: [palette[1]],
+                series: makeComparisonSeries(point),
+                annotations: makeComparisonAnnotations(point),
+              },
+              comparisonChartConfig
+            )
+          );
+        }
+      }
+
+      function updateComparisonChart(c, point) {
+        c.series(0).options({ points: makeComparisonSeries(point)[0].points });
+        c.annotations('img').options({ label_text: '' });
+        c.annotations('img').options(makeComparisonAnnotations(point)[0]);
+        c.annotations('text').options(makeComparisonAnnotations(point)[1]);
+      }
+
+      function makeOrgSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return {
+                name: item.name,
+                id: item.id,
+                parent: item.parent,
+                attributes: {
+                  position: item.position,
+                  phone: item.phone,
+                  address: item.address,
+                  email: item.email,
+                  photo: 'images/avatar' + item.photo + '.png',
+                  quality: item.work_quality,
+                  initiative: item.initiative,
+                  cooperative: item.cooperative,
+                },
+              };
+            }),
+          },
+        ];
+      }
+
+      function makeComparisonAnnotations(point) {
+        return [
+          {
+            id: 'img',
+            label_text: point.replaceTokens(
+              '<img width=80 height=80 align=center margin_bottom=4 margin_top=4 src=%photo>'
+            ),
+            position: 'top left',
+          },
+          {
+            id: 'text',
+            label_text: point.replaceTokens(
+              '<span style="font-size:16px">%name</span><br>' +
+                'Position: <b>%position</b><br>' +
+                'Phone: %phone<br>' +
+                'Email: <i>%email</i><br>' +
+                'Address: %address<br>'
+            ),
+            position: 'top left',
+          },
+        ];
+      }
+
+      function makeComparisonSeries(point) {
+        return [
+          {
+            name: point.tokenValue('%name'),
+            attributes: {
+              position: point.tokenValue('%position'),
+              phone: point.tokenValue('%phone'),
+              address: point.tokenValue('%address'),
+              email: point.tokenValue('%email'),
+              photo: point.tokenValue('%photo'),
+            },
+            points: [
+              makePoint('Quality', '%quality'),
+              makePoint('Initiative', '%initiative'),
+              makePoint('Cooperative', '%cooperative'),
+            ],
+          },
+        ];
+
+        function makePoint(name, token) {
+          var tokenValue = point.tokenValue(token);
+          return { id: name, x: name, y: tokenValue };
+        }
+      }
+    </script>
+  </body>
+</html>

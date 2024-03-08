@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Map Election Years | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div style="margin: auto;">
+      <select id="years">
+        <option value="2011Voters">2011</option>
+        <option value="2015Voters">2015</option>
+        <option value="2019Voters">2019</option>
+        <option selected="selected" value="2021Voters">2021</option>
+        <option value="TotalVoters">Total</option>
+      </select>
+      <input id="checkbox" type="checkbox" value="diff" checked="true" />show the difference<br />
+      <div id="chartDiv" style="width: 700px; height: 500px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Dynamic tooltips and thematic encoding.
+Learn how to:
+
+  - Map series from mapCodes.
+  - Add maps in real-time.
+*/
+      // JS
+      var chart = null,
+        chartConfig = {
+          debug: true,
+          type: 'map',
+          title_label_text: '2021 Canada Election Voter Turnout',
+          palette: {
+            pointValue: '{%data2021}',
+            colors: ['#f7fcfd', '#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#810f7c', '#4d004b'],
+            colorBar_axis_defaultTick_label_text: '{%value/1000000:n1}M',
+          },
+          legend_title_label_text: 'Voters',
+          defaultPoint: { tooltip: tooltip, label_text: '%provinceCode' },
+          series: [
+            {
+              id: 'ca',
+              map: 'ca',
+              name: ' 2021, 2019, 2015, 2011',
+              points: [],
+            },
+          ],
+        },
+        selectedYear = '2021',
+        isDiffChecked = true;
+
+      function tooltip(point, e2) {
+        var i = 0,
+          diffYear,
+          tt = '%name<br/>';
+        var dt04 = point.tokenValue('%data2011');
+        var dt06 = point.tokenValue('%data2015');
+        var dt08 = point.tokenValue('%data2019');
+        var dt11 = point.tokenValue('%data2021');
+        var dtTotal = point.tokenValue('%dataTotal');
+
+        if (selectedYear === 'Total') {
+          tt += addYear('Total', dtTotal);
+          return tt;
+        } else if (selectedYear === '2011') {
+          diffYear = dt04;
+        } else if (selectedYear === '2015') {
+          diffYear = dt06;
+        } else if (selectedYear === '2019') {
+          diffYear = dt08;
+        } else if (selectedYear === '2021') {
+          diffYear = dt11;
+        }
+
+        tt += addYear('2011', dt04, dt04 - diffYear) + '<br/>';
+        tt += addYear('2015', dt06, dt06 - diffYear) + '<br/>';
+        tt += addYear('2019', dt08, dt08 - diffYear) + '<br/>';
+        tt += addYear('2021', dt11, dt11 - diffYear);
+
+        return tt;
+
+        function addYear(year, num, diff) {
+          var res = year;
+          if (year === selectedYear) {
+            res = '<b>' + res + '</b>';
+          }
+          res += ' : {' + num + ':n0}';
+          if (isDiffChecked) {
+            res += ' ' + decorateNum(diff);
+          }
+          return res;
+          function decorateNum(num) {
+            if (num > 0) {
+              return '<span style="color:green;">+{' + num + ':n0}</span>';
+            } else if (num < 0) {
+              return '<span style="color:red;">{' + num + ':n0}</span>';
+            } else {
+              return '';
+            }
+          }
+        }
+      }
+
+      var resultElectorsAndCast = [];
+
+      function myCallback(data) {
+        var provincesCode = ['NF', 'PE', 'NS', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU'];
+        for (var i = 0; i < data.length; i++) {
+          var r1 = [
+            /* Province code*/
+            provincesCode[i],
+            data[i].Electors2021, // read Electors 2021 column
+            data[i].Electors2019, // read Electors 2019 column
+            data[i].Electors2015, // read Electors 2015 column
+            data[i].Electors2011, // read Electors 2011 column
+
+            data[i].Ballots2021, // read Total Ballots Cast 2021 column
+            data[i].Ballots2019, // read Total Ballots Cast 2019 column
+            data[i].Ballots2015, // read Total Ballots Cast 2015 column
+            data[i].Ballots2011, // read Total Ballots Cast 2011 column
+
+            data[i].VoterTurnout2021, // read Voters Turnout 2021 column
+            data[i].VoterTurnout2019, // read Voters Turnout 2019 column
+            data[i].VoterTurnout2015, // read Voters Turnout 2015 column
+            data[i].VoterTurnout2011, // read Voters Turnout 2011 column
+          ];
+          resultElectorsAndCast.push(r1);
+        }
+        setSeriesData(resultElectorsAndCast);
+      }
+
+      function setSeriesData(data) {
+        var totalProvince;
+        var electionSeries = chartConfig.series[0];
+
+        for (var i = 0, iLen = data.length; i < iLen; i++) {
+          var provinceRes = data[i];
+
+          totalProvince = provinceRes[5] + provinceRes[6] + provinceRes[7] + provinceRes[8];
+          electionSeries.points.push({
+            map: 'CA.' + provinceRes[0],
+            attributes: {
+              data2021: provinceRes[5],
+              data2019: provinceRes[6],
+              data2015: provinceRes[7],
+              data2011: provinceRes[8],
+              dataTotal: totalProvince,
+            },
+          });
+        }
+        console.log(electionSeries);
+        if (!chart) {
+          chart = JSC.chart('chartDiv', chartConfig);
+        } else {
+          chart.series('id').options(electionSeries);
+        }
+      }
+
+      function checkBoxChanged(el) {
+        isDiffChecked = el.checked;
+      }
+
+      function dropDownChange(el) {
+        selectedYear = el.value.replace('Voters', '');
+        chart.options({
+          title_label_text: selectedYear + ' Canada Election Voter Turnout',
+          palette_pointValue: '{%data' + selectedYear + '}',
+        });
+      }
+      JSC.fetch('./resources/canada-election-voter-turnout.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          attachEvents();
+          var data = JSC.csv2Json(text);
+          myCallback(data);
+        });
+
+      function attachEvents() {
+        var yearsEl = document.getElementById('years');
+        yearsEl.addEventListener('change', function () {
+          return dropDownChange(yearsEl);
+        });
+        var checkboxEl = document.getElementById('checkbox');
+        checkboxEl.addEventListener('change', function () {
+          return checkBoxChanged(checkboxEl);
+        });
+      }
+    </script>
+  </body>
+</html>

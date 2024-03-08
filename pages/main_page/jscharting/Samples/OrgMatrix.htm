@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Matrix Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 920px; height: 520px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Matrix organizational chart example.
+Learn how to:
+
+  - Create a matrix organizational chart.
+*/
+      // JS
+      var paletteVP = ['#039BE5', '#00ACC1', '#00897B', '#43A047', '#7CB342', '#C0CA33'];
+      var palette = ['white', 'white', '#4FC3F7', '#4DD0E1', '#4DB6AC', '#81C784', '#AED581', '#DCE775'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          color: 'white',
+          connectorLine: {
+            width: 1,
+            color: '#c9c9c9',
+            radius: 0,
+          },
+          leafPointLayout: 'vertical',
+          annotation: {
+            label_text: '%name',
+            corners: 'square',
+            syncWidth: true,
+            syncHeight_with: 'all',
+            padding: 8,
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: '', id: 'p0', connectorLine_visible: false, outline_width: 0 },
+          { name: '', id: 'p1', parent: 'p0', connectorLine_visible: false, outline_width: 0 },
+          { name: 'Project A', id: 'pA', parent: 'p1', connectorLine_visible: false },
+          { name: 'Project B', id: 'pB', parent: 'p1', connectorLine_visible: false },
+          { name: 'Project C', id: 'pC', parent: 'p1', connectorLine_visible: false },
+          { name: 'General Manager', id: 'gm' },
+          { name: 'Production Manager', id: 'pm', parent: 'gm' },
+          { name: 'Production Team', id: 'pm_pt1', parent: 'pm' },
+          { name: 'Production Team', id: 'pm_pt2', parent: 'pm' },
+          { name: 'Production Team', id: 'pm_pt3', parent: 'pm' },
+          { name: 'Finance Manager', id: 'fm', parent: 'gm' },
+          { name: 'Finance Team', id: 'fm_ft1', parent: 'fm' },
+          { name: 'Finance Team', id: 'fm_ft2', parent: 'fm' },
+          { name: 'Finance Team', id: 'fm_ft3', parent: 'fm' },
+          { name: 'Marketing Manager', id: 'mm', parent: 'gm' },
+          { name: 'Marketing Team', id: 'mm_mt1', parent: 'mm' },
+          { name: 'Marketing Team', id: 'mm_mt2', parent: 'mm' },
+          { name: 'Marketing Team', id: 'mm_mt3', parent: 'mm' },
+          { name: 'Sales Manager', id: 'sm', parent: 'gm' },
+          { name: 'Sales Team', id: 'sm_st1', parent: 'sm' },
+          { name: 'Sales Team', id: 'sm_st2', parent: 'sm' },
+          { name: 'Sales Team', id: 'sm_st3', parent: 'sm' },
+          { name: 'Development Manager', id: 'dm', parent: 'gm' },
+          { name: 'Development Team', id: 'dm_dt1', parent: 'dm' },
+          { name: 'Development Team', id: 'dm_dt2', parent: 'dm' },
+          { name: 'Development Team', id: 'dm_dt3', parent: 'dm' },
+          { name: 'Research Manager', id: 'rm', parent: 'gm' },
+          { name: 'Research Team', id: 'rm_rt1', parent: 'rm' },
+          { name: 'Research Team', id: 'rm_rt2', parent: 'rm' },
+          { name: 'Research Team', id: 'rm_rt3', parent: 'rm' },
+        ];
+
+        // Apply a color from palette to each group of points
+        points.forEach(function (point, i) {
+          if (point.parent === 'gm') {
+            JSC.merge(point, {
+              annotation_width: 105,
+              color: '#26C6DA',
+            });
+          } else if (point.parent === 'p1') {
+            JSC.merge(point, { color: '#FF7043' });
+          } else if (point.id === 'gm') {
+            JSC.merge(point, {
+              label_color: 'white',
+              color: '#37474F',
+            });
+          } else {
+            JSC.merge(point, { outline_color: '#c9c9c9' });
+          }
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

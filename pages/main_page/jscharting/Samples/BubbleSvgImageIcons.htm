@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SVG Image Bubble Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div style="margin: auto; height: 450px;">
+      <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+A bubble chart using markers to simulate bubbles and centered point labels with SVG images of flags.
+Learn how to:
+
+  - Use centered point labels with SVG images.
+*/
+      // JS
+      var chart, selectEl;
+      JSC.fetch('./resources/fertilityRateAndLifeExpectancy2.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          type: 'marker',
+          title_label_text: 'Correlation between life expectancy, fertility rate, and population.',
+          annotations: [
+            {
+              label_text: 'Icons by <a href="https://www.svgrepo.com">svgrepo.com</a>',
+              asHTML: true,
+              position: 'bottom left',
+            },
+          ],
+          legend_visible: false,
+          defaultAxis: {
+            label_color: '#979797',
+            defaultTick_label_color: '#747474',
+          },
+          yAxis: {
+            alternateGridFill: 'none',
+            label_text: 'LIFE EXPECTANCY',
+          },
+          xAxis_label_text: 'FERTILITY RATE',
+          defaultPoint: {
+            tooltip:
+              '<b>%name</b><br>' +
+              'Population: <b>%zValue</b><br>' +
+              'Fertility rate: <b>%xValue</b><br>' +
+              'Life expectancy: <b>%yValue years</b>',
+            label: {
+              autoHide: false,
+              /* Centers the label */
+              placement: 'inside',
+            },
+            marker: {
+              type: 'circle',
+              outline: { width: 2, color: '#969696' },
+              fill: 'white',
+            },
+          },
+          series: series,
+        });
+      }
+
+      function makeSeries(data) {
+        var minPopulation = JSC.min(data, 'population');
+        var maxPopulation = JSC.max(data, 'population');
+        return [
+          {
+            points: data
+              .filter(function (x) {
+                return x.year === 2018;
+              })
+              .map(function (item) {
+                var bubbleSize = mapValue(10, 100, minPopulation - 1, maxPopulation + 1, item.population);
+                return {
+                  x: item.fertility_rate,
+                  y: item.life_expectancy,
+                  z: item.population,
+                  name: item.country,
+                  marker_size: bubbleSize,
+                  label_text:
+                    '<img src=' +
+                    getIcon(item.country) +
+                    ' width=' +
+                    Math.round(bubbleSize) +
+                    ' height=' +
+                    Math.round(bubbleSize) +
+                    '>',
+                };
+              })
+              .sort(function (a, b) {
+                return b.z - a.z;
+              })
+              .slice(0, 20),
+          },
+        ];
+      }
+
+      function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+        return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+      }
+
+      function getIcon(country) {
+        var icons = {
+          China: 'china',
+          India: 'india',
+          'United States': 'united-states-of-america',
+          Indonesia: 'flag-for-indonesia',
+          Pakistan: 'pakistan',
+          Brazil: 'brazil',
+          Nigeria: 'nigeria',
+          Bangladesh: 'bangladesh',
+          'Russian Federation': 'russia',
+          Japan: 'japan',
+          Mexico: 'mexico',
+          Ethiopia: 'ethiopia',
+          Philippines: 'philippines',
+          'Egypt, Arab Rep.': 'egypt',
+          Vietnam: 'vietnam',
+          'Congo, Dem. Rep.': 'democratic-republic-of-congo',
+          Germany: 'germany',
+          Turkey: 'turkey',
+          'Iran, Islamic Rep.': 'flag-for-iran',
+          Thailand: 'thailand',
+        };
+        return 'images/svgrepo/' + icons[country] + '.svg';
+      }
+    </script>
+  </body>
+</html>

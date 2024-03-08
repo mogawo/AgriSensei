@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Area Sparkline Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 970px; height: 420px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with an integrated area chart sparkline showing sales per month and other visual customization.
+Learn how to:
+
+  - Integrate sparklines into organizational chart nodes.
+*/
+      // JS
+      var palette = ['#2E7D32', '#43A047', '#66BB6A', '#A5D6A7'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        legend: {
+          visible: true,
+          template: '%icon %name',
+          customEntries: [
+            { name: 'Task assigned', icon_color: palette[3] },
+            { name: 'Task unassigned', icon_outline_color: palette[3] },
+          ],
+          position: 'bottom right',
+          defaultEntry: {
+            iconWidth: 14,
+            icon_outline_width: 2,
+            icon_name: 'system/default/circle',
+          },
+        },
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          outline_width: 0,
+          color: 'white',
+          connectorLine: {
+            width: 1,
+            color: '#c9c9c9',
+            radius: 0,
+          },
+          label_color: 'white',
+          leafPointLayout: 'vertical',
+          annotation: {
+            label_text: '%name',
+            corners: 'square',
+            syncWidth: true,
+            syncHeight: true,
+            padding: 8,
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: 'President', id: 'p', color: palette[0], label_style_fontSize: 14 },
+          { name: 'Vice President Projects', id: 'vpp', parent: 'p' },
+          { name: 'Projects', id: 'vpp_p', parent: 'vpp' },
+          { name: 'Project A', id: 'vpp_p_a', parent: 'vpp_p' },
+          { name: 'Project B', id: 'vpp_p_b', parent: 'vpp_p' },
+          { name: 'Project C', id: 'vpp_p_c', parent: 'vpp_p' },
+          { name: 'Managers', id: 'vpp_m', parent: 'vpp' },
+          { name: 'Project Manager', id: 'vpp_m_1', parent: 'vpp_m' },
+          { name: 'Project Manager', id: 'vpp_m_2', parent: 'vpp_m' },
+          { name: 'Project Manager', id: 'vpp_m_3', parent: 'vpp_m' },
+
+          { name: 'Vice President Engineering', id: 'vpe', parent: 'p' },
+          { name: 'System Engineer', id: 'vpe_s', parent: 'vpe' },
+          { name: '', id: 'vpe_s_1', parent: 'vpe_s', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_s_2', parent: 'vpe_s', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_s_3', parent: 'vpe_s', attributes: { unit: true, empty: false } },
+          { name: 'Electronic Engineer', id: 'vpe_e', parent: 'vpe' },
+          { name: '', id: 'vpe_e_1', parent: 'vpe_e', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_e_2', parent: 'vpe_e', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_e_3', parent: 'vpe_e', attributes: { unit: true, empty: true } },
+          { name: 'Software Engineer', id: 'vpe_sw', parent: 'vpe' },
+          { name: '', id: 'vpe_sw_1', parent: 'vpe_sw', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_sw_2', parent: 'vpe_sw', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_sw_3', parent: 'vpe_sw', attributes: { unit: true, empty: false } },
+          { name: 'Mechanical Engineer', id: 'vpe_m', parent: 'vpe' },
+          { name: '', id: 'vpe_m_1', parent: 'vpe_m', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_m_2', parent: 'vpe_m', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpe_m_3', parent: 'vpe_m', attributes: { unit: true, empty: true } },
+
+          { name: 'Vice President Manufacturing', id: 'vpm', parent: 'p' },
+          { name: 'Assembly Manager', id: 'vpm_a', parent: 'vpm' },
+          { name: '', id: 'vpm_a_1', parent: 'vpm_a', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpm_a_2', parent: 'vpm_a', attributes: { unit: true, empty: true } },
+          { name: '', id: 'vpm_a_3', parent: 'vpm_a', attributes: { unit: true, empty: false } },
+          { name: 'Testing Manager', id: 'vpm_t', parent: 'vpm' },
+          { name: '', id: 'vpm_t_1', parent: 'vpm_t', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpm_t_2', parent: 'vpm_t', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpm_t_3', parent: 'vpm_t', attributes: { unit: true, empty: false } },
+          { name: 'Production Manager', id: 'vpm_p', parent: 'vpm' },
+          { name: '', id: 'vpm_p_1', parent: 'vpm_p', attributes: { unit: true, empty: true } },
+          { name: '', id: 'vpm_p_2', parent: 'vpm_p', attributes: { unit: true, empty: false } },
+          { name: '', id: 'vpm_p_3', parent: 'vpm_p', attributes: { unit: true, empty: false } },
+        ];
+
+        // // Apply a color from palette to each group of points
+        points.forEach(function (point, i) {
+          if (point.attributes && point.attributes.unit) {
+            JSC.merge(point, {
+              outline_width: 0,
+              label_align: 'left',
+              name: !point.attributes.empty
+                ? '<icon name=system/default/circle size=24 margin_left=-8 color=' + palette[3] + '>'
+                : '<icon name=system/default/circle size=22 margin_left=-8 outline_color=' +
+                  palette[3] +
+                  ' outline_width=3 color=white>',
+            });
+          }
+          if (point.parent === 'p') {
+            JSC.merge(point, { color: palette[1] });
+          }
+          if (point.parent === 'vpe' || point.parent === 'vpm' || point.parent === 'vpp') {
+            JSC.merge(point, { color: palette[2] });
+          }
+          if (point.parent === 'vpp_m' || point.parent === 'vpp_p') {
+            JSC.merge(point, { color: palette[3] });
+          }
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

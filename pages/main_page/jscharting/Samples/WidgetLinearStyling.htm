@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Gauge Widget Styling | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .linear .title {
+        font-weight: normal;
+      }
+
+      .jsc-widget .linear .value {
+        font-size: 35px;
+      }
+
+      #chartDiv1 .jsc-widget .linear .value {
+        font-size: 40px;
+      }
+
+      #chartDiv2 .jsc-widget .linear .value {
+        font-size: 30px;
+      }
+
+      #chartDiv3 .jsc-widget .linear .value {
+        font-size: 20px;
+      }
+      #chartDiv3 .jsc-widget .linear .icon {
+        font-size: 25px;
+      }
+
+      #chartDiv4 .jsc-widget .linear .value {
+        font-size: 25px;
+      }
+      #chartDiv5 .jsc-widget .linear .value {
+        font-size: 20px;
+      }
+      #chartDiv5 .jsc-widget .linear .icon {
+        font-size: 15px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 150px; margin: 0 auto;">
+      <input type="checkbox" id="modeCheckbox" name="dark" />
+      <label for="modeCheckbox">Dark Background</label>
+    </div>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 275px; height: 100px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 275px; height: 100px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 275px; height: 125px;"></div>
+      <div id="chartDiv4" class="chartDiv" style="max-width: 275px; height: 125px;"></div>
+      <div id="chartDiv5" class="chartDiv" style="max-width: 275px; height: 270px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Use CSS to style Linear widgets.
+Learn how to:
+
+  - Style Linear widgets with CSS.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Linear(
+        'chartDiv1',
+        {
+          label: 'Signal Strength',
+          value: 0.1,
+          icon: 'material/notification/wifi',
+          max: 1,
+          color: '#E65100',
+          valueFormat: 'p',
+          valueText: '%value',
+          barWidth: 2,
+          barBackgroundWidth: 10,
+          barBackgroundColor: 'rgba(255,121,52,0.2)',
+          labelPosition: 'bottom right',
+        },
+        function (widget) {
+          // Update the chart when the rendering thread is free.
+          setTimeout(function () {
+            widget.options({ value: 0.75 }, { animation: { duration: 1000 } });
+          }, 1);
+        }
+      );
+
+      var widget2 = new JSCWidgets.Linear('chartDiv2', {
+        label: 'Progress',
+        value: 85,
+        max: 100,
+        color: '#1bb045',
+        valueText: '%value%',
+        labelPosition: 'top',
+        barWidth: 5,
+        barRounded: false,
+      });
+
+      var widget3 = new JSCWidgets.Linear('chartDiv3', {
+        title: 'Cloud Storage (10GB Plan)',
+        label: 'Space Used',
+        value: 4.34,
+        icon: 'linear/basic/cloud',
+        max: 10,
+        labelPosition: 'bottom right',
+        valueText: '%value GB',
+        iconText: '%icon <span style="font-size:20px;">{%value/%max*100:n0}%</span>',
+        labelText: '{%max-%value} GB Remaining',
+        barWidth: 5,
+      });
+
+      var widget4 = new JSCWidgets.Linear('chartDiv4', {
+        title: 'Month of May',
+        label: 'Ticket Sales',
+        value: 12316,
+        prevValue: 11354,
+        icon: 'linear/ecommerce/ticket',
+        max: 15000,
+        color: '#7a39bd',
+        valueText: '{%value:n0}<span style="font-size:12px;">/{%max/1000}k</span>',
+        barWidth: 10,
+        barBackgroundWidth: 1,
+        barBackgroundColor: '#b985ee',
+      });
+
+      var widget5 = new JSCWidgets.Linear('chartDiv5', {
+        title: 'Tank Levels (Gallons)',
+        label: ['Tank 1', 'Tank 2', 'Tank 3'],
+        value: [850, 213, 562],
+        iconText: '{%value/%max:p}',
+        valueText: '%value',
+        iconPosition: 'top center',
+        max: 1000,
+        color: '#1b88b0',
+        labelPosition: 'top',
+        barWidth: 10,
+      });
+
+      var checkboxEl = document.getElementById('modeCheckbox');
+
+      checkboxEl.addEventListener('change', function () {
+        var color = checkboxEl.checked ? 'black' : 'white';
+        var elements = document.getElementsByClassName('chartDiv');
+        for (let i = 0; i < elements.length; i++) {
+          elements[i].style.backgroundColor = color;
+        }
+      });
+    </script>
+  </body>
+</html>

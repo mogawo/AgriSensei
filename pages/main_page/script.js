@@ -34,7 +34,7 @@ function createSensorElement() {
 
     newSensor.innerHTML = `
             <div class="sensorName">
-                <h2>${newSensor.dataset.name}</h2>
+                <h2 class='nameTag' style='background-color: darkkhaki'>${newSensor.dataset.name}</h2>
                 <button class="nameChange"><img src="images/pencil.png"></button> 
             </div>
             <p>${newSensor.dataset.description}</p>
@@ -51,7 +51,26 @@ function createSensorElement() {
     const changeNameButton = newSensor.querySelector('.nameChange');
     changeNameButton.addEventListener('click', (event) => {
         event.stopPropagation();
-    })
+
+        newSensor.innerHTML = `
+        <div class="sensorName">
+            <input class='nameTag'></input>
+            <button class="nameChange"><img src="images/pencil.png"></button> 
+        </div>
+        <p>${newSensor.dataset.description}</p>
+        <br>
+        <button class="removeItemButton">Remove Sensor</button>
+    `;
+    });
+
+    
+    const nameInput = newSensor.querySelector('.nameTag');
+    nameInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter')
+        {
+            newSensor.dataset.name = nameInput.value;
+        }
+    });
 
     return newSensor;
 }
@@ -84,6 +103,7 @@ function showSensorInfo(sensorData) {
     sensorDisplay.appendChild(showDisplay);
 
     document.getElementById('summaryButton').addEventListener('click', function () {
+        // CAN USE CLASSLIST.TOGGLE
         // Change color of all tabs accordingly
         document.getElementById('summaryButton').style.backgroundColor = 'beige';
         document.getElementById('graphButton').style.backgroundColor = 'yellowgreen';
@@ -99,7 +119,7 @@ function showSensorInfo(sensorData) {
     })
 
     document.getElementById('graphButton').addEventListener('click', function () {
-        // Change color of all tabs accordingly
+        // // Change color of all tabs accordingly
         document.getElementById('graphButton').style.backgroundColor = 'beige';
         document.getElementById('summaryButton').style.backgroundColor = 'yellowgreen';
         document.getElementById('detailsButton').style.backgroundColor = 'yellowgreen';
@@ -173,14 +193,18 @@ function handleGraphTab(sensorData)
 
     graphDisplay.innerHTML = `
     <div class="graphs">
-        <div class="humidityGraph">
-            <img src="images/HumidityGraph.png">
+        <div id="humidityGraph>
+            <!-- <img src="images/HumidityGraph.png"> -->
         </div>
-        <div class="batteryGraph">
-            <img src="images/BatteryGraph.png">
+        <div id="batteryGraph">
+            <!-- <img src="images/BatteryGraph.png"> -->
         </div>
     </div>
     `;
+
+    generateGraph(sensorData, "humidityGraph");
+    generateGraph(sensorData, "batteryGraph");
+    // document.getElementById
 
     const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(graphDisplay);
@@ -198,7 +222,7 @@ function handleDetailsTab(sensorData)
     </div>
     `;
     
-    const showDisplay= document.querySelector('.sensorData');
+    const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(detailsDisplay);
 
     return;
@@ -221,3 +245,20 @@ window.onclick = function(event) {
         }
     }
 }
+
+function generateGraph(sensorData, graphID)
+{
+    let graphName = graphID;
+    let humidityHistoryArray = JSON.parse(sensorData.dataset.humidityHistory);
+    let batteryHistoryArray = JSON.parse(sensorData.dataset.timeHistory);
+    var chart = JSC.chart(graphID, {
+        type: 'line',
+        series: [
+            {
+                name: 'Humidity',
+                points: [humidityHistoryArray, batteryHistoryArray]
+            }
+        ]
+    });
+    return;
+}   

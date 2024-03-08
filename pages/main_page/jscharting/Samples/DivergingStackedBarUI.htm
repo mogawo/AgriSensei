@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Diverging Stacked Bar | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 560px; height: 920px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An interactive diverging stacked bar chart.
+Learn how to:
+
+  - Make an interactive diverging stacked bar chart.
+*/
+      // JS
+      var chart;
+      var sortBy = 'Approve',
+        party = 'Both';
+      var iconsOption = 'margin=2 verticalAlign=middle size=18 color=%color';
+      var repColor = '#ff8787',
+        demColor = '#74c0fc';
+      var colIcon = function (col) {
+        return '<icon name=system/default/circle size=8 verticalAlign=middle color=' + col + '>';
+      };
+      var repIcon = colIcon(repColor),
+        demIcon = colIcon(demColor);
+
+      JSC.fetch('./resources/US-governors-ranking.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.sortBy(JSC.csv2Json(text), 'governors');
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          title_label: {
+            text: 'US Governors Ranking',
+            margin: [-30, 0, 24, -12],
+          },
+          palette: ['#40c057', '#c2b2ad', '#fd7e14'],
+          type: 'horizontal column solid',
+          defaultPoint: {
+            tooltip: '%icon <span style="color:%color"><b>%percent%</b></span>',
+            outline_width: 0,
+            focusGlow: false,
+          },
+          legend: {
+            position: 'right top',
+            template: '%icon %name',
+            reversed: true,
+            layout: 'vertical',
+            defaultEntry: {
+              icon_width: 10,
+              hoverAction: 'none',
+            },
+          },
+          yAxis_visible: false,
+          xAxis: {
+            crosshair_enabled: true,
+            defaultTick: { label_color: '#424242' },
+          },
+          zAxis: { scale_type: 'stacked' },
+          series: makeSeries(sortData(sortBy, party, data)),
+          toolbar: {
+            defaultItem: {
+              position: 'outside top',
+              offset: '-10,22',
+            },
+            items: {
+              'Sort by:': { boxVisible: false },
+              Sort: {
+                type: 'select',
+                items: 'Approve,Disapprove,Neutral,State,Name',
+                events_change: function (val) {
+                  chart.options({ series: makeSeries(sortData(val, party, data)) });
+                  sortBy = val;
+                },
+              },
+              Republican: {
+                value: true,
+                boxVisible: false,
+                type: 'checkbox',
+                margin: 8,
+                icon: { fill: repColor, size: 12 },
+                label_text: 'Republicans',
+                events_change: function (val) {
+                  changeParty(val, 'Democrat');
+                },
+              },
+              Democrat: {
+                value: true,
+                boxVisible: false,
+                type: 'checkbox',
+                icon: { fill: demColor, size: 12 },
+                label_text: 'Democrats',
+                events_change: function (val) {
+                  changeParty(val, 'Republican');
+                },
+              },
+            },
+          },
+        });
+
+        function changeParty(val, partyName) {
+          if (!val && party !== partyName) {
+            party = partyName;
+            chart.uiItems(party).value(true);
+            chart.options({
+              series: makeSeries(
+                sortData(
+                  sortBy,
+                  party,
+                  data.filter(function (x) {
+                    return x.party === partyName;
+                  })
+                )
+              ),
+            });
+          }
+          if (val && party == partyName) {
+            party = 'Both';
+            chart.options({
+              series: makeSeries(
+                sortData(
+                  sortBy,
+                  party,
+                  data.filter(function (x) {
+                    return x.party;
+                  })
+                )
+              ),
+            });
+          }
+        }
+      }
+
+      function makeSeries(data) {
+        var nest = JSC.nest().key('governors');
+        return [
+          {
+            name: 'Approve',
+            id: 'ap',
+            points: nest
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  id: key + 'ap',
+                  x:
+                    values.party === 'Democrat'
+                      ? key + ' (' + values.state + ') ' + demIcon
+                      : key + ' (' + values.state + ') ' + repIcon,
+                  y: [values.neutral / 2, values.neutral / 2 + values.approve],
+                  attributes: {
+                    percent: values.approve,
+                    icon: '<icon name=material/action/thumb-up ' + iconsOption + '>',
+                  },
+                };
+              })
+              .points(data),
+          },
+          {
+            name: 'Neutral',
+            id: 'ne',
+            legendEntry_events_click: function () {
+              return false;
+            },
+            points: nest
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  id: key + 'ne',
+                  x:
+                    values.party === 'Democrat'
+                      ? key + ' (' + values.state + ') ' + demIcon
+                      : key + ' (' + values.state + ') ' + repIcon,
+                  y: [-values.neutral / 2, values.neutral / 2],
+                  attributes: {
+                    percent: values.neutral,
+                    icon: '<icon name=material/action/thumb-up rotate=-90 ' + iconsOption + '>',
+                  },
+                };
+              })
+              .points(data),
+          },
+          {
+            name: 'Disapprove',
+            id: 'di',
+            points: nest
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  id: key + 'di',
+                  x:
+                    values.party === 'Democrat'
+                      ? key + ' (' + values.state + ') ' + demIcon
+                      : key + ' (' + values.state + ') ' + repIcon,
+                  y: [-values.disapprove - values.neutral / 2, -values.neutral / 2],
+                  attributes: {
+                    percent: values.disapprove,
+                    icon: '<icon name=material/action/thumb-down ' + iconsOption + '>',
+                  },
+                };
+              })
+              .points(data),
+          },
+        ];
+      }
+
+      function sortData(sorting, party, data) {
+        var result;
+
+        // Flter
+        result =
+          party === 'Both'
+            ? data.slice(0)
+            : data.filter(function (x) {
+                return x.party === party;
+              });
+
+        //Sort
+        switch (sorting) {
+          case 'State':
+            return JSC.sortBy(result, 'state');
+          case 'Name':
+            return JSC.sortBy(result, 'governors');
+          case 'Approve':
+            return JSC.sortBy(result, 'approve').reverse();
+          case 'Disapprove':
+            return JSC.sortBy(result, 'disapprove').reverse();
+          case 'Neutral':
+            return JSC.sortBy(result, 'neutral').reverse();
+        }
+        return result;
+      }
+    </script>
+  </body>
+</html>

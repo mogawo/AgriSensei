@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Microchart Data Grid | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .jscGrid .dataTable thead th {
+        background: white;
+        color: #424242;
+        text-align: left;
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid #f5f5f5;
+        font-family: tahoma, geneva, sans-serif;
+      }
+      .jscGrid .dataTable tr {
+        background: white !important;
+      }
+      .jscGrid .dataTable td {
+        vertical-align: middle;
+        border-bottom: 1px solid #f5f5f5;
+        font-family: tahoma, geneva, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gridDiv" style="max-width: 500px; height: 530px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A data grid with linear microchart bars indicating progress.
+Learn how to:
+
+  - Use microcharts inside a data grid.
+*/
+      // JS
+      var palette = ['#8fd943', '#ffc607', '#bdc8cf'];
+      var textPalette = ['#72ad35', '#e5b206', '#97a0a5'];
+      var data = [
+        { stage: 'Pre Production', substage: 'Pre Production', dates: ['1/1/2022', '4/15/2022'], progress: 100 },
+        {
+          stage: 'Pre Production',
+          substage: 'Scenario and script writing',
+          dates: ['1/1/2022', '2/18/2022'],
+          progress: 100,
+        },
+        {
+          stage: 'Pre Production',
+          substage: 'Actors characteristic internalization',
+          dates: ['2/18/2022', '3/10/2022'],
+          progress: 100,
+        },
+        {
+          stage: 'Pre Production',
+          substage: 'Production scheduling and budgeting',
+          dates: ['3/10/2022', '3/30/2022'],
+          progress: 100,
+        },
+        {
+          stage: 'Pre Production',
+          substage: 'Shooting locations surveys and permitting',
+          dates: ['3/30/2022', '4/15/2022'],
+          progress: 100,
+        },
+        { stage: 'Production', substage: 'Production', dates: ['4/15/2022', '7/8/2022'], progress: 30 },
+        { stage: 'Production', substage: 'Shooting location setting', dates: ['4/15/2022', '5/5/2022'], progress: 36 },
+        {
+          stage: 'Production',
+          substage: 'Directing (actors, cameras, lighting)',
+          dates: ['5/5/2022', '7/8/2022'],
+          progress: 12,
+        },
+        { stage: 'Production', substage: 'Motion picture recording', dates: ['5/5/2022', '7/8/2022'], progress: 41 },
+        { stage: 'Post Production', substage: 'Post Production', dates: ['7/8/2022', '9/28/2022'], progress: 13 },
+        { stage: 'Post Production', substage: 'Editing', dates: ['7/8/2022', '8/31/2022'], progress: 0 },
+        { stage: 'Post Production', substage: 'Music arrangement', dates: ['8/31/2022', '9/15/2022'], progress: 25 },
+        { stage: 'Post Production', substage: 'Rendering', dates: ['9/15/2022', '9/28/2022'], progress: 14 },
+      ];
+
+      data.forEach(function (item) {
+        JSC.merge(item, {
+          status: item.progress >= 100 ? 'Complete' : item.progress === 0 ? 'Planned' : 'In progress',
+          color: item.progress >= 100 ? palette[0] : item.progress === 0 ? palette[2] : palette[1],
+          textColor: item.progress >= 100 ? textPalette[0] : item.progress === 0 ? textPalette[2] : textPalette[1],
+          margin: item.stage === item.substage ? 0 : 24,
+          fontWeight: item.stage === item.substage ? 'bold' : 'normal',
+        });
+      });
+
+      var grid = JSC.Grid('gridDiv', {
+        data: data,
+        className: 'dataTable',
+        columns: [
+          { value: '<span style="margin:%marginpx; font-weight:%fontWeight">%substage</span>', header: 'Task' },
+          {
+            value: '%progress%<br><chart bar size=100x5 margin_top=5 colors=%color,,#e0e0e0 data=%progress max=100>',
+            header: 'Progress',
+          },
+          { value: '<span style="color:%textColor;">%status</span>', header: 'Status' },
+        ],
+      });
+    </script>
+  </body>
+</html>

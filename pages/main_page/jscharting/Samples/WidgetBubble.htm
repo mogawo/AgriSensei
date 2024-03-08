@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bubble Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 400px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 600px; height: 400px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Bubble chart dashboard widgets.
+Learn how to:
+
+  - Use bubble charts as smaller chart widgets.
+*/
+      // JS
+
+      var chart1, chart2, chart3;
+      JSC.fetch('./resources/USCrimeRate.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart1 = new BubbleWidget('chartDiv1', {
+            title: 'US Crime Rate: Total Crime',
+            series: JSC.nest()
+              .key('region')
+              .key('state')
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  id: key,
+                  name: key,
+                  x: values.unemployment_rate,
+                  y: values.violent_rate + values.property_rate,
+                  z: values.population,
+                };
+              })
+              .series(data),
+            axes: {
+              x: { label: 'Unemployment Rate', formatValue: 'p' },
+              y: { label: 'Crime Rate (per 100k people)' },
+              z: { label: 'Population' },
+            },
+            palette: 4,
+            legend: true,
+          });
+          chart2 = new BubbleWidget('chartDiv2', {});
+        });
+
+      /* Default Widget Options */
+      var bubbleWidgetDefaults = {
+        title: 'Bubble',
+        series: [
+          {
+            points: [
+              { name: 'Point1', x: 1, y: 1, z: 4 },
+              { name: 'Point2', x: 3, y: 2, z: 2 },
+              { name: 'Point3', x: 7, y: 5, z: 1 },
+              { name: 'Point4', x: 2, y: 3, z: 2 },
+              { name: 'Point5', x: 4, y: 4, z: 1 },
+              { name: 'Point6', x: 0, y: 2, z: 3 },
+            ],
+          },
+        ],
+        axes: {
+          x: { label: 'xAxis' },
+          y: { label: 'yAxis' },
+          z: { label: 'zAxis' },
+        },
+        palette: 0,
+        legend: false,
+      };
+
+      /* WIDGET DEFINITION */
+
+      /* Widget Constructor */
+      function BubbleWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, bubbleWidgetDefaults, options));
+
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              type: 'bubble solid',
+              title: {
+                margin_bottom: 15,
+                label: {
+                  style: {
+                    fontWeight: 'bold',
+                    fontSize: 16,
+                  },
+                },
+              },
+              defaultAxis: {
+                alternateGridFill: 'none',
+                defaultTick: {
+                  gridLine_color: '#EEEEEE',
+                  line_color: '#EEEEEE',
+                  label_color: '#9E9E9E',
+                },
+              },
+              defaultTooltip: {
+                fill: '#263238',
+                shadow: false,
+                outline_width: 0,
+                opacity: 0.9,
+                padding: 10,
+                radius: 4,
+                label_color: 'white',
+              },
+              defaultPoint: {
+                outline_width: 0,
+                tooltip:
+                  '<b>%name</b><br>%xAxisLabel: <b>%xValue</b><br>%yAxisLabel: <b>{%yValue:n1}</b><br>%zAxisLabel: <b>%zValue</b>',
+                opacity: 0.7,
+                marker: { type: 'circle', outline_width: 0 },
+              },
+              legend: {
+                template: '%icon,%name',
+                position: 'bottom',
+              },
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      BubbleWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        var axesData = options.axes;
+
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.series) {
+          result.series = options.series;
+        }
+        if (options.palette) {
+          result.palette = options.palette;
+        }
+
+        result.legend_visible = options.legend ? options.legend : false;
+
+        if (options.axes) {
+          result.yAxis = {
+            label_text: axesData.y ? axesData.y.label : '',
+            formatString: axesData.y ? axesData.y.formatValue : 'n',
+          };
+          result.xAxis = {
+            label_text: axesData.x ? axesData.x.label : '',
+            formatString: axesData.x ? axesData.x.formatValue : 'n',
+          };
+          result.zAxis = {
+            label_text: axesData.z ? axesData.z.label : '',
+            formatString: axesData.z ? axesData.z.formatValue : 'n',
+          };
+        }
+
+        return result;
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      BubbleWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+    </script>
+  </body>
+</html>

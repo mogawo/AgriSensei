@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Clean Vertical Flow Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 260px; height: 460px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Clean vertical flow chart created using organizational chart type.
+Learn how to:
+
+  - Use organizational chart type to create a flow chart.
+*/
+      // JS
+      var nodeStyles = {
+        'start/end': {
+          annotation: { corners: 'round', radius: 30 },
+        },
+        decision: {
+          annotation: {
+            corners: 'cut',
+            radius: 30,
+            label_offset: '0,-4',
+          },
+        },
+        process: { annotation_corners: 'square' },
+        option: {
+          color: 'white',
+          outline_width: 0,
+          annotation: { padding: 0, margin: 0 },
+          label_style_fontSize: 11,
+        },
+      };
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          outline_color: '#c9c9c9',
+          color: 'white',
+          connectorLine: {
+            width: 1,
+            color: '#c9c9c9',
+            radius: 0,
+          },
+          annotation: {
+            width: 100,
+            syncHeight: 'all',
+            padding: 5,
+            margin: 10,
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: 'Start', id: 'start', attributes_element: 'start/end' },
+          { name: 'Check the weather', id: 'process1', parent: 'start', attributes_element: 'process' },
+          { name: 'Is it raining?', id: 'decision1', parent: 'process1', attributes_element: 'decision' },
+          { name: 'Yes', id: 'option1', parent: 'decision1', attributes_element: 'option' },
+          { name: 'No', id: 'option2', parent: 'decision1', attributes_element: 'option' },
+          { name: 'Take an umbrella', id: 'process2', parent: 'option1', attributes_element: 'process' },
+          { name: 'Leave umbrella at home', id: 'process3', parent: 'option2', attributes_element: 'process' },
+          { name: 'End', id: 'end', parent: 'process2,process3', attributes_element: 'start/end' },
+        ];
+
+        return points.map(function (point) {
+          return JSC.merge(point, nodeStyles[point.attributes_element]);
+        });
+      }
+    </script>
+  </body>
+</html>

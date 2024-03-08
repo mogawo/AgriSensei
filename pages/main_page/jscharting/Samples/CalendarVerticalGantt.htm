@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Day Details View Calendar Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div style="max-width: 300px; margin: 0px auto;">
+      Select a day to expand
+      <div id="chartDiv2" style="max-width: 300px; height: 320px; margin: 0 auto;"></div>
+      <div id="chartDiv1" style="max-width: 300px; margin: 0 auto;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Month calendar events with detailed day view.
+Learn how to:
+
+  - Use a calendar chart to select days of the month.
+*/
+      // JS
+      var dayChart,
+        monthChart,
+        data,
+        palette = JSC.getPalette(0);
+      var colorOfCategory = {
+        Sport: '#039BE5',
+        Study: '#FB8C00',
+        Birthdays: '#F4511E',
+        Parties: '#43A047',
+        Entertainment: '#9575CD',
+      };
+
+      JSC.fetch('./resources/events-data3.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          data = JSC.csv2Json(text);
+          monthChart = renderMonthChart(data);
+        });
+
+      function renderDayChart(series, range) {
+        return JSC.chart('chartDiv1', {
+          type: 'column solid',
+          animation: 0,
+          legend_visible: false,
+          xAxis: {
+            visible: false,
+            scale_range: { min: 0.5, max: 1.5 },
+          },
+          yAxis: {
+            alternateGridFill: 'none',
+            defaultTick_label_width: 40,
+            scale: {
+              invert: true,
+              range: range,
+              type: 'time',
+              interval_unit: 'hour',
+            },
+          },
+          defaultSeries_mouseTracking_enabled: false,
+          defaultPoint: {
+            opacity: 0.5,
+            label: {
+              text: '<span style="opacity:0.5">{%yStart:date t} - {%yValue:date t}</span><br>%name',
+              color: 'black',
+              placement: 'inside',
+              align: 'left',
+              verticalAlign: 'top',
+              autoHide: false,
+            },
+          },
+          series: series,
+          toolbar_items: {
+            resetZoom: false,
+            next: {
+              label_text: '<icon name=material/hardware/keyboard-arrow-right size=16>',
+              position: 'top right',
+              outline_width: 0,
+              fill: 'white',
+              events: { click: nextDay },
+            },
+          },
+        });
+
+        function nextDay() {
+          var selectedPoints = monthChart.series(0).points({ selected: true }).items,
+            selectedPoint = selectedPoints[0];
+          if (selectedPoint) {
+            var date = selectedPoint.options('attributes.date');
+            var nextDate = new Date(date);
+            var month = nextDate.getMonth();
+            nextDate.setDate(nextDate.getDate() + 1);
+            nextDate.setMonth(month);
+            var nextDayPoint = monthChart.series(0).points(function (p) {
+              var pointDate = new Date(p.options('attributes_date'));
+              return pointDate.getDate() === nextDate.getDate() && pointDate.getMonth() === nextDate.getMonth();
+            });
+            nextDayPoint.options({ selected: true });
+          }
+        }
+      }
+
+      function renderMonthChart(data) {
+        return JSC.chart('chartDiv2', makeChartConfig(data));
+
+        function makeChartConfig(data) {
+          var config = monthChartConfig();
+          var customEntriesNames = [];
+          data.map(function (item) {
+            var entryName = item.category;
+            if (customEntriesNames.indexOf(entryName) === -1) {
+              customEntriesNames.push(entryName);
+            }
+          });
+          config.series = [
+            {
+              points: JSC.nest()
+                .key({ key: 'start', pattern: 'day' })
+                .pointRollup(function (key, val) {
+                  if (val.length != 0) {
+                    var icons = '';
+                    val.forEach(function (item, i) {
+                      icons +=
+                        '<icon name=system/default/circle color=' +
+                        colorOfCategory[item.category] +
+                        ' margin=1 size=5 >';
+                    });
+                    return {
+                      date: val[0].start,
+                      attributes: {
+                        events: val.map(function (a) {
+                          return a.event;
+                        }),
+                        starts: val.map(function (a) {
+                          return a.start;
+                        }),
+                        ends: val.map(function (a) {
+                          return a.end;
+                        }),
+                        categories: val.map(function (a) {
+                          return a.category;
+                        }),
+                        icons: icons,
+                      },
+                    };
+                  }
+                })
+                .points(data)
+                .filter(function (x) {
+                  return x !== undefined;
+                }),
+            },
+          ];
+          config.legend.customEntries = customEntriesNames.map(function (name, i) {
+            return {
+              name: name,
+              icon: {
+                color: colorOfCategory[name],
+                name: 'system/default/circle',
+                size: 10,
+                outline_width: 0,
+              },
+            };
+          });
+
+          return config;
+        }
+
+        function monthChartConfig() {
+          return {
+            type: 'calendar month solid',
+            calendar: {
+              range: ['7/1/2023', '7/31/2023'],
+              defaultEdgePoint: { label_color: '#E0E0E0', color: 'white' },
+            },
+            title: {
+              label_text: 'July 2023',
+              position: 'center',
+            },
+            legend: {
+              visible: true,
+              position: 'bottom',
+              template: '%icon %name',
+            },
+            events: {
+              pointSelectionChanged: function (selectedPoints) {
+                var points = [],
+                  point = selectedPoints[0];
+
+                if (point) {
+                  var attributes = point.options('attributes');
+                  if (attributes.starts) {
+                    var startDate = new Date(JSC.min(attributes.starts));
+                    var endDate = new Date(JSC.max(attributes.ends));
+                    var range = [
+                      new Date(startDate.setHours(startDate.getHours() - 1)),
+                      new Date(endDate.setHours(endDate.getHours() + 1)),
+                    ];
+                    var height = hoursBetweenTwoDates(range[0], range[1]) * 60;
+                    attributes.events.forEach(function (event, i) {
+                      points.push({
+                        x: 1,
+                        y: [attributes.starts[i], attributes.ends[i]],
+                        name: event,
+                        color: colorOfCategory[attributes.categories[i]],
+                        id: event,
+                      });
+                    });
+                    document.getElementById('chartDiv1').style.height = height + 'px';
+                  }
+                  if (dayChart) {
+                    updateDayChart(dayChart, { series: [{ name: attributes.date, points: points }] }, range);
+                  } else {
+                    dayChart = renderDayChart([{ name: attributes.date, points: points }], range);
+                  }
+                }
+              },
+            },
+            xAxis_defaultTick_label_color: '#BDBDBD',
+            yAxis_visible: false,
+            defaultSeries: {
+              legendEntry_visible: false,
+              shape_innerPadding: 0.1,
+              pointSelection: 'single',
+            },
+            defaultPoint: {
+              tooltip: '',
+              focusGlow: false,
+              outline_width: 0,
+              label: {
+                text: '%name<br>%icons',
+                style_fontSize: 12,
+                align: 'center',
+                verticalAlign: 'top',
+                padding: 5,
+                autoHide: false,
+              },
+              attributes_events: '',
+              attributes_icons: '<icon name=system/default/circle color=transparent margin=1 size=5 >',
+            },
+            toolbar_visible: false,
+          };
+        }
+      }
+
+      function updateDayChart(chart, series, scaleRange) {
+        chart.options(series);
+        chart.axes('y').options({ scale_range: scaleRange });
+      }
+
+      function hoursBetweenTwoDates(date1, date2) {
+        var difference = date2.getTime() - date1.getTime();
+        return Math.ceil(difference / (1000 * 3600));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dot Plot Histogram | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 500px; height: 640px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Dot plot histogram chart.
+Learn how to:
+
+  - Make a histogram dot plot chart.
+*/
+      // JS
+      var chart;
+      var colorsBySex = { M: '#03A9F4', F: '#FF5722' };
+
+      function wrapInColor(text, sex) {
+        return '<b><span color=' + colorsBySex[sex] + '>' + text + '</span></b>';
+      }
+
+      JSC.fetch('./resources/running-event-results.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'marker',
+          title_label_text: wrapInColor('Male', 'M') + ' and ' + wrapInColor('Female', 'F') + ' Runners by Age',
+          defaultPoint: {
+            marker: {
+              type: 'circle',
+              size: 5,
+              outline_width: 0,
+            },
+            focusGlow: false,
+          },
+          defaultSeries: {
+            legendEntry_visible: false,
+            mouseTracking_enabled: false,
+          },
+          legend_visible: false,
+          xAxis: { label_text: 'Runners Age' },
+          yAxis: {
+            alternateGridFill: 'none',
+            scale_range: [0.5, 80],
+          },
+          series: series,
+          toolbar_visible: false,
+        });
+      }
+
+      function makeSeries(data) {
+        var currentYear = new Date().getFullYear();
+        var entriesByYear = JSC.nest().key({ key: 'birth_date', pattern: 'year' }).entries(data);
+
+        // All all data to one series of points.
+        return entriesByYear.map(function (entry) {
+          var values = entry.values,
+            points = [],
+            age = currentYear - entry.key.getFullYear();
+          var i = 0;
+          return {
+            name: age + '',
+            points: values.map(function (value) {
+              return {
+                x: age,
+                y: i++,
+                color: colorsBySex[value.sex],
+              };
+            }),
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

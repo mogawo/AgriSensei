@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Gauge Icon Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .icon {
+        font-size: 34px;
+      }
+      .jsc-widget .value {
+        font-size: 15px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 200px; height: 94px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 180px; height: 240px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 300px; height: 70px;"></div>
+      <div id="chartDiv4" class="chartDiv" style="max-width: 300px; height: 94px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Linear gauge  widgets with icons, values, descriptive labels and titles.
+Learn how to:
+
+  - Use icons in linear gauge widgets.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Linear('chartDiv1', {
+        title: 'KPI Dashboard',
+        //label: 'Users',
+        icon: 'material/social/people',
+        valueText: '%value people',
+        value: 20345,
+        color: '#E65100',
+      });
+
+      var widget2 = new JSCWidgets.Linear('chartDiv2', {
+        title: 'Fitness Goals',
+        label: ['Walk', 'Run', 'Bicycle'],
+        value: [0.54, 0.14, 0.94],
+        icon: ['material/maps/directions-walk', 'material/maps/directions-run', 'material/maps/directions-bike'],
+        valueFormat: 'p',
+        max: 1,
+        color: '#673AB7',
+      });
+
+      var widget3 = new JSCWidgets.Linear('chartDiv3', {
+        label: 'Average session duration',
+        value: 234,
+        max: 500,
+        valueText: '%value s',
+        icon: 'material/device/access-time',
+        color: '#C2185B',
+      });
+
+      var widget4 = new JSCWidgets.Linear('chartDiv4', {
+        title: 'Dashboard',
+        label: 'Value',
+        value: 12,
+        max: 20,
+        valueText: '%value ({%value/20:p} of max)',
+        icon: 'material/device/access-time',
+        color: '#7b930d',
+      });
+    </script>
+  </body>
+</html>

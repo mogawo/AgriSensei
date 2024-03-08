@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Icon Gradient Styling UI | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #IconsDesignerWrapper {
+        font-family: tahoma, geneva, sans-serif;
+        color: #424242;
+      }
+      #iconName,
+      #txtArea {
+        width: 98%;
+      }
+      input[type='button'],
+      input[type='color'] {
+        cursor: pointer;
+      }
+      input[type='button'] {
+        margin: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="IconsDesignerWrapper" style="max-width: 340px; margin: 0 auto;">
+      Choose icon from &nbsp;<input id="iconBrowserBtn" type="button" value="Icons Browser" /><br />
+      <input type="text" id="iconName" name="iconName" value="material/action/account-box" size="45" /><br />
+
+      <div id="chartDiv" style="max-width: 300px; height: 220px; margin: 0px auto;"></div>
+      <div style="max-width: 285px; margin: 0px auto;">
+        <label style="font-size: 12px;">Colors:</label> <input id="addBtn" type="button" value="+" />
+        <input id="removeBtn" type="button" value="-" />
+      </div>
+      <div id="colorPicker" style="max-width: 290px; margin: 7px auto;"></div>
+
+      <textarea readonly id="txtArea" rows="5" cols="38" style="background: #f3f3f3;"></textarea>
+      <input id="copyBtn" type="button" value="Copy" />
+    </div>
+
+    <script type="text/javascript">
+      /*
+Designer UI for icon gradients.
+Learn how to:
+
+  - Style icons with gradients and rotation.
+*/
+      // JS
+      var chart,
+        fill = ['#3ab5b0', '#3d99be', '#56317a'],
+        icon = 'material/action/account-box',
+        iconAngle = 0,
+        fillAngle = 90;
+
+      var colorPickerParentDiv = document.getElementById('colorPicker'),
+        textArea = document.getElementById('txtArea');
+
+      JSC.ready(document).then(function () {
+        generateColorPickerParentDiv(fill);
+        updateTextArea(getIconText(icon, iconAngle, fill, fillAngle));
+
+        chart = JSC.chart('chartDiv', {
+          animation: false,
+          annotations: [
+            {
+              id: 'icon',
+              label: {
+                text: getIconText(icon, iconAngle, fill, fillAngle),
+                verticalAlign: 'middle',
+              },
+              position: 'inside top',
+              height: 140,
+            },
+          ],
+          toolbar_defaultItem: {
+            position: 'inside left',
+            offset: '0,60',
+            boxVisible: false,
+          },
+          toolbar_items: {
+            'Icon Rotation': {},
+            iconRotation: {
+              type: 'range',
+              margin: [0, 10],
+              value: 0,
+              min: 0,
+              max: 360,
+              width: 260,
+              events_change: function (value) {
+                iconAngle = parseInt(value);
+                updateVisual();
+              },
+            },
+            'Fill Rotation': {},
+            fillRotation: {
+              type: 'range',
+              margin: [0, 10],
+              value: fillAngle,
+              min: 0,
+              max: 360,
+              width: 260,
+              events_change: function (value) {
+                fillAngle = Math.round(value);
+                updateVisual();
+              },
+            },
+          },
+        });
+
+        // Add listeners
+        document.getElementById('iconName').addEventListener('input', updateIconName);
+        document.getElementById('iconName').addEventListener('focus', updateIconName);
+        document.getElementById('copyBtn').addEventListener('click', copyButton);
+        document.getElementById('removeBtn').addEventListener('click', removeColor);
+        document.getElementById('addBtn').addEventListener('click', addColor);
+        document.getElementById('iconBrowserBtn').addEventListener('click', openIconsBrowser);
+
+        // Generate colors pickers inputs by default
+        function generateColorPickerParentDiv(colors) {
+          colors.forEach(function (item, i) {
+            colorPickerParentDiv.append(generateColorPickerInput('colorpicker' + i, item));
+          });
+        }
+      });
+
+      // icon name input listener event
+      function updateIconName(e) {
+        icon = e.target.value;
+        updateVisual();
+      }
+
+      // copy button listener event
+      function copyButton() {
+        textArea.select();
+        document.execCommand('copy');
+        document.getElementById('copyBtn').focus();
+      }
+
+      // [-] button listener event
+      function removeColor() {
+        var colorsNumber = colorPickerParentDiv.children.length;
+        if (colorsNumber >= 2) {
+          colorPickerParentDiv.removeChild(colorPickerParentDiv.lastChild);
+          fill = Array.from(getFill());
+        }
+        updateVisual();
+      }
+
+      // [+] button listener event
+      function addColor() {
+        var colorsNumber = colorPickerParentDiv.children.length;
+        colorPickerParentDiv.append(generateColorPickerInput('colorpicker' + colorsNumber, '#000000'));
+        fill = Array.from(getFill());
+        updateVisual();
+      }
+
+      function updateVisual() {
+        var iconText = getIconText(icon, iconAngle, fill, fillAngle);
+        updateIcon(iconText);
+        updateTextArea(iconText);
+      }
+
+      // Update text area with <icon>
+      function updateTextArea(iconStr) {
+        textArea.value = iconStr;
+      }
+
+      // Update chart annotation with icon
+      function updateIcon(iconStr) {
+        chart.annotations('icon').options({ label_text: iconStr });
+      }
+
+      // Get text to create the icon
+      function getIconText(name, IAngle, fill, FAngle) {
+        if (fill.length > 1)
+          return '<icon name=' + name + ' rotate=' + IAngle + ' size=100 fill=' + fill.join(',') + ',' + FAngle + '>';
+        else return '<icon name=' + name + ' rotate=' + IAngle + ' size=100 fill=' + fill.join(',') + '>';
+      }
+
+      // Generate new color picker input
+      function generateColorPickerInput(id, color) {
+        var colorPicker = document.createElement('input');
+        colorPicker.type = 'color';
+        colorPicker.setAttribute('id', id);
+        colorPicker.value = color;
+        colorPicker.style.width = '33px';
+        colorPicker.addEventListener('change', changeColorPickerValue);
+        return colorPicker;
+      }
+
+      // Color pickers listener
+      function changeColorPickerValue() {
+        fill = Array.from(getFill());
+        updateVisual();
+      }
+
+      // Get colors from color picker inputs
+      function getFill() {
+        var children = colorPickerParentDiv.children;
+        var fill = [];
+        for (var i = 0; i < children.length; i++) {
+          fill.push(children[i].value);
+        }
+        return fill;
+      }
+
+      function openIconsBrowser() {
+        window.open('iconsbrowser.htm', '', 'width=790,height=880');
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+playoffs,team1,team2,id,parent,points1,points2,team1_conf,team2_conf
+Super Bowl,New England Patriots,Los Angeles Rams,sb,,13,3,AFC,NFC
+AFC Championships,New England Patriots,Kansas City Chiefs,cc1,sb,37,31,AFC,AFC
+NFC Championships,Los Angeles Rams,New Orleans Saints,cc2,sb,26,23,NFC,NFC
+Divisional Championships 1,Los Angeles Chargers,New England Patriots,dc1,cc1,28,41,AFC,AFC
+Divisional Championships 2,Indianapolis Colts,Kansas City Chiefs,dc2,cc1,13,31,AFC,AFC
+Divisional Championships 3,Dallas Cowboys,Los Angeles Rams,dc3,cc2,22,30,NFC,NFC
+Divisional Championships 4,Philadelphia Eagles,New Orleans Saints,dc4,cc2,14,20,NFC,NFC
+Wild Card 1,Los Angeles Chargers,Baltimore Ravens,wc1,dc1,23,17,AFC,AFC
+Wild Card 2,Indianapolis Colts,Houston Texans,wc2,dc2,21,7,AFC,AFC
+Wild Card 3,Seattle Seahawks,Dallas Cowboys,wc3,dc3,22,24,NFC,NFC
+Wild Card 4,Philadelphia Eagles,Chicago Bears,wc4,dc4,16,15,NFC,NFC

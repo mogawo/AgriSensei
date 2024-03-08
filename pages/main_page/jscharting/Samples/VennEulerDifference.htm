@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Venn and Euler Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 700px; height: 340px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An illustration showing the difference between euler and venn diagrams.
+Learn how to:
+
+  - Draw a venn or euler chart.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'venn',
+        palette: ['white'],
+        title: {
+          position: 'center',
+          label: { text: 'Difference between Venn and Euler Diagrams', style_fontSize: '20px' },
+        },
+
+        defaultAnnotation: {
+          width: 350,
+          label: { style_fontSize: 18, align: 'center' },
+        },
+        annotations: [
+          {
+            label_text: 'Venn Diagram',
+            position: 'inside 0,0',
+          },
+          {
+            label_text: 'Euler Diagram',
+            position: 'inside 340,0',
+          },
+        ],
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          shape_padding: 0.2,
+        },
+        defaultPoint: {
+          opacity: 1,
+          outline: { color: 'black', width: 2 },
+        },
+        series: [
+          {
+            name: 'Venn Diagram',
+            points: [
+              { name: 'Animals', y: 5 },
+              { name: 'Plants', y: 5 },
+              {
+                x: '',
+                sets: ['Mammals'],
+                y: 5,
+                hatch: {
+                  style: 'horizontal',
+                  color: 'black',
+                },
+              },
+              {
+                x: '',
+                sets: ['Animals', 'Plants'],
+                y: 1,
+                hatch: {
+                  style: 'horizontal',
+                  color: 'black',
+                },
+              },
+              {
+                label_text: 'Mammals',
+                x: '',
+                sets: ['Animals', 'Mammals'],
+                y: 1,
+              },
+              {
+                x: '',
+                sets: ['Plants', 'Mammals'],
+                y: 1,
+                hatch: {
+                  style: 'horizontal',
+                  color: 'black',
+                },
+              },
+              {
+                x: '',
+                sets: ['Animals', 'Plants', 'Mammals'],
+                y: 1,
+                hatch: {
+                  style: 'horizontal',
+                  color: 'black',
+                },
+              },
+            ],
+          },
+          {
+            name: 'Euler Diagram',
+            points: [
+              { name: 'Animals', y: 5 },
+              { name: 'Plants', y: 5 },
+              { name: 'Mammals', y: 2 },
+              {
+                sets: ['Animals', 'Mammals'],
+                y: 2,
+              },
+            ],
+          },
+        ],
+        toolbar_visible: false,
+      });
+    </script>
+  </body>
+</html>

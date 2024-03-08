@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Waffle Micro Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #waffleWrapper {
+        max-width: 600px;
+        margin: 0px auto;
+        justify-content: space-around;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      #waffleWrapper p {
+        font-size: 14px;
+        font-family: tahoma, geneva, sans-serif;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        color: #212121;
+      }
+      .label {
+        width: 130px;
+        height: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="waffleWrapper">
+      <p style="font-size: 16px;">US Crime Rate by type, per 100,000 people</p>
+      <p>Violent Crime</p>
+      <div id="vcrime1" class="label"></div>
+      <div id="vcrime2" class="label"></div>
+      <div id="vcrime3" class="label"></div>
+      <div id="vcrime4" class="label"></div>
+      <p>Property Crime</p>
+      <div id="pcrime1" class="label"></div>
+      <div id="pcrime2" class="label"></div>
+      <div id="pcrime3" class="label"></div>
+      <div id="pcrime4" class="label"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Waffle chart created using heatmap microcharts.
+Learn how to:
+
+  - Create a waffle chart using microcharts.
+*/
+      // JS
+      var violentCrime = [
+        { type: 'Homicide', value: 5 },
+        { type: 'Rape', value: 42.6 },
+        { type: 'Robbery', value: 86.2 },
+        { type: 'Aggravated assault', value: 246.8 },
+      ];
+      var propertyCrime = [
+        { type: 'Arson', value: 11.6 },
+        { type: 'Burglary', value: 376 },
+        { type: 'Larceny theft', value: 1594.6 },
+        { type: 'Motor vehicle theft', value: 228.9 },
+      ];
+      //Waffle chart settings
+      var heatmapEmptyCellsColor = '#EEEEEE',
+        heatmapCellsColor = '#D1C4E9',
+        labelTextSettings = 'width:120px;align:center; verticalAlign:middle;font-weight:bold;color:#212121;';
+
+      WaffleChart(violentCrime, 'vcrime');
+      WaffleChart(propertyCrime, 'pcrime');
+
+      function WaffleChart(data, div) {
+        var sum = JSC.sum(data, 'value');
+        data.forEach(function (item, i) {
+          var percent = (item.value * 100) / sum;
+          var heatmapData = Array(100)
+            .fill(-1)
+            .fill(1, 100 - Math.round(percent), 100);
+          var label =
+            '<span style="' +
+            labelTextSettings +
+            '">' +
+            item.type +
+            '</span><br>' +
+            '<absolute><chart heatmap data=' +
+            heatmapData.join(',') +
+            ' cells=10x10 size=120x120 colors=' +
+            heatmapEmptyCellsColor +
+            ',white,' +
+            heatmapCellsColor +
+            '>' +
+            '<span style="font-size:20px; margin:0 0 15px 8px;' +
+            labelTextSettings +
+            '">' +
+            item.value +
+            '</span>' +
+            '<span style="font-size:12px; margin:25px 0 0 8px;' +
+            labelTextSettings +
+            '">(' +
+            JSC.formatNumber(percent, 'n2') +
+            '%)</span></absolute>';
+          JSC.label(div + (i + 1), label);
+        });
+      }
+    </script>
+  </body>
+</html>

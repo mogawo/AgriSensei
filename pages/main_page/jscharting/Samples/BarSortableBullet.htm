@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sortable Bar Bullet Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A sortable bar and marker series creating a bullet-like chart.
+Learn how to:
+
+  - Create a bullet with a bar and target marker series.
+*/
+      // JS
+      var palette = [
+        '#EF5350', //actual below
+        '#26A69A', //actual above
+        '#424242', //target
+      ];
+      var sortBy = 'Target',
+        direction = true;
+      var data = [
+        { name: 'Travel', target: 5.11, actual: 3.3 },
+        { name: 'Government', target: 4.54, actual: 1.82 },
+        { name: 'Tech', target: 3.04, actual: 4.22 },
+        { name: 'Consumer', target: 1.83, actual: 0.62 },
+        { name: 'Nonprofit', target: 1.84, actual: 0.3 },
+        { name: 'Financial', target: 1.21, actual: 0.99 },
+        { name: 'Healthcare', target: 1.22, actual: 2.14 },
+        { name: 'Energy', target: 1.23, actual: 1.35 },
+        { name: 'Education', target: 1.22, actual: 0.64 },
+      ];
+
+      var chart = JSC.chart('chartDiv', {
+        type: 'horizontal',
+        title_label: {
+          text: 'Q2 net new subscription revenue (millions) by industry',
+          style_fontSize: 16,
+          margin_bottom: 28,
+        },
+        legend: {
+          template: '%icon,%name',
+          position: 'inside top right',
+          offset: '0,-25',
+          reversed: true,
+        },
+        xAxis: { crosshair_enabled: true },
+        yAxis: {
+          scale_type: 'stacked',
+          defaultTick_label_text: '%valueMM',
+          formatString: 'c0',
+        },
+        palette: palette,
+        defaultTooltip_label_text: makeDefaultTooltip,
+        defaultPoint_tooltip: '%icon %seriesName: <b>${%value*1000000:n0}</b>',
+        series: makeSeries(sortData(data, sortBy, direction)),
+        toolbar_items: {
+          export_visible: false,
+          Label: {
+            type: 'label',
+            offset: '0,-25',
+            label_text: 'Sort by:',
+            boxVisible: false,
+          },
+          Sort: {
+            type: 'select',
+            offset: '0,-25',
+            items: 'Target,Actual,Difference',
+            value: sortBy,
+            events_change: function (val) {
+              sortBy = val;
+              chart.options({ series: makeSeries(sortData(data, val, direction)) });
+            },
+          },
+          Direction: {
+            type: 'option',
+            value: direction,
+            offset: '0,-25',
+            icon: {
+              name: 'material/content/sort',
+              size: 14,
+            },
+            label_text: '',
+            events_change: function (val) {
+              direction = val;
+              val
+                ? chart.uiItems('Direction').options({ value: val, icon_rotate: 0 })
+                : chart.uiItems('Direction').options({ value: val, icon_rotate: 180 });
+              chart.options({ series: makeSeries(sortData(data, sortBy, val)) });
+            },
+          },
+        },
+      });
+
+      function makeSeries(data) {
+        return [
+          {
+            type: 'column solid',
+            name: 'Revenue (miss)',
+            defaultPoint_outline_width: 0,
+            points: data
+              .filter(function (x) {
+                return x.actual - x.target < 0;
+              })
+              .map(function (item) {
+                return {
+                  x: item.name,
+                  id: item.name,
+                  y: item.actual,
+                };
+              }),
+          },
+          {
+            type: 'column solid',
+            name: 'Revenue (beat)',
+            defaultPoint_outline_width: 0,
+            points: data
+              .filter(function (x) {
+                return x.actual - x.target >= 0;
+              })
+              .map(function (item) {
+                return {
+                  x: item.name,
+                  id: item.name,
+                  y: item.actual,
+                };
+              }),
+          },
+          {
+            type: 'marker',
+            defaultPoint_marker: {
+              type: 'linear/arrows/minus',
+              size: 30,
+              rotate: 90,
+            },
+            name: 'Target',
+            defaultPoint_tooltip: '%line %seriesName: <b>${%value*1000000:n0}</b>',
+            points: data.map(function (item) {
+              return {
+                x: item.name,
+                id: item.name + ' Target',
+                y: item.target,
+                attributes_line:
+                  '<icon size=10 color=' +
+                  palette[2] +
+                  ' margin=5 outline_width=2 outline_color=' +
+                  palette[2] +
+                  ' verticalAlign=middle name=linear/arrows/minus>',
+              };
+            }),
+          },
+        ];
+      }
+
+      function sortData(data, sortBy, direction) {
+        switch (sortBy) {
+          case 'Target':
+            data = JSC.sortBy(data, function (item) {
+              return item.target;
+            });
+            direction && data.reverse();
+            break;
+          case 'Actual':
+            data = JSC.sortBy(data, function (item) {
+              return item.actual;
+            });
+            direction && data.reverse();
+            break;
+          case 'Difference':
+            data = JSC.sortBy(data, function (item) {
+              return Math.abs(item.target - item.actual);
+            });
+            direction && data.reverse();
+            break;
+        }
+        return data;
+      }
+
+      function makeDefaultTooltip(points) {
+        if (points.length === 2) {
+          var result =
+            points[0].replaceTokens('%seriesName') === 'Target'
+              ? 'Beat (<span style="color:' +
+                palette[1] +
+                '"><b>' +
+                Math.round((points[1].y / points[0].y) * 100) +
+                '%</b></span> of Target)'
+              : 'Missed (<span style="color:' +
+                palette[0] +
+                '"><b>' +
+                Math.round((points[0].y / points[1].y) * 100) +
+                '%</b></span> of Target)';
+          return '<b>%xValue</b><br>' + result + '<br>' + '%points';
+        } else {
+          return '<b>%xValue</b><br>' + '%points';
+        }
+      }
+    </script>
+  </body>
+</html>

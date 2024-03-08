@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Clustered Stacked Columns | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple column stack clusters using additional y axes.
+Learn how to:
+
+  - Draw clustered column stacks.
+*/
+      // JS
+      var palette = ['#252360', '#ef4136', '#faae3f'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'column solid',
+        title_label_text: 'Car Sales by Region',
+        legend: {
+          template: '%icon %name',
+          position: 'inside top left',
+          defaultEntry: {
+            icon: { outline_width: 0, width: 10 },
+          },
+          customEntries: [
+            { name: 'Car', icon_color: palette[0] },
+            { name: 'Light Truck', icon_color: palette[1] },
+            { name: 'Heavy Truck', icon_color: palette[2] },
+          ],
+        },
+        // 3 Stacked y axes is used to create 3 stack clusters.
+        yAxis: [
+          {
+            id: 'y2018',
+            label_text: 'Millions',
+            scale: { type: 'stacked' },
+            visible: true,
+          },
+          {
+            id: 'y2019',
+            scale: { type: 'stacked', syncWith: 'y2018' },
+            visible: false,
+          },
+          {
+            id: 'y2020',
+            scale: { type: 'stacked', syncWith: 'y2018' },
+            visible: false,
+          },
+        ],
+        xAxis: { defaultTick_line_visible: false },
+        defaultSeries: { legendEntry_visible: false },
+        defaultPoint: {
+          outline: { width: 0 },
+          tooltip: '%xValue %seriesName<br>%model Sales: <b>%yvalueM</b>',
+          label: {
+            color: 'white',
+            verticalAlign: 'bottom',
+          },
+        },
+
+        series: [
+          // Heavy Truck
+          {
+            name: '2018',
+            yAxis: 'y2018',
+            defaultPoint: {
+              color: palette[2],
+              attributes_model: 'Heavy Truck',
+            },
+            points: [
+              { x: 'North America', y: 2.8 },
+              { x: 'Europe', y: 0.3 },
+              { x: 'Asia', y: 1.4 },
+            ],
+          },
+          {
+            name: '2019',
+            yAxis: 'y2019',
+            defaultPoint: {
+              color: palette[2],
+              attributes_model: 'Heavy Truck',
+            },
+            points: [
+              { x: 'North America', y: 3.3 },
+              { x: 'Europe', y: 0.8 },
+              { x: 'Asia', y: 1.7 },
+            ],
+          },
+          {
+            name: '2020',
+            yAxis: 'y2020',
+            defaultPoint: {
+              color: palette[2],
+              attributes_model: 'Heavy Truck',
+            },
+            points: [
+              { x: 'North America', y: 3.6 },
+              { x: 'Europe', y: 0.9 },
+              { x: 'Asia', y: 2 },
+            ],
+          },
+
+          // Light Truck
+          {
+            name: '2018',
+            yAxis: 'y2018',
+            defaultPoint: {
+              color: palette[1],
+              attributes_model: 'Light Truck',
+            },
+            points: [
+              { x: 'North America', y: 4.3 },
+              { x: 'Europe', y: 2.8 },
+              { x: 'Asia', y: 5.4 },
+            ],
+          },
+          {
+            name: '2019',
+            yAxis: 'y2019',
+            defaultPoint: {
+              color: palette[1],
+              attributes_model: 'Light Truck',
+            },
+            points: [
+              { x: 'North America', y: 5.6 },
+              { x: 'Europe', y: 3.2 },
+              { x: 'Asia', y: 7.1 },
+            ],
+          },
+          {
+            name: '2020',
+            yAxis: 'y2020',
+            defaultPoint: {
+              color: palette[1],
+              attributes_model: 'Light Truck',
+            },
+            points: [
+              { x: 'North America', y: 4.4 },
+              { x: 'Europe', y: 2.4 },
+              { x: 'Asia', y: 6.6 },
+            ],
+          },
+
+          // Car
+          {
+            name: '2018',
+            yAxis: 'y2018',
+            defaultPoint: {
+              color: palette[0],
+              label_text: '%seriesName',
+              attributes_model: 'Car',
+            },
+            points: [
+              { x: 'North America', y: 12.9 },
+              { x: 'Europe', y: 6.1 },
+              { x: 'Asia', y: 23 },
+            ],
+          },
+          {
+            name: '2019',
+            yAxis: 'y2019',
+            defaultPoint: {
+              color: palette[0],
+              label_text: '%seriesName',
+              attributes_model: 'Car',
+            },
+            points: [
+              { x: 'North America', y: 11.3 },
+              { x: 'Europe', y: 7 },
+              { x: 'Asia', y: 25.5 },
+            ],
+          },
+          {
+            name: '2020',
+            yAxis: 'y2020',
+            defaultPoint: {
+              color: palette[0],
+              label_text: '%seriesName',
+              attributes_model: 'Car',
+            },
+            points: [
+              { x: 'North America', y: 10.4 },
+              { x: 'Europe', y: 5.7 },
+              { x: 'Asia', y: 20.3 },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

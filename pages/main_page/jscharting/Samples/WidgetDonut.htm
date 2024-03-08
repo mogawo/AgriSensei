@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Donut Legend Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 230px; height: 150px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 154px; height: 380px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 154px; height: 230px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Donut chart usage in dashboard widgets.
+Learn how to:
+
+  - Use donut charts in widgets.
+*/
+      // JS
+      var chart1, chart2, chart3;
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var donutWidgetDefaults = {
+        title: '',
+        orientation: 'vertical',
+        data: [
+          { name: 'One', value: 130 },
+          { name: 'Two', value: 234 },
+          { name: 'Three', value: 95 },
+        ],
+        palette: 0,
+        valueFormat: 'n',
+        summary: false,
+      };
+
+      /* Widget Constructor */
+      function DonutWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, donutWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              title_label_style: { fontWeight: 'bold', fontSize: 16 },
+              legend: {
+                margin_bottom: -5,
+                template: '%icon %name %value',
+                layout: 'vertical',
+                defaultEntry: {
+                  padding: 2,
+                  name: '<span style="color:#757575; margin:0 16px 0 0;">%name</span>',
+                },
+              },
+              defaultSeries: {
+                type: 'pie donut',
+                mouseTracking_enabled: false,
+                shape: {
+                  innerSize: '80%',
+                  position: 'top',
+                  padding: 0.05,
+                },
+              },
+              defaultPoint: {
+                outline_width: 0,
+                legendEntry_icon: {
+                  name: 'system/default/circle',
+                  size: 10,
+                },
+              },
+              toolbar_visible: false,
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      DonutWidget.prototype.normalizeOptions = function (options) {
+        var result = {
+          defaultSeries: {
+            shape_label: {
+              visible: options.summary || false,
+              text: '<b>%sum</b>',
+              color: '#757575',
+              align: 'center',
+              verticalAlign: 'middle',
+            },
+          },
+        };
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.orientation) {
+          result.legend_position = options.orientation === 'vertical' ? 'bottom' : 'right';
+        }
+        if (options.data) {
+          result.series = makeSeries(options.data);
+        }
+        if (options.palette) {
+          result.palette = options.palette;
+        }
+        if (options.valueFormat) {
+          result.yAxis_formatString = options.valueFormat;
+        }
+
+        return result;
+
+        function makeSeries(data) {
+          var points = [];
+          data.forEach(function (item, i) {
+            points.push({ name: item.name, y: item.value });
+          });
+          return [{ points: points }];
+        }
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      DonutWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      /* USING THE WIDGET */
+
+      chart1 = new DonutWidget('chartDiv1', {
+        orientation: 'horizontal',
+        title: 'Gender',
+        data: [
+          { name: 'Male', value: 54 },
+          { name: 'Female', value: 43 },
+          { name: 'Other', value: 3 },
+        ],
+        palette: ['#3F51B5', '#D81B60', '#00897B'],
+        summary: false,
+      });
+
+      chart2 = new DonutWidget('chartDiv2', {
+        title: '',
+        data: [
+          { name: 'Mortgage', value: 730 },
+          { name: 'Food', value: 600 },
+          { name: 'Household', value: 600 },
+          { name: 'Taxes', value: 553 },
+          { name: 'Health', value: 521 },
+          { name: 'Other', value: 500 },
+          { name: 'Transport', value: 430 },
+          { name: 'Entertainment', value: 300 },
+          { name: 'Clothes', value: 100 },
+          { name: 'Pets', value: 100 },
+        ],
+        valueFormat: 'c0',
+        palette: [
+          '#eb950c',
+          '#db481f',
+          '#31c4b2',
+          '#08998a',
+          '#fcc461',
+          '#d7ccc8',
+          '#afffe6',
+          '#f5d76c',
+          '#fbb12f',
+          '#f1734b',
+        ],
+        summary: true,
+      });
+
+      chart3 = new DonutWidget('chartDiv3', {});
+    </script>
+  </body>
+</html>

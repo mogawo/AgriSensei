@@ -141,6 +141,14 @@
     border: 1px solid #333;
 }
 
+.nameTag{
+    height: 28px;
+    font-size: 24px;
+    max-width: 200px;
+    background-color: rgb(119, 114, 39);
+    border-width: 0px;
+}
+
 .display{
     display: flex;
     flex-direction: column;

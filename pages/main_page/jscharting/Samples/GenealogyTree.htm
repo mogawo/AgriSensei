@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Organizational Sunburst Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="orgDiv" style="width: 750px; height: 450px; margin: 0px auto; overflow: hidden;"></div>
+    <div id="treeDiv" style="width: 750px; height: 400px; margin: 0px auto; overflow: hidden;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart used to create a sunburst version of the data.
+Learn how to:
+
+  - Use organizational chart data to create another chart.
+*/
+      // JS
+      var chart1, chart2;
+
+      JSC.fetch('./resources/elizabeth-II-genealogy-tree.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart1 = renderOrgChart(makeOrgSeries(data), function (c) {
+            chart2 = renderTreeChart(orgPoints2GenealogyTreePoints(c.series().points().items));
+          });
+        });
+
+      function renderOrgChart(series, cb) {
+        return JSC.chart(
+          'orgDiv',
+          {
+            type: 'organizational right',
+            defaultSeries: { color: 'white', mouseTracking: false },
+            defaultPoint: {
+              focusGlow: false,
+              connectorLine: { width: 1, color: '#e0e0e0' },
+              annotation: {
+                padding: 3,
+                margin: 2,
+                label: {
+                  maxWidth: 180,
+                  text: '%name<br>%birth - %death',
+                  autoWrap: false,
+                },
+              },
+              outline_width: 0,
+            },
+            series: series,
+          },
+          cb
+        );
+      }
+      function makeOrgSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return {
+                name: item.name,
+                id: item.id,
+                parent: item.parent,
+                attributes: {
+                  birth: '' + item.birth_year,
+                  death: item.death_year == null ? 'present' : '' + item.death_year,
+                },
+              };
+            }),
+          },
+        ];
+      }
+
+      function renderTreeChart(points) {
+        return JSC.chart('treeDiv', {
+          legend_visible: false,
+          xAxis: { visible: false, spacingPercentage: 0 },
+          yAxis: {
+            visible: false,
+            scale: { range: [0, 1] },
+          },
+          defaultSeries: {
+            type: 'gauge column',
+            shape: { innerSize: 0.05 },
+            angle: { start: -190, sweep: 200 },
+            mouseTracking: false,
+            defaultPoint: {
+              label: {
+                autoWrap: true,
+                text: '%name<br>%birth - %death',
+                maxWidth: 80,
+                align: 'center',
+              },
+            },
+          },
+          series: [{ points: points }],
+        });
+      }
+
+      function orgPoints2GenealogyTreePoints(points) {
+        var numberOfLayers = points[points.length - 1].y;
+        var treePoints = [];
+        for (var i = 0; i <= numberOfLayers; i++) {
+          var layerPoints = points.filter(function (item) {
+            return item.y === i;
+          });
+          layerPoints.forEach(function (item, j) {
+            var layer = item.y;
+            treePoints.push({
+              name: item.name,
+              x: 'layer' + layer,
+              y: [mapValue(0, 1, 0, Math.pow(2, layer), j), mapValue(0, 1, 0, Math.pow(2, layer), j + 1)],
+              attributes: {
+                birth: item.options('attributes_birth'),
+                death: item.options('attributes_death'),
+              },
+            });
+          });
+        }
+        return treePoints;
+      }
+
+      function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+        return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+      }
+    </script>
+  </body>
+</html>

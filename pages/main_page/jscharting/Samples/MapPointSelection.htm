@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Master Detail Map | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 500px; margin: 0px auto;"></div>
+    <div id="chartDiv2" style="max-width: 740px; height: 300px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple map point selection master detail chart.
+Learn how to:
+
+  - Use point selection with a master detail chart.
+*/
+      // JS
+      var map, chart;
+
+      JSC.fetch('./resources/us-unemployment-rate-covid-19.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          map = renderMap(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderMap(data) {
+        var series = [
+          {
+            points: data.map(function (state) {
+              return {
+                map: 'US.' + state.code,
+                z: state.apr - state.feb,
+                attributes: { feb: state.feb, apr: state.apr },
+              };
+            }),
+          },
+        ];
+        return JSC.chart('chartDiv', {
+          type: 'map solid',
+          title_label_text: 'US Unemployment Rate During the COVID-19 Pandemic',
+          // Disable zooming
+          axisToZoom: '',
+          legend: {
+            title_label_text: 'Difference between April and February 2020',
+            position: 'bottom',
+          },
+          annotations: [
+            {
+              label_text: 'Click states to compare',
+              position: 'inside top',
+            },
+          ],
+
+          palette: {
+            pointValue: function (p) {
+              return p.options('z');
+            },
+            colors: ['#ffffff', '#e0f7fa', '#80deea', '#26c6da', '#01acc1', '#0097a7', '#00838f'],
+            colorBar_axis_defaultTick_label_text: '%value%',
+          },
+          events_pointSelectionChanged: selectStates,
+          defaultSeries: { map: 'us', pointSelection: 'multiple' },
+          defaultPoint: {
+            focusGlow: false,
+            tooltip: 'Unemployment Rate in <b>%name</b>:<br> February 2020: <b>%feb%</b><br> April 2020: <b>%apr%</b>',
+            states_select: {
+              outline_color: JSC.colorToPalette('#4DD0E1', { lightness: 0.8 }, 6, 0)[0],
+              color: 'currentColor',
+            },
+          },
+          series: series,
+        });
+      }
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv2', {
+          type: 'column',
+          legend: {
+            position: 'top left',
+            template: '%icon %name',
+            defaultEntry_hoverAction: 'none',
+          },
+          yAxis: {
+            alternateGridFill: 'none',
+            defaultTick_label_text: '%value%',
+            scale_interval: 5,
+          },
+          defaultPoint_hoverAction: 'highlightPointGroup',
+          palette: ['#00BCD4', '#F44336'],
+          series: series,
+          toolbar_items: {
+            clearBtn: {
+              type: 'option',
+              label: { text: 'Clear' },
+              boxVisible: true,
+              margin: 10,
+              position: 'inside top left',
+              events_change: function () {
+                map.series().points().options({ selected: false });
+              },
+            },
+          },
+        });
+      }
+
+      function selectStates(items) {
+        if (items.length) {
+          var series = [
+            {
+              name: 'Februrary 2020',
+              id: 'f20',
+              points: [],
+            },
+            {
+              name: 'April 2020',
+              id: 'a20',
+              points: [],
+            },
+          ];
+          items.forEach(function (item, i) {
+            series[0].points.push({
+              id: item.id + 'a',
+              x: item.tokenValue('%name'),
+              y: item.tokenValue('%feb'),
+            });
+            series[1].points.push({
+              id: item.id + 'b',
+              x: item.tokenValue('%name'),
+              y: item.tokenValue('%apr'),
+            });
+          });
+          if (chart) {
+            chart.options({ series: series });
+          } else {
+            chart = renderChart(series);
+          }
+        } else {
+          chart && chart.dispose();
+          chart = null;
+        }
+      }
+    </script>
+  </body>
+</html>

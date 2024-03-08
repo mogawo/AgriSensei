@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Legend Selection Highlighting | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 340px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Uses select state to manually control series highlighting with legend entry clicks.
+Learn how to:
+
+  - Use selection to highlight series.
+  - Legend interactivity with selection and events.
+*/
+      // JS
+      var chart;
+      var colors = [/* highlight */ '#29B6F6', /* gray */ '#656565'];
+      var curSeries;
+      var colNorm = colors[0];
+      var colMute = colors[1];
+
+      JSC.fetch('./resources/SO-survey2.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        });
+
+      function renderChart(data) {
+        return JSC.chart(
+          'chartDiv',
+          {
+            type: 'line',
+            animation_duration: 0,
+            defaultPoint: {
+              tooltip:
+                '<span style="color:%color"><span style="width:70px">%seriesName</span><chart margin=3 size=60x14 type=bar data=%yValue color=%color max=75 verticalAlign=middle> <b>%yValue%</b><span>',
+              selected: true,
+              marker: {
+                visible: true,
+                type: 'circle',
+                size: 4,
+                outline_width: 2,
+                fill: 'white',
+              },
+              color: colNorm,
+              opacity: 1,
+              states: {
+                select: { opacity: 0, color: colMute },
+              },
+              label: { color: 'darkenmore', outline: { color: 'white', width: 2 } },
+              focusGlow: { width: 1, color: colNorm },
+            },
+            defaultSeries: {
+              opacity: 1,
+              color: colNorm,
+              selected: true,
+              line_width: 2,
+              states: {
+                select: {
+                  color: colMute,
+                  line: { color: colMute, opacity: 0.2, width: 2 },
+                },
+                mute: { line: { color: 'green' } },
+              },
+              legendEntry_style_color: colMute,
+              firstPoint: {
+                marker: { visible: true, size: 8 },
+                label: {
+                  text: '%seriesName <b>%yValue%</b>',
+                  visible: false,
+                },
+              },
+              lastPoint: {
+                marker: { visible: true, size: 8 },
+                label: {
+                  text: '<b>%yValue%</b>',
+                  visible: false,
+                },
+              },
+            },
+            yAxis: { visible: false },
+            xAxis: {
+              defaultTick: {
+                gridLine_visible: false,
+                line_visible: false,
+              },
+              crosshair: {
+                enabled: true,
+                gridLine: {
+                  color: '#81D4FA',
+                  dashStyle: 'Solid',
+                },
+                outline_visible: false,
+                label: {
+                  color: colors[0],
+                  style_fontWeight: 'bold',
+                },
+              },
+            },
+            legend: {
+              template: '%name',
+              title_label_text: 'Click items below',
+              defaultEntry: {
+                style_fontSize: 12,
+                events: {
+                  mouseOver: leMouseOver,
+                  mouseOut: leMouseOut,
+                  click: leClick,
+                },
+              },
+            },
+            series: makeSeries(data, 2),
+            toolbar_visible: false,
+          },
+          function (c) {
+            highlightSeries(c.series(0));
+          }
+        );
+      }
+
+      function leMouseOver() {
+        var target = this.target;
+        target.options({ selected: false });
+        return false;
+      }
+
+      function leMouseOut() {
+        var target = this.target;
+        if (target !== curSeries) {
+          target.options({ selected: true });
+        }
+        return false;
+      }
+
+      function highlightSeries(ser) {
+        if (ser !== curSeries) {
+          curSeries && unHighlight(curSeries);
+          curSeries = ser;
+          ser.options({
+            selected: false,
+            firstPoint_label_visible: true,
+            lastPoint_label_visible: true,
+          });
+          ser.points().options({ selected: false });
+          ser.legendEntry.options({ color: colNorm });
+        }
+
+        function unHighlight(s) {
+          s.options({
+            selected: true,
+            firstPoint_label_visible: false,
+            lastPoint_label_visible: false,
+          });
+          s.points().options({ selected: true });
+          s.legendEntry.options({ color: colMute });
+        }
+      }
+
+      function leClick() {
+        var target = this.target;
+        highlightSeries(target);
+        return false;
+      }
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key('technology')
+          .key('year')
+          .pointRollup(function (key, val) {
+            return { x: parseInt(key), y: val[0].percent };
+          })
+          .series(data);
+      }
+    </script>
+  </body>
+</html>

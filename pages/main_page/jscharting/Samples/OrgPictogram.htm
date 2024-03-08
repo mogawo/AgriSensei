@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pictogram Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 420px; height: 580px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart that dynamically generates a pictogram for each node.
+Learn how to:
+
+  - Draw pictograms inside organizational nodes.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/orgData5.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeOrgSeries(data));
+        });
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'organizational',
+
+          /*These options will apply to all annotations including point nodes.*/
+          defaultSeries_color: 'white',
+          defaultTooltip: { shadow: false, fill: 'white' },
+          defaultPoint: {
+            connectorLine: { color: '#B0BEC5', radius: [0, 10] },
+            label: {
+              text: '%photo<br>' + '%name<br>' + '<b>%role</b><br><br>' + 'Monthly Sales<br>%pictogram',
+              style_color: 'black',
+            },
+            outline_width: 0,
+            focusGlow_visible: false,
+            annotation: {
+              padding: [-6, 10, 6, 10],
+              margin: [10, 0],
+            },
+            tooltip: 'Monthly Sales: %sales',
+          },
+          series: series,
+        });
+      }
+
+      function makeOrgSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              getPictogram(item.sales);
+              return {
+                name: item.name,
+                id: item.id,
+                parent: item.parent,
+                attributes: {
+                  role: item.position,
+                  phone: item.phone,
+                  email: item.email,
+                  photo: getImgText(item.photo),
+                  sales: getSales(item.sales),
+                  pictogram: getPictogram(item.sales),
+                },
+              };
+            }),
+          },
+        ];
+      }
+
+      function getImgText(name) {
+        return name !== null
+          ? '<img width=60 height=60 align=center margin_bottom=4 margin_top=4 src=images/vector-avatars2/avatar-' +
+              name +
+              '.svg>'
+          : '';
+      }
+
+      function getSales(data) {
+        var arr = data.split(',').map(parseFloat),
+          currentYear = JSC.sum(arr);
+
+        return '<b>' + JSC.formatNumber(currentYear, 'c0') + '</b>';
+      }
+
+      function getPictogram(data) {
+        var arr = data.split(',').map(parseFloat),
+          currentYear = JSC.sum(arr);
+
+        var iconsN = Math.round(mapValue(0, 5, 0, 25000, currentYear));
+        var pictogram = '';
+        for (var i = 0; i < iconsN; i++) {
+          pictogram += '<icon size=18 color=#66BB6A name=material/editor/attach-money margin_top=5>';
+        }
+        for (var i = 0; i < 5 - iconsN; i++) {
+          pictogram += '<icon size=18 color=#e0e0e0 name=material/editor/attach-money margin_top=5>';
+        }
+        return pictogram;
+        function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+          return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+        }
+      }
+    </script>
+  </body>
+</html>

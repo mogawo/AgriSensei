@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Wide Axis Marker Gauges | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 300px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple gauges with wide axis markers.
+Learn how to:
+
+  - Control gauge axis marker width with tick line length.
+*/
+      // JS
+      var value1 = Math.round(Math.random() * 100);
+      var value2 = Math.round(Math.random() * 100);
+      var value3 = Math.round(Math.random() * 100);
+      var green = '#1ec079',
+        red = '#ff5c57',
+        yellow = '#ffc531';
+      var colorMarkers = {
+        'R-Y-G': [
+          { value: [0, 30], color: red, opacity: 1 },
+          { value: [30, 70], color: yellow, opacity: 1 },
+          { value: [70, 100], color: green, opacity: 1 },
+        ],
+        'G-Y-R': [
+          { value: [0, 30], color: green, opacity: 1 },
+          { value: [30, 70], color: yellow, opacity: 1 },
+          { value: [70, 100], color: red, opacity: 1 },
+        ],
+        'R-Y-G-Y-R': [
+          { value: [0, 15], color: red, opacity: 1 },
+          { value: [15, 35], color: yellow, opacity: 1 },
+          { value: [35, 65], color: green, opacity: 1 },
+          { value: [65, 85], color: yellow, opacity: 1 },
+          { value: [85, 100], color: red, opacity: 1 },
+        ],
+      };
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        legend_visible: false,
+        chartArea_boxVisible: false,
+        xAxis: { scale: { range: [0, 1] } },
+        defaultAxis: {
+          defaultTick: {
+            line: { visible: false },
+            label_visible: false,
+          },
+        },
+        yAxis: [
+          {
+            id: 'y1',
+            defaultTick_line_length: 50,
+            scale_range: [0, 100],
+            markers: colorMarkers['R-Y-G'],
+          },
+          {
+            id: 'y2',
+            scale_range: [0, 100],
+            defaultTick_line_length: 50,
+            markers: colorMarkers['G-Y-R'],
+          },
+          {
+            id: 'y3',
+            scale_range: [0, 100],
+            defaultTick_line_length: 50,
+            markers: colorMarkers['R-Y-G-Y-R'],
+          },
+        ],
+        defaultSeries: {
+          type: 'gauge',
+          opacity: 1,
+          defaultPoint: { marker_color: 'black' },
+          mouseTracking_enabled: false,
+          shape: {
+            fill: 'none',
+            outline: { width: 0 },
+            label: {
+              text: '%sum%',
+              style_fontSize: 30,
+              align: 'center',
+              verticalAlign: 'bottom',
+            },
+          },
+        },
+        series: [
+          {
+            yAxis: 'y1',
+            points: [{ y: value1 }],
+          },
+          {
+            yAxis: 'y2',
+            points: [{ y: value2 }],
+          },
+          {
+            yAxis: 'y3',
+            points: [{ y: value3 }],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

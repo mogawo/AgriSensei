@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Axis Tick Label Overflow Ellipsis | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 540px; height: 500px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Limit label width and disable wrapping. Use overflow ellipsis to hide the excess text.
+Learn how to:
+
+  - Limit label width without wrapping.
+  - Use overflow ellipsis instead of wrapping.
+*/
+      // JS
+      var color = '#FBC02D';
+      var data = [
+        { industry: 'Finance, insurance, real estate, rental, and leasing', value: 21 },
+        { industry: 'Professional and business services', value: 13 },
+        { industry: 'Government', value: 12.1 },
+        { industry: 'Manufacturing', value: 10.7 },
+        { industry: 'Educational services, health care, and social assistance', value: 8.6 },
+        { industry: 'Wholesale trade', value: 6.2 },
+        { industry: 'Retail trade', value: 6 },
+        { industry: 'Information', value: 5.6 },
+        { industry: 'Construction', value: 4.1 },
+        { industry: 'Arts, entertainment, recreation, accommodation, and food services', value: 3.9 },
+        { industry: 'Transportation and warehousing', value: 3 },
+        { industry: 'Other services, except government', value: 2 },
+        { industry: 'Utilities', value: 1.6 },
+        { industry: 'Mining', value: 1.4 },
+        { industry: 'Agriculture, forestry, fishing, and hunting', value: 0.9 },
+      ];
+
+      var chart = renderChart(makeSeries(data));
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'horizontal column solid',
+
+          palette: [color],
+          title_label: {
+            style_fontSize: 16,
+            text: 'Share of value added to the Gross Domestic Product (GDP) of the United States in 2021, by industry',
+          },
+          legend_visible: false,
+          xAxis_defaultTick: {
+            label: { maxWidth: 120, autoWrap: false, textOverflow: 'ellipsis' },
+          },
+          yAxis: {
+            scale_range_padding: 0,
+            defaultTick: {
+              label_text: '%value%',
+              gridLine_color: '#EEEEEE',
+              line_visible: false,
+            },
+          },
+          defaultTooltip: { label_maxWidth: 200 },
+          defaultPoint: {
+            tooltip: '%name: <span style="color:%color"><b>%value%</b></span>',
+            outline_width: 0,
+
+            radius: 7,
+          },
+
+          series: series,
+        });
+      }
+
+      function makeSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return { name: item.industry, y: item.value };
+            }),
+          },
+        ];
+      }
+    </script>
+  </body>
+</html>

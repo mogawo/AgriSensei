@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Complete Heatmap Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Create a Gantt heatmap with points for each day using point.complete indicating the number of hours worked for that day.
+Learn how to:
+
+  - Use point.complete values in a Gantt heatmap chart.
+*/
+      // JS
+      var palette = ['#FF5722', '#FFCA28', '#66BB6A', '#2E7D32', '#E0E0E0'];
+      var data = [
+        {
+          name: 'Codi Ianne',
+          hours: [6, 10, 7, 6, 4, 0, 0, 4, 5, 9, 9, 8, 0, 0],
+        },
+        {
+          name: 'Nate Clementson',
+          hours: [9, 8, 7, 10, 8, 0, 0, 9, 6, 3, 9, 8, 0, 0],
+        },
+        {
+          name: 'Hesther Rushe',
+          hours: [5, 6, 10, 10, 10, 0, 0, 9, 4, 4, 9, 7, 0, 0],
+        },
+        {
+          name: 'Grace Corkitt',
+          hours: [0, 8, 5, 8, 3, 7, 0, 0, 7, 10, 9, 8, 5, 0],
+        },
+        {
+          name: 'Antonetta Kleinplatz',
+          hours: [10, 5, 4, 9, 10, 0, 0, 7, 8, 9, 10, 3, 0, 0],
+        },
+        {
+          name: 'Winona Vittery',
+          hours: [3, 5, 9, 5, 6, 0, 0, 4, 7, 9, 8, 7, 0, 0],
+        },
+        {
+          name: 'Reilly Rourke',
+          hours: [10, 10, 9, 9, 9, 0, 0, 4, 3, 0, 0, 0, 0, 0],
+        },
+        {
+          name: 'Pooh Hukins',
+          hours: [9, 7, 7, 7, 4, 0, 0, 9, 7, 5, 5, 4, 0, 0],
+        },
+        {
+          name: 'Sherman Ivashev',
+          hours: [3, 3, 6, 8, 0, 0, 0, 10, 8, 9, 4, 8, 0, 0],
+        },
+        {
+          name: 'Jolynn Hibling',
+          hours: [9, 6, 10, 6, 5, 0, 0, 8, 8, 4, 7, 4, 0, 0],
+        },
+      ];
+
+      var series = data.map(function (person) {
+        var points = [];
+        person.hours.forEach(function (hour, i) {
+          points.push({
+            name: person.name,
+            y: ['1/' + (i + 1) + '/2022 00:00', '1/' + (i + 1) + '/2022 22:00'],
+            z: hour,
+            complete: { fill: getColumnColor(hour), y: hour / 8 },
+          });
+        });
+        return { name: person.name, points: points };
+      });
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'horizontal column solid',
+        title_label_text: 'Working hours',
+        legend: {
+          template: '%icon,%name',
+          position: 'bottom',
+          defaultEntry: { iconWidth: 14, icon_outline_width: 0 },
+          customEntries: [
+            { icon_color: palette[0], name: '< 4hrs' },
+            { icon_color: palette[1], name: '< 8hrs' },
+            { icon_color: palette[2], name: '8hrs' },
+            { icon_color: palette[3], name: '> 8hrs' },
+            { icon_color: palette[4], name: 'Non working day' },
+          ],
+        },
+        palette: [palette[4]],
+        /*Make columns overlap.*/
+        zAxis_scale_type: 'stacked',
+        yAxis_scale_type: 'time',
+        defaultSeries: {
+          legendEntry_visible: false,
+          /* Add a highlight series action for the x axis. This binds the axis tick to a series. */
+          firstPoint_xAxisTick_hoverAction: 'highlightSeries',
+        },
+        defaultPoint: {
+          tooltip: '%name %yStart<br><b>%zValuehrs</b>',
+          outline_width: 0,
+          complete_hatch_style: 'none',
+          hoverAction: 'highlightSeries',
+        },
+        series: series,
+      });
+
+      function getColumnColor(val) {
+        return val <= 4 ? palette[0] : val < 8 ? palette[1] : val === 8 ? palette[2] : palette[3];
+      }
+    </script>
+  </body>
+</html>

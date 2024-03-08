@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Group Vertical Layout Legend Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 1260px; height: 540px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with vertical layout grouped by color with dynamic legend entries.
+Learn how to:
+
+  - Dynamic legend entries for organizational groups.
+*/
+      // JS
+      var palette = ['#BDBDBD', '#540D6E', '#EE4266', '#FFD23F'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        legend: {
+          visible: true,
+          template: '%icon %name',
+          customEntries: getLegendEntries(),
+          position: 'inside bottom',
+          defaultEntry: { iconWidth: 14, icon_outline_width: 2 },
+        },
+        defaultPoint: {
+          color: 'white',
+          connectorLine: { width: 1, color: '#BDBDBD' },
+          leafPointLayout: 'vertical',
+          annotation: {
+            label_text: '<b>%name</b><br>%position',
+            syncWidth: 'all',
+            syncHeight: 'level',
+            padding: 5,
+          },
+        },
+        series: getSeries(),
+      });
+
+      function getSeries() {
+        var points = getPoints();
+        /* Group points by unique divisions */
+        var pointsByDivision = JSC.nest().key('attributes.division').entries(points);
+
+        /* Apply a color from palette to each group of points */
+        pointsByDivision.forEach(function (group, i) {
+          group.values.forEach(function (point) {
+            if (point.parent !== 'ceo') {
+              JSC.merge(point, { connectorLine_color: palette[i] });
+            }
+            if (point.parent == 'd1' || point.parent == 'd2' || point.parent == 'd3') {
+              JSC.merge(point, { annotation_padding: [5, 10, 5, 5] });
+            }
+            JSC.merge(point, {
+              outline: { color: palette[i], width: 2 },
+            });
+          });
+        });
+        return [{ points: points }];
+      }
+
+      function getLegendEntries() {
+        /* Group points by unique divisions */
+        var pointsByDivision = JSC.nest().key('attributes.division').entries(getPoints());
+
+        /* Get the unique divisions in point data from pointsByDivision. */
+        var divisions = pointsByDivision.map(function (entry) {
+          return entry.key;
+        });
+
+        /* Dynamically create legend entry configs from divisions */
+        var legendEntries = divisions.map(function (role, i) {
+          return {
+            name: role,
+            icon_outline_color: palette[i],
+          };
+        });
+        legendEntries.splice(0, 1);
+        return legendEntries;
+      }
+
+      function getPoints() {
+        return [
+          { name: 'Cathy North', id: 'ceo', attributes: { position: 'CEO', division: '' } },
+          {
+            name: 'Chrystal Burton',
+            id: 'd1',
+            parent: 'ceo',
+            attributes: { position: 'Director of Health Care', division: 'Health Care' },
+          },
+          {
+            name: 'Todd Bloodworth',
+            id: 'd1_srmm1',
+            parent: 'd1',
+            attributes: { position: 'Sr. Marketing Manager', division: 'Health Care' },
+          },
+          {
+            name: 'Addie Ewart',
+            id: 'd1_srmm1_pmm',
+            parent: 'd1_srmm1',
+            attributes: { position: 'Product Marketing Manager', division: 'Health Care' },
+          },
+          {
+            name: 'Rolo Belcher',
+            id: 'd1_srmm1_seos',
+            parent: 'd1_srmm1',
+            attributes: { position: 'SEO Specialist', division: 'Health Care' },
+          },
+          {
+            name: 'Sommer St John',
+            id: 'd1_srmm1_cs',
+            parent: 'd1_srmm1',
+            attributes: { position: 'Content Specialist', division: 'Health Care' },
+          },
+          {
+            name: 'Margie Weaver',
+            id: 'd1_srmm2',
+            parent: 'd1',
+            attributes: { position: 'Sr. Marketing Manager', division: 'Health Care' },
+          },
+          {
+            name: 'Ormond Hogarth',
+            id: 'd1_srmm2_ae1',
+            parent: 'd1_srmm2',
+            attributes: { position: 'Account Executive', division: 'Health Care' },
+          },
+          {
+            name: 'Driscoll Carver',
+            id: 'd1_srmm2_ae2',
+            parent: 'd1_srmm2',
+            attributes: { position: 'Account Executive', division: 'Health Care' },
+          },
+          {
+            name: 'Tisha Oliver',
+            id: 'd1_csm',
+            parent: 'd1',
+            attributes: { position: 'Customer Service Manager', division: 'Health Care' },
+          },
+          {
+            name: 'Robynne Walker',
+            id: 'd1_csm_csr1',
+            parent: 'd1_csm',
+            attributes: { position: 'Customer Service Representative', division: 'Health Care' },
+          },
+          {
+            name: 'Kit Allard',
+            id: 'd1_csm_csr2',
+            parent: 'd1_csm',
+            attributes: { position: 'Customer Service Representative', division: 'Health Care' },
+          },
+
+          {
+            name: 'Nena Sandford',
+            id: 'd2',
+            parent: 'ceo',
+            attributes: { position: 'Director of Education', division: 'Education' },
+          },
+          {
+            name: 'Kelan Beasley',
+            id: 'd2_srmm',
+            parent: 'd2',
+            attributes: { position: 'Sr. Marketing Manager', division: 'Education' },
+          },
+          {
+            name: 'Tom Blackman',
+            id: 'd2_srmm_pmm',
+            parent: 'd2_srmm',
+            attributes: { position: 'Product Marketing Manager', division: 'Education' },
+          },
+          {
+            name: 'Katelin Stacks',
+            id: 'd2_srmm_seos',
+            parent: 'd2_srmm',
+            attributes: { position: 'SEO Specialist', division: 'Education' },
+          },
+          {
+            name: 'Aspen Lyons',
+            id: 'd2_srmm_cs',
+            parent: 'd2_srmm',
+            attributes: { position: 'Content Specialist', division: 'Education' },
+          },
+          {
+            name: 'Clayton Norris',
+            id: 'd2_srsm',
+            parent: 'd2',
+            attributes: { position: 'Sr. Sales Manager', division: 'Education' },
+          },
+          {
+            name: 'Rod Church',
+            id: 'd2_srsm_sem',
+            parent: 'd2_srsm',
+            attributes: { position: 'Sales Enablement Manager', division: 'Education' },
+          },
+          {
+            name: 'Elise Terrell',
+            id: 'd2_srsm_ae1',
+            parent: 'd2_srsm',
+            attributes: { position: 'Account Executive', division: 'Education' },
+          },
+          {
+            name: 'Alayah Wright',
+            id: 'd2_srsm_ae2',
+            parent: 'd2_srsm',
+            attributes: { position: 'Account Executive', division: 'Education' },
+          },
+          {
+            name: 'Augustine Thompkins',
+            id: 'd2_csm',
+            parent: 'd2',
+            attributes: { position: 'Customer Service Manager', division: 'Education' },
+          },
+          {
+            name: 'Octavia Power',
+            id: 'd2_csm_csr1',
+            parent: 'd2_csm',
+            attributes: { position: 'Customer Service Representative', division: 'Education' },
+          },
+          {
+            name: 'Jae Mottershead',
+            id: 'd2_csm_csr2',
+            parent: 'd2_csm',
+            attributes: { position: 'Customer Service Representative', division: 'Education' },
+          },
+
+          {
+            name: 'Careen Waller',
+            id: 'd3',
+            parent: 'ceo',
+            attributes: { position: 'Director of Real Estate', division: 'Real Estate' },
+          },
+          {
+            name: 'Ariella Disney',
+            id: 'd3_srmm',
+            parent: 'd3',
+            attributes: { position: 'Sr. Marketing Manager', division: 'Real Estate' },
+          },
+          {
+            name: 'Rowanne Bell',
+            id: 'd3_srmm_pmm',
+            parent: 'd3_srmm',
+            attributes: { position: 'Product Marketing Manager', division: 'Real Estate' },
+          },
+          {
+            name: 'Claude Simons',
+            id: 'd3_srmm_cs',
+            parent: 'd3_srmm',
+            attributes: { position: 'Content Specialist', division: 'Real Estate' },
+          },
+          {
+            name: 'Beau Ayers',
+            id: 'd3_srsm',
+            parent: 'd3',
+            attributes: { position: 'Sr. Sales Manager', division: 'Real Estate' },
+          },
+          {
+            name: 'Delight Harmon',
+            id: 'd3_srsm_sem',
+            parent: 'd3_srsm',
+            attributes: { position: 'Sales Enablement Manager', division: 'Real Estate' },
+          },
+          {
+            name: 'Fredric Tyrrell',
+            id: 'd3_srsm_ae1',
+            parent: 'd3_srsm',
+            attributes: { position: 'Account Executive', division: 'Real Estate' },
+          },
+          {
+            name: 'Lorelei Simon',
+            id: 'd3_srsm_ae2',
+            parent: 'd3_srsm',
+            attributes: { position: 'Account Executive', division: 'Real Estate' },
+          },
+          {
+            name: 'Gussie Nixon',
+            id: 'd3_csm',
+            parent: 'd3',
+            attributes: { position: 'Customer Service Manager', division: 'Real Estate' },
+          },
+          {
+            name: 'Benjamin Garrett',
+            id: 'd3_csm_csr1',
+            parent: 'd3_csm',
+            attributes: { position: 'Customer Service Representative', division: 'Real Estate' },
+          },
+          {
+            name: 'Edward Jewel',
+            id: 'd3_csm_csr2',
+            parent: 'd3_csm',
+            attributes: { position: 'Customer Service Representative', division: 'Real Estate' },
+          },
+        ];
+      }
+    </script>
+  </body>
+</html>

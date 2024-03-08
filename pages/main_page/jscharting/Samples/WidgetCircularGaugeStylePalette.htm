@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Gauge Style Palette Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .circular .icon {
+        font-size: 35px;
+      }
+
+      .jsc-widget .circular .value {
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .jsc-widget .circular .label {
+        font-size: 14px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 250px; height: 110px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 250px; height: 110px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 250px; height: 110px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Circular gauge icon and value widgets with different styles and smartPalette.
+Learn how to:
+
+  - Use widgets with icons, smart palette and percentage values.
+*/
+      // JS
+      var chart1, chart2, chart3;
+
+      var widget1 = new JSCWidgets.Circular('chartDiv1', {
+        label: 'Total Earnings',
+        icon: 'linear/ecommerce/money',
+        barBackgroundWidth: 4,
+        barWidth: 8,
+        valueFormat: 'c0',
+        value: 60567,
+        max: 100000,
+        color: '#EF6C00',
+        valuePosition: 'right',
+        labelPosition: 'right',
+      });
+
+      var widget2 = new JSCWidgets.Circular('chartDiv2', {
+        label: 'Total Earnings',
+
+        icon: 'linear/ecommerce/money',
+        valueFormat: 'c0',
+        value: 60567,
+        max: 100000,
+
+        barWidth: 8,
+        color: '#009688',
+        barBackgroundColor: '#a7dad4',
+
+        valuePosition: 'right',
+        labelPosition: 'right',
+      });
+
+      var widget3 = generateCustomWidget('chartDiv3', {
+        orientation: 'horizontal',
+        title: 'Total Earnings',
+        value: 60560,
+        maxValue: 80000,
+        formatValue: 'c0',
+        color: 'black',
+        showPercent: true,
+        icon: 'linear/ecommerce/money',
+      });
+
+      function generateCustomWidget(chartDiv, options) {
+        return JSC.chart(chartDiv, {
+          debug: true,
+          legend_visible: false,
+          palette: {
+            pointValue: '{%yValue/' + options.maxValue + '}',
+            colors: ['#8b0000', '#ff0000', '#ffa500', '#fefe20', '#00e700', '#00008b', '#4b0082', '#ee82ee'],
+          },
+          yAxis: {
+            defaultTick_label_visible: false,
+            line: {
+              color: 'smartPalette',
+              breaks_gap: 0.02,
+              width: 2,
+            },
+            formatString: options.formatValue,
+            scale: {
+              range: [0, options.maxValue],
+              interval: Math.round(options.maxValue / 50),
+            },
+          },
+          xAxis: {
+            spacingPercentage: 0.3,
+            defaultTick_gridLine_visible: false,
+          },
+          annotations: [
+            {
+              label_text:
+                wrapSpan('%sum', options.color, '28px', 'bold') + '<br>' + wrapSpan(options.title, '#9E9E9E', '14px'),
+              position: options.orientation === 'vertical' ? 'top left' : 'right',
+            },
+          ],
+          defaultSeries: {
+            type: 'gauge column roundcaps',
+            angle: { sweep: 300, start: 120 },
+            mouseTracking_enabled: false,
+            defaultPoint: {
+              tooltip: '<b>%seriesName</b> %yValue% of Goal',
+              altColor: 'currentColor',
+              outline_width: 0,
+            },
+            shape: {
+              innerSize: '78%',
+              padding: 1,
+              label: [
+                {
+                  text:
+                    (options.icon
+                      ? '<icon name=%icon size=' + (options.showPercent ? 20 : 40) + ' fill=%fill><br>'
+                      : '') +
+                    (options.showPercent
+                      ? wrapSpan('{Math.round(%value*100/' + options.maxValue + '):n0}%', options.color, '20px', 'bold')
+                      : ''),
+                  align: 'center',
+                  verticalAlign: 'middle',
+                },
+              ],
+            },
+          },
+          series: [
+            {
+              color: options.color,
+              name: options.title,
+              attributes: {
+                icon: options.icon,
+                fill: options.color,
+              },
+              points: [{ y: options.value }],
+            },
+          ],
+        });
+      }
+
+      function wrapSpan(txt, color, fontSize, fontWeight) {
+        var attributes = '';
+        color && (attributes += 'color:' + color + ';');
+        fontSize && (attributes += 'font-size:' + fontSize + ';');
+        fontWeight && (attributes += 'font-weight:' + fontWeight + ';');
+        attributes.length && (attributes = ' style="' + attributes + '"');
+        return '<span' + attributes + '>' + txt + '</span>';
+      }
+    </script>
+  </body>
+</html>

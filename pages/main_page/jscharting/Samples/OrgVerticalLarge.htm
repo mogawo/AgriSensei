@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Large Vertical Layout Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 1200px; height: 920px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Large organizational chart with leaf point layout.
+Learn how to:
+
+  - Use vertical leaf point layout.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          outline_width: 0,
+          color: 'white',
+          label: {
+            text: '%name<br><span style="font-size:10px; color:#9E9E9E">%head</span>',
+            align: 'left',
+            maxWidth: 110,
+          },
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          leafPointLayout: 'vertical',
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        return [
+          { name: 'Secretary of State', id: 'ss', attributes_head: '' },
+          { name: 'Counselor', id: 'a', parent: 'ss', attributes_head: '' },
+          { name: 'Chief of Staff', id: 'b', parent: 'ss', attributes_head: '' },
+          { name: 'United States Agency for International Development', id: 'c', parent: 'ss', attributes_head: '' },
+          { name: 'United States Mission to the United Nation', id: 'd', parent: 'ss', attributes_head: '' },
+          {
+            name: '',
+            id: 'blank2',
+            parent: 'ss',
+            attributes_head: '',
+            annotation: { width: 0, padding: 0, margin: 0, height: 0 },
+          },
+          {
+            name: '',
+            id: 'blank3',
+            parent: 'blank2',
+            attributes_head: '',
+            annotation: { width: 0, padding: 0, margin: 0, height: 0 },
+          },
+          { name: 'Under Secretary for Political Affairs', id: 's', parent: 'blank3', attributes_head: '' },
+          { name: 'African Affairs', id: 's1', parent: 's', attributes_head: 'Assistant Secretary' },
+          { name: 'South and Central Asian Affairs', id: 's2', parent: 's', attributes_head: 'Assistant Secretary' },
+          { name: 'East Asian and Pacific Affairs', id: 's3', parent: 's', attributes_head: 'Assistant Secretary' },
+          { name: 'Western Hemisphere Affairs', id: 's4', parent: 's', attributes_head: 'Assistant Secretary' },
+          { name: 'European and Eurasian Affairs', id: 's5', parent: 's', attributes_head: 'Assistant Secretary' },
+          { name: 'International Organizations', id: 's6', parent: 's', attributes_head: 'Assistant Secretary' },
+          { name: 'Near Eastern Affairs', id: 's7', parent: 's', attributes_head: 'Assistant Secretary' },
+          {
+            name: 'Under Secretary for Economic Growth, Energy, and Environment',
+            id: 't',
+            parent: 'blank3',
+            attributes_head: '',
+          },
+          { name: 'Economic & Business Affairs', id: 't1', parent: 't', attributes_head: 'Assistant Secretary' },
+          { name: 'Energy Resources', id: 't2', parent: 't', attributes_head: 'Assistant Secretary' },
+          {
+            name: 'Oceans and Int’l Environmental and Scientific Affairs',
+            id: 't3',
+            parent: 't',
+            attributes_head: 'Assistant Secretary',
+          },
+          { name: 'Office of the Chief Economist', id: 't4', parent: 't', attributes_head: '' },
+          {
+            name: 'Office of the Science & Technology Advisor to the Secretary',
+            id: 't5',
+            parent: 't',
+            attributes_head: '',
+          },
+          {
+            name: 'Under Secretary for Arms Control and International Security Affairs',
+            id: 'u',
+            parent: 'blank3',
+            attributes_head: '',
+          },
+          {
+            name: 'Arms Control, Verification, and Compliance',
+            id: 'u1',
+            parent: 'u',
+            attributes_head: 'Assistant Secretary',
+          },
+          {
+            name: 'International Security and Nonproliferation',
+            id: 'u2',
+            parent: 'u',
+            attributes_head: 'Assistant Secretary',
+          },
+          { name: 'Political-Military Affairs', id: 'u3', parent: 'u', attributes_head: 'Assistant Secretary' },
+          {
+            name: 'Under Secretary for Public Diplomacy and Public Affairs',
+            id: 'v',
+            parent: 'blank3',
+            attributes_head: '',
+          },
+          { name: 'Educational and Cultural Affairs', id: 'v1', parent: 'v', attributes_head: 'Assistant Secretary' },
+          { name: 'Global Public Affairs', id: 'v2', parent: 'v', attributes_head: 'Assistant Secretary' },
+          { name: 'Under Secretary for Management', id: 'w', parent: 'blank3', attributes_head: '' },
+          { name: 'Administration', id: 'w1', parent: 'w', attributes_head: 'Assistant Secretary' },
+          { name: 'Budget and Planning', id: 'w2', parent: 'w', attributes_head: 'Director' },
+          { name: 'Comptroller, Global Financial Services', id: 'w3', parent: 'w', attributes_head: 'Comptroller' },
+          { name: 'Consular Affairs', id: 'w4', parent: 'w', attributes_head: 'Assistant Secretary' },
+          { name: 'Diplomatic Security', id: 'w5', parent: 'w', attributes_head: 'Assistant Secretary' },
+          { name: 'Office of Foreign Missions', id: 'w6', parent: 'w', attributes_head: 'Director' },
+          { name: 'Foreign Service Institute', id: 'w7', parent: 'w', attributes_head: 'Director' },
+          {
+            name: 'Global Talent Management',
+            id: 'w8',
+            parent: 'w',
+            attributes_head: 'Director General of Foreign Service & Director of Global Talent',
+          },
+          {
+            name: 'Information Resource Management',
+            id: 'w9',
+            parent: 'w',
+            attributes_head: 'Chief Information Officer',
+          },
+          { name: 'Office of Management Strategy and Solutions', id: 'w10', parent: 'w', attributes_head: 'Director' },
+          { name: 'Medical Services', id: 'w11', parent: 'w', attributes_head: 'Director' },
+          { name: 'Overseas Buildings Operations', id: 'w12', parent: 'w', attributes_head: 'Director' },
+          {
+            name: 'Under Secretary for Civilian Security, Democracy, and Human Rights',
+            id: 'x',
+            parent: 'blank3',
+            attributes_head: '',
+          },
+          {
+            name: 'Conflict & Stabilization Operations',
+            id: 'x1',
+            parent: 'x',
+            attributes_head: 'Assistant Secretary',
+          },
+          {
+            name: 'Counterterrorism and Countering Violent Extremism',
+            id: 'x2',
+            parent: 'x',
+            attributes_head: 'Ambassador-AtLarge',
+          },
+          { name: 'Democracy, Human Rights, and Labor', id: 'x3', parent: 'x', attributes_head: 'Assistant Secretary' },
+          { name: 'Office of Global Criminal Justice', id: 'x4', parent: 'x', attributes_head: 'Ambassador-AtLarge' },
+          {
+            name: 'International Narcotics and Law Enforcement',
+            id: 'x5',
+            parent: 'x',
+            attributes_head: 'Assistant Secretary',
+          },
+          {
+            name: 'Office of International Religious Freedom',
+            id: 'x6',
+            parent: 'x',
+            attributes_head: 'Ambassador-AtLarge',
+          },
+          {
+            name: 'Office to Monitor and Combat Trafficking in Persons',
+            id: 'x7',
+            parent: 'x',
+            attributes_head: 'Ambassador-AtLarge',
+          },
+          {
+            name: 'Population, Refugees, and Migration',
+            id: 'x8',
+            parent: 'x',
+            attributes_head: 'Assistant Secretary',
+          },
+          { name: 'Deputy Secretary of State', id: 'e', parent: 'ss', attributes_head: '' },
+          { name: 'Cyberspace and Digital Policy', id: 'e1', parent: 'e', attributes_head: 'Ambassador-at-Large' },
+          { name: 'Deputy Secretary of State', id: 'f', parent: 'ss', attributes_head: '' },
+          { name: 'Office of U.S. Foreign Assistance', id: 'f1', parent: 'f', attributes_head: 'Director' },
+          { name: 'Executive Secretariat', id: 'g', parent: 'ss', attributes_head: 'Executive Secretary' },
+          {
+            name: '',
+            id: 'blank',
+            parent: 'ss',
+            attributes_head: '',
+            annotation: { width: 10, padding: 0, margin: 0, height: 0 },
+          },
+          { name: 'Office of Civil Rights', id: 'h', parent: 'blank', attributes_head: 'Director' },
+          { name: "Office of Global Women's Issues", id: 'i', parent: 'blank', attributes_head: 'Ambassador-At-Large' },
+          { name: 'Intelligence and Research', id: 'j', parent: 'blank', attributes_head: 'Assistant Secretary' },
+          { name: 'Office of Inspector General', id: 'k', parent: 'blank', attributes_head: 'Inspector General' },
+          { name: 'Legislative Affairs', id: 'l', parent: 'blank', attributes_head: 'Assistant Secretary' },
+          { name: 'Office of the Legal Advisor', id: 'm', parent: 'blank', attributes_head: 'Legal Advisor' },
+          { name: 'Office of Policy Planning', id: 'n', parent: 'blank', attributes_head: 'Director' },
+          { name: 'Office of the Chief of Protocol', id: 'o', parent: 'blank', attributes_head: 'Ambassador' },
+          {
+            name: 'Office of U.S. Global AIDS Coordinator & Health Diplomacy',
+            id: 'p',
+            parent: 'blank',
+            attributes_head: 'Ambassador-At-Large',
+          },
+          {
+            name: 'Office of Diversity and Inclusion',
+            id: 'q',
+            parent: 'blank',
+            attributes_head: 'Chief Diversity and Inclusion Officer',
+          },
+          { name: 'Special Envoys and Special Representatives', id: 'r', parent: 'blank', attributes_head: '' },
+        ];
+      }
+    </script>
+  </body>
+</html>

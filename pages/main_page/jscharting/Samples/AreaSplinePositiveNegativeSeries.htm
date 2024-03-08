@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Negative Positive Area Overlay Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 910px; height: 300px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Area chart created from dynamically generated positive and negative segments.
+Learn how to:
+
+  - Create a negative and positive area series overlay.
+*/
+      var chart;
+      var palette = ['#E53935', '#1E88E5'];
+      JSC.fetch('./resources/temperature-anomaly.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'area spline',
+          palette: palette,
+          margin_right: 13,
+          legend_visible: false,
+          title_label_text: 'Annual Temperature Anomaly',
+          xAxis: {
+            crosshair: { enabled: true, label_text: '{%value:d}' },
+            scale_range_padding: 0,
+          },
+          yAxis: {
+            scale_range: [-0.75, 1.5],
+            alternateGridFill: 'none',
+            defaultTick_label_text: '%value°C',
+          },
+          defaultSeries_shape_opacity: 0.6,
+          defaultTooltip_label_text: '%points',
+          defaultPoint: {
+            tooltip: '%xValue: <span style="color=%color;fontWeight=bold;">%yValue°C</span>',
+            marker_visible: false,
+          },
+          series: makeSeries(data, 'Global'),
+          toolbar_items: {
+            list: {
+              type: 'select',
+              position: 'inside top left',
+              items: 'Global,Northern Hemisphere,Southern Hemisphere',
+              events_change: function (val) {
+                chart.options({ series: makeSeries(data, val) });
+              },
+            },
+          },
+        });
+      }
+
+      function createPositiveOverlay(points) {
+        var newPoints = [];
+        for (let i = 0; i < points.length - 1; i++) {
+          var point = points[i],
+            next = points[i + 1],
+            isLast = i === points.length - 2;
+
+          if (!isPos(point)) {
+            if (isPos(next)) {
+              // Add an interpolated point with a hidden marker
+              var xStep = -y(point) / (Math.abs(y(point)) + y(next));
+              newPoints.push({
+                x: x(point) + xStep * xRange(point, next),
+                y: 0,
+                marker_visible: false,
+                mouseTracking: false,
+              });
+              if (isLast) {
+                newPoints.push(next);
+              }
+            } else {
+              //Add empty point to make a gap between area sections.
+              newPoints.push({ x: x(point), y: null });
+            }
+          } else if (isPos(point)) {
+            newPoints.push(point);
+            if (next) {
+              if (!isPos(next)) {
+                // Add an interpolated point with a hidden marker
+                var xStep = y(point) / Math.abs(y(next) - y(point));
+                newPoints.push({
+                  x: x(point) + xStep * xRange(point, next),
+                  y: 0,
+                  marker_visible: false,
+                  mouseTracking: false,
+                });
+                if (!isLast) {
+                  newPoints.push({ x: x(next), y: null });
+                }
+              } else if (isLast) {
+                newPoints.push(next);
+              }
+            }
+          }
+        }
+        return newPoints;
+
+        function x(point) {
+          return point.x;
+        }
+        function y(point) {
+          return point.y;
+        }
+        function isPos(point) {
+          return y(point) > 0;
+        }
+        function xRange(pointA, pointB) {
+          return x(pointB) - x(pointA);
+        }
+      }
+      function createNegativeOverlay(points) {
+        var newPoints = [];
+        for (let i = 0; i < points.length - 1; i++) {
+          var point = points[i],
+            next = points[i + 1],
+            isLast = i === points.length - 2;
+
+          if (!isNeg(point)) {
+            if (isNeg(next)) {
+              // Add an interpolated point with a hidden marker
+              var xStep = y(point) / (Math.abs(y(next)) + y(point));
+              newPoints.push({
+                x: x(point) + xStep * xRange(point, next),
+                y: 0,
+                marker_visible: false,
+                mouseTracking: false,
+              });
+              if (isLast) {
+                newPoints.push(next);
+              }
+            } else {
+              //Add empty point to make a gap between area sections.
+              newPoints.push({ x: x(point), y: null });
+            }
+          } else if (isNeg(point)) {
+            newPoints.push(point);
+            if (next) {
+              if (!isNeg(next)) {
+                // Add an interpolated point with a hidden marker
+                var xStep = -y(point) / Math.abs(y(next) - y(point));
+                newPoints.push({
+                  x: x(point) + xStep * xRange(point, next),
+                  y: 0,
+                  marker_visible: false,
+                  mouseTracking: false,
+                });
+                if (!isLast) {
+                  newPoints.push({ x: x(next), y: null });
+                }
+              } else if (isLast) {
+                newPoints.push(next);
+              }
+            }
+          }
+        }
+        return newPoints;
+
+        function x(point) {
+          return point.x;
+        }
+        function y(point) {
+          return point.y;
+        }
+        function isNeg(point) {
+          return y(point) < 0;
+        }
+        function xRange(pointA, pointB) {
+          return x(pointB) - x(pointA);
+        }
+      }
+      function makeSeries(data, type) {
+        var points = JSC.nest().key('Year').rollup(type).points(data);
+        return [{ points: createPositiveOverlay(points) }, { points: createNegativeOverlay(points) }];
+      }
+    </script>
+  </body>
+</html>

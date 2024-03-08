@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dumbbell Line Segment Styling Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 600px; height: 400px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A dumbbell chart with capped line to compare data between men and women. Uses firstPoint and lastPoint to manage styling.
+Learn how to:
+
+  - Create dumbbell chart with styled line segments.
+*/
+      // JS
+      var palette = ['#29B6F6', '#EF5350'];
+      var chart;
+
+      var data = [
+        { age: '16 to 19 years', men: 595, women: 501 },
+        { age: '20 to 24 years', men: 656, women: 613 },
+        { age: '25 to 34 years', men: 961, women: 886 },
+        { age: '35 to 44 years', men: 1242, women: 968 },
+        { age: '45 to 54 years', men: 1279, women: 985 },
+        { age: '55 to 64 years', men: 1246, women: 973 },
+        { age: '65 years and over', men: 1141, women: 816 },
+      ];
+
+      chart = renderChart(makeSeries(data));
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          animation: false,
+          title_label: {
+            style_fontSize: 16,
+            text: 'Median weekly earnings by age and sex, second quarter 2021',
+          },
+          type: 'horizontal line',
+          palette: palette,
+          legend: {
+            position: 'inside top right',
+            template: '%icon %name',
+            defaultEntry_icon: {
+              outline_width: 0,
+              name: 'circle',
+              size: 12,
+            },
+            customEntries: [
+              { name: 'Men', icon_color: palette[0] },
+              { name: 'Women', icon_color: palette[1] },
+            ],
+          },
+          defaultTooltip_enabled: false,
+          xAxis_defaultTick: {
+            gridLine_visible: false,
+            line_visible: false,
+          },
+          yAxis: {
+            defaultTick_label_text: '%value',
+            formatString: 'c0',
+            gridLine_color: '#E0E0E0',
+          },
+
+          defaultSeries: {
+            line: { color: '#E0E0E0', width: 18, caps: { type: 'circle', size: '100%', overflow: true } },
+            mouseTracking_enabled: false,
+            legendEntry_visible: false,
+            defaultPoint: {
+              label: {
+                text: '%yValue',
+                verticalAlign: 'middle',
+              },
+              marker: {
+                type: 'circle',
+                outline_width: 0,
+                size: 12,
+              },
+              xAxisTick_hoverAction: 'highlightSeries',
+            },
+            firstPoint: { color: palette[0] },
+            lastPoint: { color: palette[1] },
+          },
+          series: series,
+        });
+      }
+
+      function makeSeries(data) {
+        return data.map(function (item) {
+          var men = item.men;
+          var women = item.women;
+          return {
+            name: item.age,
+            points: [
+              {
+                x: item.age,
+                y: men,
+                label_align: men < women ? 'left' : men === women ? 'left' : 'right',
+              },
+              {
+                x: item.age,
+                y: women,
+                label_align: men > women ? 'left' : men === women ? 'right' : 'right',
+              },
+            ],
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

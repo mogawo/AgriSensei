@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animated Treemap | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 1000px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An animated treemap chart of US state populations over time.
+Learn how to:
+
+  - Create an animated treemap chart.
+*/
+      // JS
+      var chart,
+        animationDuration = 400,
+        regionColors = ['#72bc43', '#c5b898', '#f4b810', '#4cafc7'],
+        startYear = 1900,
+        endYear = 2019;
+
+      JSC.fetch('./resources/US-population-by-state-1900-2019.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        var stopped = true,
+          timer,
+          frameDelay = 10,
+          currentYear = startYear;
+        return JSC.chart(
+          'chartDiv',
+          {
+            type: 'treemap solid',
+            palette: regionColors,
+            margin_right: 10,
+            chartArea_clipContent: false,
+            title: {
+              label: {
+                margin: { bottom: 40, left: 70 },
+                text: 'US Population by State: <b>1900</b> year',
+              },
+            },
+            legend: {
+              template: '%icon %name',
+              position: 'bottom',
+              defaultEntry: { style_fontSize: '15px' },
+            },
+
+            defaultPoint: {
+              tooltip: '%year<br>%xValue: <b>%yValue</b>',
+              label: {
+                text: ' <b>%id</b> {(Math.round(%yValue/1000)*1000):a}',
+                autoHide: true,
+              },
+            },
+            series: makeSeries(data),
+            toolbar: {
+              defaultItem: {
+                position: 'inside top left',
+                offset: '0,-45',
+                boxVisible: false,
+                margin: 6,
+              },
+              items: {
+                // The 1900 label
+                startLabel: {
+                  type: 'label',
+                  label: {
+                    text: startYear + '',
+                    style_fontSize: '18px',
+                  },
+                },
+                slider: {
+                  type: 'range',
+                  width: 240,
+                  // Reduce chart update frequency to smooth slider action.
+                  debounce: 20,
+                  value: startYear,
+                  min: startYear,
+                  max: endYear,
+                  events_change: function (val) {
+                    // Update chart
+                    moveSlider(val);
+                    // Stop playback if manually handling the slider.
+                    playPause(true);
+                  },
+                },
+                // The 2019 label
+                endLabel: {
+                  type: 'label',
+                  label: {
+                    text: endYear + '',
+                    style_fontSize: '18px',
+                  },
+                },
+                Pause: {
+                  type: 'option',
+                  value: false,
+                  // Lock width so that it doesnt change when changing between Play and Pause
+                  width: 50,
+                  margin: [6, 6, 6, 16],
+                  icon_name: 'system/default/pause',
+                  label_text: 'Pause',
+                  events_change: function (val) {
+                    playPause(!stopped);
+                  },
+                },
+              },
+            },
+          },
+          function (c) {
+            // Start the animation once the chart is rendered.
+            playPause(false, c);
+          }
+        );
+
+        function makeSeries(data) {
+          return JSC.nest()
+            .key('region')
+            .key('state')
+            .pointRollup(function (key, val) {
+              var value = val[0];
+              return {
+                x: key,
+                id: value.code,
+                y: value.population,
+                attributes_year: value.year + '',
+              };
+            })
+            .series(
+              data.filter(function (item) {
+                return item.year === currentYear;
+              })
+            );
+        }
+
+        function moveSlider(year, cb) {
+          currentYear = Math.round(year);
+
+          // Update chart label and slider
+          chart.uiItems('slider').options({ value: currentYear });
+
+          // Update chart title and points. The then: cb update option will execute the callback once the animation is finished.
+          chart.options(
+            {
+              title_label_text: 'US Population by State: <b>' + currentYear + '</b> year',
+              series: makeSeries(data),
+            },
+            //Dont animate when moving the slider manually
+            { then: cb, animation_duration: stopped ? 0 : animationDuration }
+          );
+        }
+
+        function animateChart() {
+          if (!stopped) {
+            timer = setTimeout(function () {
+              currentYear += 1;
+              // Stop at the end.
+              if (currentYear === endYear) {
+                clearInterval(timer);
+                playPause(true);
+                // loop back to starting point if play pressed with slider on the last year
+              } else if (currentYear >= endYear) {
+                currentYear = startYear;
+                chart.uiItems('slider').options({ value: currentYear });
+              }
+              moveSlider(currentYear, animateChart);
+            }, frameDelay);
+          }
+        }
+
+        function playPause(val, chrt) {
+          var c = chrt || chart;
+          if (val) {
+            if (!stopped) {
+              // Stop
+              c.uiItems('Pause').options({ label_text: 'Play', icon_name: 'system/default/play' });
+              clearInterval(timer);
+              stopped = true;
+            }
+          } else {
+            if (stopped) {
+              // Play
+              c.uiItems('Pause').options({ label_text: 'Pause', icon_name: 'system/default/pause' });
+              stopped = false;
+              animateChart();
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

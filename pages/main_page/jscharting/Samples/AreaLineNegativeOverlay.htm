@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Negative Area Overlay Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 910px; height: 300px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Area chart with a dynamically generated negative data overlay.
+Learn how to:
+
+  - Create a negative area series overlay.
+*/
+      var palette = ['#4CAF50', '#ff7e56'];
+      JSC.fetch('./resources/bitcoin-historical-data.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makePoints(data));
+        });
+
+      function renderChart(points) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'area',
+          palette: palette,
+          margin_right: 10,
+          legend_visible: false,
+          title_label_text: 'Bitcoin Daily Change',
+          xAxis: {
+            scale_type: 'time',
+            crosshair: { enabled: true, label_text: '{%value:d}' },
+          },
+          yAxis: {
+            alternateGridFill: 'none',
+            defaultTick_label_text: '%value%',
+          },
+          defaultTooltip_label_text: '%points',
+          defaultSeries_shape_fill: 'lightenMore',
+          defaultPoint: {
+            tooltip: function (point) {
+              var color = point.options('y') < 0 ? palette[1] : palette[0];
+              return '{%xValue:date m}: <span style="color=' + color + ';fontWeight=bold;">%yValue%</span>';
+            },
+            marker_visible: false,
+          },
+          series: [
+            {
+              type: 'area',
+              /* Prevent the line width from changing on line hover. */
+              states: { hover: { line_width: 2 } },
+              points: points,
+            },
+            {
+              type: 'area',
+              mouseTracking_enabled: false,
+              line_width: 2,
+              shape_opacity: 1,
+              points: createNegativeOverlay(points),
+            },
+          ],
+        });
+      }
+
+      function createNegativeOverlay(points) {
+        var newPoints = [];
+        for (let i = 0; i < points.length - 1; i++) {
+          var point = points[i],
+            next = points[i + 1],
+            isLast = i === points.length - 2;
+
+          if (!isNeg(point)) {
+            if (isNeg(next)) {
+              // Add an interpolated point with a hidden marker
+              var xStep = y(point) / (Math.abs(y(next)) + y(point));
+              newPoints.push({
+                x: x(point) + xStep * xRange(point, next),
+                y: 0,
+                marker_visible: false,
+                mouseTracking: false,
+              });
+              if (isLast) {
+                newPoints.push(next);
+              }
+            } else {
+              //Add empty point to make a gap between area sections.
+              newPoints.push({ x: x(point), y: null });
+            }
+          } else if (isNeg(point)) {
+            newPoints.push(point);
+            if (next) {
+              if (!isNeg(next)) {
+                // Add an interpolated point with a hidden marker
+                var xStep = -y(point) / Math.abs(y(next) - y(point));
+                newPoints.push({
+                  x: x(point) + xStep * xRange(point, next),
+                  y: 0,
+                  marker_visible: false,
+                  mouseTracking: false,
+                });
+                if (!isLast) {
+                  newPoints.push({ x: x(next), y: null });
+                }
+              } else if (isLast) {
+                newPoints.push(next);
+              }
+            }
+          }
+        }
+        return newPoints;
+
+        function x(point) {
+          return point.x;
+        }
+
+        function y(point) {
+          return point.y;
+        }
+
+        function isNeg(point) {
+          return y(point) < 0;
+        }
+
+        function xRange(pointA, pointB) {
+          return x(pointB) - x(pointA);
+        }
+      }
+
+      function makePoints(data) {
+        return JSC.nest().key('Date').rollup('Change').points(data);
+      }
+    </script>
+  </body>
+</html>

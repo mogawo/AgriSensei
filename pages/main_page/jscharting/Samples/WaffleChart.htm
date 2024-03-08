@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Waffle Heatmap Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #waffleWrapper {
+        max-width: 600px;
+        margin: 0px auto;
+        justify-content: space-around;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      #waffleWrapper p {
+        font-size: 14px;
+        font-family: tahoma, geneva, sans-serif;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        color: #212121;
+      }
+      .chart {
+        width: 180px;
+        height: 220px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="waffleWrapper">
+      <p style="font-size: 16px;">US Population by Race</p>
+      <div id="chart1" class="chart"></div>
+      <div id="chart2" class="chart"></div>
+      <div id="chart3" class="chart"></div>
+      <div id="chart4" class="chart"></div>
+      <div id="chart5" class="chart"></div>
+      <div id="chart6" class="chart"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Waffle chart created using multiple heatmap charts.
+Learn how to:
+
+  - Make waffle charts using heatmaps.
+*/
+      // JS
+      var data = [
+        { type: 'White Alone', value: 250139096 },
+        { type: 'Black Alone', value: 43804319 },
+        { type: 'American Indian or Alaska Native Alone', value: 4147521 },
+        { type: 'Asian Alone', value: 19330600 },
+        { type: 'Hawaiian and Other Pacific Islander Alone', value: 799418 },
+        { type: 'Two or More Race Groups', value: 8946480 },
+      ];
+      //Waffle chart settings
+      var heatmapEmptyCellsColor = '#EEEEEE',
+        heatmapCellsColor = '#D1C4E9',
+        labelTextSettings = 'width:120px;align:center; verticalAlign:middle;font-weight:bold;color:#212121;';
+
+      WaffleChart(data, 'chart');
+      function WaffleChart(data, div) {
+        var sum = JSC.sum(data, 'value');
+        data.forEach(function (item, i) {
+          var percent = (item.value * 100) / sum;
+          JSC.chart(div + (i + 1), {
+            type: 'heatmap solid',
+            title: {
+              label: { text: item.type, height: 34 },
+            },
+            toolbar_visible: false,
+            defaultAxis: { visible: false },
+            annotations: [
+              {
+                position: 'center',
+                label: {
+                  text:
+                    '<span style="font-size:18px">' +
+                    JSC.formatNumber(item.value, 'n0') +
+                    '</span><br>(' +
+                    JSC.formatNumber(percent, 'n2') +
+                    '%)',
+                  style_fontWeight: 'bold',
+                  align: 'center',
+                },
+              },
+            ],
+            defaultSeries_mouseTracking_enabled: false,
+            defaultPoint: {
+              outline_color: 'white',
+              focusGlow: false,
+            },
+            legend_visible: false,
+            series: [{ points: generatePoints(percent) }],
+          });
+        });
+      }
+      function generatePoints(value) {
+        var heatmapData = Array(100).fill(-1).fill(1, 0, Math.round(value));
+        heatmapData = heatmapData.reduce(function (rows, key, index) {
+          return (index % 10 === 0 ? rows.push([key]) : rows[rows.length - 1].push(key)) && rows;
+        }, []);
+        var points = [];
+        heatmapData.forEach(function (item1, i) {
+          item1.forEach(function (item2, j) {
+            points.push({
+              x: j,
+              y: i,
+              z: item2,
+              color: item2 === 1 ? heatmapCellsColor : heatmapEmptyCellsColor,
+            });
+          });
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

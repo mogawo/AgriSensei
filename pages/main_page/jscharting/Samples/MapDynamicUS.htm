@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>US Counties Dynamic Map | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 940px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Use external topoJSON and data files to generate a US counties choropleth map.
+Learn how to:
+
+  - Create a data driven US counties map.
+*/
+      // JS
+      var chart;
+      var countiesData;
+
+      JSC.fetch('./resources/laborForceUs.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text1) {
+          JSC.fetch('./resources/us-unemployment-rate-by-county.csv')
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text2) {
+              var stateData = JSC.csv2Json(text1, {
+                coerce: function (d) {
+                  return {
+                    state: d.state,
+                    year: d.year,
+                    unemployment_rate: (parseInt(d.unemployed) * 100) / parseInt(d.labor_force),
+                    unemployed: parseInt(d.unemployed),
+                  };
+                },
+              });
+              stateData = stateData.filter(function (v) {
+                return v.year === '2020';
+              });
+              var statePoints = stateData.map(function (v) {
+                //Map property value indicates the us-albers data set where name property is v.state
+                return {
+                  map: 'us-albers.name:' + v.state,
+                  z: v.unemployment_rate,
+                  attributes_unemployed: v.unemployed,
+                };
+              });
+              // counties data
+              countiesData = JSC.csv2Json(text2, {
+                coerce: function (d, i) {
+                  return {
+                    county: d.county,
+                    // county code must be a string for cases like '001'
+                    county_code: d.county_code + '',
+                    state: d.state,
+                    rate: d.rate,
+                  };
+                },
+              });
+              chart = renderChart(statePoints);
+            });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(points) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          animation_duration: 0,
+          type: 'map solid',
+          mapping: {
+            referenceLayers: 'resources/us-albers-counties.json.txt,resources/us-albers.json.txt',
+          },
+          title: {
+            label: {
+              text: 'US Unemployment Rate 2020<br><span style="font-size:12px">Click a state to load counties</span>',
+              style_fontSize: 16,
+            },
+          },
+          legend_position: 'right',
+          palette: {
+            pointValue: function (p) {
+              return p.options('z');
+            },
+            stops: [
+              [1, '#ffffe5'],
+              [2, '#fff7bc'],
+              [3, '#fee391'],
+              [4, '#fec44f'],
+              [5, '#ec7014'],
+              [6, '#cc4c02'],
+              [10, '#993404'],
+              [20, '#662506'],
+            ],
+            colorBar: {
+              width: 16,
+              axis_defaultTick_label: { text: '%value%' },
+            },
+          },
+          events_pointSelectionChanged: selectionChanged,
+          defaultSeries: { pointSelection: true },
+          defaultPoint: {
+            tooltip: '%name <b>(%zValue%)</b>',
+            states: {
+              hover: { fill: 'currentColor' },
+              select: { enabled: true, fill: 'currentColor', outline: { color: 'black', width: 3 } },
+            },
+          },
+          series: [{ map: 'us-albers', points: points }],
+          toolbar_items: {
+            resetZoom_visible: false,
+            export_visible: false,
+            Clear: {
+              type: 'option',
+              visible: false,
+              margin: 5,
+              label_text: 'Reset Zoom',
+              boxVisible: true,
+              events_click: function () {
+                chart.series(1).remove();
+                chart.zoom(1, { animation: false });
+                chart.series().points().options({ selected: false });
+                chart.uiItems('Clear').options({ visible: false });
+              },
+            },
+          },
+        });
+      }
+
+      function selectionChanged(item) {
+        if (item.length !== 0) {
+          var point = item[0];
+          var chart = point.chart;
+          var state = point.tokenValue('%name');
+          var countiesSeries = countiesData.filter(function (v) {
+            return v.state === state;
+          });
+          countiesSeries = {
+            points: countiesSeries.map(function (item) {
+              return {
+                map: 'us-albers-counties.' + item.state + '.' + item.county_code,
+                z: parseFloat(item.rate),
+                events_click: function () {
+                  return false;
+                },
+                cursor: 'default',
+              };
+            }),
+          };
+
+          chart.uiItems('Clear').options({ visible: true });
+          if (chart.series(1)) {
+            chart.series.splice(1, 1, [countiesSeries]);
+          } else {
+            chart.series.add(countiesSeries);
+          }
+
+          point.zoomTo();
+        }
+      }
+    </script>
+  </body>
+</html>

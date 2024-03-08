@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Chart Images | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; min-width: 330px; height: 440px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Uses labels with images of assigned person for each task.
+Learn how to:
+
+  - Use images in data point labels.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'horizontal column solid',
+        zAxis_scale_type: 'stacked',
+        title_label_text: 'Website Design Project',
+        palette: ['#eaf3ea'],
+        yAxis: { scale_type: 'time', crosshair_enabled: true },
+        xAxis_visible: false,
+        legend_visible: false,
+        defaultSeries: {
+          defaultPoint: {
+            radius: 100,
+            outline: { width: 2, color: '#bbdfbb' },
+            label: {
+              text:
+                '<b>%name</b><br/>{%low:date MMM d} - {%high:date MMM d}<br><img margin_left=-45 margin_top=-33 width=40 height=40 src=%photo>',
+              style: { fontWeight: 'normal', fontSize: 10 },
+              align: 'left',
+              verticalAlign: 'middle',
+              padding: { left: 46, top: 9 },
+              placement: 'inside',
+            },
+            tooltip: '<b>%designer</b><br/>{days(%high-%low)} days',
+          },
+        },
+        series: [
+          {
+            points: [
+              {
+                name: 'Wireframe',
+                y: ['1/1/2022', '1/25/2022'],
+                attributes: {
+                  designer: 'Devlin Cowins',
+                  photo: 'images/avatar1.png',
+                },
+              },
+              {
+                name: 'Home Page',
+                y: ['1/15/2022', '1/28/2022'],
+                attributes: {
+                  designer: 'Frasco Hatchell',
+                  photo: 'images/avatar2.png',
+                },
+              },
+              {
+                name: 'About Us Page',
+                y: ['1/20/2022', '2/6/2022'],
+                attributes: {
+                  designer: 'Dorthea Duffit',
+                  photo: 'images/avatar3.png',
+                },
+              },
+              {
+                name: 'Landing Page',
+                y: ['1/28/2022', '2/15/2022'],
+                attributes: {
+                  designer: 'Stanislas Pickersail',
+                  photo: 'images/avatar4.png',
+                },
+              },
+              {
+                name: 'Checkout Page',
+                y: ['2/5/2022', '2/18/2022'],
+                attributes: {
+                  designer: 'Rachel Steinhammer',
+                  photo: 'images/avatar5.png',
+                },
+              },
+              {
+                name: 'Product Page',
+                y: ['2/13/2022', '3/2/2022'],
+                attributes: {
+                  designer: 'Coreen Ambrozik',
+                  photo: 'images/avatar6.png',
+                },
+              },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

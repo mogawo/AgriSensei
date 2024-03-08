@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>US City Weather Data Map | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="mapDiv" style="max-width: 940px; height: 500px; margin: 0px auto;"></div>
+    <div id="chartDiv" style="max-width: 940px; height: 160px; margin: 20px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Shows weather forecast data for major cities in the US.
+Learn how to:
+
+  - Create an interactive US cities browser.
+*/
+      // JS
+      var map,
+        chart,
+        selectedState = '',
+        mapData;
+      var palette = ['#b4ddba', '#42A5F5', '#1565C0'];
+      var now = new Date().getHours();
+
+      var weatherColors = [
+        '#FCCE3A', //sun
+        '#C5E4F9', //variable sun
+        '#77B3DB', //dark
+        '#4E94C4', //darker
+      ];
+      //WMO Weather interpretation codes (WW) with icons
+      var weatherIcon = {
+        '0': 'clear-day',
+        '1': 'cloudy-day',
+        '2': 'cloudy-day',
+        '3': 'cloudy',
+
+        '45': 'fog-day',
+        '48': 'fog',
+
+        '51': 'light-rain-day',
+        '53': 'light-rain',
+        '55': 'light-rain',
+
+        '56': 'sleet-day',
+        '57': 'sleet',
+
+        '61': 'rain-day',
+        '63': 'rain',
+        '65': 'rain',
+
+        '66': 'sleet-day',
+        '67': 'sleet',
+
+        '71': 'snow-day',
+        '73': 'snow',
+        '75': 'snow',
+
+        '77': 'snow',
+
+        '80': 'rainfall-day',
+        '81': 'rainfall',
+        '82': 'rainfall',
+
+        '85': 'blizzard',
+        '86': 'blizzard',
+
+        '95': 'thunderstorm',
+
+        '96': 'thunderstorm',
+        '99': 'thunderstorm',
+      };
+
+      JSC.fetch('./resources/us-cities.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          mapData = JSC.csv2Json(text);
+          map = renderMap();
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderMap() {
+        return JSC.chart('mapDiv', {
+          debug: true,
+          type: 'map solid',
+          title_label_text: makeMapTitle(''),
+          defaultAnnotation: { asHTML: true, margin: 2 },
+          annotations: [
+            {
+              label_text:
+                'Source: <a href="https://simplemaps.com/data/us-cities">https://simplemaps.com/data/us-cities</a>',
+              position: 'bottom left',
+            },
+          ],
+          legend_visible: false,
+
+          mapping_base: {
+            layers: 'americas',
+            series: {
+              defaultPoint: {
+                color: '#EEEEEE',
+                mouseTracking: false,
+                outline_width: 0,
+              },
+            },
+          },
+
+          events_pointSelectionChanged: selectionChanged,
+          defaultSeries: { pointSelection: true },
+          defaultPoint_color: palette[0],
+          series: [{ id: 'usStates', map: 'us' }],
+          toolbar_items: {
+            resetZoom_visible: false,
+            export_visible: false,
+            Clear: {
+              type: 'option',
+              visible: false,
+              margin: 5,
+              label_text: 'Reset Zoom',
+              boxVisible: true,
+              events_click: function () {
+                map.series(2).remove(false);
+                map.zoom(1, {
+                  /*animation: false*/
+                });
+
+                map.series('usStates').points().options({ selected: false, mouseTracking: true }, false);
+
+                map.uiItems('Clear').options({ visible: false });
+                map.options({ title_label_text: makeMapTitle('') });
+                chart && chart.dispose();
+                selectedState = '';
+              },
+            },
+          },
+        });
+      }
+
+      function makeMapTitle(state) {
+        return (
+          'Weather Forecast' +
+          state +
+          '<br>' +
+          '<span style="font-size:12px">Click a state to load cities, then click a city point to load weather data</span>'
+        );
+      }
+      function selectionChanged(item) {
+        if (item.length !== 0) {
+          debugger;
+          var point = item[0];
+          var c = point.chart;
+          var stateCode = point.tokenValue('%statecode');
+          var stateName = point.tokenValue('%name');
+          var stateData = mapData.filter(function (v) {
+            return v.state_id === stateCode;
+          });
+          var seriesId = stateName + 'cities';
+
+          // Disable mouse tracking on the selected state.
+          selectedState &&
+            map
+              .series()
+              .points(function (p) {
+                return p.name === selectedState;
+              })
+              .options({ mouseTracking: true }, false);
+
+          selectedState = stateName;
+
+          map
+            .series()
+            .points(function (p) {
+              return p.name === selectedState;
+            })
+            .options({ mouseTracking: false }, false);
+
+          // show cities with a population above average if the number of cities is more than 1000
+          var citiesSeries = {
+            type: 'bubble',
+            id: seriesId,
+            pointSelection: false,
+            size: [10, 30],
+            defaultPoint: {
+              opacity: 0.8,
+              outline: { width: 1, color: 'lighten' },
+            },
+            points: stateData.map(function (item) {
+              return {
+                name: item.city,
+                x: item.lng,
+                y: item.lat,
+                z: item.population,
+                attributes: {
+                  timezone: item.timezone,
+                  state: stateName,
+                },
+                color: palette[1],
+                events_click: cityClick,
+                tooltip: '%name<br>Population: <b>%zValue</b>',
+              };
+            }),
+          };
+          c.options({ title_label_text: makeMapTitle(': ' + stateName) });
+          c.uiItems('Clear').options({ visible: true });
+
+          c.series.splice(2, c.series(2) ? 1 : 0, [citiesSeries], {
+            then: function () {
+              this.series(seriesId).zoomTo();
+            },
+          });
+
+          chart && chart.dispose();
+        }
+      }
+      function cityClick() {
+        var p = this;
+        p.series.points().options({ outline: { width: 1, color: 'lighten' } }, false);
+        p.options({ outline: { width: 3, color: 'darkenMore' } });
+
+        var chartTitle = p.tokenValue('%state') + ' - ' + p.name + ': 12-hours Forecast';
+        var link =
+          'https://api.open-meteo.com/v1/forecast?latitude=' +
+          p.y +
+          '&longitude=' +
+          p.x +
+          '&hourly=temperature_2m,weathercode&timezone=' +
+          p.tokenValue('%timezone').replace('/', '%2F');
+        JSC.fetch(link)
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (text) {
+            var chartData = JSON.parse(text);
+
+            chart = renderChart(chartTitle, chartData);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      }
+      function renderChart(title, data) {
+        var tickLabels = generateTickLabels(data);
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'spline',
+          title_label_text: title,
+          legend_visible: false,
+          palette: [palette[1]],
+          yAxis: {
+            visible: false,
+            alternateGridFill: 'none',
+          },
+          xAxis: {
+            scale: {
+              interval: { multiplier: 1, unit: 'hour' },
+            },
+            orientation: 'top',
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+              label_text: tickLabelText,
+            },
+          },
+          defaultTooltip_label_text: '%points',
+          defaultSeries_mouseTracking_enabled: false,
+          defaultPoint: {
+            label: { text: '%yValue°C' },
+            marker_size: 8,
+          },
+          series: makeChartSeries(data),
+        });
+
+        function tickLabelText(v) {
+          return tickLabels[new Date(v)];
+        }
+
+        function generateTickLabels(data) {
+          var ticks = {};
+          for (var i = now; i <= now + 11; i++) {
+            ticks[new Date(data.hourly.time[i])] =
+              JSC.formatDate(new Date(data.hourly.time[i]), 'h') +
+              ' ' +
+              JSC.formatDate(new Date(data.hourly.time[i]), 'tt') +
+              '<br><img src=images/weather-icons/' +
+              weatherIcon[data.hourly.weathercode[i]] +
+              '.svg width=34 height=34>';
+          }
+          return ticks;
+        }
+        function makeChartSeries(data) {
+          var points = [];
+          for (var i = now; i <= now + 11; i++) {
+            points.push({
+              x: new Date(data.hourly.time[i]),
+              y: data.hourly.temperature_2m[i],
+            });
+          }
+          return [{ points: points }];
+        }
+      }
+    </script>
+  </body>
+</html>

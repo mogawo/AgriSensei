@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Arc Gauge Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .circular .value {
+        font-size: 45px;
+      }
+      #chartDiv1 .jsc-widget .circular .value {
+        font-size: 50px;
+      }
+      #chartDiv2 .jsc-widget .circular .value {
+        font-size: 60px;
+      }
+      #chartDiv3 .jsc-widget .circular .value {
+        font-size: 50px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 150px; margin: 0 auto;">
+      <input type="checkbox" id="modeCheckbox" name="dark" />
+      <label for="modeCheckbox">Dark Background</label>
+    </div>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 275px; height: 270px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 275px; height: 270px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 275px; height: 270px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Circular widgets with limited sweep arcs.
+Learn how to:
+
+  - Make arc Circular widgets.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Circular('chartDiv1', {
+        value: 4.3,
+        icon: 'material/social/people',
+        color: '#7a41a8',
+        max: 10,
+        sweep: 250,
+        /* labelText is used because it draws after the value label. */
+        labelText: '%icon Viewers',
+        iconText: '',
+        valueText: '%valueM',
+        barWidth: 10,
+      });
+
+      var widget2 = new JSCWidgets.Circular(
+        'chartDiv2',
+        {
+          label: 'Relative Humidity',
+          value: 0.01,
+          icon: 'weather/drop',
+          max: 1,
+          color: '#007fe6',
+          valueFormat: 'p',
+          valueText: '%value',
+          sweep: 250,
+          barWidth: 2,
+          barBackgroundWidth: 10,
+          barBackgroundColor: 'rgba(52,140,255,0.2)',
+        },
+        function (widget) {
+          // Update the chart when the rendering thread is free.
+          setTimeout(function () {
+            widget.options({ value: 0.75 }, { animation: { duration: 1000 } });
+          }, 1);
+        }
+      );
+
+      var widget3 = new JSCWidgets.Circular('chartDiv3', {
+        icon: 'linear/music/volume-up',
+        value: 0.7,
+        label: 'Volume',
+        max: 1,
+        valueFormat: 'p',
+        sweep: 270,
+        barWidth: 12,
+      });
+
+      var checkboxEl = document.getElementById('modeCheckbox');
+
+      checkboxEl.addEventListener('change', function () {
+        var color = checkboxEl.checked ? 'black' : 'white';
+        var elements = document.getElementsByClassName('chartDiv');
+        for (let i = 0; i < elements.length; i++) {
+          elements[i].style.backgroundColor = color;
+        }
+      });
+    </script>
+  </body>
+</html>

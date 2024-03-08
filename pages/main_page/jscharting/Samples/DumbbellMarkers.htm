@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dumbbell Slider Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 600px; height: 900px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A dumbbell slider chart with offset markers to compare data between two years. Uses firstPoint and lastPoint to manage styling.
+Learn how to:
+
+  - Create dumbbell slider chart.
+*/
+      // JS
+      var palette = ['#65b769', '#d78c20'];
+      var chart;
+      JSC.fetch('./resources/us-top-offenses-2019-2020.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function wrapInColor(text, color) {
+        return "<b><span style='fontSize:15px;color:" + color + "'>" + text + '</span></b>';
+      }
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          title_label: {
+            style_fontSize: 16,
+            text:
+              'COVID-19 Impact on Criminal Offences<br>' +
+              '<span style="font-size:12px">Percent of top offenses between March 15 and April 30 in ' +
+              wrapInColor('2019', palette[0]) +
+              ' vs the same period in ' +
+              wrapInColor('2020', palette[1]) +
+              '</span>',
+          },
+          type: 'horizontal line',
+          palette: palette,
+          legend_visible: false,
+          defaultTooltip_enabled: false,
+          xAxis: [
+            {
+              orientation: 'opposite',
+              defaultTick: {
+                label_maxWidth: 100,
+                gridLine_visible: false,
+                line_visible: false,
+              },
+              scale_invert: true,
+            },
+            {
+              alternateGridFill: 'none',
+              // Create centered gridlines for the main category axis.
+              defaultTick: {
+                gridLine: { width: 1, color: '#bcbcbc' },
+                label_visible: false,
+              },
+              scale: {
+                // Defining a scale range on an additional axis disconnects it from the main axis scale.
+                range: [0.5, 12.5],
+                interval: 1,
+              },
+            },
+          ],
+          yAxis: {
+            scale_range: [0, 17],
+            defaultTick_label_text: '%value%',
+            orientation: 'opposite',
+          },
+
+          defaultSeries: {
+            line: { color: '#919191', width: 3 },
+            states_hover_enabled: false,
+            defaultPoint: {
+              label_text: '%yValue%',
+              tooltip: '%xValue (%seriesName): <b>%value%</b>',
+              marker: { outline_width: 0 },
+              xAxisTick: {
+                hoverAction: 'highlightSeries',
+                label_text: '<span style="color: %color;">%name</span>',
+              },
+            },
+            firstPoint: {
+              color: palette[0],
+              marker: {
+                type: 'triangle-down',
+                offset: '0,-8',
+                size: 16,
+              },
+              label: {
+                verticalAlign: 'top',
+                align: 'center',
+                offset: '0,-3',
+              },
+            },
+            lastPoint: {
+              color: palette[1],
+              marker: {
+                offset: '0,8',
+                type: 'triangle',
+                size: 16,
+              },
+              label: {
+                verticalAlign: 'bottom',
+                align: 'center',
+                offset: '0,3',
+              },
+            },
+          },
+          series: series,
+        });
+      }
+
+      function makeSeries(data) {
+        return data.map(function (item) {
+          return {
+            name: item.type,
+            points: [
+              {
+                x: item.type,
+                y: +item.year_2019,
+                attributes_year: '2019',
+              },
+              {
+                x: item.type,
+                y: +item.year_2020,
+                attributes_year: '2020',
+              },
+            ],
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

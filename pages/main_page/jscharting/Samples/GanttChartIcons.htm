@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Chart Icons | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; min-width: 330px; height: 440px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Dynamically sets icons in gantt data point labels indicating task completion.
+Learn how to:
+
+  - Style column complete values.
+*/
+      // JS
+
+      var currentDate = '4/20/2020';
+      var thresholdDate = norm(currentDate);
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        title_label_text: 'Project Beta from %min to %max',
+        type: 'horizontal column solid',
+        zAxis_scale_type: 'stacked',
+        palette: ['#9adcfa', '#99e4ed', '#d0b6fa'],
+        legend: {
+          position: 'inside right top',
+          template: '%icon %name',
+        },
+        toolbar_items_export_position: 'inside bottom left',
+        yAxis: {
+          scale_type: 'time',
+          scale_range_padding: 0.15,
+          markers: [{ value: currentDate, color: 'red', label_text: 'Now' }],
+        },
+        defaultPoint: {
+          outline_width: 0,
+          radius: 0,
+          label: { text: pointLabelText, placement: 'outside' },
+          tooltip: '<b>%name</b> %low - %high<br/>{days(%high-%low)} days',
+        },
+        yAxis_scale_type: 'time',
+        defaultSeries: {
+          firstPoint: {
+            outline: { color: 'darkenMore', width: 2 },
+            xAxisTick_label_text: '<b>%value</b>',
+          },
+        },
+        series: [
+          {
+            name: 'Initiate Project',
+            points: [
+              {
+                name: 'Initiate Project',
+                y: ['1/1/2020', '3/15/2020'],
+              },
+              {
+                name: 'Project Assignments',
+                y: ['1/1/2020', '1/25/2020'],
+              },
+              {
+                name: 'Outlines/Scope',
+                y: ['1/25/2020', '2/15/2020'],
+              },
+              {
+                name: 'Business Alignment',
+                y: ['2/15/2020', '3/15/2020'],
+              },
+            ],
+          },
+          {
+            name: 'Plan Project',
+            points: [
+              {
+                name: 'Plan Project',
+                y: ['3/15/2020', '5/20/2020'],
+              },
+              {
+                name: 'Determine Process',
+                y: ['3/15/2020', '4/12/2020'],
+              },
+              {
+                name: 'Design Layouts',
+                y: ['4/12/2020', '5/8/2020'],
+              },
+              {
+                name: 'Design Structure',
+                y: ['5/8/2020', '5/20/2020'],
+              },
+            ],
+          },
+          {
+            name: 'Implement Project',
+            points: [
+              {
+                name: 'Implement Project',
+                y: ['5/20/2020', '7/28/2020'],
+              },
+              { name: 'Designs', y: ['5/20/2020', '6/10/2020'] },
+              {
+                name: 'Structures',
+                y: ['6/10/2020', '6/15/2020'],
+              },
+              {
+                name: 'D&S Integration',
+                y: ['6/15/2020', '7/28/2020'],
+              },
+            ],
+          },
+        ],
+      });
+
+      /**
+       * Chooses the data point label icon based on the thresholdDate
+       * @param point
+       * @returns {*}
+       */
+      function pointLabelText(point) {
+        var pY = point.options('y');
+        var pRange = pY.map(norm);
+        if (thresholdDate > pRange[1]) {
+          return getIconText('material/navigation/check', '#66BB6A', 16);
+        } else if (thresholdDate > pRange[0]) {
+          return getIconText('material/notification/sync', '#FDD835', 20);
+        }
+        return getIconText('material/navigation/close', '#FF5252', 16);
+      }
+
+      function norm(d) {
+        return new Date(d).getTime();
+      }
+
+      function getIconText(name, color, size) {
+        return '<icon name=' + name + ' size=' + size + ' fill=' + color + '>';
+      }
+    </script>
+  </body>
+</html>
