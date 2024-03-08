@@ -229,12 +229,15 @@
     justify-content: space-evenly;
     gap: 25px;
     height: 450px;
+    max-width: 1000px;
 }
 
-.humidityGraph img{
+.humidityGraph{
     height: 450px;
+    max-width: 450px;
 }
 
-.batteryGraph img{
+.batteryGraph{
     height: 450px;
+    max-width: 450px;
 }

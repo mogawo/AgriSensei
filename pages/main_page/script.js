@@ -25,6 +25,8 @@ function createSensorElement() {
     newSensor.dataset.name = "Sensor " + newSensor.dataset.itemId;
     let array = [85, 82, 81, 82, 84];
     newSensor.dataset.humidityHistory = JSON.stringify(array);
+    let array2 = [100, 100, 100, 100, 100];
+    newSensor.dataset.batteryHistory = JSON.stringify(array2);
     // Read from the list by doing
     // let humidityHistoryArray = JSON.parse(newSensor.dataset.humidityHistory); to create a new array
     // Store to the list by doing
@@ -193,24 +195,118 @@ function handleGraphTab(sensorData)
 
     graphDisplay.innerHTML = `
     <div class="graphs">
-        <div id="humidityGraph>
-            <!-- <img src="images/HumidityGraph.png"> -->
+        <div id="humidityGraph">
         </div>
         <div id="batteryGraph">
-            <!-- <img src="images/BatteryGraph.png"> -->
         </div>
     </div>
     `;
 
-    generateGraph(sensorData, "humidityGraph");
-    generateGraph(sensorData, "batteryGraph");
-    // document.getElementById
-
     const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(graphDisplay);
 
+    const humidityChart = generateGraph(sensorData, "humidityGraph");
+    const batteryChart = generateGraph(sensorData, "batteryGraph");
+
+    console.log(humidityChart);
+    console.log(humidityChart.container);
+    document.getElementById('humidityGraph').appendChild(humidityChart);
+    document.getElementById('batteryGraph').appendChild(batteryChart);
+
+    // document.getElementById
+
+
     return;
 }
+
+function find_min(array)
+{
+    let min = 100;
+    for (let n = 0; n < array.length; n++)
+    {
+        if (array[n] < min)
+        {
+            min = array[n]
+        }
+    }
+    return min;
+}
+
+function find_max(array)
+{
+    let max = 0;
+    for (let n = 0; n < array.length; n++)
+    {
+        if (array[n] > max)
+        {
+            max = array[n]
+        }
+    }
+    return max;
+}
+
+function generateGraph(sensorData, graphID)
+{
+    let graphName = graphID;
+    let humidityHistoryArray = JSON.parse(sensorData.dataset.humidityHistory);
+    let batteryHistoryArray = JSON.parse(sensorData.dataset.batteryHistory);
+    let timeHistoryArray = JSON.parse(sensorData.dataset.timeHistory);
+
+    let combinedArray;
+    let min;
+    let max;
+    if (graphName == 'humidityGraph')
+    {
+        combinedArray = humidityHistoryArray.map((humidity, i) => [timeHistoryArray[i], humidity]);
+        min = find_min(humidityHistoryArray);
+        max = find_max(humidityHistoryArray);
+    }
+    else if (graphName == 'batteryGraph')
+    {
+        combinedArray = batteryHistoryArray.map((battery, i) => [timeHistoryArray[i], battery]);
+        min = find_min(batteryHistoryArray);
+        max = find_max(batteryHistoryArray);
+    }
+    if (max + 15 <= 100)
+    {
+        max += 10;
+    }
+    else {
+        max = 100;
+    }
+    if (min - 15 >= 0)
+    {
+        min -= 10;
+    }
+    else {
+        min = 0;
+    }
+    var chart = JSC.chart(graphID, {
+        debug: true,
+        type: 'line',
+        title_label_text: graphID === 'humidityGraph' ? 'Humidity Graph' : 'Battery Graph',
+        options: {
+            legend: {
+                display: false
+            }
+        },
+        series: [
+            {
+                points: combinedArray
+            }
+        ],
+        yAxis: {
+            scale: {
+                range: [min, max]
+            }
+        },
+        legend_visible: false,
+        watermark_visible: false
+
+    });
+
+    return chart;
+}   
 
 function handleDetailsTab(sensorData)
 {
@@ -245,20 +341,3 @@ window.onclick = function(event) {
         }
     }
 }
-
-function generateGraph(sensorData, graphID)
-{
-    let graphName = graphID;
-    let humidityHistoryArray = JSON.parse(sensorData.dataset.humidityHistory);
-    let batteryHistoryArray = JSON.parse(sensorData.dataset.timeHistory);
-    var chart = JSC.chart(graphID, {
-        type: 'line',
-        series: [
-            {
-                name: 'Humidity',
-                points: [humidityHistoryArray, batteryHistoryArray]
-            }
-        ]
-    });
-    return;
-}   
