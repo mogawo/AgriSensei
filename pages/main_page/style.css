@@ -149,6 +149,31 @@
     border-width: 0px;
 }
 
+.sensorDescription{
+    display: flex;
+    align-items: center;
+}
+
+.sensorDescription img{
+    width: 10px;
+}
+
+.sensorDescription p{
+    margin: 0;
+}
+
+.sensorDescription button{
+    margin-left: auto;
+}
+
+.descriptionTab{
+    height: 28px;
+    font-size: 24px;
+    max-width: 200px;
+    background-color: rgb(119, 114, 39);
+    border-width: 0px;
+}
+
 .display{
     display: flex;
     flex-direction: column;

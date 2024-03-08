@@ -39,7 +39,10 @@ function createSensorElement() {
                 <h2 class='nameTag' style='background-color: darkkhaki'>${newSensor.dataset.name}</h2>
                 <button class="nameChange"><img src="images/pencil.png"></button> 
             </div>
-            <p>${newSensor.dataset.description}</p>
+            <div class="sensorDescription">
+                <p class='descriptionTag' style='background-color: darkkhaki'>${newSensor.dataset.description}</p>
+                <button class="descriptionChange"><img src="images/pencil.png"></button>
+            </div>
             <br>
             <button class="removeItemButton">Remove Sensor</button>
     `;
@@ -73,6 +76,31 @@ function createSensorElement() {
             }
         });
     });
+
+    const changeDescriptionButton = newSensor.querySelector('.descriptionChange');
+    changeDescriptionButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        const sensorDescDiv = newSensor.querySelector('.sensorDescription');
+        sensorDescDiv.innerHTML = `
+            <input class='descriptionTag'></input>
+            <button class="descriptionChange"><img src="images/pencil.png"></button> 
+        `;
+
+        const descInput = sensorDescDiv.querySelector('.descriptionTag'); // Fix the class name here
+        descInput.focus(); // Set focus to the input field
+
+        descInput.addEventListener('keypress', (keypressEvent) => {
+            if (keypressEvent.key === 'Enter') {
+                newSensor.dataset.description = descInput.value;
+                sensorDescDiv.innerHTML = `
+                    <p class='descriptionTag' style='background-color: darkkhaki'>${newSensor.dataset.description}</p>
+                    <button class="descriptionChange"><img src="images/pencil.png"></button>
+                `;
+            }
+        });
+    });
+
 
 
     return newSensor;
@@ -208,9 +236,6 @@ function handleGraphTab(sensorData)
 
     const humidityChart = generateGraph(sensorData, "humidityGraph");
     const batteryChart = generateGraph(sensorData, "batteryGraph");
-
-    document.getElementById('humidityGraph').appendChild(humidityChart);
-    document.getElementById('batteryGraph').appendChild(batteryChart);
 
     // document.getElementById
 
