@@ -54,25 +54,26 @@ function createSensorElement() {
     changeNameButton.addEventListener('click', (event) => {
         event.stopPropagation();
 
-        newSensor.innerHTML = `
-        <div class="sensorName">
+        const sensorNameDiv = newSensor.querySelector('.sensorName');
+        sensorNameDiv.innerHTML = `
             <input class='nameTag'></input>
             <button class="nameChange"><img src="images/pencil.png"></button> 
-        </div>
-        <p>${newSensor.dataset.description}</p>
-        <br>
-        <button class="removeItemButton">Remove Sensor</button>
-    `;
+        `;
+
+        const nameInput = sensorNameDiv.querySelector('.nameTag');
+        nameInput.focus(); // Set focus to the input field
+
+        nameInput.addEventListener('keypress', (keypressEvent) => {
+            if (keypressEvent.key === 'Enter') {
+                newSensor.dataset.name = nameInput.value;
+                sensorNameDiv.innerHTML = `
+                    <h2 class='nameTag' style='background-color: darkkhaki'>${newSensor.dataset.name}</h2>
+                    <button class="nameChange"><img src="images/pencil.png"></button> 
+                `;
+            }
+        });
     });
 
-    
-    const nameInput = newSensor.querySelector('.nameTag');
-    nameInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter')
-        {
-            newSensor.dataset.name = nameInput.value;
-        }
-    });
 
     return newSensor;
 }
