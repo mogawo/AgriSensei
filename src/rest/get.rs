@@ -7,6 +7,35 @@ use regex::Regex;
 use serde_json::json;
 
 use super::post::{PostMessage, Query};
+// -GET REQUESTS-
+// GET /user/<user_id>/ HTTP/1.1          Returns ALL data about a userprofile
+// <no body or header needed>
+
+// -SERVER RESPONSE- you can run this files main.rs to get an example json response as well
+// HTTP/1.1 200
+// Content-Type: application/json
+// Content-Length: ## of bytes of json body
+// {
+//     "user_id": 1,
+//     "username": "Yareli",
+//     "sensors": [
+//       {
+//         "sensor_id": 1,
+//         "user_id": 1,
+//         "sensor_type": "Moisture",
+//         "packets": [
+//           {
+//             "date_time": "2024-03-08T07:22:50.109534300Z",
+//             "frequency": 5,
+//             "duration": 5,
+//             "amount": 5,
+//             "sensor_id": 1
+//           },
+//         ]
+//       },
+//     ]
+//   }
+
 pub struct GetMessage{}
 impl Message for GetMessage{
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>>

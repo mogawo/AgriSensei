@@ -16,19 +16,35 @@ pub use http::Error as HTTPError;
 pub use crate::server_error::ServerError::*;
 pub use crate::comps::{sensor::Sensor, components::Patterns};
 
+// -POST REQUESTS-
+// 
+// /new/user/                    creates new user profile
+// /new/user/<user_id>/sensor/   creates new sensor for user_id
+// /new/user/<user_id>/data/     creates new data packet for user_id
 
-  // /user/{userid}/                                 pulls up userid profile
-  // /user/new/                               creates new user profile and pulls the new user profile
+// POST /new/user/<user_id>/sensor/ HTTP/1.1
 
-  // /user/{userid}/sensor/{sensorid}                pulls sensor of userid
-  // /user/{userid}/sensor/new                       creats a new sensor attached to userid
-  // /user/{userid}/data
+// POST /new/user/<user_id>/sensor/ HTTP/1.1
+// {
+//     "sensor_type" : "Temperature" or "Moisture"
+// }
+
+// POST /new/user/<user_id>/data/ HTTP/1.1
+// {
+//     "date_time": time_now,
+//     "frequency": 5, //int seconds
+//     "duration" : 5, //int seconds
+//     "amount"   : 5,
+//     "sensor_id": sensor_id 
+// }
+
+// -SERVER RESPONSE- 
+//
+// HTTP/1.1 200
+// Location: /user/<user_id>/            <- uri path where user should be redirected too; 
+//                                          need to added htmx path to get.rs match cases
 
 
-//TODO - Seperate Regex into 
-// /new/user/
-// /new/user/##/sensor/
-// /new/user/##/data/            Body will have the data
 
 pub struct PostMessage{}
 impl Message for PostMessage{
