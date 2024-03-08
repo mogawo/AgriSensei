@@ -232,12 +232,12 @@
     max-width: 1000px;
 }
 
-.humidityGraph{
+.humGraph{
     height: 450px;
-    max-width: 450px;
+    width: 450px;
 }
 
-.batteryGraph{
+.batGraph{
     height: 450px;
-    max-width: 450px;
+    width: 450px;
 }

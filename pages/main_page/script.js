@@ -195,9 +195,9 @@ function handleGraphTab(sensorData)
 
     graphDisplay.innerHTML = `
     <div class="graphs">
-        <div id="humidityGraph">
+        <div id="humidityGraph" class="humGraph">
         </div>
-        <div id="batteryGraph">
+        <div id="batteryGraph" class="batGraph">
         </div>
     </div>
     `;
@@ -208,8 +208,6 @@ function handleGraphTab(sensorData)
     const humidityChart = generateGraph(sensorData, "humidityGraph");
     const batteryChart = generateGraph(sensorData, "batteryGraph");
 
-    console.log(humidityChart);
-    console.log(humidityChart.container);
     document.getElementById('humidityGraph').appendChild(humidityChart);
     document.getElementById('batteryGraph').appendChild(batteryChart);
 
@@ -299,10 +297,7 @@ function generateGraph(sensorData, graphID)
             scale: {
                 range: [min, max]
             }
-        },
-        legend_visible: false,
-        watermark_visible: false
-
+        }
     });
 
     return chart;
