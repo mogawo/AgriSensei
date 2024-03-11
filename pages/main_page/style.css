@@ -88,6 +88,23 @@
     align-items: center;
 }
 
+
+.addSensorButton{
+    background-color: rgb(78, 199, 119);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.addSensorButton:hover {
+    background-color: rgb(38, 148, 43);
+}
+
 .sensorName{
     display: flex;
     align-items: center;
@@ -234,6 +251,10 @@
     justify-content: flex-start;
     gap: 35%;
     min-width: 960px;
+}
+
+.sensor:hover{
+    background-color: rgb(167, 161, 83);
 }
 
 .humidityList{

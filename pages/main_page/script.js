@@ -1,4 +1,5 @@
 const addItemButton = document.getElementById('addItemButton');
+const addSensorButton = document.getElementById('addNewSensor');
 const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
 
@@ -7,6 +8,11 @@ let itemIdCounter = 0;
 addItemButton.addEventListener('click', () => {
     const newSensor = createSensorElement();
     itemsContainer.appendChild(newSensor);
+});
+addSensorButton.addEventListener('click', () => {
+    const newSensor = createSensorElement();
+    itemsContainer.appendChild(newSensor);
+    sensorDisplay
 });
 
 function createSensorElement() {
