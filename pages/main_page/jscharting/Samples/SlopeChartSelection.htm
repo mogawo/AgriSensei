@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ranked Selection Slope Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div
+      style="max-width: 600px; margin: 0px auto 10px auto; font-family: tahoma, geneva, sans-serif; text-align: center;"
+    >
+      2020-2021 Season vs. 2021-2022 Season Wins for&nbsp;<select id="selectTeam"></select>
+    </div>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 600px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Slope chart that ranks items on both sides, uses 2-way dropdown selection, and first and last point labels.
+Learn how to:
+
+  - Create a slope chart with selection.
+*/
+      // JS
+      var chart,
+        palette = ['#1b4289', '#d0d0d0'];
+      var selectEl;
+      var data = [
+        { team: 'Atlanta Hawks', W_21_22: 43, W_20_21: 41 },
+        { team: 'Boston Celtics', W_21_22: 51, W_20_21: 36 },
+        { team: 'Brooklyn Nets', W_21_22: 44, W_20_21: 48 },
+        { team: 'Charlotte Hornets', W_21_22: 43, W_20_21: 33 },
+        { team: 'Chicago Bulls', W_21_22: 46, W_20_21: 31 },
+        { team: 'Cleveland Cavaliers', W_21_22: 44, W_20_21: 22 },
+        { team: 'Dallas Mavericks', W_21_22: 52, W_20_21: 42 },
+        { team: 'Denver Nuggets', W_21_22: 48, W_20_21: 47 },
+        { team: 'Detroit Pistons', W_21_22: 23, W_20_21: 20 },
+        { team: 'Golden State Warriors', W_21_22: 53, W_20_21: 39 },
+        { team: 'Houston Rockets', W_21_22: 20, W_20_21: 17 },
+        { team: 'Indiana Pacers', W_21_22: 25, W_20_21: 34 },
+        { team: 'LA Clippers', W_21_22: 42, W_20_21: 47 },
+        { team: 'Los Angeles Lakers', W_21_22: 33, W_20_21: 42 },
+        { team: 'Memphis Grizzlies', W_21_22: 56, W_20_21: 38 },
+        { team: 'Miami Heat', W_21_22: 53, W_20_21: 40 },
+        { team: 'Milwaukee Bucks', W_21_22: 51, W_20_21: 46 },
+        { team: 'Minnesota Timberwolves', W_21_22: 46, W_20_21: 23 },
+        { team: 'New Orleans Pelicans', W_21_22: 36, W_20_21: 31 },
+        { team: 'New York Knicks', W_21_22: 37, W_20_21: 41 },
+        { team: 'Oklahoma City Thunder', W_21_22: 24, W_20_21: 22 },
+        { team: 'Orlando Magic', W_21_22: 22, W_20_21: 21 },
+        { team: 'Philadelphia 76ers', W_21_22: 51, W_20_21: 49 },
+        { team: 'Phoenix Suns', W_21_22: 64, W_20_21: 51 },
+        { team: 'Portland Trail Blazers', W_21_22: 27, W_20_21: 42 },
+        { team: 'Sacramento Kings', W_21_22: 30, W_20_21: 31 },
+        { team: 'San Antonio Spurs', W_21_22: 34, W_20_21: 33 },
+        { team: 'Toronto Raptors', W_21_22: 48, W_20_21: 27 },
+        { team: 'Utah Jazz', W_21_22: 49, W_20_21: 52 },
+        { team: 'Washington Wizards', W_21_22: 35, W_20_21: 34 },
+      ];
+
+      var leftCategories = JSC.sortBy(data, 'W_20_21')
+          .reverse()
+          .map(function (v) {
+            return v.team;
+          }),
+        rightCategories = JSC.sortBy(data, 'W_21_22')
+          .reverse()
+          .map(function (v) {
+            return v.team;
+          });
+
+      var series = getSeries(data);
+      bindUi();
+      populateDropdown(series);
+
+      chart = JSC.Chart(
+        'chartDiv1',
+        {
+          debug: true,
+          animation_duration: 0,
+          chartArea_clipContent: false,
+          legend_visible: false,
+          yAxis: {
+            visible: false,
+            formatString: 'n0',
+            scale: {
+              range: [-0.5, leftCategories.length - 0.5],
+              invert: true,
+            },
+          },
+          xAxis: {
+            scale_range_padding: 1.2,
+            defaultTick: {
+              label: { maxWidth: 60, color: '#9E9E9E' },
+              gridLine: { visible: false, center: true },
+              line_color: 'none',
+            },
+            scale: { range: { min: -0.7, max: 1.3 } },
+          },
+          defaultTooltip_enabled: false,
+          defaultSeries: {
+            opacity: 0.1,
+            states: {
+              select: { opacity: 1, color: palette[0] },
+              hover_enabled: false,
+              mute_enabled: false,
+            },
+            firstPoint_label: {
+              text: '%seriesName <b>%zValue</b> ({%yValue+1})',
+              align: 'left',
+            },
+            lastPoint_label: {
+              text: '<b>%zValue</b> ({%yValue+1})',
+              align: 'right',
+            },
+            events: {
+              mouseOver: function () {
+                var id = this.options('name');
+                dropdownSelect(id);
+                highlightSeries(id);
+                return false;
+              },
+            },
+          },
+          defaultPoint: {
+            label: {
+              color: '%color',
+              verticalAlign: 'middle',
+            },
+            marker: {
+              type: 'circle',
+              outline_width: 0,
+              size: 12,
+            },
+            states: {
+              hover_enabled: false,
+              mute_enabled: false,
+            },
+            focusGlow: false,
+          },
+          series: series,
+        },
+        function (c) {
+          chart = c;
+          dropdownSelect('Phoenix Suns');
+          highlightSeries('Phoenix Suns');
+        }
+      );
+
+      function getSeries(data) {
+        return data.map(function (v) {
+          var team = v.team;
+          (leftI = leftCategories.indexOf(team)), (rightI = rightCategories.indexOf(team));
+          return {
+            name: team,
+            color: palette[1],
+            points: [
+              { x: '2020-2021 Season', y: leftI, z: v['W_20_21'] },
+              { x: '2021-2022 Season', y: rightI, z: v['W_21_22'] },
+            ],
+          };
+        });
+      }
+
+      function highlightSeries(id) {
+        /* Unselect any selected series */
+        chart
+          .series(function (s) {
+            return s.options('selected');
+          })
+          .options({ selected: false, defaultPoint_label_color: palette[1] }, false);
+
+        /* Select series with given ID */
+        chart.series(id).options({ selected: true, defaultPoint_label_color: palette[0] });
+      }
+
+      function bindUi() {
+        selectEl = document.getElementById('selectTeam');
+        selectEl.addEventListener('change', function () {
+          selectChanged(this);
+        });
+
+        function selectChanged(control) {
+          highlightSeries(control.options[control.selectedIndex].value);
+        }
+      }
+
+      function dropdownSelect(id) {
+        for (var i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].text === id) {
+            selectEl.options[i].selected = true;
+            return;
+          }
+        }
+      }
+
+      function populateDropdown(series) {
+        series.forEach(function (s) {
+          var el = document.createElement('option');
+          el.textContent = s.name;
+          el.value = s.name;
+          selectEl.appendChild(el);
+        });
+      }
+    </script>
+  </body>
+</html>

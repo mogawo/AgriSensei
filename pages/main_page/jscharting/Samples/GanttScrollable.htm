@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Scrollable Gantt HTML Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 600px) {
+        #titleDiv {
+          width: 100% !important;
+        }
+        #legendDiv {
+          justify-content: flex-start !important;
+        }
+      }
+      #ganttDiv {
+        display: flex;
+        flex-wrap: wrap;
+        font: 12px/1.6 tahoma, geneva, sans-serif !important;
+      }
+      #ticksDiv span {
+        display: inline-block;
+      }
+      #titleDiv {
+        width: 220px;
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      #legendDiv {
+        flex: 1;
+        max-width: 400px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      #legendDiv .entries {
+        margin: 0 5px;
+        height: 20px;
+      }
+      #ganttScroll::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+      }
+      #ganttScroll::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ganttDiv" style="max-width: 800px; margin: 0 auto;">
+      <div
+        id="headerDiv"
+        style="display: flex; flex-wrap: wrap; width: 100%; justify-content: space-between; margin: 0 auto;"
+      ></div>
+      <div id="ticksDiv" style="display: flex; flex-wrap: wrap; width: 220px; padding-bottom: 40px;"></div>
+      <div id="ganttScroll" style="flex: 1; overflow-x: scroll;">
+        <div id="chartDiv" style="width: 1400px; height: 99%;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Gantt chart that uses HTML to create a scrollable chart area.
+Learn how to:
+
+  - Create a scrollable chart.
+*/
+      // JS
+      var chart;
+      var palette = JSC.getPalette(0);
+
+      // Reusable functions to create any axis tick data grid.
+      var span = function (val, width) {
+        return '<span style="width:' + width + 'px;">' + val + '</span>';
+      };
+      var columnWidths = [35, 140, 40];
+      var mapLabels = function (labels) {
+        return labels
+          .map(function (v, i) {
+            return span(v, columnWidths[i]);
+          })
+          .join('');
+      };
+
+      // Custom templates
+      var tickTemplate = mapLabels(['%section', '%xValue', '{days(%high-%low):n1}d']);
+      var tickTemplateBold = '<b>' + tickTemplate + '</b>';
+      var headerTemplate = '<b>' + mapLabels([' ', 'Task', 'Days']) + '</b>';
+      JSC.fetch('./resources/gameDev.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          chart = renderChart(JSC.csv2Json(text));
+          renderHeader();
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          defaultBox_boxVisible: false,
+          overlapBranding: true,
+          type: 'horizontal column',
+          margin_top: 15,
+          zAxis_scale_type: 'stacked',
+          yAxis_scale_type: 'time',
+          xAxis_defaultTick_label_visible: false,
+          legend: {
+            visible: false,
+            position: 'top',
+            template: '%icon %name',
+          },
+          series: getSeries(data),
+          defaultSeries: {
+            defaultPoint: {
+              tooltip: '<b>%name</b><br>%yStart - %yValue<br>',
+              xAxisTick_label_text: tickTemplate,
+              marker_visible: false,
+            },
+            firstPoint_label_text: '%name',
+            xAxisTick_label_text: tickTemplateBold,
+          },
+        });
+        function getSeries(data) {
+          return (
+            JSC.nest()
+              .key('phase')
+              .key('name')
+              // Custom point configuration
+              .pointRollup(function (key, vals) {
+                var val = vals[0];
+                var result = {
+                  id: val.id,
+                  name: val.name,
+                  parent: val.parent,
+                  y: [val.start, val.end],
+                  attributes_section: val.id.replace('s', ''),
+                };
+                // Column series data points as milestones
+                if (val.start === val.end) {
+                  result.marker = { type: 'diamond', visible: true };
+                }
+                return result;
+              })
+              .series(data)
+          );
+        }
+      }
+
+      function renderHeader() {
+        // Create title and annotation div
+        var title = document.createElement('div');
+        title.setAttribute('id', 'titleDiv');
+        document.getElementById('headerDiv').appendChild(title);
+        title.innerHTML =
+          'Project Alpha<br><span style="font-size:12px; color:#b0b0b0">Scroll sideways to see full data</span>';
+        //Create legend
+        var legend = document.createElement('div');
+        legend.setAttribute('id', 'legendDiv');
+        document.getElementById('headerDiv').appendChild(legend);
+        chart.series().items.forEach(function (item, i) {
+          var entry = document.createElement('div');
+          entry.setAttribute('id', 'entryDiv' + i);
+          entry.setAttribute('class', 'entries');
+          document.getElementById('legendDiv').appendChild(entry);
+          JSC.label(
+            'entryDiv' + i,
+            '<icon name=system/default/square color=' + palette[i] + ' size=14 margin_right=4>' + item.name
+          );
+        });
+
+        var ticks = chart.series().points().items;
+        // Create header tick
+        var headerTick = document.createElement('div');
+        headerTick.setAttribute('id', 'tickDivH');
+        headerTick.setAttribute('class', 'ticks');
+        document.getElementById('ticksDiv').appendChild(headerTick);
+        headerTick.innerHTML = headerTemplate;
+        // Create all ticks
+        ticks.forEach(function (item, i) {
+          var tick = document.createElement('div');
+          tick.setAttribute('id', 'tickDiv' + i);
+          tick.setAttribute('class', 'ticks');
+          document.getElementById('ticksDiv').appendChild(tick);
+          tick.innerHTML =
+            item.id.indexOf('.') === -1 ? item.replaceTokens(tickTemplateBold) : item.replaceTokens(tickTemplate);
+        });
+      }
+    </script>
+  </body>
+</html>

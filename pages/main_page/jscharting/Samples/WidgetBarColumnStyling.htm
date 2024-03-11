@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bar Column Widget Styling | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 400px; height: 300px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 400px; height: 300px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 400px; height: 300px;"></div>
+      <div id="chartDiv4" class="chartDiv" style="max-width: 320px; height: 300px;"></div>
+      <div id="chartDiv5" class="chartDiv" style="max-width: 240px; height: 300px;"></div>
+      <div id="chartDiv6" class="chartDiv" style="max-width: 300px; height: 300px; background: black;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Uses the BarColumn widget object to demonstrate a few features and styling options.
+Learn how to:
+
+  - Use BarColumn widget object.
+*/
+      // JS
+      var widgetOptions = [
+        {
+          title: 'Months',
+          color: '#254552',
+          label: 'months',
+          value: [3516, 6854, 9461, 7523, 5256, 2546, 3425, 5256, 2546, 3425, 5256, 2546],
+          chartOptions: { xAxis_orientation: 'opposite' },
+        },
+        {
+          title: 'Steps: Monthly',
+          label: 'months',
+          color: '#299c8e',
+          value: [65384, 87110, 68184, 86242, 96522, 165605, 164351, 171792, 177110, 166693, 73889, 111024],
+        },
+        {
+          horizontal: true,
+          title: 'New passenger cars by fuel type in the EU',
+          label: [
+            'Petrol',
+            'Hybrid Electric (HEV)',
+            'Diesel',
+            'Battery Electric (BEV)',
+            'Plug-in Hybrid (PHEV)',
+            'Other',
+            'Natural Gas',
+          ],
+          value: [0.4, 0.196, 0.196, 0.091, 0.089, 0.023, 0.004],
+          yAxis: true,
+          color: '#e8c36b',
+          barBackgroundWidth: 3,
+          barBackgroundColor: '#ffde9f',
+          valueFormat: 'p1',
+        },
+        {
+          title: 'Daily Sales',
+          color: '#f3a162',
+          value: [29.9, 97.5, 110.4, 129.2, 144.0, 176.0, 124.0, 106.0],
+          /* Use weekdays with a starting date for automatic daily labels. */
+          label: 'weekdays',
+          labelStart: '1/1/2023',
+          timeLabelFormat: 'M/d',
+          yAxis: true,
+          valueFormat: 'c0',
+        },
+        {
+          title: 'Quarterly Sales',
+          label: 'quarters',
+          value: [9, 97, 110, 129, 144, 176, 124, 106],
+          horizontal: true,
+          color: '#97319a',
+          barBackgroundColor: '#f6e3f6',
+          barRounded: false,
+          valueFormat: 'c2',
+        },
+        {
+          title: 'Pasos esta semana',
+          label: 'weekdays',
+          value: [6586, 7344, 6158, 3839, 3928, 7310, 4551],
+          cultureName: 'es-ES',
+          color: '#e66e51',
+          horizontal: false,
+        },
+      ];
+
+      var chart1 = new JSCWidgets.BarColumn('chartDiv1', widgetOptions[0]),
+        chart2 = new JSCWidgets.BarColumn('chartDiv2', widgetOptions[1]),
+        chart3 = new JSCWidgets.BarColumn('chartDiv3', widgetOptions[2]),
+        chart4 = new JSCWidgets.BarColumn('chartDiv4', widgetOptions[3]),
+        chart5 = new JSCWidgets.BarColumn('chartDiv5', widgetOptions[4]);
+      chart6 = new JSCWidgets.BarColumn('chartDiv6', widgetOptions[5]);
+    </script>
+  </body>
+</html>

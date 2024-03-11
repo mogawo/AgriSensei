@@ -1,0 +1,19 @@
+This license agreement is a legal agreement between you and Corporate Web Solutions Ltd. for JSCharting. By using this product/key you agree to be bound by the terms of this agreement.
+
+This software/key is protected by national and international copyright laws. This software/key is licensed, not sold.
+
+Granted Rights: This license grants you the right to install this software/key for the number of servers you have purchased licenses for, for usage by the licensed company only. In addition, you may use the product for local development / testing without key deployment. Such local development and testing will remain branded, not for production use. This product/key is licensed per server as defined by a single OS install on one physical machine instance. If you hold a server license you are entitled to install the license key on a single server for each license purchase. A web site license may be used on a single server for one fully qualified domain name. Developer licenses may be used by the licensed developer and each developer working with the software requires a license. Free license may be used only by those who have fulfilled an order through www.jscharting.com and where subtle branding is displayed for all chart usage.
+
+Limitations: You may not reverse engineer, decompile, or disassemble JSCharting. You may not rent or lease this software/key; you may not transfer your rights under this license agreement. JSCharting may not be used in any other application outside of a web server environment. JSCharting may not be integrated with or incorporated into any software product or script sold or offered to any 3rd party without a separately executed licensing agreement for SaaS or OEM. A single JSCharting license may not be used in a webfarm, cluster or cloud environment, each server must have its own unique license.
+
+Ownership: Corporate Web Solutions Ltd. retains ownership of the software/key.
+
+Liability: In no event shall Corporate Web Solutions Ltd. be liable for any damages whatsoever (including, without limitation, damages for loss of business profits, business interruption, loss of information or any other pecuniary loss) arising out of the use of inability to use this software/key, even if Corporate Web Solutions Ltd. has been advised of the possibility of such damages.
+
+Controlling Law: This Agreement shall be governed and construed according to the laws of the Province of British Columbia, Canada, without regard to any conflict of laws provisions. The parties agree that the United Nations Convention on Contracts for the International Sale of Goods shall not apply to this Agreement.
+
+Termination: Without prejudice to any other rights, Corporate Web Solutions Ltd. may terminate this license agreement if you fail to comply with the terms and conditions of this agreement. In such event, you must destroy all copies of JSCharting, any derivative work, and all of its component parts.
+
+Severability: If any provision of this Agreement is held unenforceable or invalid under applicable law, then such unenforceability or invalidity shall not render this Agreement unenforceable or invalid as a whole. In such event, the invalid or unenforceable provision shall be removed and the remainder of the Agreement shall stay in force and effect.
+
+General: By installing this software/key you acknowledge that you have read this license agreement, understand it, and agree to be bound by its terms and conditions.

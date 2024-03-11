@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Connector Line Radius Styling Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 500px;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart connector line corner radius rounding customization.
+Learn how to:
+
+  - Style connector lines with different radii values.
+*/
+      // JS
+      var mainColor = '#1b9aaf';
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        defaultTooltip_enabled: false,
+        /*These options will apply to all annotations including point nodes and breadcrumbs.*/
+        defaultAnnotation: {
+          padding: [8, 14],
+          margin: [8, 2],
+          radius: 3,
+        },
+        annotations: [
+          {
+            position: 'bottom',
+            label_text: 'Specifies connector line radius in point configuration.',
+          },
+        ],
+        defaultSeries: {
+          color: mainColor,
+          mouseTracking: false,
+          defaultPoint: {
+            //Default line styling for connector lines
+            connectorLine: {
+              color: '#707070',
+              width: 2,
+              /* First corner has 20 pixel radius, second corner has 5 */
+              radius: [20, 5],
+            },
+            label: { color: 'white', maxWidth: 70 },
+            outline_width: 0,
+            annotation_syncHeight: true,
+          },
+        },
+        series: [
+          {
+            points: [
+              { x: 'Project Manager', id: 'PM' },
+              { x: 'Deputy Project Manager', id: 'DPM', parent: 'PM' },
+              { x: 'System Engineering', id: 'SE', parent: 'DPM' },
+              { x: 'Independent Test Group', id: 'ITG', parent: 'DPM' },
+              { x: 'Project Technical Lead', id: 'PTL', parent: 'DPM' },
+              { x: 'Quality Assurance', id: 'QA', parent: 'DPM' },
+              { x: 'Configuration Manager', id: 'CM', parent: 'DPM' },
+
+              { x: 'S/W Subproject Manager 1', id: 'SM1', parent: 'PTL' },
+              { x: 'Team 1', id: 'team11', parent: 'SM1' },
+              { x: 'Team 2', id: 'team12', parent: 'SM1' },
+              { x: 'Team 3', id: 'team13', parent: 'SM1' },
+
+              { x: 'S/W Subproject Manager 2', id: 'SM2', parent: 'PTL' },
+              { x: 'Team 1', id: 'team21', parent: 'SM2' },
+              { x: 'Team 2', id: 'team22', parent: 'SM2' },
+
+              { x: 'S/W Subproject Manager 3', id: 'SM3', parent: 'PTL' },
+              { x: 'Team 1', id: 'team31', parent: 'SM3' },
+              { x: 'Team 2', id: 'team32', parent: 'SM3' },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

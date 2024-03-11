@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multiple Axis Dumbbell Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 600px; height: 700px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A dumbbell chart with multiple Y axes using first and last point Y axis ticks on the second (top) Y axis.
+Learn how to:
+
+  - Create dumbbell charts with details on multiple axes.
+*/
+      // JS
+      var palette = ['#29B6F6', '#FF9800'];
+      var chart;
+
+      var data = [
+        { carModel: 'Chevy Bolt', freezingVal: 66, warmVal: 98 },
+        { carModel: 'Mustang Mach-E Premium', freezingVal: 68, warmVal: 94 },
+        { carModel: 'Chevy Volt', freezingVal: 69, warmVal: 100 },
+        { carModel: 'BMW i3', freezingVal: 74, warmVal: 98 },
+        { carModel: 'VW e-Golf', freezingVal: 88, warmVal: 111 },
+        { carModel: 'Nissan Leaf', freezingVal: 91, warmVal: 105 },
+        { carModel: 'Tesla Model X', freezingVal: 93, warmVal: 93 },
+        { carModel: 'Audi e-tron', freezingVal: 93, warmVal: 101 },
+        { carModel: 'Hyundai KONA', freezingVal: 93, warmVal: 112 },
+        { carModel: 'Tesla Model S', freezingVal: 94, warmVal: 98 },
+        { carModel: 'Tesla Model 3', freezingVal: 95, warmVal: 96 },
+        { carModel: 'Jaguar I-PACE', freezingVal: 97, warmVal: 100 },
+        { carModel: 'Tesla Model Y', freezingVal: 98, warmVal: 97 },
+      ];
+      data.sort(function (a, b) {
+        return a.freezingVal - a.warmVal - (b.freezingVal - b.warmVal);
+      });
+
+      var series = makeSeries(data);
+      JSC.merge(series[0], {
+        firstPoint_yAxisTick: {
+          label: {
+            text: 'Freezing (20-30°F)',
+            color: palette[0],
+          },
+          axisId: 'secondY',
+        },
+        lastPoint_yAxisTick: {
+          label: { text: 'Warm (70°F)', color: palette[1] },
+          axisId: 'secondY',
+        },
+      });
+
+      chart = JSC.chart('chartDiv', {
+        debug: true,
+        title_label: {
+          style_fontSize: 16,
+          text: 'How Do Electric Cars React To Winter?',
+          margin_bottom: 10,
+        },
+        type: 'horizontal line',
+        palette: palette,
+        legend_visible: false,
+        defaultTooltip_enabled: false,
+        defaultAxis_defaultTick: {
+          gridLine_color: '#E0E0E0',
+          line_visible: false,
+        },
+        xAxis_defaultTick: {
+          label_maxWidth: 90,
+          gridLine_center: true,
+        },
+        yAxis: [
+          {
+            defaultTick_label_text: '%value%',
+            label_text: '% of EPA range',
+          },
+          {
+            id: 'secondY',
+            orientation: 'opposite',
+            alternateGridFill: 'none',
+            defaultTick: {
+              enabled: false,
+              hoverAction: 'none',
+              gridLine_visible: false,
+              label_style_fontWeight: 'bold',
+              padding: 0,
+            },
+          },
+        ],
+        defaultSeries: {
+          line: { color: '#E0E0E0', width: 8 },
+          mouseTracking_enabled: false,
+          defaultPoint: {
+            label: {
+              text: '%yValue%',
+              verticalAlign: 'middle',
+            },
+            tooltip: '%xValue (%seriesName): <b>%value%</b>',
+            marker: {
+              type: 'circle',
+              outline_width: 0,
+              size: 16,
+            },
+            xAxisTick_hoverAction: 'highlightSeries',
+          },
+          firstPoint: { color: palette[0] },
+          lastPoint: { color: palette[1] },
+        },
+        series: series,
+      });
+
+      function makeSeries(data) {
+        return data.map(function (item) {
+          var freezing = item.freezingVal;
+          var warm = item.warmVal;
+          return {
+            name: item.carModel,
+            points: [
+              {
+                x: item.carModel,
+                y: freezing,
+                label_align: freezing < warm ? 'left' : freezing === warm ? 'left' : 'right',
+              },
+              {
+                x: item.carModel,
+                y: warm,
+                label_align: freezing > warm ? 'left' : freezing === warm ? 'right' : 'right',
+              },
+            ],
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

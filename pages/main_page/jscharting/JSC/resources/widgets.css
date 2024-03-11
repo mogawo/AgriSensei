@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+.jsc-widget {
+    color: #95a0a6;
+    font-family: 'Roboto', sans-serif;
+}
+
+.jsc-widget .icon {
+    font-size: 40px;
+}
+
+.jsc-widget .title {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
+
+.jsc-widget .value {
+    font-size: 22px;
+}
+
+.jsc-widget .label {
+    font-size: 14px;
+}
+
+.jsc-widget .target {
+    font-size: 14px;
+}
+
+.jsc-widget .circular .title {
+    font-size: 16px;
+}
+
+.jsc-widget .circular .icon {
+    font-size: 30px;
+}
+
+.jsc-widget .circular .value {
+    font-size: 28px;
+}
+
+.jsc-widget .circular .label {
+    font-size: 18px;
+}
+
+.jsc-widget .axis-ticks {
+    font-size: 14px;
+}
+
+.jsc-widget .bar-column .value {
+    font-size: 12px;
+}

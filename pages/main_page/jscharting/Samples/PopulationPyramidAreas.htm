@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Area Population Pyramid | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 650px; height: 440px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Population pyramid using arealines.
+Learn how to:
+
+  - Make a layered population pyramid using area lines.
+*/
+      // JS
+      var chart;
+      var lineColor = '#afb5d0';
+      JSC.fetch('./resources/world-population-by-age-group.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        var series = JSC.nest()
+          .key('year')
+          .key('age_group')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: key.replace(' years', ''),
+              y: [-values.men, values.women],
+            };
+          })
+          .series(data)
+          .reverse();
+
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'horizontal area',
+          title_label_text: 'World Population by Age Group',
+          palette: ['#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#810f7c'].reverse(),
+          xAxis: {
+            scale_invert: true,
+            crosshair: {
+              enabled: true,
+              onTop: true,
+              gridLine_color: lineColor,
+            },
+          },
+          defaultAnnotation_label_style_fontSize: '15px',
+          // The Men/Women labels at the bottom, positioned by centering and margin
+          annotations: [
+            {
+              label_text: 'Men',
+              margin_left: 15,
+              position: 'bottom',
+            },
+            {
+              label_text: 'Women',
+              margin_left: 250,
+              position: 'bottom',
+            },
+          ],
+          yAxis: {
+            defaultTick_label_text: '{Math.abs(%value):a2}',
+            // The zero tick
+            originTick: {
+              onTop: true,
+              gridLine: { color: lineColor },
+            },
+          },
+          defaultSeries_line_width: 0,
+          defaultTooltip: {
+            label_text: '<span style="font-size:14px"><b>%xvalue</b></span><br>%points',
+          },
+          defaultPoint: {
+            marker_visible: false,
+            focusGlow: false,
+            tooltip: '%icon <b>%seriesName</b><br>' + 'Men: {Math.abs(%yStart)}<br>Women: %yValue',
+          },
+          legend: {
+            template: '%icon %name',
+            position: 'inside left top',
+          },
+          series: series,
+        });
+      }
+    </script>
+  </body>
+</html>

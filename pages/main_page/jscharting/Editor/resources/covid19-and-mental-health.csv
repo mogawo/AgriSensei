@@ -1,0 +1,29 @@
+type,category,option,year_2020,year_2018
+,Total,Psychological Distress,13.6,3.9
+,Total,Mental Health,86.4,96.1
+Race,White,Psychological Distress,12.2,3.7
+Race,White,Mental Health,87.8,96.3
+Race,Black,Psychological Distress,11.4,4.2
+Race,Black,Mental Health,88.6,95.8
+Race,Hispanic,Psychological Distress,18.3,4.4
+Race,Hispanic,Mental Health,81.7,95.6
+Sex,Male,Psychological Distress,11.4,2.9
+Sex,Male,Mental Health,88.6,97.1
+Sex,Female,Psychological Distress,15.7,4.9
+Sex,Female,Mental Health,84.3,95.1
+Age,18-29,Psychological Distress,24,3.7
+Age,18-29,Mental Health,76,96.3
+Age,30-54,Psychological Distress,14.3,4.1
+Age,30-54,Mental Health,85.7,95.9
+Age,>55,Psychological Distress,7.3,3.8
+Age,>55,Mental Health,92.7,96.2
+Household income,<35000,Psychological Distress,19.3,7.9
+Household income,<35000,Mental Health,80.7,92.1
+Household income,35000-74999,Psychological Distress,14.4,4
+Household income,35000-74999,Mental Health,85.6,96
+Household income,>75000,Psychological Distress,8,1.7
+Household income,>75000,Mental Health,92,98.3
+Living situation,Lives alone,Psychological Distress,11.7,5.3
+Living situation,Lives alone,Mental Health,88.3,94.7
+Living situation,Lives with others,Psychological Distress,13.9,3.6
+Living situation,Lives with others,Mental Health,86.1,96.4

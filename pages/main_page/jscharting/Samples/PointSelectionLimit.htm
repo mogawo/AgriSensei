@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Point Selection Limit | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #chartWrapper {
+        display: flex;
+        margin: 0px auto;
+        width: 700px;
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 700px; height: 400px; margin: 0px auto; margin-bottom: 15px;"></div>
+    <div id="chartWrapper">
+      <div id="chartDiv1" style="width: 300px; height: 300px;"></div>
+      <div id="chartDiv2" style="width: 400px; height: 300px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Limit point selection to a maximum of 2 points.
+Learn how to:
+
+  - Limit point selection to a max number of points.
+  - Use point selection with limits.
+*/
+      // JS
+
+      var chart, chart1, chart2;
+      var palette = ['#FBC02D', '#8BC34A'];
+      var butterflyChartConfig = {
+        title: {
+          position: 'center',
+          label_style: { fontWeight: 'bold', fontSize: 18 },
+        },
+        type: 'horizontal column solid',
+        defaultPoint: {
+          tooltip: '%name',
+          outline_width: 0,
+          label_text: '{%yValue:c2}B',
+        },
+        yAxis: { visible: false, formatString: 'c2' },
+        defaultSeries_mouseTracking_enabled: false,
+        legend_visible: false,
+        toolbar_visible: false,
+      };
+      JSC.fetch('./resources/top-internet-companies.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderMainChart(data);
+          chart1 = renderButterflyChart1(makeSeries(chart.series(0).points(0)));
+          chart2 = renderButterflyChart2(makeSeries(chart.series(0).points(1)));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderMainChart(data) {
+        var series = [
+          {
+            points: data.map(function (item) {
+              return {
+                x: item.company,
+                y: item.revenue,
+                attributes: {
+                  grossProfit: item.gross_profit,
+                  operatingIncome: item.operating_income,
+                  marketCap: item.market_cap,
+                },
+              };
+            }),
+          },
+        ];
+
+        return JSC.chart(
+          'chartDiv',
+          {
+            title_label_text:
+              '<span style="font-size:18px">Top 10 US Internet Companies by Revenue</span><br>' +
+              'Select 2 companies to compare key indicators',
+            type: 'column solid',
+            defaultTooltip_enabled: false,
+            defaultPoint: {
+              label_text: '%yValueB',
+              focusGlow: false,
+              color: '#e0e0e0',
+              outline_width: 0,
+            },
+            defaultSeries_pointSelection: { max: 2 },
+            events_pointSelectionChanged: selectCompanies,
+            legend_visible: false,
+            series: series,
+            toolbar_visible: false,
+          },
+          function (c) {
+            var series = c.series(0);
+            series.points(0).options({ selected: true });
+            series.points(1).options({ selected: true });
+          }
+        );
+      }
+
+      function selectCompanies(items) {
+        var mainSeries = chart.series(0);
+        if (items.length < 2) {
+          items = [mainSeries.points(0), mainSeries.points(1)];
+        }
+        //Reset all point colors.
+        mainSeries.points().options({ color: '#e0e0e0' });
+
+        items.forEach(function (p, i) {
+          p.options({ color: palette[i] });
+        });
+
+        chart1
+          .options({ title_label_text: items[0].tokenValue('%name') })
+          .series(0)
+          .options({ points: makeSeries(items[0])[0].points });
+
+        chart2
+          .options({ title_label_text: items[1].tokenValue('%name') })
+          .series(0)
+          .options({ points: makeSeries(items[1])[0].points });
+      }
+
+      function renderButterflyChart1(series) {
+        return JSC.chart(
+          'chartDiv1',
+          JSC.merge(
+            {
+              title_label_color: JSC.colorToPalette(palette[0], { lightness: 0.4 }, 2, 0)[0],
+              yAxis_scale_invert: true,
+              palette: [palette[0]],
+              xAxis_visible: false,
+              series: series,
+            },
+            butterflyChartConfig
+          )
+        );
+      }
+
+      function renderButterflyChart2(series) {
+        return JSC.chart(
+          'chartDiv2',
+          JSC.merge(
+            {
+              title_label_color: JSC.colorToPalette(palette[1], { lightness: 0.4 }, 2, 0)[0],
+              xAxis_defaultTick_label: {
+                text: '<span style="align:center">%value</span>',
+                padding: 5,
+                width: 100,
+                align: 'center',
+              },
+              palette: [palette[1]],
+              series: series,
+            },
+            butterflyChartConfig
+          )
+        );
+      }
+
+      function makeSeries(point) {
+        return [
+          {
+            name: point.tokenValue('%name'),
+            id: 'company',
+            points: [
+              makePoint('Revenue', '%yValue'),
+              makePoint('Gross profit', '%grossProfit'),
+              makePoint('Operating income', '%operatingIncome'),
+              makePoint('Market cap', '%marketCap'),
+            ],
+          },
+        ];
+
+        function makePoint(name, token) {
+          var tokenValue = point.tokenValue(token);
+          return {
+            id: name,
+            x: name,
+            label_text: tokenValue < 0 ? '(-%yValueB)' : '%yValue',
+            y: Math.abs(point.tokenValue(token)),
+            color: tokenValue < 0 ? 'red' : null,
+          };
+        }
+      }
+    </script>
+  </body>
+</html>

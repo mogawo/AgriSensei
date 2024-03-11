@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Organizational Chart Breadcrumbs Navigation | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 600px; height: 360px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart breadcrumbs.
+Learn how to:
+
+  - Highlight and generate point hierarchy breadcrumbs.
+*/
+      // JS
+      var selectedPoint;
+      var highlightColor = '#4D7298';
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        events: {
+          pointSelectionChanged: pointSelectionChanged,
+        },
+        defaultTooltip_enabled: false,
+
+        /*These options will apply to all annotations including point nodes.*/
+        defaultAnnotation: { padding: [5, 10], margin: 5 },
+        defaultSeries: {
+          color: 'white',
+          /* Point selection is disabled because it is managed manually. */
+          pointSelection: 'single',
+          shape_padding: 0.1,
+        },
+        defaultPoint: {
+          focusGlow: false,
+          connectorLine: { radius: [10, 3], color: '#e0e0e0' },
+          outline: { color: '#cbcbcb', width: 1 },
+          states: {
+            // The select state is used by points that are clicked.
+            select: { fill: [highlightColor, 0.3], outline: { color: highlightColor } },
+            // The mute state is used to style points that are part a clicked path.
+            mute: { enabled: true, opacity: 1, outline: { color: highlightColor } },
+          },
+          events: {
+            // Returning false from these events prevents mute state changes the chart does automatically.
+            mouseOver: function () {
+              if (this.id === selectedPoint) {
+                this.chart.connectors([this.id, 'up'], { color: highlightColor, width: 2 });
+              } else {
+                this.chart.connectors([this.id, 'up'], { color: highlightColor });
+              }
+              this.chart.series().points([this.id, 'up']).options({ muted: true });
+              return false;
+            },
+            mouseOut: function () {
+              styleSelectedPoints(this.chart);
+              return false;
+            },
+          },
+        },
+        series: [
+          {
+            shape_padding: 0.1,
+            points: [
+              { x: 'Aida', id: 'aida' },
+              { x: 'Ain', id: 'ain', parent: 'aida' },
+              { x: 'John', id: 'john', parent: 'aida' },
+              { x: 'William', id: 'william', parent: 'aida' },
+              { x: 'Frank', id: 'frank', parent: 'ain' },
+              { x: 'Eric', id: 'eric', parent: 'ain' },
+              { x: 'David', id: 'david', parent: 'john' },
+              { x: 'Stephen', id: 'stephen', parent: 'john' },
+              { x: 'George', id: 'george', parent: 'john' },
+              { x: 'Lori', id: 'lori', parent: 'george' },
+              { x: 'Walt', id: 'walt', parent: 'george' },
+              { x: 'Thomas', id: 'thomas', parent: 'lori' },
+              { x: 'James', id: 'james', parent: 'lori' },
+              { x: 'Tim', id: 'tim', parent: 'lori' },
+              { x: 'Jack', id: 'jack', parent: 'lori' },
+              { x: 'Robert', id: 'robert', parent: 'william' },
+              { x: 'Jose', id: 'jose', parent: 'william' },
+              { x: 'Joe', id: 'joe', parent: 'robert' },
+              { x: 'Mark', id: 'mark', parent: 'robert' },
+            ],
+          },
+        ],
+        annotations: [
+          {
+            position: 'inside top right',
+            label_text: 'Click on a node to view the breadcrumbs leading up to it',
+          },
+          {
+            id: 'crumbs',
+            boxVisible: false,
+            position: 'inside bottom',
+            label: { text: '', style_fontWeight: 'bold' },
+          },
+        ],
+
+        toolbar_items: {
+          'Clear Selection': {
+            events_click: function (item) {
+              reset(this.chart);
+              selectedPoint = undefined;
+            },
+          },
+        },
+      });
+
+      /**
+       * Event Handler
+       */
+      function pointSelectionChanged(points) {
+        selectedPoint = points.map(function (p) {
+          return p.id;
+        })[0];
+        styleSelectedPoints(this);
+        showBreadcrumbs(this);
+      }
+
+      function styleSelectedPoints(c) {
+        // Clear styling
+        c.connectors();
+        c.series().points().options({ muted: false });
+        if (selectedPoint) {
+          var path = [selectedPoint, 'up'];
+          c.connectors(path, { color: highlightColor, width: 2 });
+          c.series().points(path).options({ muted: true });
+        }
+      }
+
+      function reset(c) {
+        c.connectors();
+        c.series().points().options({ selected: false });
+      }
+
+      /**
+       * Generate breadcrumbs path
+       */
+      function showBreadcrumbs(c) {
+        var text = '';
+        if (selectedPoint) {
+          var path = c.connectors([selectedPoint, 'up'], {});
+          if (path) {
+            text = path[0].map(idToPointName).join(' > ');
+          }
+        }
+        c.annotations('crumbs').options({ label_text: text });
+
+        function idToPointName(id) {
+          var point = c.series().points(id);
+          return point.x || point.name;
+        }
+      }
+    </script>
+  </body>
+</html>

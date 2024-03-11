@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/icons/material/navigation/arrow-drop-down.js"></script>
+    <script type="text/javascript" src="../jsc/icons/material/navigation/arrow-drop-up.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 960px; height: 370px; margin: 0px auto; overflow: hidden;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with interactive node expansion.
+Learn how to:
+
+  - Wire up node expansion interactivity with organizational chart.
+*/
+      // JS
+      var chart, pointConfigs, leafPointIDs;
+      var arrowIconUp = 'material/navigation/arrow-drop-up',
+        arrowIconDown = 'material/navigation/arrow-drop-down';
+      var openedNodeColor = '#4FC3F7',
+        closedNodeColor = '#B3E5FC';
+
+      pointConfigs = makePoints();
+      // Render only first 7 points.
+      chart = renderChart(pointConfigs.slice(0, 7));
+
+      function renderChart(pointArray) {
+        return JSC.chart('chartDiv', {
+          debug: false,
+          title: {
+            label: {
+              text: 'Hospital Organizational Chart',
+              style_fontSize: 16,
+            },
+            position: 'center',
+          },
+          type: 'organizational down',
+          defaultTooltip: { enabled: false },
+          defaultPoint: {
+            leafPointLayout: 'auto',
+            focusGlow: false,
+            connectorLine: { width: 2, color: closedNodeColor },
+            annotation: { padding: [6, 10], margin: 2 },
+            outline: { width: 2, color: closedNodeColor },
+            color: 'white',
+            label: {
+              text: '%name<br/><icon name=%arrowIcon size=12 color=black>',
+              autoWrap: false,
+            },
+          },
+          series: [{ points: pointArray }],
+          toolbar: {
+            items: {
+              'Expand All': {
+                events_click: expandAll,
+                margin_left: 20,
+              },
+              'Collapse All': {
+                events_click: collapseAll,
+                visible: false,
+              },
+            },
+          },
+        });
+      }
+
+      function pointClick() {
+        // debugger;
+        var point = this,
+          pointId = point.options('id');
+        if (!point.options('parent') || point.options('parent') === 'bd' || leafPointIDs.indexOf(pointId) > -1) {
+          // Ignore root and leaf point clicks.
+          return;
+        }
+
+        if (point.options('outline_color') === closedNodeColor) {
+          expandPoint(point);
+        } else {
+          collapsePoint(point);
+        }
+        collapseAllBtnVisibility();
+
+        function expandPoint(point) {
+          var c = point.chart;
+          // Modify point to use open node point options.
+          var pointAttrs = point.options('attributes');
+          pointAttrs.arrowIcon = arrowIconUp;
+          point.options(
+            {
+              attributes: pointAttrs,
+              leafPointLayout: 'vertical',
+              connectorLine_color: openedNodeColor,
+              outline_color: openedNodeColor,
+            },
+            false
+          );
+
+          // Add immediate child nodes to the chart.
+          var pointsToAdd = pointConfigs.filter(function (p) {
+            return p.parent === point.id;
+          });
+          c.series(0).points.add(pointsToAdd);
+
+          // Center the clicked point.
+          point.zoomTo();
+        }
+
+        function collapsePoint(point) {
+          var c = point.chart;
+          // Modify point to use closed node point options.
+          // Update existing point attributes, so attributes don't get fully replaced.
+          var pointId = point.options('id');
+          var pointAttrs = point.options('attributes');
+          pointAttrs.arrowIcon = arrowIconDown;
+          point.options(
+            {
+              attributes: pointAttrs,
+              leafPointLayout: 'auto',
+              connectorLine_color: closedNodeColor,
+              outline_color: closedNodeColor,
+            },
+            false
+          );
+
+          // Select all points from the current point down the hierarchy.
+          c.series()
+            .points([pointId, 'down'])
+            /* Filter out current clicked point */
+            .filter(function (p) {
+              return p.options('id') !== pointId;
+            })
+            /* Remove the points */
+            .remove();
+
+          point.zoomTo();
+        }
+      }
+
+      function collapseAll() {
+        var c = this.chart;
+        // The fastest way to collapse all nodes is to create new point configs and update the chart with those.
+        var newPoints = pointConfigs.slice(0, 7).map(function (pCfg) {
+          return JSC.merge(
+            { outline_color: closedNodeColor, connectorLine_color: closedNodeColor, leafPointLayout: 'auto' },
+            pCfg
+          );
+        });
+        c.series(0).options({ points: newPoints });
+        collapseAllBtnVisibility();
+      }
+
+      function expandAll() {
+        var c = this.chart;
+        // The fastest way to expand all nodes is to create new point configs and reset the chart points with them.
+        var newPoints = pointConfigs.map(function (p) {
+          return isExpanded(p)
+            ? JSC.merge(
+                { outline_color: openedNodeColor, leafPointLayout: 'vertical', connectorLine_color: openedNodeColor },
+                p
+              )
+            : p;
+        });
+        c.series(0).options({ points: newPoints });
+        collapseAllBtnVisibility();
+
+        function isExpanded(pCfg) {
+          return !(!pCfg.parent || pCfg.parent === 'bd' || leafPointIDs.indexOf(pCfg.id) > -1);
+        }
+      }
+
+      /**
+       * Change the 'Collapse All' button visibility if not in correct state.
+       */
+      function collapseAllBtnVisibility() {
+        var btn = chart.toolbar().items('Collapse All');
+
+        // Are any nodes open. Meaning, should button be visible.?
+        var visible = !!chart
+          .series()
+          .points()
+          .items.slice(2)
+          .find(function (p) {
+            return p.options('outline_color') === openedNodeColor;
+          });
+
+        // Update visibility if not in the correct state already.
+        if (visible !== btn.options('visible')) {
+          btn.options({ visible: visible });
+        }
+      }
+
+      function makePoints() {
+        var data = [
+          { name: 'Board of Directors', id: 'bd' },
+          { name: 'President of the Board', id: 'pb', parent: 'bd' },
+          { name: 'Therapeutic Service Center', id: 'tsc', parent: 'pb' },
+          { name: 'Diagnostic Service Center', id: 'dsc', parent: 'pb' },
+          { name: 'Administrative Service Center', id: 'asc', parent: 'pb' },
+          { name: 'Support Service Center', id: 'ssc', parent: 'pb' },
+          { name: 'Financial Service Center', id: 'fsc', parent: 'pb' },
+
+          { name: 'Therapy Center', id: 'tsc_tc', parent: 'tsc' },
+          { name: 'Pharmacy Center', id: 'tsc_pc', parent: 'tsc' },
+          { name: 'Nursing Center', id: 'tsc_nc', parent: 'tsc' },
+          { name: 'Dietary Center', id: 'tsc_dc', parent: 'tsc' },
+
+          { name: 'Radiology Center', id: 'dsc_rc', parent: 'dsc' },
+          { name: 'Cardiology Center', id: 'dsc_cc', parent: 'dsc' },
+          { name: 'Neurology Center', id: 'dsc_nc', parent: 'dsc' },
+          { name: 'Facilities Center', id: 'asc_fc', parent: 'asc' },
+          { name: 'Information Center', id: 'asc_ic', parent: 'asc' },
+          { name: 'Admissions Center', id: 'asc_ac', parent: 'asc' },
+          { name: 'HR Center', id: 'asc_hrc', parent: 'asc' },
+
+          { name: 'Billing Center', id: 'fsc_bc', parent: 'fsc' },
+          { name: 'Budget and Planning', id: 'fsc_bp', parent: 'fsc' },
+          { name: 'Accounting', id: 'fsc_a', parent: 'fsc' },
+          { name: 'Payroll Service', id: 'fsc_ps', parent: 'fsc' },
+
+          { name: 'Emergency Preparedness', id: 'ssc_ep', parent: 'ssc' },
+          { name: 'Clinical Engineering', id: 'ssc_ce', parent: 'ssc' },
+          { name: 'Facilities and Planning', id: 'ssc_fp', parent: 'ssc' },
+          { name: 'Safety', id: 'ssc_s', parent: 'ssc' },
+          { name: 'Purchasing', id: 'ssc_p', parent: 'ssc' },
+        ];
+        var points = JSC.nest()
+          .key('name')
+          .pointRollup(function (key, val) {
+            var result = {
+              name: key,
+              id: val[0].id,
+              parent: val[0].parent,
+              attributes: { arrowIcon: arrowIconDown },
+              events: { click: pointClick },
+            };
+            if (!val[0].parent || val[0].parent === 'bd') {
+              // Root node config options.
+              JSC.merge(result, {
+                cursor: 'default',
+                connectorLine_color: openedNodeColor,
+                outline: {
+                  width: 2,
+                  color: openedNodeColor,
+                },
+                attributes: { arrowIcon: 'none' },
+              });
+            }
+            return result;
+          })
+          .points(data);
+
+        // Make a list of leaf point IDs that have no children and do not open. And modify their options.
+        leafPointIDs = [];
+        points.forEach(function (par) {
+          if (
+            !points.find(function (p) {
+              return p.parent === par.id;
+            })
+          ) {
+            leafPointIDs.push(par.id);
+            JSC.merge(par, {
+              cursor: 'default',
+              attributes: { arrowIcon: 'none' },
+            });
+          }
+        });
+
+        return points;
+      }
+    </script>
+  </body>
+</html>

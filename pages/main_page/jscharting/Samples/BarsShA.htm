@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Aqua Shaded Column Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Column chart with aqua shading.
+Learn how to:
+
+  - Draw a column chart with aqua shading.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'column aqua',
+        title_label_text: 'Acme Tool Sales',
+        yAxis: { label_text: 'Units Sold' },
+        xAxis: {
+          label_text: 'Quarter',
+          categories: ['Q1', 'Q2', 'Q3', 'Q4'],
+        },
+        series: [
+          {
+            name: 'Saw',
+            id: 's1',
+            points: [230, 240, 267, 238],
+          },
+          { name: 'Hammer', points: [325, 367, 382, 371] },
+          { name: 'Grinder', points: [285, 292, 267, 218] },
+          { name: 'Drill', points: [185, 192, 198, 248] },
+        ],
+      });
+    </script>
+  </body>
+</html>

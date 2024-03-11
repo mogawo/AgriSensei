@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Venn Chart Icons | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 530px; height: 430px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Venn chart with icons in point labels.
+Learn how to:
+
+  - Add icons to point labels.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'venn',
+        palette: 'fiveColor40',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          opacity: 1,
+          label: {
+            color: 'white',
+            text: '<icon name=%icon size=50 color=white><br>%name',
+          },
+        },
+        series: [
+          {
+            points: [
+              {
+                name: 'Social',
+                y: 5,
+                attributes_icon: 'material/social/group',
+              },
+              {
+                name: 'Environment',
+                y: 5,
+                attributes_icon: 'material/image/nature-people',
+              },
+              {
+                name: 'Economic',
+                y: 5,
+                attributes_icon: 'material/maps/local-grocery-store',
+              },
+              {
+                name: 'Bearable',
+                sets: ['Social', 'Environment'],
+                y: 2,
+                attributes_icon: '',
+              },
+              {
+                name: 'Equitable',
+                sets: ['Social', 'Economic'],
+                y: 2,
+                attributes_icon: '',
+              },
+              {
+                name: 'Viable',
+                sets: ['Environment', 'Economic'],
+                y: 2,
+                attributes_icon: '',
+              },
+              {
+                name: 'Sustainable',
+                sets: ['Social', 'Environment', 'Economic'],
+                y: 1,
+                attributes_icon: '',
+              },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

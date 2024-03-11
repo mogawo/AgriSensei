@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Live Heatmap Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 540px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A live heatmap chart that updates as fast as possible without a timer.
+Learn how to:
+
+  - Update chart data as fast as possible.
+*/
+      // JS
+      var i = 0,
+        isPlaying = false;
+      var chart = JSC.chart(
+        'chartDiv',
+        {
+          type: 'heatmap solid',
+          margin_right: 15,
+          title_label_text: 'Heatmap Data',
+          animation_duration: 0,
+          defaultSeries: {
+            // Padding between cells
+            shape_innerPadding: -0.02,
+            // Improves performance.
+            mouseTracking_enabled: false,
+          },
+          defaultPoint: { outline_color: 'none', outline_width: 0 },
+          xAxis_label_text: 'Longitude',
+          yAxis_label_text: 'Latitude',
+          zAxis_label_text: 'Heat Delta',
+          palette: {
+            /*Using a function instead of token like '%zValue' improves performance.*/
+            pointValue: function (p) {
+              return p.options('z');
+            },
+            colors: ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#b00026'],
+          },
+          series: [{ points: generateData(25, 25) }],
+          toolbar_items: {
+            Stop: {
+              type: 'option',
+              icon_name: 'system/default/pause',
+              margin: 10,
+              boxVisible: true,
+              label_text: 'Pause',
+              events: {
+                change: function () {
+                  playPause(this.chart);
+                },
+              },
+              states_select: {
+                icon_name: 'system/default/play',
+                label_text: 'Play',
+              },
+            },
+          },
+        },
+        playPause
+      );
+
+      function generateData(xCount, yCount) {
+        var pointDistance = function (point1, point2) {
+          var xs = point2[0] - point1[0];
+          xs = xs * xs;
+          var ys = point2[1] - point1[1];
+          ys = ys * ys;
+          return Math.sqrt(xs + ys);
+        };
+        var points = [];
+        var cxy = [xCount / 2, yCount / 2];
+        for (var x = 0; x < xCount; x++) {
+          for (var y = 0; y < yCount; y++) {
+            var dist = pointDistance([x, y], cxy);
+            var d = i / 10;
+            points.push({
+              id: x + '-' + y,
+              x: x,
+              y: y,
+              z: Math.sin(x / (3 / Math.sin(d))) + Math.cos((y + x) / (2.5 + d)) + Math.sin(dist / 6),
+              attributes: { dist: dist },
+            });
+          }
+        }
+        i++;
+        return points;
+      }
+
+      function update(c) {
+        // Using a function with the then property of updateOptions to update the chart as soon as the
+        // animation completes.
+        c.series(0).options(
+          { points: generateData(25, 25) },
+          {
+            then: function () {
+              if (isPlaying) {
+                setTimeout(function () {
+                  update(c);
+                }, 1);
+              }
+            },
+          }
+        );
+      }
+
+      function playPause(c) {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+          update(c);
+        }
+      }
+    </script>
+  </body>
+</html>

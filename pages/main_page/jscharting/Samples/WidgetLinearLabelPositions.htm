@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Gauge Widget Label Positions | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      #chartDiv3 .jsc-widget .linear .icon {
+        font-size: 15px;
+      }
+
+      #chartDiv4 .jsc-widget .linear .icon {
+        font-size: 15px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 220px; height: 240px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 220px; height: 240px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 280px; height: 240px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Demonstrate different value, icon, and label positions with Linear widgets.
+Learn how to:
+
+  - Position labels in Linear widgets.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Linear('chartDiv1', {
+        title: 'Today',
+        label: ['Walk', 'Run', 'Bicycle'],
+        value: [0.54, 0.14, 0.94],
+        icon: ['material/maps/directions-walk', 'material/maps/directions-run', 'material/maps/directions-bike'],
+        min: 0,
+        max: 1,
+        color: '#673AB7',
+        valueFormat: 'p',
+      });
+      var widget2 = new JSCWidgets.Linear('chartDiv2', {
+        title: 'Today',
+        label: ['Walk', 'Run', 'Bicycle'],
+        value: [0.54, 0.14, 0.94],
+        icon: ['material/maps/directions-walk', 'material/maps/directions-run', 'material/maps/directions-bike'],
+        min: 0,
+        max: 1,
+        valueFormat: 'p',
+        iconPosition: 'left',
+        labelPosition: 'bottom left',
+        valuePosition: 'bottom right',
+        barBackgroundWidth: 2,
+        color: '#673AB7',
+      });
+      var widget3 = new JSCWidgets.Linear('chartDiv3', {
+        title: 'Today',
+        label: ['Walk', 'Run', 'Bicycle'],
+        value: [9843, 0.5, 5.94],
+        /* Use text instead of icons. */
+        iconText: ['steps', 'miles', 'miles'],
+        min: 0,
+        max: [10000, 1.2, 12],
+        iconPosition: 'bottom right',
+        labelPosition: 'top left',
+        color: '#673AB7',
+        barRounded: false,
+        barBackgroundColor: 'rgba(103,58,183,0.2)',
+      });
+    </script>
+  </body>
+</html>

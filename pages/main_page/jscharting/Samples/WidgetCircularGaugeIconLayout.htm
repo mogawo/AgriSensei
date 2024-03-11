@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Gauge Icon Layout Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .circular .label {
+        font-size: 14px;
+      }
+
+      .jsc-widget .value {
+        font-size: 20px;
+      }
+
+      .jsc-widget .circular .value {
+        font-size: 25px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 220px; height: 110px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 150px; height: 180px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 220px; height: 110px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Circular gauge icon and value widgets with vertical and horizontal layouts.
+Learn how to:
+
+  - Use widgets with icons, different layouts and values inside.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Circular('chartDiv1', {
+        label: 'Total Earnings',
+        value: 60567,
+        max: 100000,
+        icon: 'linear/ecommerce/money',
+        valueFormat: 'c0',
+        color: '#EF6C00',
+        valuePosition: 'right',
+        labelPosition: 'right',
+      });
+
+      var widget2 = new JSCWidgets.Circular('chartDiv2', {
+        label: 'Sales',
+        value: 584,
+        max: 2000,
+        icon: 'material/social/people',
+        valueFormat: 'c0',
+        color: '#FBC02D',
+        valuePosition: 'top right',
+        labelPosition: 'top left',
+      });
+
+      var widget3 = new JSCWidgets.Circular('chartDiv3', {
+        label: 'Users',
+        valueText: '%value',
+        labelText: '%name ({%value/20000*100}%)',
+        value: 16654,
+        max: 20000,
+        icon: 'linearicons/user',
+        valueFormat: 'n0',
+        color: '#00B8D4',
+        valuePosition: 'right',
+        labelPosition: 'right',
+      });
+    </script>
+  </body>
+</html>

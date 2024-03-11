@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Group Highlight Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 340px;"></div>
+
+    <script type="text/javascript">
+      /*
+Customized organizational chart point coloring by role including point and legend highlight on hover.
+Learn how to:
+
+  - Highlight node groups on hover.
+*/
+      // JS
+
+      var palette = JSC.getPalette(0);
+
+      var points = [
+        { name: 'Aida', id: 'aida', attributes: { role: 'President', fullTime: true } },
+        { name: 'Ain', id: 'ain', parent: 'aida', attributes: { role: 'Vice President', fullTime: true } },
+        { name: 'John', id: 'john', parent: 'aida', attributes: { role: 'Vice President', fullTime: true } },
+        { name: 'William', id: 'william', parent: 'aida', attributes: { role: 'Vice President', fullTime: true } },
+        { name: 'Frank', id: 'frank', parent: 'ain', attributes: { role: 'Manager', fullTime: true } },
+        { name: 'Eric', id: 'eric', parent: 'ain', attributes: { role: 'Manager' } },
+        { name: 'David', id: 'david', parent: 'john', attributes: { role: 'Manager' } },
+        { name: 'Stephen', id: 'stephen', parent: 'john', attributes: { role: 'Manager', fullTime: true } },
+        { name: 'George', id: 'george', parent: 'john', attributes: { role: 'Senior Manager' } },
+        { name: 'Lori', id: 'lori', parent: 'george', attributes: { role: 'Manager', fullTime: true } },
+        { name: 'Walt', id: 'walt', parent: 'george', attributes: { role: 'Worker' } },
+        { name: 'Thomas', id: 'thomas', parent: 'lori', attributes: { role: 'Worker', fullTime: true } },
+        { name: 'James', id: 'james', parent: 'lori', attributes: { role: 'Worker', fullTime: true } },
+        { name: 'Tim', id: 'tim', parent: 'lori', attributes: { role: 'Worker' } },
+        { name: 'Jack', id: 'jack', parent: 'lori', attributes: { role: 'Worker' } },
+        { name: 'Robert', id: 'robert', parent: 'william', attributes: { role: 'Senior Manager' } },
+        { name: 'Jose', id: 'jose', parent: 'william', attributes: { role: 'Manager', fullTime: true } },
+        { name: 'Joe', id: 'joe', parent: 'robert', attributes: { role: 'Worker', fullTime: true } },
+        { name: 'Mark', id: 'mark', parent: 'robert', attributes: { role: 'Worker' } },
+      ];
+
+      /* Group points by unique roles */
+      var pointsByRoles = JSC.nest().key('attributes.role').entries(points);
+
+      /* Apply a color from palette to each group of points */
+      pointsByRoles.forEach(function (group, i) {
+        group.values.forEach(function (point) {
+          point.outline = {
+            color: palette[i],
+            dashStyle: point.attributes.fullTime ? 'longdash' : 'solid',
+          };
+        });
+      });
+
+      /* Get the unique roles in point data from pointsByRoles. */
+      var roles = pointsByRoles.map(function (entry) {
+        return entry.key;
+      });
+
+      /* Dynamically create legend entry configs from roles */
+      var legendEntries = roles.map(function (role, i) {
+        return {
+          name: role,
+          icon_outline_color: palette[i],
+        };
+      });
+
+      /* Legend entry for full-time employees */
+      legendEntries.push({
+        name: 'Full Time',
+        icon_outline: { dashStyle: 'dash', color: 'gray' },
+      });
+
+      /* Render the chart */
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        legend: {
+          visible: true,
+          template: '%icon %name',
+          customEntries: legendEntries,
+          position: 'top',
+          defaultEntry: {
+            events: { mouseOver: leOver, mouseOut: leOut },
+            iconWidth: 14,
+            icon_outline_width: 1,
+          },
+        },
+        defaultTooltip_enabled: false,
+        defaultSeries: {
+          legendEntry_visible: false,
+          color: '#fffff6',
+          pointSelection: false,
+          shape_padding: 0.1,
+
+          defaultPoint: {
+            outline: { color: '#cbcbcb', width: 1, dashStyle: 'Solid' },
+            focusGlow: false,
+            /*Default line styling for connector lines*/
+            connectorLine: { color: '#b6b6b6' },
+            annotation: { padding: [5, 10], margin: 5 },
+            states: {
+              select: { enabled: true, outline_width: 2 },
+              hover: { outline_width: 2 },
+              mute: { enabled: true, opacity: 0.6, outline_color: '#e0e0e0' },
+            },
+            events: {
+              mouseOver: function () {
+                highlightRole(this.chart, this.options('attributes.role'));
+              },
+              mouseOut: leOut,
+            },
+          },
+        },
+        series: [{ points: points }],
+      });
+
+      function leOver() {
+        var name = this.options('name');
+        if (name === 'Full Time') {
+          chart
+            .series()
+            .points(function (p) {
+              return !p.options('attributes.fullTime');
+            })
+            .options({ muted: true });
+          chart
+            .series()
+            .points(function (p) {
+              return p.options('attributes.fullTime');
+            })
+            .options({ selected: true });
+        } else {
+          highlightRole(this.chart, name);
+        }
+      }
+
+      function leOut() {
+        clearHighlight(this.chart);
+      }
+
+      function highlightRole(chart, role) {
+        chart
+          .series()
+          .points(function (p) {
+            return p.options('attributes.role') !== role;
+          })
+          .options({ muted: true });
+      }
+
+      function clearHighlight(chart) {
+        chart.series().points().options({ muted: false });
+        chart.series().points().options({ selected: false });
+      }
+    </script>
+  </body>
+</html>

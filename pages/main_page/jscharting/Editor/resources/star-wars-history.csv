@@ -1,0 +1,23 @@
+movie,short_name,release_date,Budget,Opening Weekend,Domestic Box Office,Worldwide Box Office,adjusted_for_inflation,imdb,rotten_tomatoes
+Episode IV: A New Hope,A New Hope,25 May 1977,11000000,1554475,460998007,775398007,FALSE,8.6,93
+Episode IV: A New Hope,A New Hope,25 May 1977,46687921,6597746,1956639858,3291065521,TRUE,8.6,93
+Episode V: The Empire Strikes Back,The Empire Strikes Back,"May 21, 1980",23000000,4910483,290271960,547969004,FALSE,8.7,94
+Episode V: The Empire Strikes Back,The Empire Strikes Back,"May 21, 1980",71793495,15327858,906071241,1710461306,TRUE,8.7,94
+Episode VI: Return of the Jedi,Return of the Jedi,"May 25, 1983",32500000,23019618,309205079,475106177,FALSE,8.3,82
+Episode VI: Return of the Jedi,Return of the Jedi,"May 25, 1983",83928313,59446083,798494176,1226918771,TRUE,8.3,82
+Episode I: The Phantom Menace,The Phantom Menace,"May 19, 1999",115000000,64810970,474544677,1027044677,FALSE,6.5,53
+Episode I: The Phantom Menace,The Phantom Menace,"May 19, 1999",177544538,100059424,732633177,1585618891,TRUE,6.5,53
+Episode II: Attack of the Clones,Attack of the Clones,"May 16, 2002",115000000,80027814,310676740,656695615,FALSE,6.6,65
+Episode II: Attack of the Clones,Attack of the Clones,"May 16, 2002",164418677,114417977,444183118,938895863,TRUE,6.6,65
+Episode III: Revenge of the Sith,Revenge of the Sith,"May 19, 2005",115000000,108435841,380270577,848998877,FALSE,7.5,80
+Episode III: Revenge of the Sith,Revenge of the Sith,"May 19, 2005",151453763,142808837,500812261,1118122392,TRUE,7.5,80
+Episode VII: The Force Awakens,The Force Awakens,"December 18, 2015",259000000,247966675,936662225,2068223624,FALSE,7.9,93
+Episode VII: The Force Awakens,The Force Awakens,"December 18, 2015",281063687,269090456,1016454590,2244411421,TRUE,7.9,93
+Rogue One: A Star Wars Story,Rogue One: A Star Wars Story,"December 16, 2016",200000000,155081681,532177324,1056057273,FALSE,7.8,83
+Rogue One: A Star Wars Story,Rogue One: A Star Wars Story,"December 16, 2016",214333749,166196190,570317804,1131743570,TRUE,7.8,83
+Episode VIII: The Last Jedi,The Last Jedi,"December 15, 2017",262000000,220009584,620181382,1332539889,FALSE,7.1,91
+Episode VIII: The Last Jedi,The Last Jedi,"December 15, 2017",274920431,230859273,650765392,1398253589,TRUE,7.1,91
+Solo: A Star Wars Story,Solo: A Star Wars Story,"May 25, 2018",275000000,84420489,213767512,393151347,FALSE,6.9,70
+Solo: A Star Wars Story,Solo: A Star Wars Story,"May 26, 2018",281681514,86471604,218961296,402703515,TRUE,6.9,70
+Episode IX: The Rise of Skywalker,The Rise of Skywalker,"December 20, 2019",275000000,177383864,478169690,989569690,FALSE,6.9,53
+Episode IX: The Rise of Skywalker,The Rise of Skywalker,"December 20, 2019",275000000,177383864,478169690,989569690,TRUE,6.9,53

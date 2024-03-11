@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Area Line Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 300px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 400px; height: 300px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 500px; height: 300px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Stacked area line and line chart usage in dashboard widgets.
+Learn how to:
+
+  - Use line and area line charts in widgets.
+*/
+      // JS
+      var chart1, chart2, chart3;
+      chart1 = generateLineWidget('chartDiv1', {
+        type: 'area',
+        title: 'Monthly Purchases vs. Rent',
+        series: [
+          {
+            name: 'Purchases',
+            points: [
+              ['1/1/2020', 29.9],
+              ['2/1/2020', 97.5],
+              ['3/1/2020', 110.4],
+              ['4/1/2020', 129.2],
+              ['5/1/2020', 144.0],
+              ['6/1/2020', 176.0],
+            ],
+          },
+          {
+            name: 'Rent',
+            points: [
+              ['1/1/2020', 86.9],
+              ['2/1/2020', 79.5],
+              ['3/1/2020', 95.4],
+              ['4/1/2020', 97.2],
+              ['5/1/2020', 123.0],
+              ['6/1/2020', 111.0],
+            ],
+          },
+        ],
+        axes: {},
+        palette: 2,
+        stacked: true,
+        timeScale: true,
+        crosshair: true,
+        legend: true,
+      });
+      chart2 = generateLineWidget('chartDiv2', {
+        type: 'area spline',
+        title: 'Purchases',
+        series: [
+          {
+            name: 'Apples',
+            points: [
+              ['01/01/2022', 29.9],
+              ['01/02/2022', 97.5],
+              ['01/03/2022', 110.4],
+              ['01/04/2022', 129.2],
+              ['01/05/2022', 144.0],
+              ['01/06/2022', 176.0],
+              ['01/07/2022', 124.0],
+              ['01/08/2022', 106.0],
+            ],
+          },
+        ],
+        axes: {},
+        palette: 6,
+        stacked: false,
+        timeScale: true,
+        crosshair: false,
+        legend: false,
+      });
+      chart3 = generateLineWidget('chartDiv3', {
+        type: 'spline',
+        title: 'Costs (Last 6 Months)',
+        series: [
+          {
+            name: 'Purchases',
+
+            points: [
+              ['1/1/2020', 29.9],
+              ['2/1/2020', 97.5],
+              ['3/1/2020', 110.4],
+              ['4/1/2020', 129.2],
+              ['5/1/2020', 144.0],
+              ['6/1/2020', 176.0],
+            ],
+          },
+          {
+            name: 'Taxes',
+
+            points: [
+              ['1/1/2020', 86.9],
+              ['2/1/2020', 79.5],
+              ['3/1/2020', 95.4],
+              ['4/1/2020', 97.2],
+              ['5/1/2020', 123.0],
+              ['6/1/2020', 111.0],
+            ],
+          },
+          {
+            name: 'Supplies',
+
+            points: [
+              ['1/1/2020', 129.9],
+              ['2/1/2020', 111.5],
+              ['3/1/2020', 66.4],
+              ['4/1/2020', 29.2],
+              ['5/1/2020', 88.0],
+              ['6/1/2020', 102.0],
+            ],
+          },
+          {
+            name: 'Rent',
+
+            points: [
+              ['1/1/2020', 56.9],
+              ['2/1/2020', 56.5],
+              ['3/1/2020', 56.4],
+              ['4/1/2020', 56.2],
+              ['5/1/2020', 75.0],
+              ['6/1/2020', 56.0],
+            ],
+          },
+        ],
+        axes: { y: { formatValue: 'c0' } },
+        palette: 0,
+        stacked: false,
+        timeScale: true,
+        crosshair: true,
+        legend: true,
+      });
+
+      function generateLineWidget(chartDiv, options) {
+        return JSC.chart(chartDiv, {
+          type: options.type,
+          title: {
+            margin_bottom: 15,
+            label: {
+              text: options.title,
+              style: {
+                fontWeight: 'bold',
+                fontSize: 16,
+              },
+            },
+          },
+          palette: options.palette,
+          legend: {
+            template: '%icon,%name',
+            visible: options.legend,
+            position: 'bottom',
+          },
+          defaultAxis: {
+            defaultTick: {
+              gridLine_color: '#EEEEEE',
+              line_color: '#EEEEEE',
+              label_color: '#9E9E9E',
+            },
+          },
+          xAxis: {
+            defaultTick_gridLine_visible: false,
+            scale_type: options.timeScale ? 'time' : 'auto',
+            formatString: options.timeScale ? 'MMM dd' : options.axes.x ? options.axes.x.formatValue : 'n',
+            label_text: options.axes.x ? options.axes.x.label : '',
+            crosshair: {
+              enabled: options.crosshair,
+              outline_width: 0,
+              corners: 'square',
+              gridLine_visible: false,
+              label_color: '#90A4AE',
+            },
+            alternateGridFill: 'none',
+          },
+          yAxis: {
+            scale_type: options.stacked ? 'stacked' : 'auto',
+            label_text: options.axes.y ? options.axes.y.label : '',
+            formatString: options.axes.y ? options.axes.y.formatValue : 'n',
+            alternateGridFill: 'none',
+          },
+          defaultTooltip: {
+            fill: '#263238',
+            shadow: false,
+            outline_width: 0,
+            opacity: 0.9,
+            padding: 10,
+            radius: 4,
+            label: {
+              color: 'white',
+              text: '<span style="align:center;">%xValue<br>%points</span>',
+            },
+          },
+          defaultPoint: {
+            outline_width: 0,
+            opacity: 0.8,
+            tooltip:
+              '<span style="align:center;"><span style="color:%color;font-size:18px; margin:5px 0;text-stroke: #CFD8DC;"><b>%yValue</b></span><br>%seriesName</span>',
+            marker: {
+              type: 'circle',
+              opacity: 0,
+              size: 10,
+            },
+            focusGlow: { color: '%color', width: 2 },
+          },
+          defaultSeries: { shape_opacity: 0.2, line_width: 4 },
+          series: options.series,
+        });
+      }
+    </script>
+  </body>
+</html>

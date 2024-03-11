@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Label Icon Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 400px) {
+        .chartDiv {
+          width: 100% !important;
+        }
+      }
+      #widgetsWrapper {
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      #widgetFlexWrapper {
+        display: flex;
+        max-width: 600px;
+        margin: 8px auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      .chartDiv {
+        background: white;
+        box-sizing: content-box;
+        padding: 15px;
+        margin: 5px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="widgetFlexWrapper">
+        <div id="chartDiv1" class="chartDiv" style="width: 100%; height: 110px;"></div>
+        <div id="chartDiv2" class="chartDiv" style="width: 45%; height: 90px;"></div>
+        <div id="chartDiv4" class="chartDiv" style="width: 40%; height: 90px;"></div>
+        <div id="chartDiv3" class="chartDiv" style="width: 70%; height: 60px;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Label value and icon widgets.
+Learn how to:
+
+  - Use labels to show values in widgets.
+*/
+      // JS
+      var chart1, chart2, chart3, chart4;
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var labelWidgetDefaults = {
+        title: 'Dashboard',
+        data: [{ name: 'Value', value: 100, icon: { name: 'material/social/people', color: 'black' } }],
+      };
+
+      /* Widget Constructor */
+      function LabelWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, labelWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              box_fill: 'none',
+              title: {
+                margin_bottom: 15,
+                label_style: { fontWeight: 'bold', fontSize: 16 },
+              },
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      LabelWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.data) {
+          result.annotations = makeAnnotations(options.data);
+        }
+        return result;
+
+        function makeAnnotations(data) {
+          var labels = [];
+          data.forEach(function (item) {
+            if (item.icon) {
+              labels.push({
+                label_text:
+                  '<icon name=' +
+                  item.icon.name +
+                  ' size=50 fill=' +
+                  item.icon.color +
+                  ' margin_right=10> <span style="font-size:28px; font-weight:bold;">' +
+                  item.value +
+                  '</span><br>' +
+                  '<span style="font-size:14px; color:#9E9E9E; margin:-24px 0 0 66px;">' +
+                  item.name +
+                  '</span>',
+                position: 'inside top left',
+              });
+            } else {
+              labels.push({
+                label_text:
+                  '<span style="font-size:28px; font-weight:bold;">' +
+                  item.value +
+                  '</span><br>' +
+                  '<span style="font-size:14px; color:#9E9E9E;">' +
+                  item.name +
+                  '</span>',
+                position: 'inside top left',
+              });
+            }
+          });
+          return labels;
+        }
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      LabelWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      /* USING THE WIDGET */
+      chart1 = new LabelWidget('chartDiv1', {
+        title: 'KPI Dashboard',
+        data: [
+          {
+            name: 'Users',
+            value: JSC.formatNumber(20345, 'n0'),
+            icon: { name: 'material/social/people', color: '#03A9F4' },
+          },
+          {
+            name: 'Avg. Session Duration',
+            value: '00:03:13',
+            icon: { name: 'material/device/access-time', color: '#00BCD4' },
+          },
+        ],
+      });
+
+      chart2 = new LabelWidget('chartDiv2', {
+        title: '',
+        data: [{ name: 'Users', value: JSC.formatNumber(20345, 'n0') }],
+      });
+
+      chart3 = new LabelWidget('chartDiv3', {
+        title: '',
+        data: [
+          {
+            name: 'Avg. Session Duration',
+            value: '00:03:13',
+            icon: { name: 'material/device/access-time', color: '#323232' },
+          },
+        ],
+      });
+      chart4 = new LabelWidget('chartDiv4', {});
+    </script>
+  </body>
+</html>

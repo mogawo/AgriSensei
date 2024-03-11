@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animated Gauge Live Data Dashboard | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 360px) {
+        .chartDiv {
+          width: 100% !important;
+        }
+      }
+      #dashWrapper {
+        font-family: tahoma, geneva, sans-serif;
+        max-width: 460px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-end;
+        margin: 0px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dashWrapper">
+      <div class="chartDiv" id="gaugeDiv1" style="width: 50%; height: 250px;"></div>
+      <div class="chartDiv" id="columnsDiv1" style="width: 50%; height: 160px; padding-bottom: 10px;"></div>
+      <div class="chartDiv" id="gaugeDiv2" style="width: 50%; height: 210px;"></div>
+      <div class="chartDiv" id="columnsDiv2" style="width: 50%; height: 160px; padding-bottom: 10px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Animated gauge and bar charts that demonstrate automatic text animations with live data updates.
+Learn how to:
+
+  - Use circular and bar charts with dynamic data.
+*/
+      // JS
+      var INTERVAL_ID,
+        animationDuration = 420,
+        updateInterval = 1500;
+
+      var palette = ['#1565C0', '#ECEFF1'];
+      var textColor = '#B0BEC5';
+
+      var gaugeData = [{ name: 'Load', unit: '%' }];
+      var barsData = [
+        { name: 'Temperature', unit: '°С' },
+        { name: 'Clock', unit: 'MHz' },
+        { name: 'Fan', unit: 'RPM' },
+      ];
+
+      var gaugeChart1 = JSC.chart(
+        'gaugeDiv1',
+        JSC.merge(gaugeConfig(gaugeSeries(6)), {
+          title_label_text: 'CPU',
+          toolbar_items: {
+            Stop: {
+              type: 'option',
+              icon_name: 'system/default/pause',
+              position: 'top left',
+              margin: 10,
+              boxVisible: true,
+              label_text: 'Pause',
+              events_change: playPause,
+              states_select: {
+                icon_name: 'system/default/play',
+                label_text: 'Play',
+              },
+            },
+          },
+        })
+      );
+      var gaugeChart2 = JSC.chart('gaugeDiv2', JSC.merge(gaugeConfig(gaugeSeries(8)), { title_label_text: 'GPU' }));
+
+      var barChart1 = JSC.chart('columnsDiv1', barsConfig(barSeries([45, 4500, 1000])));
+      var barChart2 = JSC.chart('columnsDiv2', barsConfig(barSeries([45, 1000, 900])), function () {
+        playPause();
+      });
+
+      /*
+       * Bar Chart Functions
+       * */
+      function barSeries(values) {
+        var series = [];
+        barsData.forEach(function (item, i) {
+          var name = item.name;
+          series.push({
+            type: 'column solid',
+            yAxis: 'yAxis' + (i + 1),
+            name: name,
+            attributes_unit: item.unit,
+            points: [{ x: name, id: name, y: values[i] }],
+          });
+        });
+        return series;
+      }
+      function barsConfig(series) {
+        return {
+          debug: true,
+          legend_visible: false,
+          animation_duration: animationDuration,
+          palette: [palette[0]],
+          xAxis: { staticColumnWidth: 10, defaultTick_gridLine_color: palette[1] },
+          yAxis: [
+            { id: 'yAxis1', scale_range: [0, 100], visible: false },
+            { id: 'yAxis2', scale_range: [0, 5000], visible: false },
+            { id: 'yAxis3', scale_range: [0, 1500], visible: false },
+          ],
+          defaultSeries: {
+            type: 'gauge linear horizontal',
+            mouseTracking_enabled: false,
+            shape: {
+              defaultLabel: {
+                verticalAlign: 'bottom',
+                style_fontSize: 16,
+              },
+              label: [
+                {
+                  align: 'right',
+                  text: '%name',
+                  style_color: textColor,
+                },
+                {
+                  align: 'left',
+                  text: '%value %unit',
+                  style_color: palette[0],
+                },
+              ],
+            },
+          },
+          defaultPoint: { outline_width: 0, radius: 0 },
+          series: series,
+          toolbar_visible: false,
+        };
+      }
+
+      /*
+       * Gauge Chart Functions
+       * */
+
+      function gaugeSeries(value) {
+        var name = gaugeData[0].name;
+        return [
+          {
+            name: name,
+            attributes_unit: gaugeData[0].unit,
+            points: [{ x: name, id: name, y: value }],
+          },
+        ];
+      }
+      function gaugeConfig(series) {
+        return {
+          debug: true,
+          title_label_style_fontSize: 20,
+          palette: [palette[0]],
+          legend_visible: false,
+          animation_duration: animationDuration,
+          xAxis: {
+            spacingPercentage: 0.6,
+            defaultTick_gridLine_color: palette[1],
+          },
+          yAxis: { visible: false, scale_range: [0, 100] },
+          defaultSeries: {
+            type: 'gauge column solid',
+            opacity: 1,
+            mouseTracking_enabled: false,
+            angle: { start: -90, sweep: 360 },
+            shape: {
+              padding: 0,
+              label: {
+                text: '%value%unit<br/><span style="fontSize: 20px;color:' + textColor + '">%name</span>',
+                style: { fontSize: 28, color: palette[0] },
+                align: 'center',
+                verticalAlign: 'middle',
+              },
+            },
+          },
+          defaultPoint_outline_width: 0,
+          series: series,
+        };
+      }
+
+      function playPause(val) {
+        if (val) {
+          clearInterval(INTERVAL_ID);
+        } else {
+          INTERVAL_ID = setInterval(function () {
+            gaugeChart1.options({ series: gaugeSeries(randomNumber(4, 20)) });
+            gaugeChart2.options({ series: gaugeSeries(randomNumber(4, 20)) });
+            barChart1.options({
+              series: barSeries([randomNumber(40, 50), randomNumber(4500, 4800), randomNumber(1000, 1200)]),
+            });
+            barChart2.options({
+              series: barSeries([randomNumber(40, 50), randomNumber(1000, 1300), randomNumber(900, 1200)]),
+            });
+          }, updateInterval);
+        }
+      }
+
+      function randomNumber(min, max) {
+        let rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
+      }
+    </script>
+  </body>
+</html>

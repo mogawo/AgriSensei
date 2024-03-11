@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/icons/material/navigation/arrow-drop-down.js"></script>
+    <script type="text/javascript" src="../jsc/icons/material/navigation/arrow-drop-up.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 750px; height: 400px; margin: 0px auto; overflow: hidden;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with interactive node expansion.
+Learn how to:
+
+  - Wire up node expansion interactivity with organizational chart.
+*/
+      // JS
+      var chart, pointConfigs, leafPointIDs;
+      var arrowIconUp = 'material/navigation/arrow-drop-up',
+        arrowIconDown = 'material/navigation/arrow-drop-down';
+      var openedNodeColor = '#e0e0e0',
+        closedNodeColor = '#eeeeee';
+      JSC.fetch('./resources/orgData3.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          pointConfigs = makePoints(data);
+          // Render only first 5 points.
+          chart = renderChart(pointConfigs.slice(0, 5));
+        });
+
+      function renderChart(pointArray) {
+        return JSC.chart('chartDiv', {
+          debug: false,
+          title: {
+            label: {
+              text: 'Police Department Organizational Chart',
+              style_fontSize: 16,
+            },
+            position: 'center',
+          },
+          type: 'organizational down',
+          animation: false,
+          defaultTooltip: { enabled: false },
+          defaultPoint: {
+            focusGlow: false,
+            connectorLine: { width: 2, color: '#e0e0e0' },
+            annotation: { padding: 5, margin: 2 },
+            outline_width: 0,
+            color: closedNodeColor,
+            label: {
+              text:
+                '<b><span style="font-size:%deptFontSize">%department</span></b><br/>' +
+                '<span style="font-size:%nameFontSize">%name</span><br/>' +
+                '<i>%position</i><br/><icon name=%arrowIcon size=14 color=gray>',
+              autoWrap: false,
+            },
+          },
+          series: [{ points: pointArray }],
+          toolbar: {
+            items: {
+              'Expand All': {
+                events_click: expandAll,
+                margin_left: 20,
+              },
+              'Collapse All': {
+                events_click: collapseAll,
+                visible: false,
+              },
+            },
+          },
+        });
+      }
+
+      function pointClick() {
+        debugger;
+        var point = this,
+          pointId = point.options('id');
+        if (!point.options('parent') || leafPointIDs.indexOf(pointId) > -1) {
+          // Ignore root and leaf point clicks.
+          return;
+        }
+
+        if (point.options('color') === closedNodeColor) {
+          expandPoint(point);
+        } else {
+          collapsePoint(point);
+        }
+        collapseAllBtnVisibility();
+
+        function expandPoint(point) {
+          var c = point.chart;
+          // Modify point to use open node point options.
+          var pointAttrs = point.options('attributes');
+          pointAttrs.arrowIcon = arrowIconUp;
+          point.options(
+            {
+              attributes: pointAttrs,
+              color: openedNodeColor,
+            },
+            false
+          );
+
+          // Add immediate child nodes to the chart.
+          pointConfigs.forEach(function (val) {
+            if (val.parent === point.id) {
+              c.series(0).points.add(val, false);
+            }
+          });
+
+          // Center the clicked point.
+          point.zoomTo();
+        }
+
+        function collapsePoint(point) {
+          var c = point.chart;
+          // Modify point to use closed node point options.
+          // Update existing point attributes, so attributes don't get fully replaced.
+          var pointId = point.options('id');
+          var pointAttrs = point.options('attributes');
+          pointAttrs.arrowIcon = arrowIconDown;
+          point.options(
+            {
+              attributes: pointAttrs,
+              color: closedNodeColor,
+            },
+            false
+          );
+
+          // Select all points from the current point down the hierarchy.
+          c.series()
+            .points([pointId, 'down'])
+            /* Filter out current clicked point */
+            .filter(function (p) {
+              return p.options('id') !== pointId;
+            })
+            /* Reverse points, so they are removed in reverse of the order they were added to the chart. */
+            .reverse()
+            /* Remove the points */
+            .remove();
+
+          point.zoomTo();
+        }
+      }
+
+      function collapseAll() {
+        var c = this.chart;
+        // The fastest way to collapse all nodes is to create new point configs and update the chart with those.
+        var newPoints = pointConfigs.slice(0, 5).map(function (pCfg) {
+          return JSC.merge({ color: closedNodeColor }, pCfg);
+        });
+        c.series(0).options({ points: newPoints });
+        collapseAllBtnVisibility();
+      }
+
+      function expandAll() {
+        var c = this.chart;
+        // The fastest way to expand all nodes is to create new point configs and reset the chart points with them.
+        var newPoints = pointConfigs.map(function (p) {
+          return isExpanded(p) ? JSC.merge({ color: openedNodeColor }, p) : p;
+        });
+        c.series(0).options({ points: newPoints });
+        collapseAllBtnVisibility();
+
+        function isExpanded(pCfg) {
+          return !(!pCfg.parent || leafPointIDs.indexOf(pCfg.id) > -1);
+        }
+      }
+
+      /**
+       * Change the 'Collapse All' button visibility if not in correct state.
+       */
+      function collapseAllBtnVisibility() {
+        var btn = chart.toolbar().items('Collapse All');
+
+        // Are any nodes open. Meaning, should button be visible.?
+        var visible = !!chart
+          .series()
+          .points()
+          .find(function (p) {
+            return p.options('color') === openedNodeColor;
+          });
+        // Update visibility if not in the correct state already.
+        if (visible !== btn.options('visible')) {
+          btn.options({ visible: visible });
+        }
+      }
+
+      function makePoints(data) {
+        var points = JSC.nest()
+          .key('name')
+          .pointRollup(function (key, val) {
+            var result = {
+              name: key,
+              id: val[0].id,
+              parent: val[0].parent,
+              attributes: {
+                department: val[0].department,
+                position: val[0].position,
+                deptFontSize: '13px',
+                nameFontSize: '13px',
+                arrowIcon: arrowIconDown,
+              },
+              events: { click: pointClick },
+            };
+            if (!val[0].parent) {
+              // Root node config options.
+              JSC.merge(result, {
+                cursor: 'default',
+                attributes: {
+                  position: '',
+                  deptFontSize: '14px',
+                  nameFontSize: '15px',
+                  arrowIcon: 'none',
+                },
+              });
+            }
+            return result;
+          })
+          .points(data);
+
+        // Make a list of leaf point IDs that have no children and do not open. And modify their options.
+        leafPointIDs = [];
+        points.forEach(function (par) {
+          if (
+            !points.find(function (p) {
+              return p.parent === par.id;
+            })
+          ) {
+            leafPointIDs.push(par.id);
+            JSC.merge(par, {
+              cursor: 'default',
+              attributes: { arrowIcon: 'none' },
+            });
+          }
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

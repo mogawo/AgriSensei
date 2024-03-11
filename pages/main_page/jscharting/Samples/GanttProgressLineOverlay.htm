@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Progress Line Overlay Gantt Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" style="max-width: 700px; height: 400px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Dynamically generate a progress line overlay for a Gantt chart.
+Learn how to:
+
+  - Add a line overlay to a gantt chart.
+*/
+      // JS
+      var range = [new Date('02/01/2022'), new Date('05/24/2022')];
+      var data = [
+        { date: ['02/01/2022', '02/15/2022'], name: 'Site Prep', id: 'site_prep', type: 'prep' },
+
+        { date: ['02/15/2022', '03/08/2022'], name: 'Septic', parent: 'site_prep', id: 'septic', type: 'prep' },
+        { date: ['02/15/2022', '03/01/2022'], name: 'Water', parent: 'site_prep', id: 'water', type: 'resource' },
+        { date: ['02/15/2022', '03/15/2022'], name: 'Power', parent: 'site_prep', id: 'power', type: 'resource' },
+        { date: ['02/15/2022', '02/22/2022'], name: 'Data', parent: 'site_prep', id: 'data', type: 'resource' },
+
+        {
+          date: ['03/15/2022', '03/29/2022'],
+          name: 'Excavation',
+          parent: 'septic,water,power,data',
+          id: 'excavation',
+          type: 'excavation',
+        },
+
+        {
+          date: ['03/29/2022', '04/05/2022'],
+          name: 'Foundation',
+          parent: 'excavation',
+          id: 'foundation',
+          type: 'building',
+        },
+        { date: ['04/05/2022', '04/19/2022'], name: 'Framing', parent: 'foundation', id: 'framing', type: 'building' },
+        { date: ['04/19/2022', '05/03/2022'], name: 'Roofing', parent: 'framing', id: 'roofing', type: 'building' },
+        { date: ['04/19/2022', '04/26/2022'], name: 'Windows', parent: 'framing', id: 'windows', type: 'building' },
+
+        {
+          date: ['05/03/2022', '05/24/2022'],
+          name: 'Interior',
+          parent: 'windows,roofing',
+          id: 'interior',
+          type: 'interior',
+        },
+
+        { date: ['03/29/2022', '04/23/2022'], name: 'Grading', parent: 'excavation', id: 'grading', type: 'grading' },
+      ];
+      var series = JSC.nest()
+        .key('name')
+        .pointRollup(function (key, val) {
+          var value = val[0];
+          return {
+            name: key,
+            y: value.date,
+            id: value.id,
+            parent: value.parent,
+          };
+        })
+        .series(data);
+      series.push(makeProgressLine(range, data));
+
+      // Helper functions to create axisTick label template with two columns of text describing each task.
+      var columnWidths = [80, 30],
+        span = function (val, width) {
+          return '<span style="width:' + width + 'px;">' + val + '</span>';
+        },
+        mapLabels = function (labels) {
+          return labels
+            .map(function (v, i) {
+              return span(v, columnWidths[i]);
+            })
+            .join('');
+        },
+        tickTemplate = mapLabels(['%name', '{weeks(%high-%low):n0}w']);
+
+      var chart = JSC.chart('chartDiv1', {
+        palette: ['#A8D5E2', '#F9A620'],
+        /* Typical Gantt setup. Horizontal columns by default. */
+        type: 'horizontal column solid',
+        title_label_text: 'House Construction from %min to %max',
+        legend_visible: false,
+        /*Make columns overlap.*/
+        zAxis_scale_type: 'stacked',
+        /*Time Y Axis.*/
+        yAxis: {
+          crosshair_enabled: true,
+          scale: { type: 'time', range_padding: 0 },
+        },
+        xAxis: [
+          {
+            spacingPercentage: 0.5,
+            defaultTick: {
+              line_visible: false,
+              gridLine_visible: false,
+            },
+          },
+          {
+            id: 'x2',
+            label_text: 'Progress',
+            alternateGridFill: 'none',
+            orientation: 'right',
+            defaultTick: {
+              label_text: '%value%',
+              line_visible: false,
+              gridLine_visible: false,
+            },
+          },
+        ],
+        defaultSeries: {
+          defaultPoint: {
+            xAxisTick_label_text: tickTemplate,
+            outline_width: 0,
+            tooltip: '<b>%name</b> <br/>%low - %high<br/>{days(%high-%low)} days',
+          },
+        },
+        series: series,
+      });
+
+      function makeProgressLine(range, data) {
+        var linePoints = [];
+        var count = 0;
+        for (var i = range[0]; i <= range[1]; i.setDate(i.getDate() + 1)) {
+          linePoints.push({ y: JSC.formatDate(i, 'd'), x: (count / 186) * 100 });
+          data.forEach(function (item, j) {
+            if (new Date(item.date[0]) <= i && new Date(item.date[1]) > i) {
+              count++;
+            }
+          });
+        }
+        return {
+          type: 'line',
+          name: 'Progress Line',
+          xAxis: 'x2',
+          line_width: 3,
+          defaultPoint: {
+            tooltip: '%yValue<br>Progress: <b>{%xvalue:n2}%</b>',
+            marker_visible: false,
+            xAxisTick: false,
+          },
+          points: linePoints,
+        };
+      }
+    </script>
+  </body>
+</html>

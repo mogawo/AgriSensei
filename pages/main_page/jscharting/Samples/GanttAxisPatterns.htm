@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Calendar Pattern Gantt Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 800px; height: 500px;"></div>
+
+    <script type="text/javascript">
+      /*
+A Gantt chart with weekend axis markers using calendar patterns.
+Learn how to:
+
+  - Use axis ticks with calendar patterns to mark weekends.
+*/
+      // JS
+
+      var chart = JSC.chart('chartDiv1', {
+        /*Typical Gantt setup. Horizontal columns by default.*/
+        type: 'horizontal column solid',
+        /*Make columns overlap.*/
+        zAxis_scale_type: 'stacked',
+        legend_position: 'inside top right',
+        yAxis: {
+          scale: { interval_unit: 'day', type: 'time' },
+          defaultTick_enabled: false,
+          defaultMarker_color: ['#B0BEC5', 0.6],
+          customTicks: [{ value_pattern: 'day', label_text: '{%min:Date dd}' }],
+          markers: [
+            {
+              value: { pattern: { weekday: [0, 6] } },
+              legendEntry: { name: 'Weekends', value: '' },
+            },
+          ],
+        },
+        xAxis: { spacingPercentage: 0.4 },
+        defaultSeries: {
+          legendEntry_visible: false,
+          color: '#3F51B5',
+          defaultPoint: {
+            xAxisTick_label_text: '%name',
+            radius: 2,
+            tooltip: '<b>%name</b> <br/>%low - %high<br/>{days(%high-%low)} days',
+          },
+        },
+        series: [
+          {
+            points: [
+              { name: 'Instructor Shoot', y: ['02/03/2022', '02/05/2022'], id: 'IS' },
+              { name: 'Portraiture photography selected', y: ['02/07/2022', '02/08/2022'], id: 'PPS', parent: 'IS' },
+              { name: 'Class editing', y: ['02/11/2022', '02/12/2022'], id: 'CE', parent: 'IS' },
+              { name: 'GTM planning kicked off', y: ['02/07/2022', '02/11/2022'], id: 'GTM PKO', parent: 'IS' },
+              { name: 'Complete class workbook', y: ['02/15/2022', '02/20/2022'], id: 'CCW', parent: 'CE' },
+              { name: 'Complete class trailer', y: ['02/14/2022', '02/16/2022'], id: 'CCT', parent: 'IS' },
+              { name: 'Social media posts prepared', y: ['02/14/2022', '02/18/2022'], id: 'SMPP', parent: 'CE' },
+              { name: 'Site copy', y: ['02/14/2022', '02/21/2022'], id: 'SC', parent: 'SMPP' },
+              { name: 'Test class on site', y: ['02/21/2022', '02/22/2022'], id: 'TCS', parent: 'CF' },
+              { name: 'Launch', y: ['02/22/2022', '02/24/2022'], id: 'L', parent: 'TCS,GTM PKO' },
+              { name: 'Engineering sing off', y: ['02/22/2022', '02/25/2022'], id: 'ESO', parent: 'L' },
+              { name: 'Promote on social media', y: ['02/24/2022', '02/25/2022'], id: 'PSM', parent: 'CBF' },
+              { name: 'Class finishing', y: ['02/17/2022', '02/19/2022'], id: 'CF', parent: 'CCT' },
+              { name: 'Class branding finalized', y: ['02/22/2022', '02/23/2022'], id: 'CBF' /*parent:'ESO'*/ },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

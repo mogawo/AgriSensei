@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pictogram Bar Charts | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 240px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple pictogram bar charts where each icon represents a fixed amount.
+Learn how to:
+
+  - Create multiple bar pictographs.
+*/
+      // JS
+
+      var data = [
+        { type: 'Oil', value: 48259 },
+        { type: 'Coal', value: 42062 },
+        { type: 'Gas', value: 38228 },
+        { type: 'Nuclear', value: 6661 },
+        { type: 'Hydropower', value: 10601 },
+        { type: 'Wind', value: 3926 },
+        { type: 'Solar', value: 2111 },
+        { type: 'Other renewables', value: 1745 },
+      ];
+      var color = '#ffbd39';
+      var amount = 2000;
+
+      var chart = JSC.chart('chartDiv', {
+        type: 'horizontal marker',
+        title_label: {
+          text:
+            'Energy consumption by source (<icon name=linear/basic/bolt size=20 color=' +
+            color +
+            '> - ' +
+            amount +
+            ' TWh)',
+          style_fontSize: 16,
+        },
+        palette: [color],
+        defaultSeries: {
+          legendEntry_visible: false,
+          mouseTracking_enabled: false,
+          lastPoint_label: {
+            text: '<b>%val</b>',
+            align: 'right',
+            style_fontSize: 14,
+          },
+        },
+        xAxis_defaultTick: {
+          gridLine_visible: false,
+          line_visible: false,
+        },
+        yAxis_visible: false,
+        defaultPoint: {
+          marker: {
+            type: 'linear/basic/bolt',
+            size: 24,
+            outline_width: 0,
+          },
+          focusGlow: false,
+        },
+        series: makeSeries(data),
+      });
+
+      function makeSeries(data) {
+        return data.map(function (item) {
+          var points = [],
+            maxImages = Math.round(item.value / amount);
+          for (var i = 0; i < maxImages; i++) {
+            points.push({
+              x: item.type,
+              y: i + 1,
+              attributes_val: item.value,
+            });
+          }
+          return { name: item.name, points: points };
+        });
+      }
+    </script>
+  </body>
+</html>

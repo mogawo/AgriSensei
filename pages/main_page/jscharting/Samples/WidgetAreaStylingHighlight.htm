@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Area Chart Styling Highlight Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        margin: 8px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 500px; height: 260px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Area chart widget with highlight styling and axis inside the chart.
+Learn how to:
+
+  - Create minimal modern area chart widgets with value highlights.
+*/
+      // JS
+
+      var chart1 = renderChart('chartDiv1', {
+        title: 'Sessions',
+        series: [
+          {
+            name: 'Purchases',
+            points: [
+              ['01/01/2022', 29.9],
+              ['01/02/2022', 97.5],
+              ['01/03/2022', 110.4],
+              ['01/04/2022', 129.2],
+              ['01/05/2022', 144.0],
+              ['01/06/2022', 176.0],
+              ['01/07/2022', 124.0],
+              ['01/08/2022', 106.0],
+            ],
+          },
+        ],
+        palette: ['#00796B'],
+      });
+
+      function renderChart(chartDiv, options) {
+        return JSC.chart(chartDiv, {
+          type: 'area spline',
+          palette: options.palette,
+          title_label: {
+            text: options.title,
+            style: { fontWeight: 'bold', fontSize: 16 },
+            color: '#37474F',
+            margin_bottom: 16,
+          },
+          legend: {
+            visible: false,
+            template: '%icon %name',
+            position: 'bottom',
+          },
+          defaultAxis: {
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+              label_color: '#CFD8DC',
+            },
+          },
+          yAxis_visible: false,
+          xAxis: {
+            scale: { type: 'time', range_padding: 0 },
+            spacingPercentage: 0,
+            defaultTick: {
+              label: {
+                text: '{%value:date MMM d}',
+                color: options.palette[0],
+              },
+              placement: 'inside',
+            },
+            crosshair: {
+              enabled: true,
+              outline_width: 0,
+              fill: 'none',
+              onTop: true,
+              gridLine: {
+                width: 'column',
+                color: 'white',
+                opacity: 0.6,
+              },
+              label: {
+                text: '{%value:date MMM d}',
+                color: 'black',
+              },
+            },
+          },
+          defaultTooltip: {
+            fill: '#263238',
+            shadow: false,
+            outline_width: 0,
+            opacity: 0.9,
+            padding: 10,
+            margin: 30,
+            radius: 4,
+            label: {
+              color: 'white',
+              text:
+                options.series.length > 1
+                  ? '<span style="align:center;">%xValue<br><br>%points</span>'
+                  : '<span style="align:center;">%xValue<br>%points</span>',
+            },
+          },
+          defaultSeries: { shape_opacity: 0.2, line_width: 4 },
+          defaultPoint: {
+            tooltip:
+              '<span style="color:%color;text-stroke:1px #eaeaea;font-size:16px; margin:5px 0;align:center;"><b>%yValue</b></span><br>%seriesName<br>',
+            marker_visible: false,
+            focusGlow: false,
+          },
+          series: options.series,
+        });
+      }
+
+      function generateSeries(series) {
+        var points = series[0].points,
+          firstDate = new Date(points[0][0]),
+          lastDate = new Date(points[points.length - 1][0]);
+        points.unshift([firstDate.setDate(firstDate.getDate() - 1), points[0][1]]);
+        points.push([lastDate.setDate(lastDate.getDate() + 1), points[points.length - 1][1]]);
+        return series;
+      }
+    </script>
+  </body>
+</html>

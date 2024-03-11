@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Label Icon Change Indicator KPI Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        margin: 8px;
+        background: white;
+        box-sizing: content-box;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 110px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 600px; height: 80px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 600px; height: 110px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Label value and KPI change indicator arrows widgets.
+Learn how to:
+
+  - Use labels to show values with KPI change indicator arrows.
+*/
+      // JS
+      var chart1, chart2, chart3, chart4;
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var labelWidgetDefaults = {
+        title: 'Dashboard',
+        data: [{ name: 'Value', value: 100, prevValue: 34, icon: { name: 'material/social/people', color: 'black' } }],
+        indicatorPosition: 'middle',
+      };
+
+      /* Widget Constructor */
+      function LabelWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, labelWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              box_fill: 'none',
+              title: {
+                margin_bottom: 15,
+                label_style: { fontWeight: 'bold', fontSize: 16 },
+              },
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      LabelWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.data) {
+          result.annotations = makeAnnotations(options.data);
+        }
+        return result;
+
+        function makeAnnotations(data) {
+          var labels = [];
+          data.forEach(function (item) {
+            if (item.icon) {
+              labels.push({
+                label_text: '<icon name=' + item.icon.name + ' size=50 fill=' + item.icon.color + '>',
+                position: 'inside top left',
+                margin: [8, 2, 8, 8],
+              });
+              labels.push({
+                label_text:
+                  '<span style="font-size:28px; font-weight:bold;">' +
+                  item.value +
+                  '</span> ' +
+                  getChange(item) +
+                  '<br>' +
+                  '<span style="font-size:14px; color:#9E9E9E;">' +
+                  item.name +
+                  '</span>',
+                position: 'inside top left',
+                margin: [8, 8, 8, 2],
+              });
+            } else {
+              labels.push({
+                label_text:
+                  '<span style="font-size:28px; font-weight:bold;">' +
+                  item.value +
+                  '</span> ' +
+                  getChange(item) +
+                  '<br>' +
+                  '<span style="font-size:14px; color:#9E9E9E;">' +
+                  item.name +
+                  '</span>',
+                position: 'inside top left',
+                margin: 8,
+              });
+            }
+          });
+          return labels;
+
+          function getChange(data) {
+            var margin = 0;
+            if (options.indicatorPosition === 'top') margin = 3;
+            if (options.indicatorPosition === 'middle') margin = 2;
+            if (options.indicatorPosition === 'bottom') margin = 2;
+
+            var val = (data.value / data.prevValue - 1) * 100;
+            var valueLabel =
+              val < 0
+                ? '<span style="color:#43a047;font-size:14px;">' + JSC.formatNumber(Math.abs(val), 'n2') + '%</span>'
+                : '<span style="color:#ef5350;font-size:14px;">' + JSC.formatNumber(Math.abs(val), 'n2') + '%</span>';
+            return getIcon() + valueLabel;
+
+            function getIcon() {
+              var arrowIcon;
+              if (data.value < data.prevValue) {
+                arrowIcon =
+                  '<icon name=material/navigation/arrow-drop-up size=12 fill=#43a047 margin=' +
+                  margin +
+                  ' verticalAlign=' +
+                  options.indicatorPosition +
+                  '>';
+              } else {
+                arrowIcon =
+                  '<icon name=material/navigation/arrow-drop-down size=12 fill=#ef5350 margin=' +
+                  margin +
+                  ' verticalAlign=' +
+                  options.indicatorPosition +
+                  '>';
+              }
+              return arrowIcon;
+            }
+          }
+        }
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      LabelWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      /* USING THE WIDGET */
+      chart1 = new LabelWidget('chartDiv1', {
+        title: 'KPI Dashboard',
+        data: [
+          { name: 'Users', value: 20345, prevValue: 30000 },
+          { name: 'Avg. Session Duration', value: 234, prevValue: 190 },
+        ],
+        indicatorPosition: 'middle',
+      });
+      chart2 = new LabelWidget('chartDiv2', {
+        title: '',
+        data: [{ name: 'Sales', value: 2345, prevValue: 3300 }],
+        indicatorPosition: 'top',
+      });
+
+      chart3 = new LabelWidget('chartDiv3', {});
+    </script>
+  </body>
+</html>

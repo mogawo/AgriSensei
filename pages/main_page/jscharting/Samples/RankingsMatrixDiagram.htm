@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Matrix Diagram Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div style="margin: 0px auto;">
+      <div style="max-width: 900px; margin: 0px auto; font-family: tahoma, geneva, sans-serif;">
+        <select id="selectState"></select>
+        <p style="font-size: 25px;">NBA Teams Ranking</p>
+      </div>
+      <div id="chartDiv" style="max-width: 900px; height: 800px; margin: 0px auto;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Interactive matrix diagram chart of NBA team ranking using series selection.
+Learn how to:
+
+  - Use series selection to enable interactivity.
+*/
+      // JS
+      var chart, selectEl;
+      var palette = ['#01579b'];
+      JSC.fetch('./resources/nba-seasons-ranking.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          data = JSC.sortBy(data, 'team');
+          bindUi();
+
+          renderChart(makeSeries(data), function (c) {
+            chart = c;
+            dropdownSelect('Milwaukee Bucks');
+            highlightSeries('Milwaukee Bucks');
+          });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series, cb) {
+        populateDropdown(series);
+        return JSC.chart(
+          'chartDiv',
+          {
+            type: 'marker',
+            palette: palette,
+            defaultPoint: {
+              label: {
+                text: '%xValue',
+                placement: 'inside',
+                autoHide: false,
+                color: 'white',
+                align: 'center',
+                verticalAlign: 'middle',
+                style_fontSize: '11px',
+              },
+              marker: {
+                size: 20,
+                type: 'circle',
+                outline_width: 0,
+              },
+              tooltip:
+                '<span style="font-size:14px">%seriesName</span><br>Season: <b>%yValue</b><br>Rank: <b>%xValue</b><br>W-L: <b>%w-%l</b>',
+              focusGlow: false,
+            },
+            xAxis_visible: false,
+            yAxis: {
+              label_text: 'Seasons',
+              line_visible: false,
+              defaultTick: {
+                line_visible: false,
+                gridLine_visible: false,
+              },
+              scale_invert: true,
+            },
+            legend_visible: false,
+            defaultSeries: {
+              opacity: 0.1,
+              states: {
+                select_opacity: 1,
+                hover_enabled: false,
+                mute_enabled: false,
+              },
+              events: {
+                mouseOver: function () {
+                  var id = this.options('name');
+                  dropdownSelect(id);
+                  highlightSeries(id);
+                  return false;
+                },
+              },
+            },
+            series: series,
+          },
+          cb
+        );
+      }
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key('team')
+          .key('season')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              y: values.season,
+              x: values.rank,
+              attributes: { w: values.w, l: values.l },
+            };
+          })
+          .series(data);
+      }
+
+      function bindUi() {
+        selectEl = document.getElementById('selectState');
+        selectEl.addEventListener('change', function () {
+          selectChanged(this);
+        });
+      }
+      function selectChanged(control) {
+        highlightSeries(control.options[control.selectedIndex].value);
+      }
+      function highlightSeries(id) {
+        var selectedSeries = chart.series(function (s) {
+          return s.options('selected');
+        }).items;
+        if (selectedSeries.length) {
+          unselect(selectedSeries[0]);
+        }
+
+        select(chart.series(id));
+        function select(ser) {
+          ser.options({ selected: true });
+        }
+        function unselect(ser) {
+          ser.options({ selected: false }, false);
+        }
+      }
+
+      function dropdownSelect(id) {
+        for (var i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].text === id) {
+            selectEl.options[i].selected = true;
+            return;
+          }
+        }
+      }
+
+      function populateDropdown(series) {
+        series.forEach(function (s) {
+          var el = document.createElement('option');
+          el.textContent = s.name;
+          el.value = s.name;
+          selectEl.appendChild(el);
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Styled Vertical Layout Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 820px; height: 460px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with vertical layout annotations.
+Learn how to:
+
+  - Style vertical layout leaf points.
+*/
+      // JS
+      var palette = ['white', 'white', '#ce93d8', '#f48fb1', '#90caf9', '#80cbc4', '#c5e1a5', '#ffe082'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          defaultLeafPoint: {
+            label_style_fontSize: 10,
+            annotation_margin: [-4, 10],
+            connectorLine_visible: false,
+          },
+        },
+        defaultPoint: {
+          outline_width: 0,
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          leafPointLayout: 'vertical',
+          annotation: {
+            margin: [4, 4, 5, -10],
+            label_text: '<b>%position</b><br>%name',
+            width: 110,
+            syncHeight: 'level',
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          {
+            name: 'Ellis Davidson',
+            id: 'dhr',
+            attributes: { position: 'Director of Human Resources', role: '' },
+          },
+          {
+            name: 'Leroy Gonzalez',
+            id: 'ca',
+            parent: 'dhr',
+            attributes: { position: 'Compensation Analysis', role: '' },
+          },
+          {
+            name: 'Martha Butler',
+            id: 'ca_jb',
+            parent: 'ca',
+            attributes: { position: 'Job Evaluation', role: 'unit' },
+          },
+          {
+            name: 'Jacquelyn Aguilar',
+            id: 'ca_sb',
+            parent: 'ca',
+            attributes: { position: 'Salary Board', role: 'unit' },
+          },
+          {
+            name: 'Gregory Floyd',
+            id: 'ca_ma',
+            parent: 'ca',
+            attributes: { position: 'Merit Admin', role: 'unit' },
+          },
+          {
+            name: 'Devin Wells',
+            id: 'ca_ai',
+            parent: 'ca',
+            attributes: { position: 'Attendance Incentive', role: 'unit' },
+          },
+          {
+            name: 'Lauren Thornton',
+            id: 'ca_hris',
+            parent: 'ca',
+            attributes: { position: 'HRIS', role: 'unit' },
+          },
+          {
+            name: 'Dana Payne',
+            id: 'ba',
+            parent: 'dhr',
+            attributes: { position: 'Benefits Administration', role: '' },
+          },
+          {
+            name: 'Kathleen Lynch',
+            id: 'ba_fb',
+            parent: 'ba',
+            attributes: { position: 'Flex Benefits', role: 'unit' },
+          },
+          {
+            name: 'Grant Foster',
+            id: 'ba_wc',
+            parent: 'ba',
+            attributes: { position: "Worker's Comp", role: 'unit' },
+          },
+          {
+            name: 'Edwin Carson',
+            id: 'ba_ltd',
+            parent: 'ba',
+            attributes: { position: 'LTD', role: 'unit' },
+          },
+          {
+            name: 'Vickie Price',
+            id: 'ba_oe',
+            parent: 'ba',
+            attributes: { position: 'Open Enrollment', role: 'unit' },
+          },
+          {
+            name: 'Kristen Hughes',
+            id: 'rm',
+            parent: 'dhr',
+            attributes: { position: 'Risk Management', role: '' },
+          },
+          {
+            name: 'Florence Mcguire',
+            id: 'rm_pi',
+            parent: 'rm',
+            attributes: { position: 'Property Insurance', role: 'unit' },
+          },
+          {
+            name: 'Brandi Russell',
+            id: 'rm_gl',
+            parent: 'rm',
+            attributes: { position: 'General Liability', role: 'unit' },
+          },
+          {
+            name: 'Jill Todd',
+            id: 'rm_pl',
+            parent: 'rm',
+            attributes: { position: 'Professional Liability', role: 'unit' },
+          },
+          {
+            name: 'Lola Ramos',
+            id: 'rm_ep',
+            parent: 'rm',
+            attributes: { position: 'Emergency Procedures', role: 'unit' },
+          },
+          {
+            name: 'Ismael Jenkins',
+            id: 'rm_sp',
+            parent: 'rm',
+            attributes: { position: 'Safety Program', role: 'unit' },
+          },
+          {
+            name: 'Sheri Tate',
+            id: 't',
+            parent: 'dhr',
+            attributes: { position: 'Employee Training', role: '' },
+          },
+          {
+            name: 'Fannie Chandler',
+            id: 't_tp',
+            parent: 't',
+            attributes: { position: 'Training Partnership', role: 'unit' },
+          },
+          {
+            name: 'Frankie Clark',
+            id: 't_cp',
+            parent: 't',
+            attributes: { position: 'Course Procedure', role: 'unit' },
+          },
+          {
+            name: 'Amos Wong',
+            id: 't_wc',
+            parent: 't',
+            attributes: { position: 'Workforce Committee', role: 'unit' },
+          },
+          {
+            name: 'Israel Edwards',
+            id: 't_pd',
+            parent: 't',
+            attributes: { position: 'Program Development', role: 'unit' },
+          },
+          {
+            name: 'Dolores Robbins',
+            id: 'er',
+            parent: 'dhr',
+            attributes: { position: 'Employee Relations', role: '' },
+          },
+          {
+            name: 'Victoria Robertson',
+            id: 'er_cc',
+            parent: 'er',
+            attributes: { position: 'Client Consultations', role: 'unit' },
+          },
+          {
+            name: 'Opal Sparks',
+            id: 'er_gp',
+            parent: 'er',
+            attributes: { position: 'Grievance Procedure', role: 'unit' },
+          },
+          {
+            name: 'Lorena Larson',
+            id: 'er_fa',
+            parent: 'er',
+            attributes: { position: 'FMLA Administration', role: 'unit' },
+          },
+          {
+            name: 'Wade King',
+            id: 'er_uc',
+            parent: 'er',
+            attributes: { position: 'Unemployment Comp', role: 'unit' },
+          },
+          {
+            name: 'Rene Ellis',
+            id: 'er_eeo',
+            parent: 'er',
+            attributes: { position: 'EEO', role: 'unit' },
+          },
+          {
+            name: 'Lance Mendoza',
+            id: 'es',
+            parent: 'dhr',
+            attributes: { position: 'Employee Staffing', role: '' },
+          },
+          {
+            name: 'Randal Schultz',
+            id: 'es_jp',
+            parent: 'es',
+            attributes: { position: 'Job Postings', role: 'unit' },
+          },
+          {
+            name: 'Lydia Holt',
+            id: 'es_aso',
+            parent: 'es',
+            attributes: { position: 'Applicant Sourcing', role: 'unit' },
+          },
+          {
+            name: 'John Alvarado',
+            id: 'es_se',
+            parent: 'es',
+            attributes: { position: 'Summer Employment', role: 'unit' },
+          },
+          {
+            name: 'Ralph Meyer',
+            id: 'es_as',
+            parent: 'es',
+            attributes: { position: 'Applicant Screening', role: 'unit' },
+          },
+        ];
+
+        // Group points by parent
+        var pointsParent = JSC.nest().key('parent').entries(points);
+
+        // Apply a color from palette to each group of points
+        pointsParent.forEach(function (group, i) {
+          group.values.forEach(function (point) {
+            JSC.merge(point, { color: palette[i] });
+          });
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

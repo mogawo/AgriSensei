@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tooltip Tile Map Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 670px; height: 530px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Tile map of US states for the 2020 election results with detailed tooltip information.
+Learn how to:
+
+  - Create a tilemap chart.
+*/
+      // JS
+      var chart;
+      var partyColors = ['#42a5f5', '#ef5350'];
+
+      JSC.fetch('./resources/tile-map-data.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var tileMapData = JSC.csv2Json(text);
+          JSC.fetch('./resources/us-election-2020.csv')
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text) {
+              var electionsData = JSC.csv2Json(text);
+              var data = tileMapData.map(function (item, i) {
+                return JSC.merge({}, item, electionsData[i]);
+              });
+              chart = renderChart(data);
+            });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          type: 'heatmap solid',
+          title: {
+            position: 'center',
+            label: {
+              text: '2020 US Presidential Election Results',
+              style_fontSize: 16,
+            },
+          },
+          xAxis_visible: false,
+          yAxis: { visible: false, scale_invert: true },
+          palette: {
+            pointValue: '%zValue',
+            ranges: [
+              { value: 0, color: partyColors[0], legendEntry_value: 'Biden' },
+              { value: 1, color: partyColors[1], legendEntry_value: 'Trump' },
+            ],
+          },
+          legend: {
+            position: 'bottom',
+            template: '%icon %name',
+          },
+          defaultPoint: {
+            tooltip: tooltipText,
+            label: {
+              text: '<b>%code</b>',
+              color: 'white',
+              autoHide: false,
+              placement: 'inside',
+              align: 'center',
+              verticalAlign: 'middle',
+            },
+          },
+          series: makeSeries(data),
+        });
+      }
+
+      function makeSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return {
+                x: item.col,
+                y: item.row,
+                z: item.Biden_ev > item.Trump_ev ? 0 : 1,
+                attributes: {
+                  state: item.state,
+                  code: item.code,
+                  region: item.region,
+                  biden: {
+                    votes: item.Biden_votes,
+                    percent: item.Biden_percent,
+                    ev: item.Biden_ev,
+                  },
+                  trump: {
+                    votes: item.Trump_votes,
+                    percent: item.Trump_percent,
+                    ev: item.Trump_ev,
+                  },
+                },
+              };
+            }),
+          },
+        ];
+      }
+
+      function tooltipText(point) {
+        var header = '<span style="font-size:14px;">' + '<b>%state</b></span><br>';
+        var results = makeRow('Name', 'Votes', 'Percent', 'Electoral votes', '#9E9E9E') + chosenWinner();
+
+        function makeRow(name, votes, percent, ev, color) {
+          var margin = 'margin:3px 6px;';
+          return (
+            '<span style="color:' +
+            color +
+            '">' +
+            '<span style="width:50px;' +
+            margin +
+            '">' +
+            name +
+            '</span>' +
+            '<span style="width:60px;' +
+            margin +
+            ' align:right;">' +
+            votes +
+            '</span>' +
+            '<span style="width:70px;' +
+            margin +
+            ' align:right;">' +
+            percent +
+            '</span>' +
+            '<span style="width:90px;' +
+            margin +
+            ' align:right;">' +
+            ev +
+            '</span></span><br>'
+          );
+        }
+        function chosenWinner() {
+          var result;
+          if (point.tokenValue('%biden.ev') > point.tokenValue('%trump.ev')) {
+            result =
+              '<b>' +
+              makeRow('Biden', '%biden.votes', '%biden.percent' + '%', '%biden.ev', partyColors[0]) +
+              '</b>' +
+              makeRow('Trump', '%trump.votes', '%trump.percent' + '%', '%trump.ev', partyColors[1]);
+          } else {
+            result =
+              '<b>' +
+              makeRow('Trump', '%trump.votes', '%trump.percent' + '%', '%trump.ev', partyColors[1]) +
+              '</b>' +
+              makeRow('Biden', '%biden.votes', '%biden.percent' + '%', '%biden.ev', partyColors[0]);
+          }
+          return result;
+        }
+        return header + results;
+      }
+    </script>
+  </body>
+</html>

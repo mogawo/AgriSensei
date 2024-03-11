@@ -1,0 +1,3144 @@
+county,county_code,state,personal_income_2020,percent_change_2020
+Autauga,001,Alabama,46814,5.5
+Baldwin,003,Alabama,50953,5.6
+Barbour,005,Alabama,37850,6.4
+Bibb,007,Alabama,34300,8.8
+Blount,009,Alabama,38808,5.0
+Bullock,011,Alabama,31944,13.5
+Butler,013,Alabama,39988,5.0
+Calhoun,015,Alabama,40195,6.6
+Chambers,017,Alabama,38508,6.6
+Cherokee,019,Alabama,37869,4.1
+Chilton,021,Alabama,38778,6.3
+Choctaw,023,Alabama,42231,8.0
+Clarke,025,Alabama,40822,10.1
+Clay,027,Alabama,37179,8.8
+Cleburne,029,Alabama,37734,5.1
+Coffee,031,Alabama,45262,4.5
+Colbert,033,Alabama,41941,7.9
+Conecuh,035,Alabama,36908,9.9
+Coosa,037,Alabama,34683,6.6
+Covington,039,Alabama,37930,5.6
+Crenshaw,041,Alabama,38161,3.7
+Cullman,043,Alabama,42659,3.5
+Dale,045,Alabama,40111,6.0
+Dallas,047,Alabama,41195,11.2
+DeKalb,049,Alabama,35100,5.0
+Elmore,051,Alabama,47270,6.1
+Escambia,053,Alabama,37137,8.2
+Etowah,055,Alabama,39852,5.7
+Fayette,057,Alabama,38001,6.0
+Franklin,059,Alabama,37362,7.3
+Geneva,061,Alabama,38358,5.2
+Greene,063,Alabama,35992,10.6
+Hale,065,Alabama,41190,8.9
+Henry,067,Alabama,45409,3.8
+Houston,069,Alabama,47072,6.3
+Jackson,071,Alabama,40089,5.5
+Jefferson,073,Alabama,58424,3.2
+Lamar,075,Alabama,37161,7.6
+Lauderdale,077,Alabama,40729,6.8
+Lawrence,079,Alabama,38098,7.6
+Lee,081,Alabama,42468,5.0
+Limestone,083,Alabama,47695,6.4
+Lowndes,085,Alabama,44921,8.4
+Macon,087,Alabama,37834,10.6
+Madison,089,Alabama,57128,5.5
+Marengo,091,Alabama,43854,8.8
+Marion,093,Alabama,36330,8.7
+Marshall,095,Alabama,40045,5.6
+Mobile,097,Alabama,42823,7.0
+Monroe,099,Alabama,38192,10.7
+Montgomery,101,Alabama,47776,7.1
+Morgan,103,Alabama,44679,6.6
+Perry,105,Alabama,36217,12.5
+Pickens,107,Alabama,36861,6.6
+Pike,109,Alabama,40342,6.0
+Randolph,111,Alabama,35208,4.4
+Russell,113,Alabama,36526,8.1
+Shelby,117,Alabama,43279,5.5
+St. Clair,115,Alabama,59588,3.1
+Sumter,119,Alabama,35310,10.1
+Talladega,121,Alabama,38300,7.2
+Tallapoosa,123,Alabama,45058,5.9
+Tuscaloosa,125,Alabama,42868,6.3
+Walker,127,Alabama,44095,5.0
+Washington,129,Alabama,40371,7.5
+Wilcox,131,Alabama,38273,12.7
+Winston,133,Alabama,38382,8.1
+Aleutians East,013,Alaska,59574,-2.5
+Aleutians West,016,Alaska,59674,6.0
+Anchorage,020,Alaska,70477,2.4
+Bethel,050,Alaska,47936,5.0
+Bristol Bay,060,Alaska,152678,5.1
+Denali,068,Alaska,72967,-11.7
+Dillingham,070,Alaska,60792,-0.1
+Fairbanks North Star,090,Alaska,62254,5.2
+Haines,100,Alaska,64956,-8.2
+Hoonah-Angoon,105,Alaska,64708,-1.0
+Juneau,110,Alaska,74162,2.6
+Kenai Peninsula,122,Alaska,56139,3.9
+Ketchikan Gateway,130,Alaska,70574,0.3
+Kodiak Island,150,Alaska,66988,4.4
+Lake and Peninsula,164,Alaska,63397,-0.9
+Matanuska-Susitna,170,Alaska,50386,4.3
+Nome,180,Alaska,55950,4.5
+North Slope,185,Alaska,90809,-2.0
+Northwest Arctic,188,Alaska,52440,4.2
+Petersburg,195,Alaska,72412,1.8
+Prince of Wales-Hyder,198,Alaska,48970,2.9
+Sitka,220,Alaska,70996,-0.7
+Skagway,230,Alaska,66548,-18.0
+Southeast Fairbanks,240,Alaska,54808,5.4
+Valdez-Cordova,261,Alaska,,
+Wade Hampton,270,Alaska,33968,8.1
+Wrangell,275,Alaska,48549,-0.1
+Yakutat,282,Alaska,66119,0.6
+Yukon-Koyukuk,290,Alaska,63675,5.8
+Apache,001,Arizona,38915,15.0
+Cochise,003,Arizona,45786,12.9
+Coconino,005,Arizona,53036,8.6
+Gila,007,Arizona,44201,11.3
+Graham,009,Arizona,35072,12.5
+Greenlee,011,Arizona,44050,7.2
+La Paz,012,Arizona,39482,14.8
+Maricopa,013,Arizona,53521,7.8
+Mohave,015,Arizona,36529,6.6
+Navajo,017,Arizona,36169,13.0
+Pima,019,Arizona,48373,8.3
+Pinal,021,Arizona,35949,9.9
+Santa Cruz,023,Arizona,42204,10.3
+Yavapai,025,Arizona,44490,8.3
+Yuma,027,Arizona,40800,16.4
+Arkansas,001,Arkansas,50534,9.8
+Ashley,003,Arkansas,38489,3.1
+Baxter,005,Arkansas,39950,5.5
+Benton,007,Arkansas,94289,0.2
+Boone,009,Arkansas,38108,5.3
+Bradley,011,Arkansas,42037,7.5
+Calhoun,013,Arkansas,38509,7.5
+Carroll,015,Arkansas,34692,5.4
+Chicot,017,Arkansas,44762,15.0
+Clark,019,Arkansas,39450,6.9
+Clay,021,Arkansas,39157,8.9
+Cleburne,023,Arkansas,41656,6.0
+Cleveland,025,Arkansas,40366,1.8
+Columbia,027,Arkansas,38806,4.2
+Conway,029,Arkansas,40633,5.6
+Craighead,031,Arkansas,40728,6.2
+Crawford,033,Arkansas,35919,6.2
+Crittenden,035,Arkansas,41474,8.0
+Cross,037,Arkansas,41715,11.7
+Dallas,039,Arkansas,40611,9.2
+Desha,041,Arkansas,44920,13.7
+Drew,043,Arkansas,40726,7.4
+Faulkner,045,Arkansas,41943,6.6
+Franklin,047,Arkansas,33885,3.2
+Fulton,049,Arkansas,31840,11.9
+Garland,051,Arkansas,44358,6.9
+Grant,053,Arkansas,41674,6.0
+Greene,055,Arkansas,38560,7.5
+Hempstead,057,Arkansas,33760,6.2
+Hot Spring,059,Arkansas,34110,7.6
+Howard,061,Arkansas,34751,2.0
+Independence,063,Arkansas,38266,5.4
+Izard,065,Arkansas,32606,6.3
+Jackson,067,Arkansas,41646,9.4
+Jefferson,069,Arkansas,39443,9.4
+Johnson,071,Arkansas,30728,6.8
+Lafayette,073,Arkansas,38307,7.4
+Lawrence,075,Arkansas,38065,13.3
+Lee,077,Arkansas,32359,6.9
+Lincoln,079,Arkansas,29008,4.7
+Little River,081,Arkansas,37075,7.8
+Logan,083,Arkansas,34433,5.4
+Lonoke,085,Arkansas,43537,6.6
+Madison,087,Arkansas,34012,0.3
+Marion,089,Arkansas,33493,6.3
+Miller,091,Arkansas,37065,7.1
+Mississippi,093,Arkansas,37730,5.1
+Monroe,095,Arkansas,40475,14.1
+Montgomery,097,Arkansas,32125,8.0
+Nevada,099,Arkansas,35808,5.5
+Newton,101,Arkansas,32731,8.1
+Ouachita,103,Arkansas,41877,8.5
+Perry,105,Arkansas,38404,6.1
+Phillips,107,Arkansas,38155,12.0
+Pike,109,Arkansas,33920,5.0
+Poinsett,111,Arkansas,37307,7.6
+Polk,113,Arkansas,32573,6.8
+Pope,115,Arkansas,36617,3.4
+Prairie,117,Arkansas,42843,18.1
+Pulaski,119,Arkansas,55563,5.8
+Randolph,121,Arkansas,36401,8.2
+Saline,125,Arkansas,30903,8.2
+Scott,127,Arkansas,45692,5.7
+Searcy,129,Arkansas,32290,4.5
+Sebastian,131,Arkansas,31657,12.0
+Sevier,133,Arkansas,45586,5.3
+Sharp,135,Arkansas,32926,3.8
+St. Francis,123,Arkansas,35612,3.9
+Stone,137,Arkansas,32753,5.1
+Union,139,Arkansas,48669,5.6
+Van Buren,141,Arkansas,34482,8.6
+Washington,143,Arkansas,43817,5.2
+White,145,Arkansas,39598,6.7
+Woodruff,147,Arkansas,45248,20.2
+Yell,149,Arkansas,33506,1.3
+Alameda,001,California,87078,10.5
+Alpine,003,California,76175,-4.4
+Amador,005,California,47721,8.5
+Butte,007,California,50279,11.3
+Calaveras,009,California,53026,9.4
+Colusa,011,California,57382,28.5
+Contra Costa,013,California,92264,9.0
+Del Norte,015,California,40192,11.4
+El Dorado,017,California,72662,6.7
+Fresno,019,California,48495,12.7
+Glenn,021,California,52219,20.7
+Humboldt,023,California,50182,8.9
+Imperial,025,California,44500,19.6
+Inyo,027,California,64335,6.8
+Kern,029,California,44721,13.0
+Kings,031,California,41829,14.8
+Lake,033,California,47144,11.9
+Lassen,035,California,40490,13.8
+Los Angeles,037,California,68272,8.3
+Madera,039,California,44532,14.9
+Marin,041,California,145575,4.8
+Mariposa,043,California,57828,7.4
+Mendocino,045,California,54795,10.0
+Merced,047,California,43914,15.7
+Modoc,049,California,52779,16.3
+Mono,051,California,54586,10.6
+Monterey,053,California,61510,8.8
+Napa,055,California,82408,11.5
+Nevada,057,California,64876,6.9
+Orange,059,California,74618,6.7
+Placer,061,California,72279,6.9
+Plumas,063,California,55029,7.8
+Riverside,065,California,45834,10.8
+Sacramento,067,California,58307,9.4
+San Benito,069,California,60807,15.2
+San Bernardino,071,California,44831,10.6
+San Diego,073,California,66266,8.9
+San Francisco,075,California,144818,8.2
+San Joaquin,077,California,51816,15.0
+San Luis Obispo,079,California,62342,6.2
+San Mateo,081,California,141841,7.3
+Santa Barbara,083,California,67879,8.2
+Santa Clara,085,California,123661,7.9
+Santa Cruz,087,California,75957,10.1
+Shasta,089,California,51649,11.3
+Sierra,091,California,49139,8.2
+Siskiyou,093,California,49664,12.5
+Solano,095,California,58688,13.1
+Sonoma,097,California,71386,10.0
+Stanislaus,099,California,48954,12.8
+Sutter,101,California,50730,12.6
+Tehama,103,California,46007,12.8
+Trinity,105,California,43877,9.8
+Tulare,107,California,46348,15.8
+Tuolumne,109,California,49708,7.7
+Ventura,111,California,67422,6.7
+Yolo,113,California,58391,7.3
+Yuba,115,California,46373,12.1
+Adams,001,Colorado,48115,6.9
+Alamosa,003,Colorado,42974,11.9
+Arapahoe,005,Colorado,66691,4.6
+Archuleta,007,Colorado,46287,7.0
+Baca,009,Colorado,53223,36.2
+Bent,011,Colorado,33591,14.8
+Boulder,013,Colorado,79649,3.0
+Broomfield,014,Colorado,67495,3.2
+Chaffee,015,Colorado,51361,4.8
+Cheyenne,017,Colorado,61731,17.3
+Clear Creek,019,Colorado,67132,6.7
+Conejos,021,Colorado,39847,12.9
+Costilla,023,Colorado,38430,14.6
+Crowley,025,Colorado,23751,18.2
+Custer,027,Colorado,45691,7.8
+Delta,029,Colorado,42127,10.0
+Denver,031,Colorado,85411,2.7
+Dolores,033,Colorado,42093,10.9
+Douglas,035,Colorado,78980,3.4
+Eagle,037,Colorado,87872,3.1
+El Paso,041,Colorado,63970,5.4
+Elbert,039,Colorado,54151,6.5
+Fremont,043,Colorado,38952,9.1
+Garfield,045,Colorado,62581,3.7
+Gilpin,047,Colorado,55256,9.4
+Grand,049,Colorado,57476,6.7
+Gunnison,051,Colorado,51025,7.7
+Hinsdale,053,Colorado,49423,2.5
+Huerfano,055,Colorado,46859,14.4
+Jackson,057,Colorado,62008,15.4
+Jefferson,059,Colorado,68829,4.0
+Kiowa,061,Colorado,66839,25.4
+Kit Carson,063,Colorado,47198,12.6
+La Plata,067,Colorado,40344,8.7
+Lake,065,Colorado,61304,6.2
+Larimer,069,Colorado,58725,5.0
+Las Animas,071,Colorado,43118,13.0
+Lincoln,073,Colorado,35695,21.3
+Logan,075,Colorado,46217,8.1
+Mesa,077,Colorado,48435,5.5
+Mineral,079,Colorado,73101,1.4
+Moffat,081,Colorado,47467,10.9
+Montezuma,083,Colorado,46919,9.1
+Montrose,085,Colorado,45262,8.0
+Morgan,087,Colorado,48701,8.2
+Otero,089,Colorado,41333,11.0
+Ouray,091,Colorado,67263,6.3
+Park,093,Colorado,48514,6.3
+Phillips,095,Colorado,49877,13.9
+Pitkin,097,Colorado,155067,-1.1
+Prowers,099,Colorado,41990,7.3
+Pueblo,101,Colorado,43196,9.3
+Rio Blanco,103,Colorado,52422,7.4
+Rio Grande,105,Colorado,53641,11.3
+Routt,107,Colorado,85836,4.5
+Saguache,109,Colorado,40032,16.2
+San Juan,111,Colorado,50039,9.7
+San Miguel,113,Colorado,93954,4.7
+Sedgwick,115,Colorado,50896,13.7
+Summit,117,Colorado,77754,5.9
+Teller,119,Colorado,54587,6.3
+Washington,121,Colorado,49287,18.2
+Weld,123,Colorado,52054,6.4
+Yuma,125,Colorado,47285,7.3
+Fairfield,001,Connecticut,120244,1.5
+Hartford,003,Connecticut,67938,5.3
+Litchfield,005,Connecticut,67118,3.1
+Middlesex,007,Connecticut,71291,4.3
+New Haven,009,Connecticut,60092,6.0
+New London,011,Connecticut,61191,5.3
+Tolland,013,Connecticut,59590,4.7
+Windham,015,Connecticut,50747,7.4
+Kent,001,Delaware,46600,6.5
+New Castle,003,Delaware,59955,4.4
+Sussex,005,Delaware,54352,2.7
+District of Columbia,001,District of Columbia,86567,7.1
+Alachua,001,Florida,49556,6.3
+Baker,003,Florida,36552,7.8
+Bay,005,Florida,50696,8.3
+Bradford,007,Florida,36301,6.9
+Brevard,009,Florida,51507,6.1
+Broward,011,Florida,55908,5.8
+Calhoun,013,Florida,32264,10.9
+Charlotte,015,Florida,45606,4.7
+Citrus,017,Florida,41933,5.6
+Clay,019,Florida,47407,5.8
+Collier,021,Florida,103865,0.6
+Columbia,023,Florida,38243,7.4
+DeSoto,027,Florida,27863,8.3
+Dixie,029,Florida,30651,7.5
+Duval,031,Florida,51131,6.3
+Escambia,033,Florida,47381,6.8
+Flagler,035,Florida,50599,3.8
+Franklin,037,Florida,39452,6.1
+Gadsden,039,Florida,38507,7.9
+Gilchrist,041,Florida,37425,9.9
+Glades,043,Florida,28116,10.0
+Gulf,045,Florida,49666,9.0
+Hamilton,047,Florida,29383,9.3
+Hardee,049,Florida,31775,11.9
+Hendry,051,Florida,35546,11.4
+Hernando,053,Florida,41385,7.2
+Highlands,055,Florida,37158,7.9
+Hillsborough,057,Florida,51848,6.7
+Holmes,059,Florida,34661,7.7
+Indian River,061,Florida,84607,1.6
+Jackson,063,Florida,38710,9.4
+Jefferson,065,Florida,44065,4.8
+Lafayette,067,Florida,30032,11.2
+Lake,069,Florida,46563,5.2
+Lee,071,Florida,54707,3.5
+Leon,073,Florida,48850,5.9
+Levy,075,Florida,40598,9.2
+Liberty,077,Florida,28496,10.9
+Madison,079,Florida,35828,9.1
+Manatee,081,Florida,52395,4.6
+Marion,083,Florida,41553,7.2
+Martin,085,Florida,89185,2.0
+Miami-Dade,086,Florida,57213,5.3
+Monroe,087,Florida,106583,2.1
+Nassau,089,Florida,64746,3.3
+Okaloosa,091,Florida,54630,6.4
+Okeechobee,093,Florida,34998,8.6
+Orange,095,Florida,49390,5.9
+Osceola,097,Florida,39210,8.1
+Palm Beach,099,Florida,87478,2.7
+Pasco,101,Florida,45461,7.0
+Pinellas,103,Florida,59178,5.7
+Polk,105,Florida,39760,6.9
+Putnam,107,Florida,36354,7.7
+Santa Rosa,113,Florida,73944,3.3
+Sarasota,115,Florida,43970,6.1
+Seminole,117,Florida,49472,5.7
+St. Johns,109,Florida,70884,2.7
+St. Lucie,111,Florida,53403,3.5
+Sumter,119,Florida,54533,2.1
+Suwannee,121,Florida,35987,7.9
+Taylor,123,Florida,33227,8.4
+Union,125,Florida,24593,9.3
+Volusia,127,Florida,46475,4.6
+Wakulla,129,Florida,39938,6.3
+Walton,131,Florida,69862,5.8
+Washington,133,Florida,32862,7.6
+Appling,001,Georgia,39199,10.2
+Atkinson,003,Georgia,31938,5.6
+Bacon,005,Georgia,38281,16.8
+Baker,007,Georgia,43156,8.1
+Baldwin,009,Georgia,36399,7.5
+Banks,011,Georgia,37333,3.7
+Barrow,013,Georgia,40435,8.4
+Bartow,015,Georgia,42734,7.5
+Ben Hill,017,Georgia,36234,11.4
+Berrien,019,Georgia,35260,8.2
+Bibb,021,Georgia,44830,8.0
+Bleckley,023,Georgia,36712,6.5
+Brantley,025,Georgia,30007,9.2
+Brooks,027,Georgia,40221,9.5
+Bryan,029,Georgia,56648,6.1
+Bulloch,031,Georgia,35376,8.1
+Burke,033,Georgia,41973,9.3
+Butts,035,Georgia,37403,7.6
+Calhoun,037,Georgia,28426,10.6
+Camden,039,Georgia,39262,6.7
+Candler,043,Georgia,36613,8.8
+Carroll,045,Georgia,42058,5.9
+Catoosa,047,Georgia,38815,7.7
+Charlton,049,Georgia,27192,9.3
+Chatham,051,Georgia,51805,6.7
+Chattahoochee,053,Georgia,33166,9.0
+Chattooga,055,Georgia,33855,9.0
+Cherokee,057,Georgia,56278,4.7
+Clarke,059,Georgia,37588,7.6
+Clay,061,Georgia,38731,13.3
+Clayton,063,Georgia,32702,15.4
+Clinch,065,Georgia,44238,14.8
+Cobb,067,Georgia,63214,4.7
+Coffee,069,Georgia,35507,8.0
+Colquitt,071,Georgia,37418,10.7
+Columbia,073,Georgia,54420,5.6
+Cook,075,Georgia,36301,8.1
+Coweta,077,Georgia,52106,6.2
+Crawford,079,Georgia,37563,8.5
+Crisp,081,Georgia,37250,8.6
+Dade,083,Georgia,37327,6.7
+Dawson,085,Georgia,48170,4.5
+Decatur,087,Georgia,40879,9.9
+DeKalb,089,Georgia,56428,6.6
+Dodge,091,Georgia,33419,7.4
+Dooly,093,Georgia,34582,4.8
+Dougherty,095,Georgia,40161,11.7
+Douglas,097,Georgia,40264,9.5
+Early,099,Georgia,42889,9.3
+Echols,101,Georgia,31945,12.4
+Effingham,103,Georgia,45069,7.3
+Elbert,105,Georgia,38414,7.0
+Emanuel,107,Georgia,37678,12.6
+Evans,109,Georgia,37408,9.8
+Fannin,111,Georgia,39796,4.4
+Fayette,113,Georgia,71384,3.9
+Floyd,115,Georgia,41238,6.8
+Forsyth,117,Georgia,67859,4.5
+Franklin,119,Georgia,35134,1.0
+Fulton,121,Georgia,95683,2.9
+Gilmer,123,Georgia,37542,4.3
+Glascock,125,Georgia,36615,5.9
+Glynn,127,Georgia,50480,5.6
+Gordon,129,Georgia,37759,5.2
+Grady,131,Georgia,37725,7.2
+Greene,133,Georgia,61326,1.2
+Gwinnett,135,Georgia,46886,7.6
+Habersham,137,Georgia,36691,4.8
+Hall,139,Georgia,48759,5.1
+Hancock,141,Georgia,33557,8.5
+Haralson,143,Georgia,39401,5.6
+Harris,145,Georgia,51168,4.3
+Hart,147,Georgia,39402,3.7
+Heard,149,Georgia,34362,6.8
+Henry,151,Georgia,43812,8.7
+Houston,153,Georgia,46579,6.2
+Irwin,155,Georgia,38364,10.4
+Jackson,157,Georgia,45099,5.1
+Jasper,159,Georgia,40541,5.5
+Jeff Davis,161,Georgia,34341,7.5
+Jefferson,163,Georgia,39544,13.7
+Jenkins,165,Georgia,33497,9.7
+Johnson,167,Georgia,27965,10.3
+Jones,169,Georgia,41436,6.7
+Lamar,171,Georgia,37303,8.3
+Lanier,173,Georgia,31021,8.5
+Laurens,175,Georgia,41650,8.9
+Lee,177,Georgia,51908,8.3
+Liberty,179,Georgia,40087,8.4
+Lincoln,181,Georgia,40424,7.0
+Long,183,Georgia,29738,6.2
+Lowndes,185,Georgia,41117,7.8
+Lumpkin,187,Georgia,41181,5.5
+Macon,193,Georgia,41111,8.9
+Madison,195,Georgia,34500,8.6
+Marion,197,Georgia,33955,6.6
+McDuffie,189,Georgia,38890,3.4
+McIntosh,191,Georgia,31621,6.0
+Meriwether,199,Georgia,39121,9.9
+Miller,201,Georgia,49844,8.0
+Mitchell,205,Georgia,39711,9.0
+Monroe,207,Georgia,48985,5.2
+Montgomery,209,Georgia,34061,12.8
+Morgan,211,Georgia,55032,4.7
+Murray,213,Georgia,33841,8.6
+Muscogee,215,Georgia,48080,7.1
+Newton,217,Georgia,38256,9.8
+Oconee,219,Georgia,71768,0.2
+Oglethorpe,221,Georgia,38236,2.7
+Paulding,223,Georgia,42595,8.4
+Peach,225,Georgia,41931,7.8
+Pickens,227,Georgia,50868,4.4
+Pierce,229,Georgia,39979,8.4
+Pike,231,Georgia,44311,6.2
+Polk,233,Georgia,36190,8.1
+Pulaski,235,Georgia,34636,8.7
+Putnam,237,Georgia,48498,6.8
+Quitman,239,Georgia,34810,12.3
+Rabun,241,Georgia,44160,6.9
+Randolph,243,Georgia,37204,10.8
+Richmond,245,Georgia,41999,8.6
+Rockdale,247,Georgia,40051,9.9
+Schley,249,Georgia,35588,6.9
+Screven,251,Georgia,37694,8.1
+Seminole,253,Georgia,48082,4.9
+Spalding,255,Georgia,38792,9.0
+Stephens,257,Georgia,40153,7.3
+Stewart,259,Georgia,25041,10.8
+Sumter,261,Georgia,40387,9.1
+Talbot,263,Georgia,38621,10.2
+Taliaferro,265,Georgia,36860,-0.2
+Tattnall,267,Georgia,30222,6.2
+Taylor,269,Georgia,33630,4.6
+Telfair,271,Georgia,22644,8.7
+Terrell,273,Georgia,44976,8.7
+Thomas,275,Georgia,49443,8.7
+Tift,277,Georgia,42279,10.3
+Toombs,279,Georgia,40041,11.5
+Towns,281,Georgia,42908,7.0
+Treutlen,283,Georgia,31899,10.2
+Troup,285,Georgia,40920,9.2
+Turner,287,Georgia,39281,8.8
+Twiggs,289,Georgia,44686,9.2
+Union,291,Georgia,39839,4.0
+Upson,293,Georgia,39391,7.6
+Walker,295,Georgia,36157,6.7
+Walton,297,Georgia,44977,5.6
+Ware,299,Georgia,37306,10.6
+Warren,301,Georgia,39545,9.8
+Washington,303,Georgia,39151,9.1
+Wayne,305,Georgia,34877,9.2
+Webster,307,Georgia,36032,7.6
+Wheeler,309,Georgia,21087,11.3
+White,311,Georgia,38858,5.6
+Whitfield,313,Georgia,43456,7.0
+Wilcox,315,Georgia,29895,4.5
+Wilkes,317,Georgia,42093,1.8
+Wilkinson,319,Georgia,40158,7.9
+Worth,321,Georgia,39102,7.9
+Hawaii,001,Hawaii,46281,8.8
+Honolulu,003,Hawaii,62793,5.8
+Kalawao,005,Hawaii,54089,6.1
+Kauai,007,Hawaii,51838,2.6
+Maui,009,Hawaii,54089,6.1
+Ada,001,Idaho,57215,5.0
+Adams,003,Idaho,41066,4.9
+Bannock,005,Idaho,41272,6.9
+Bear Lake,007,Idaho,46370,10.1
+Benewah,009,Idaho,42803,8.6
+Bingham,011,Idaho,42541,12.7
+Blaine,013,Idaho,117681,1.0
+Boise,015,Idaho,45422,6.1
+Bonner,017,Idaho,44751,6.1
+Bonneville,019,Idaho,54601,3.3
+Boundary,021,Idaho,39272,5.6
+Butte,023,Idaho,51370,17.7
+Camas,025,Idaho,53373,3.6
+Canyon,027,Idaho,37611,8.6
+Caribou,029,Idaho,48595,17.2
+Cassia,031,Idaho,51149,11.1
+Clark,033,Idaho,47615,14.9
+Clearwater,035,Idaho,39140,9.5
+Custer,037,Idaho,48718,11.5
+Elmore,039,Idaho,42033,6.3
+Franklin,041,Idaho,40495,10.7
+Fremont,043,Idaho,40803,9.4
+Gem,045,Idaho,42561,7.3
+Gooding,047,Idaho,68597,15.2
+Idaho,049,Idaho,39182,10.9
+Jefferson,051,Idaho,40288,9.1
+Jerome,053,Idaho,42332,11.4
+Kootenai,055,Idaho,48953,4.7
+Latah,057,Idaho,43944,6.0
+Lemhi,059,Idaho,47981,11.2
+Lewis,061,Idaho,54918,12.6
+Lincoln,063,Idaho,45593,13.1
+Madison,065,Idaho,30838,8.4
+Minidoka,067,Idaho,46743,14.2
+Nez Perce,069,Idaho,50550,9.2
+Oneida,071,Idaho,43117,12.3
+Owyhee,073,Idaho,42616,10.4
+Payette,075,Idaho,44312,7.4
+Power,077,Idaho,52807,24.5
+Shoshone,079,Idaho,40953,13.6
+Teton,081,Idaho,43521,5.5
+Twin Falls,083,Idaho,44112,7.3
+Valley,085,Idaho,52298,3.9
+Washington,087,Idaho,40050,9.7
+Adams,001,Illinois,51779,8.8
+Alexander,003,Illinois,43272,15.2
+Bond,005,Illinois,41745,9.8
+Boone,007,Illinois,51066,6.3
+Brown,009,Illinois,41094,11.8
+Bureau,011,Illinois,47081,11.2
+Calhoun,013,Illinois,47665,10.2
+Carroll,015,Illinois,50871,14.7
+Cass,017,Illinois,48079,16.8
+Champaign,019,Illinois,49187,7.9
+Christian,021,Illinois,46873,11.2
+Clark,023,Illinois,46560,10.9
+Clay,025,Illinois,45559,15.0
+Clinton,027,Illinois,51095,6.4
+Coles,029,Illinois,45967,9.2
+Cook,031,Illinois,69935,6.3
+Crawford,033,Illinois,50986,9.3
+Cumberland,035,Illinois,80116,9.3
+De Witt,039,Illinois,45555,8.7
+DeKalb,037,Illinois,53339,14.1
+Douglas,041,Illinois,55721,9.0
+DuPage,043,Illinois,79127,3.7
+Edgar,045,Illinois,48411,16.3
+Edwards,047,Illinois,45295,11.4
+Effingham,049,Illinois,54838,8.1
+Fayette,051,Illinois,40786,12.5
+Ford,053,Illinois,58512,12.7
+Franklin,055,Illinois,41625,10.6
+Fulton,057,Illinois,42264,11.2
+Gallatin,059,Illinois,48856,14.3
+Greene,061,Illinois,42437,18.3
+Grundy,063,Illinois,61862,4.2
+Hamilton,065,Illinois,48255,11.3
+Hancock,067,Illinois,51388,15.5
+Hardin,069,Illinois,40720,9.4
+Henderson,071,Illinois,48805,18.2
+Henry,073,Illinois,51103,10.9
+Iroquois,075,Illinois,51824,17.4
+Jackson,077,Illinois,40297,7.9
+Jasper,079,Illinois,48090,16.8
+Jefferson,081,Illinois,44163,10.0
+Jersey,083,Illinois,46828,9.6
+Jo Daviess,085,Illinois,53399,10.0
+Johnson,087,Illinois,39793,8.8
+Kane,089,Illinois,55976,6.3
+Kankakee,091,Illinois,46988,9.6
+Kendall,093,Illinois,53998,6.8
+Knox,095,Illinois,44921,13.5
+Lake,097,Illinois,85159,3.1
+LaSalle,099,Illinois,49292,8.6
+Lawrence,101,Illinois,35878,17.4
+Lee,103,Illinois,47249,12.1
+Livingston,105,Illinois,52100,16.2
+Logan,107,Illinois,41682,12.3
+Macon,115,Illinois,41685,10.6
+Macoupin,117,Illinois,60097,5.2
+Madison,119,Illinois,54639,9.8
+Marion,121,Illinois,52196,8.4
+Marshall,123,Illinois,45948,10.1
+Mason,125,Illinois,51433,6.6
+Massac,127,Illinois,46966,10.2
+McDonough,109,Illinois,51165,13.4
+McHenry,111,Illinois,47178,15.9
+McLean,113,Illinois,44089,11.3
+Menard,129,Illinois,51028,9.7
+Mercer,131,Illinois,53966,14.9
+Monroe,133,Illinois,61366,4.7
+Montgomery,135,Illinois,40180,12.3
+Morgan,137,Illinois,43763,9.9
+Moultrie,139,Illinois,69297,0.9
+Ogle,141,Illinois,50110,7.3
+Peoria,143,Illinois,54609,7.8
+Perry,145,Illinois,41366,9.6
+Piatt,147,Illinois,59952,11.0
+Pike,149,Illinois,47052,15.1
+Pope,151,Illinois,33286,13.0
+Pulaski,153,Illinois,43533,15.2
+Putnam,155,Illinois,66839,4.4
+Randolph,157,Illinois,41919,10.5
+Richland,159,Illinois,46318,11.0
+Rock Island,161,Illinois,48492,9.2
+Saline,165,Illinois,49646,7.6
+Sangamon,167,Illinois,44321,10.2
+Schuyler,169,Illinois,52891,7.1
+Scott,171,Illinois,49505,12.5
+Shelby,173,Illinois,47152,15.8
+St. Clair,163,Illinois,45745,14.7
+Stark,175,Illinois,51267,21.0
+Stephenson,177,Illinois,46534,8.0
+Tazewell,179,Illinois,51920,7.5
+Union,181,Illinois,48028,11.4
+Vermilion,183,Illinois,44533,12.2
+Wabash,185,Illinois,47543,10.1
+Warren,187,Illinois,47232,16.7
+Washington,189,Illinois,53789,11.8
+Wayne,191,Illinois,44127,13.3
+White,193,Illinois,52223,7.2
+Whiteside,195,Illinois,48757,10.4
+Will,197,Illinois,57700,6.0
+Williamson,199,Illinois,48625,7.1
+Winnebago,201,Illinois,47404,7.8
+Woodford,203,Illinois,56797,7.5
+Adams,001,Indiana,42452,6.2
+Allen,003,Indiana,50327,5.2
+Bartholomew,005,Indiana,55804,4.8
+Benton,007,Indiana,48450,16.5
+Blackford,009,Indiana,41561,7.9
+Boone,011,Indiana,80314,3.4
+Brown,013,Indiana,51505,3.7
+Carroll,015,Indiana,46792,8.2
+Cass,017,Indiana,44305,9.7
+Clark,019,Indiana,48210,6.6
+Clay,021,Indiana,41941,9.7
+Clinton,023,Indiana,43027,8.2
+Crawford,025,Indiana,38276,10.0
+Daviess,027,Indiana,47919,8.7
+Dearborn,029,Indiana,52778,5.1
+Decatur,031,Indiana,48033,8.1
+DeKalb,033,Indiana,48937,5.3
+Delaware,035,Indiana,40948,7.3
+Dubois,037,Indiana,59524,4.6
+Elkhart,039,Indiana,49875,6.5
+Fayette,041,Indiana,45375,9.2
+Floyd,043,Indiana,60233,5.2
+Fountain,045,Indiana,44685,10.2
+Franklin,047,Indiana,51316,8.3
+Fulton,049,Indiana,46613,7.9
+Gibson,051,Indiana,48976,7.1
+Grant,053,Indiana,43997,8.2
+Greene,055,Indiana,44437,7.8
+Hamilton,057,Indiana,80426,2.7
+Hancock,059,Indiana,55084,5.6
+Harrison,061,Indiana,46468,6.4
+Hendricks,063,Indiana,55169,6.9
+Henry,065,Indiana,43016,8.0
+Howard,067,Indiana,44945,6.0
+Huntington,069,Indiana,45969,7.8
+Jackson,071,Indiana,47673,7.0
+Jasper,073,Indiana,48987,8.6
+Jay,075,Indiana,42194,11.4
+Jefferson,077,Indiana,48068,8.1
+Jennings,079,Indiana,45380,8.6
+Johnson,081,Indiana,53081,4.9
+Knox,083,Indiana,49156,9.4
+Kosciusko,085,Indiana,51687,5.7
+LaGrange,087,Indiana,45115,5.6
+Lake,089,Indiana,49229,7.1
+LaPorte,091,Indiana,46274,7.5
+Lawrence,093,Indiana,45897,7.8
+Madison,095,Indiana,42283,7.3
+Marion,097,Indiana,59264,5.1
+Marshall,099,Indiana,45277,7.3
+Martin,101,Indiana,44160,9.9
+Miami,103,Indiana,37669,6.3
+Monroe,105,Indiana,46693,6.1
+Montgomery,107,Indiana,44415,8.2
+Morgan,109,Indiana,47894,4.9
+Newton,111,Indiana,46215,12.8
+Noble,113,Indiana,44436,7.1
+Ohio,115,Indiana,44555,7.3
+Orange,117,Indiana,41640,9.1
+Owen,119,Indiana,45143,8.6
+Parke,121,Indiana,41554,9.6
+Perry,123,Indiana,40140,5.9
+Pike,125,Indiana,44603,7.2
+Porter,127,Indiana,57654,5.2
+Posey,129,Indiana,54646,5.8
+Pulaski,131,Indiana,50558,12.8
+Putnam,133,Indiana,41404,7.3
+Randolph,135,Indiana,44027,12.6
+Ripley,137,Indiana,46992,9.2
+Rush,139,Indiana,49889,7.7
+Scott,143,Indiana,51141,6.0
+Shelby,145,Indiana,41981,8.3
+Spencer,147,Indiana,48628,7.7
+St. Joseph,141,Indiana,47890,4.5
+Starke,149,Indiana,38910,9.7
+Steuben,151,Indiana,48032,5.4
+Sullivan,153,Indiana,39903,9.1
+Switzerland,155,Indiana,35647,9.5
+Tippecanoe,157,Indiana,41446,4.8
+Tipton,159,Indiana,50127,6.5
+Union,161,Indiana,43626,10.1
+Vanderburgh,163,Indiana,50033,5.3
+Vermillion,165,Indiana,41997,10.5
+Vigo,167,Indiana,41895,7.1
+Wabash,169,Indiana,46847,9.1
+Warren,171,Indiana,49845,12.3
+Warrick,173,Indiana,60188,2.7
+Washington,175,Indiana,43519,8.8
+Wayne,177,Indiana,45499,7.3
+Wells,179,Indiana,45704,7.0
+White,181,Indiana,47633,8.8
+Whitley,183,Indiana,49256,4.7
+Adair,001,Iowa,56422,8.7
+Adams,003,Iowa,59569,3.8
+Allamakee,005,Iowa,51107,6.4
+Appanoose,007,Iowa,42125,8.2
+Audubon,009,Iowa,54313,6.1
+Benton,011,Iowa,57277,6.7
+Black Hawk,013,Iowa,49133,6.6
+Boone,015,Iowa,52028,6.0
+Bremer,017,Iowa,52608,7.1
+Buchanan,019,Iowa,51065,5.5
+Buena Vista,021,Iowa,48077,9.1
+Butler,023,Iowa,49428,5.7
+Calhoun,025,Iowa,52585,7.0
+Carroll,027,Iowa,56244,5.4
+Cass,029,Iowa,50849,5.2
+Cedar,031,Iowa,56528,4.6
+Cerro Gordo,033,Iowa,53643,5.7
+Cherokee,035,Iowa,60881,7.4
+Chickasaw,037,Iowa,59495,7.2
+Clarke,039,Iowa,43807,7.8
+Clay,041,Iowa,54395,6.5
+Clayton,043,Iowa,53657,8.4
+Clinton,045,Iowa,48328,7.6
+Crawford,047,Iowa,45230,7.5
+Dallas,049,Iowa,70851,4.4
+Davis,051,Iowa,41649,5.4
+Decatur,053,Iowa,38347,9.3
+Delaware,055,Iowa,54843,9.1
+Des Moines,057,Iowa,51704,4.3
+Dickinson,059,Iowa,63319,3.0
+Dubuque,061,Iowa,54751,6.7
+Emmet,063,Iowa,46654,2.7
+Fayette,065,Iowa,47373,8.3
+Floyd,067,Iowa,50215,6.3
+Franklin,069,Iowa,51028,8.5
+Fremont,071,Iowa,50870,6.6
+Greene,073,Iowa,52647,9.7
+Grundy,075,Iowa,55615,7.3
+Guthrie,077,Iowa,54755,6.8
+Hamilton,079,Iowa,51584,2.1
+Hancock,081,Iowa,54318,5.7
+Hardin,083,Iowa,50328,5.6
+Harrison,085,Iowa,49678,4.6
+Henry,087,Iowa,46541,6.3
+Howard,089,Iowa,52726,8.5
+Humboldt,091,Iowa,52298,4.9
+Ida,093,Iowa,57429,10.4
+Iowa,095,Iowa,58759,6.9
+Jackson,097,Iowa,49878,8.4
+Jasper,099,Iowa,46473,6.4
+Jefferson,101,Iowa,42674,4.3
+Johnson,103,Iowa,56573,3.3
+Jones,105,Iowa,47506,6.9
+Keokuk,107,Iowa,48599,9.4
+Kossuth,109,Iowa,53422,5.9
+Lee,111,Iowa,45548,6.0
+Linn,113,Iowa,56592,5.6
+Louisa,115,Iowa,44821,4.8
+Lucas,117,Iowa,44707,5.0
+Lyon,119,Iowa,57766,3.5
+Madison,121,Iowa,53244,5.8
+Mahaska,123,Iowa,46388,6.7
+Marion,125,Iowa,53648,5.8
+Marshall,127,Iowa,47696,9.1
+Mills,129,Iowa,60384,3.0
+Mitchell,131,Iowa,62037,-1.0
+Monona,133,Iowa,50807,8.2
+Monroe,135,Iowa,48423,6.8
+Montgomery,137,Iowa,45665,6.8
+Muscatine,139,Iowa,51135,6.2
+O'Brien,141,Iowa,57629,5.3
+Osceola,143,Iowa,50706,4.8
+Page,145,Iowa,47321,10.1
+Palo Alto,147,Iowa,51679,2.2
+Plymouth,149,Iowa,59460,5.0
+Pocahontas,151,Iowa,53074,0.3
+Polk,153,Iowa,57080,5.6
+Pottawattamie,155,Iowa,47921,5.0
+Poweshiek,157,Iowa,50139,8.9
+Ringgold,159,Iowa,50196,7.8
+Sac,161,Iowa,59653,5.8
+Scott,163,Iowa,58465,6.1
+Shelby,165,Iowa,55229,5.6
+Sioux,167,Iowa,55209,5.7
+Story,169,Iowa,45951,4.2
+Tama,171,Iowa,52315,12.2
+Taylor,173,Iowa,44763,7.9
+Union,175,Iowa,43735,6.5
+Van Buren,177,Iowa,41781,3.6
+Wapello,179,Iowa,42889,8.4
+Warren,181,Iowa,54251,4.4
+Washington,183,Iowa,59565,-2.1
+Wayne,185,Iowa,46743,9.7
+Webster,187,Iowa,48862,4.9
+Winnebago,189,Iowa,45722,7.9
+Winneshiek,191,Iowa,54036,8.9
+Woodbury,193,Iowa,47731,6.8
+Worth,195,Iowa,45566,9.2
+Wright,197,Iowa,52825,8.3
+Allen,001,Kansas,45840,7.2
+Anderson,003,Kansas,43864,11.9
+Atchison,005,Kansas,42974,8.1
+Barber,007,Kansas,49804,14.3
+Barton,009,Kansas,49436,4.2
+Bourbon,011,Kansas,44521,6.5
+Brown,013,Kansas,48026,5.9
+Butler,015,Kansas,50789,5.4
+Chase,017,Kansas,56852,11.6
+Chautauqua,019,Kansas,44908,8.2
+Cherokee,021,Kansas,44739,7.1
+Cheyenne,023,Kansas,54465,19.0
+Clark,025,Kansas,60647,11.4
+Clay,027,Kansas,47126,8.3
+Cloud,029,Kansas,44452,11.7
+Coffey,031,Kansas,56988,8.1
+Comanche,033,Kansas,46141,13.0
+Cowley,035,Kansas,42334,6.7
+Crawford,037,Kansas,42963,8.5
+Decatur,039,Kansas,51018,16.1
+Dickinson,041,Kansas,47348,10.4
+Doniphan,043,Kansas,44885,5.3
+Douglas,045,Kansas,47494,5.1
+Edwards,047,Kansas,61904,15.6
+Elk,049,Kansas,42431,9.4
+Ellis,051,Kansas,50785,7.9
+Ellsworth,053,Kansas,47276,2.4
+Finney,055,Kansas,46899,7.6
+Ford,057,Kansas,45081,12.3
+Franklin,059,Kansas,46437,5.7
+Geary,061,Kansas,54663,5.1
+Gove,063,Kansas,61150,8.4
+Graham,065,Kansas,56190,12.5
+Grant,067,Kansas,44835,2.3
+Gray,069,Kansas,60355,4.3
+Greeley,071,Kansas,89737,35.8
+Greenwood,073,Kansas,46032,10.0
+Hamilton,075,Kansas,75840,35.8
+Harper,077,Kansas,57870,9.7
+Harvey,079,Kansas,46698,6.6
+Haskell,081,Kansas,56311,7.0
+Hodgeman,083,Kansas,61030,14.9
+Jackson,085,Kansas,46523,7.8
+Jefferson,087,Kansas,48099,7.9
+Jewell,089,Kansas,55860,13.2
+Johnson,091,Kansas,80681,2.6
+Kearny,093,Kansas,61932,17.0
+Kingman,095,Kansas,50889,10.0
+Kiowa,097,Kansas,48250,19.7
+Labette,099,Kansas,47114,9.7
+Lane,101,Kansas,72211,9.4
+Leavenworth,103,Kansas,46176,4.8
+Lincoln,105,Kansas,52328,19.3
+Linn,107,Kansas,44155,8.5
+Logan,109,Kansas,57732,20.0
+Lyon,111,Kansas,43035,10.8
+Marion,115,Kansas,58438,4.5
+Marshall,117,Kansas,46588,9.4
+McPherson,113,Kansas,48358,10.3
+Meade,119,Kansas,65633,8.9
+Miami,121,Kansas,52811,6.0
+Mitchell,123,Kansas,63384,5.1
+Montgomery,125,Kansas,40651,8.5
+Morris,127,Kansas,48171,12.0
+Morton,129,Kansas,54151,20.4
+Nemaha,131,Kansas,56013,9.3
+Neosho,133,Kansas,43566,7.8
+Ness,135,Kansas,60508,15.1
+Norton,137,Kansas,47679,11.0
+Osage,139,Kansas,46698,9.1
+Osborne,141,Kansas,51423,8.6
+Ottawa,143,Kansas,45692,9.5
+Pawnee,145,Kansas,43986,7.0
+Phillips,147,Kansas,56496,10.1
+Pottawatomie,149,Kansas,57495,7.1
+Pratt,151,Kansas,53750,8.1
+Rawlins,153,Kansas,65230,15.3
+Reno,155,Kansas,44529,6.9
+Republic,157,Kansas,49163,10.9
+Rice,159,Kansas,46275,6.8
+Riley,161,Kansas,45177,4.9
+Rooks,163,Kansas,46817,18.4
+Rush,165,Kansas,59190,16.1
+Russell,167,Kansas,48430,7.9
+Saline,169,Kansas,53320,6.4
+Scott,171,Kansas,60520,8.1
+Sedgwick,173,Kansas,56550,4.0
+Seward,175,Kansas,43606,14.0
+Shawnee,177,Kansas,51216,6.5
+Sheridan,179,Kansas,50691,12.7
+Sherman,181,Kansas,48439,14.2
+Smith,183,Kansas,54497,17.0
+Stafford,185,Kansas,50623,9.4
+Stanton,187,Kansas,85633,15.8
+Stevens,189,Kansas,48686,12.5
+Sumner,191,Kansas,44392,7.4
+Thomas,193,Kansas,51457,7.3
+Trego,195,Kansas,56311,15.0
+Wabaunsee,197,Kansas,54428,6.2
+Wallace,199,Kansas,59159,17.9
+Washington,201,Kansas,52731,15.0
+Wichita,203,Kansas,61032,-1.4
+Wilson,205,Kansas,45341,8.4
+Woodson,207,Kansas,43381,11.1
+Wyandotte,209,Kansas,36961,7.5
+Adair,001,Kentucky,35880,11.9
+Allen,003,Kentucky,35499,7.5
+Anderson,005,Kentucky,44009,7.5
+Ballard,007,Kentucky,45124,11.2
+Barren,009,Kentucky,41057,8.6
+Bath,011,Kentucky,35333,11.9
+Bell,013,Kentucky,34618,14.4
+Boone,015,Kentucky,53405,6.4
+Bourbon,017,Kentucky,51624,2.6
+Boyd,019,Kentucky,43917,9.2
+Boyle,021,Kentucky,43024,7.6
+Bracken,023,Kentucky,42258,10.2
+Breathitt,025,Kentucky,38011,11.6
+Breckinridge,027,Kentucky,39084,11.3
+Bullitt,029,Kentucky,46618,8.1
+Butler,031,Kentucky,38969,10.4
+Caldwell,033,Kentucky,40364,13.9
+Calloway,035,Kentucky,38629,7.0
+Campbell,037,Kentucky,53445,6.1
+Carlisle,039,Kentucky,48900,8.8
+Carroll,041,Kentucky,41568,9.2
+Carter,043,Kentucky,36002,12.9
+Casey,045,Kentucky,36436,15.0
+Christian,047,Kentucky,42884,9.1
+Clark,049,Kentucky,43952,7.9
+Clay,051,Kentucky,35259,14.6
+Clinton,053,Kentucky,35609,12.7
+Crittenden,055,Kentucky,39879,9.9
+Cumberland,057,Kentucky,44628,24.0
+Daviess,059,Kentucky,46373,8.5
+Edmonson,061,Kentucky,37223,8.6
+Elliott,063,Kentucky,27001,16.9
+Estill,065,Kentucky,36569,10.8
+Fayette,067,Kentucky,54824,5.5
+Fleming,069,Kentucky,39846,13.7
+Floyd,071,Kentucky,41330,11.3
+Franklin,073,Kentucky,47009,8.0
+Fulton,075,Kentucky,39745,12.8
+Gallatin,077,Kentucky,38178,11.6
+Garrard,079,Kentucky,38822,9.4
+Grant,081,Kentucky,40772,8.9
+Graves,083,Kentucky,42264,9.2
+Grayson,085,Kentucky,38959,11.4
+Green,087,Kentucky,39882,13.6
+Greenup,089,Kentucky,45897,8.9
+Hancock,091,Kentucky,40261,-1.5
+Hardin,093,Kentucky,47873,7.7
+Harlan,095,Kentucky,35824,13.9
+Harrison,097,Kentucky,41079,11.5
+Hart,099,Kentucky,37418,9.3
+Henderson,101,Kentucky,44793,8.4
+Henry,103,Kentucky,43426,8.9
+Hickman,105,Kentucky,46425,7.4
+Hopkins,107,Kentucky,42918,6.7
+Jackson,109,Kentucky,33106,10.7
+Jefferson,111,Kentucky,57863,6.6
+Jessamine,113,Kentucky,49406,5.6
+Johnson,115,Kentucky,37769,9.7
+Kenton,117,Kentucky,62500,6.1
+Knott,119,Kentucky,35697,13.3
+Knox,121,Kentucky,33797,13.3
+Larue,123,Kentucky,42333,10.4
+Laurel,125,Kentucky,37869,10.5
+Lawrence,127,Kentucky,36446,10.3
+Lee,129,Kentucky,32694,13.7
+Leslie,131,Kentucky,38666,13.5
+Letcher,133,Kentucky,35770,13.3
+Lewis,135,Kentucky,36806,14.4
+Lincoln,137,Kentucky,37303,11.2
+Livingston,139,Kentucky,43379,12.3
+Logan,141,Kentucky,40963,10.5
+Lyon,143,Kentucky,40843,8.0
+Madison,151,Kentucky,52171,7.5
+Magoffin,153,Kentucky,30943,16.1
+Marion,155,Kentucky,43162,8.4
+Marshall,157,Kentucky,39093,8.7
+Martin,159,Kentucky,38033,14.2
+Mason,161,Kentucky,41225,9.3
+McCracken,145,Kentucky,45975,8.2
+McCreary,147,Kentucky,32383,10.9
+McLean,149,Kentucky,45488,9.8
+Meade,163,Kentucky,44720,7.9
+Menifee,165,Kentucky,35489,11.9
+Mercer,167,Kentucky,41025,8.3
+Metcalfe,169,Kentucky,35804,12.0
+Monroe,171,Kentucky,42638,13.9
+Montgomery,173,Kentucky,39549,9.4
+Morgan,175,Kentucky,31500,11.3
+Muhlenberg,177,Kentucky,37328,7.2
+Nelson,179,Kentucky,47784,8.4
+Nicholas,181,Kentucky,39531,11.8
+Ohio,183,Kentucky,36606,10.5
+Oldham,185,Kentucky,68986,3.6
+Owen,187,Kentucky,37464,10.5
+Owsley,189,Kentucky,36830,14.5
+Pendleton,191,Kentucky,46524,2.6
+Perry,193,Kentucky,43661,12.8
+Pike,195,Kentucky,39450,10.1
+Powell,197,Kentucky,37224,14.5
+Pulaski,199,Kentucky,41989,9.5
+Robertson,201,Kentucky,39137,15.7
+Rockcastle,203,Kentucky,35809,10.9
+Rowan,205,Kentucky,34561,9.2
+Russell,207,Kentucky,40672,8.6
+Scott,209,Kentucky,47509,7.0
+Shelby,211,Kentucky,50602,8.5
+Simpson,213,Kentucky,42537,9.2
+Spencer,215,Kentucky,49066,7.6
+Taylor,217,Kentucky,39488,11.6
+Todd,219,Kentucky,41672,7.4
+Trigg,221,Kentucky,41497,8.7
+Trimble,223,Kentucky,44227,10.0
+Union,225,Kentucky,41157,13.3
+Warren,227,Kentucky,40705,6.7
+Washington,229,Kentucky,41902,10.0
+Wayne,231,Kentucky,33258,14.1
+Webster,233,Kentucky,42496,6.5
+Whitley,235,Kentucky,38256,11.4
+Wolfe,237,Kentucky,36449,15.8
+Woodford,239,Kentucky,54911,3.2
+Acadia,001,Louisiana,40916,9.6
+Allen,003,Louisiana,37054,5.9
+Ascension,005,Louisiana,54395,5.6
+Assumption,007,Louisiana,51585,5.2
+Avoyelles,009,Louisiana,41977,8.8
+Beauregard,011,Louisiana,47003,8.0
+Bienville,013,Louisiana,42372,9.0
+Bossier,015,Louisiana,48907,7.4
+Caddo,017,Louisiana,55047,9.3
+Calcasieu,019,Louisiana,50994,2.9
+Caldwell,021,Louisiana,38705,11.1
+Cameron,023,Louisiana,49224,2.1
+Catahoula,025,Louisiana,39357,13.3
+Claiborne,027,Louisiana,36281,6.3
+Concordia,029,Louisiana,38891,15.5
+De Soto,031,Louisiana,45615,7.8
+East Baton Rouge,033,Louisiana,56484,6.1
+East Carroll,035,Louisiana,41875,18.5
+East Feliciana,037,Louisiana,44787,5.0
+Evangeline,039,Louisiana,37820,13.3
+Franklin,041,Louisiana,37754,14.5
+Grant,043,Louisiana,34870,9.8
+Iberia,045,Louisiana,44242,7.9
+Iberville,047,Louisiana,46461,6.8
+Jackson,049,Louisiana,37665,9.2
+Jefferson,051,Louisiana,55373,6.6
+Jefferson Davis,053,Louisiana,45620,7.3
+La Salle,059,Louisiana,52507,5.8
+Lafayette,055,Louisiana,48741,6.2
+Lafourche,057,Louisiana,36116,6.8
+Lincoln,061,Louisiana,44944,6.6
+Livingston,063,Louisiana,45620,5.8
+Madison,065,Louisiana,38337,17.4
+Morehouse,067,Louisiana,44187,12.5
+Natchitoches,069,Louisiana,43702,6.3
+Orleans,071,Louisiana,57421,8.1
+Ouachita,073,Louisiana,45661,8.3
+Plaquemines,075,Louisiana,51456,6.1
+Pointe Coupee,077,Louisiana,52332,7.5
+Rapides,079,Louisiana,50226,7.6
+Red River,081,Louisiana,45680,6.8
+Richland,083,Louisiana,42644,9.6
+Sabine,085,Louisiana,38190,5.3
+St. Bernard,087,Louisiana,36093,9.5
+St. Charles,089,Louisiana,53148,6.0
+St. Helena,091,Louisiana,48743,8.9
+St. James,093,Louisiana,56880,5.8
+St. John the Baptist,095,Louisiana,45927,8.5
+St. Landry,097,Louisiana,46131,8.9
+St. Martin,099,Louisiana,42203,7.4
+St. Mary,101,Louisiana,45760,9.3
+St. Tammany,103,Louisiana,70190,1.9
+Tangipahoa,105,Louisiana,41792,7.3
+Tensas,107,Louisiana,44043,5.2
+Terrebonne,109,Louisiana,45942,8.0
+Union,111,Louisiana,43609,6.1
+Vermilion,113,Louisiana,42526,6.0
+Vernon,115,Louisiana,45320,6.7
+Washington,117,Louisiana,38515,9.3
+Webster,119,Louisiana,45088,8.7
+West Baton Rouge,121,Louisiana,51758,5.6
+West Carroll,123,Louisiana,37148,15.5
+West Feliciana,125,Louisiana,41145,4.4
+Winn,127,Louisiana,41491,7.4
+Androscoggin,001,Maine,46357,8.6
+Aroostook,003,Maine,47605,11.6
+Cumberland,005,Maine,68237,6.0
+Franklin,007,Maine,43276,7.1
+Hancock,009,Maine,55393,6.5
+Kennebec,011,Maine,50469,8.1
+Knox,013,Maine,54363,5.2
+Lincoln,015,Maine,54300,5.2
+Oxford,017,Maine,42327,8.6
+Penobscot,019,Maine,47315,9.8
+Piscataquis,021,Maine,42527,8.1
+Sagadahoc,023,Maine,55965,6.8
+Somerset,025,Maine,43134,10.3
+Waldo,027,Maine,47495,7.7
+Washington,029,Maine,45558,11.6
+York,031,Maine,58038,6.7
+Allegany,001,Maryland,43970,8.1
+Anne Arundel,003,Maryland,72197,5.7
+Baltimore,005,Maryland,66585,6.5
+Baltimore,510,Maryland,66469,5.1
+Calvert,009,Maryland,48393,6.0
+Caroline,011,Maryland,66901,5.5
+Carroll,013,Maryland,51853,6.2
+Cecil,015,Maryland,61324,7.2
+Charles,017,Maryland,49921,7.3
+Dorchester,019,Maryland,66664,6.1
+Frederick,021,Maryland,48630,6.6
+Garrett,023,Maryland,63432,6.3
+Harford,025,Maryland,81969,5.0
+Howard,027,Maryland,64331,6.5
+Kent,029,Maryland,89552,3.9
+Montgomery,031,Maryland,54195,8.5
+Prince George's,033,Maryland,67861,4.4
+Queen Anne's,035,Maryland,61144,5.6
+Somerset,039,Maryland,32531,6.2
+St. Mary's,037,Maryland,76528,5.2
+Talbot,041,Maryland,50493,7.3
+Washington,043,Maryland,44184,7.4
+Wicomico,045,Maryland,59881,5.9
+Worcester,047,Maryland,54097,8.3
+Barnstable,001,Massachusetts,80420,6.7
+Berkshire,003,Massachusetts,61872,8.0
+Bristol,005,Massachusetts,61031,10.1
+Dukes,007,Massachusetts,89757,3.0
+Essex,009,Massachusetts,74519,8.2
+Franklin,011,Massachusetts,59853,7.2
+Hampden,013,Massachusetts,57821,9.3
+Hampshire,015,Massachusetts,57030,6.0
+Middlesex,017,Massachusetts,90688,4.8
+Nantucket,019,Massachusetts,114832,-0.4
+Norfolk,021,Massachusetts,98019,4.9
+Plymouth,023,Massachusetts,74034,7.6
+Suffolk,025,Massachusetts,90571,7.4
+Worcester,027,Massachusetts,63286,8.7
+Alcona,001,Michigan,44953,10.8
+Alger,003,Michigan,37951,11.5
+Allegan,005,Michigan,50091,8.5
+Alpena,007,Michigan,45685,10.9
+Antrim,009,Michigan,52490,8.4
+Arenac,011,Michigan,43466,12.5
+Baraga,013,Michigan,38750,13.1
+Barry,015,Michigan,49232,7.2
+Bay,017,Michigan,47786,9.7
+Benzie,019,Michigan,50509,10.1
+Berrien,021,Michigan,52395,8.6
+Branch,023,Michigan,42356,11.6
+Calhoun,025,Michigan,44729,10.6
+Cass,027,Michigan,50365,11.4
+Charlevoix,029,Michigan,57289,7.8
+Cheboygan,031,Michigan,44801,11.6
+Chippewa,033,Michigan,39693,12.5
+Clare,035,Michigan,38655,11.7
+Clinton,037,Michigan,51053,7.8
+Crawford,039,Michigan,39405,11.8
+Delta,041,Michigan,45260,10.5
+Dickinson,043,Michigan,53526,9.4
+Eaton,045,Michigan,47407,8.9
+Emmet,047,Michigan,62918,7.5
+Genesee,049,Michigan,46152,10.0
+Gladwin,051,Michigan,40772,9.3
+Gogebic,053,Michigan,47894,9.4
+Grand Traverse,055,Michigan,56861,8.0
+Gratiot,057,Michigan,42067,12.1
+Hillsdale,059,Michigan,39404,10.1
+Houghton,061,Michigan,42884,10.3
+Huron,063,Michigan,53638,16.8
+Ingham,065,Michigan,44957,8.9
+Ionia,067,Michigan,39366,10.9
+Iosco,069,Michigan,43618,12.0
+Iron,071,Michigan,49153,8.2
+Isabella,073,Michigan,40021,10.3
+Jackson,075,Michigan,44889,11.1
+Kalamazoo,077,Michigan,52403,6.3
+Kalkaska,079,Michigan,41545,15.1
+Kent,081,Michigan,57397,6.7
+Keweenaw,083,Michigan,51972,7.1
+Lake,085,Michigan,39507,14.9
+Lapeer,087,Michigan,49441,10.2
+Leelanau,089,Michigan,73238,5.6
+Lenawee,091,Michigan,44821,9.7
+Livingston,093,Michigan,62622,6.0
+Luce,095,Michigan,36339,15.0
+Mackinac,097,Michigan,50217,11.6
+Macomb,099,Michigan,52195,9.4
+Manistee,101,Michigan,44382,9.1
+Marquette,103,Michigan,44445,10.3
+Mason,105,Michigan,45326,10.1
+Mecosta,107,Michigan,37579,11.0
+Menominee,109,Michigan,47594,8.3
+Midland,111,Michigan,57561,5.7
+Missaukee,113,Michigan,40298,12.2
+Monroe,115,Michigan,52028,6.8
+Montcalm,117,Michigan,40018,11.4
+Montmorency,119,Michigan,42154,12.1
+Muskegon,121,Michigan,44000,10.6
+Newaygo,123,Michigan,42117,10.1
+Oakland,125,Michigan,76941,4.7
+Oceana,127,Michigan,43261,11.2
+Ogemaw,129,Michigan,39101,13.6
+Ontonagon,131,Michigan,45761,10.7
+Osceola,133,Michigan,41965,10.5
+Oscoda,135,Michigan,36374,5.8
+Otsego,137,Michigan,46166,10.9
+Ottawa,139,Michigan,52759,6.6
+Presque Isle,141,Michigan,45872,11.0
+Roscommon,143,Michigan,41258,11.1
+Saginaw,145,Michigan,45328,8.8
+Sanilac,151,Michigan,50107,9.4
+Schoolcraft,153,Michigan,43818,12.1
+Shiawassee,155,Michigan,44093,16.0
+St. Clair,147,Michigan,45281,10.9
+St. Joseph,149,Michigan,44855,10.5
+Tuscola,157,Michigan,43073,13.3
+Van Buren,159,Michigan,45869,10.0
+Washtenaw,161,Michigan,63655,4.2
+Wayne,163,Michigan,48788,10.1
+Wexford,165,Michigan,41545,10.1
+Aitkin,001,Minnesota,46390,11.5
+Anoka,003,Minnesota,55694,5.6
+Becker,005,Minnesota,51772,7.7
+Beltrami,007,Minnesota,45368,7.8
+Benton,009,Minnesota,49403,8.1
+Big Stone,011,Minnesota,62498,21.3
+Blue Earth,013,Minnesota,49288,8.1
+Brown,015,Minnesota,59763,10.7
+Carlton,017,Minnesota,47227,7.0
+Carver,019,Minnesota,75677,3.6
+Cass,021,Minnesota,51340,7.6
+Chippewa,023,Minnesota,56148,9.3
+Chisago,025,Minnesota,53140,5.8
+Clay,027,Minnesota,47522,8.9
+Clearwater,029,Minnesota,49654,11.8
+Cook,031,Minnesota,56220,4.1
+Cottonwood,033,Minnesota,56130,23.9
+Crow Wing,035,Minnesota,49092,6.6
+Dakota,037,Minnesota,64748,4.5
+Dodge,039,Minnesota,51585,10.9
+Douglas,041,Minnesota,56039,7.5
+Faribault,043,Minnesota,50321,17.2
+Fillmore,045,Minnesota,49630,12.3
+Freeborn,047,Minnesota,50364,10.6
+Goodhue,049,Minnesota,58303,6.5
+Grant,051,Minnesota,55429,22.2
+Hennepin,053,Minnesota,79183,4.0
+Houston,055,Minnesota,55443,7.5
+Hubbard,057,Minnesota,52122,5.3
+Isanti,059,Minnesota,49082,6.8
+Itasca,061,Minnesota,48872,7.8
+Jackson,063,Minnesota,62789,17.8
+Kanabec,065,Minnesota,48092,11.2
+Kandiyohi,067,Minnesota,57122,9.8
+Kittson,069,Minnesota,63181,36.1
+Koochiching,071,Minnesota,49019,7.1
+Lac qui Parle,073,Minnesota,60286,19.3
+Lake,075,Minnesota,51683,5.0
+Lake of the Woods,077,Minnesota,60435,10.5
+Le Sueur,079,Minnesota,54361,8.6
+Lincoln,081,Minnesota,53464,13.8
+Lyon,083,Minnesota,54589,9.2
+Mahnomen,087,Minnesota,54149,9.1
+Marshall,089,Minnesota,40781,19.3
+Martin,091,Minnesota,63090,28.7
+McLeod,085,Minnesota,57955,10.9
+Meeker,093,Minnesota,49478,10.3
+Mille Lacs,095,Minnesota,47379,9.0
+Morrison,097,Minnesota,47610,12.6
+Mower,099,Minnesota,50537,9.3
+Murray,101,Minnesota,63620,21.4
+Nicollet,103,Minnesota,53083,6.9
+Nobles,105,Minnesota,53881,20.0
+Norman,107,Minnesota,51626,38.2
+Olmsted,109,Minnesota,63100,6.1
+Otter Tail,111,Minnesota,52707,9.5
+Pennington,113,Minnesota,61825,9.2
+Pine,115,Minnesota,42237,9.0
+Pipestone,117,Minnesota,59326,9.8
+Polk,119,Minnesota,55849,18.6
+Pope,121,Minnesota,56561,12.7
+Ramsey,123,Minnesota,58557,5.6
+Red Lake,125,Minnesota,55620,14.9
+Redwood,127,Minnesota,61772,15.3
+Renville,129,Minnesota,58489,20.5
+Rice,131,Minnesota,47839,6.7
+Rock,133,Minnesota,59225,17.1
+Roseau,135,Minnesota,55999,16.1
+Scott,139,Minnesota,50986,5.7
+Sherburne,141,Minnesota,65655,4.4
+Sibley,143,Minnesota,50710,6.1
+St. Louis,137,Minnesota,53677,12.0
+Stearns,145,Minnesota,51216,7.9
+Steele,147,Minnesota,51703,9.0
+Stevens,149,Minnesota,55345,18.2
+Swift,151,Minnesota,56060,15.0
+Todd,153,Minnesota,47123,9.3
+Traverse,155,Minnesota,74000,43.7
+Wabasha,157,Minnesota,53837,9.7
+Wadena,159,Minnesota,43925,9.5
+Waseca,161,Minnesota,47139,11.8
+Washington,163,Minnesota,72273,4.0
+Watonwan,165,Minnesota,53034,16.9
+Wilkin,167,Minnesota,62497,21.0
+Winona,169,Minnesota,52198,7.8
+Wright,171,Minnesota,55218,6.1
+Yellow Medicine,173,Minnesota,61315,13.4
+Adams,001,Mississippi,38331,9.0
+Alcorn,003,Mississippi,38956,6.4
+Amite,005,Mississippi,37692,6.2
+Attala,007,Mississippi,37962,9.7
+Benton,009,Mississippi,34691,10.4
+Bolivar,011,Mississippi,42767,12.2
+Calhoun,013,Mississippi,38017,12.8
+Carroll,015,Mississippi,41624,9.3
+Chickasaw,017,Mississippi,40254,11.2
+Choctaw,019,Mississippi,38813,10.9
+Claiborne,021,Mississippi,34852,10.4
+Clarke,023,Mississippi,42207,9.0
+Clay,025,Mississippi,42187,9.5
+Coahoma,027,Mississippi,40781,10.1
+Copiah,029,Mississippi,36414,6.9
+Covington,031,Mississippi,38250,2.2
+DeSoto,033,Mississippi,45764,7.5
+Forrest,035,Mississippi,42175,7.9
+Franklin,037,Mississippi,38355,7.0
+George,039,Mississippi,38668,12.1
+Greene,041,Mississippi,31102,7.3
+Grenada,043,Mississippi,40296,10.0
+Hancock,045,Mississippi,39455,8.9
+Harrison,047,Mississippi,41534,8.6
+Hinds,049,Mississippi,43452,8.2
+Holmes,051,Mississippi,33567,12.0
+Humphreys,053,Mississippi,40236,15.5
+Issaquena,055,Mississippi,38921,45.5
+Itawamba,057,Mississippi,39878,8.3
+Jackson,059,Mississippi,41575,7.5
+Jasper,061,Mississippi,41967,3.1
+Jefferson,063,Mississippi,38101,7.9
+Jefferson Davis,065,Mississippi,33434,9.1
+Jones,067,Mississippi,40402,4.5
+Kemper,069,Mississippi,33841,13.0
+Lafayette,071,Mississippi,46037,5.0
+Lamar,073,Mississippi,43227,6.5
+Lauderdale,075,Mississippi,42673,8.1
+Lawrence,077,Mississippi,36649,5.4
+Leake,079,Mississippi,32239,1.0
+Lee,081,Mississippi,46138,7.7
+Leflore,083,Mississippi,43878,11.7
+Lincoln,085,Mississippi,42121,6.7
+Lowndes,087,Mississippi,44152,8.3
+Madison,089,Mississippi,68381,4.7
+Marion,091,Mississippi,41433,7.7
+Marshall,093,Mississippi,37543,8.5
+Monroe,095,Mississippi,39729,9.2
+Montgomery,097,Mississippi,39432,11.0
+Neshoba,099,Mississippi,38507,2.1
+Newton,101,Mississippi,37484,4.1
+Noxubee,103,Mississippi,37781,8.4
+Oktibbeha,105,Mississippi,37853,6.9
+Panola,107,Mississippi,37593,11.1
+Pearl River,109,Mississippi,40201,6.2
+Perry,111,Mississippi,36953,10.3
+Pike,113,Mississippi,34718,9.6
+Pontotoc,115,Mississippi,37342,10.0
+Prentiss,117,Mississippi,34158,8.6
+Quitman,119,Mississippi,34239,15.0
+Rankin,121,Mississippi,48295,5.8
+Scott,123,Mississippi,32840,3.7
+Sharkey,125,Mississippi,42775,24.5
+Simpson,127,Mississippi,38987,4.3
+Smith,129,Mississippi,36494,1.1
+Stone,131,Mississippi,37001,8.1
+Sunflower,133,Mississippi,35454,14.9
+Tallahatchie,135,Mississippi,33784,11.9
+Tate,137,Mississippi,40134,8.4
+Tippah,139,Mississippi,42051,9.9
+Tishomingo,141,Mississippi,37593,7.2
+Tunica,143,Mississippi,40994,15.3
+Union,145,Mississippi,36387,8.1
+Walthall,147,Mississippi,34814,7.4
+Warren,149,Mississippi,44422,8.0
+Washington,151,Mississippi,43778,16.1
+Wayne,153,Mississippi,36967,3.0
+Webster,155,Mississippi,43060,7.9
+Wilkinson,157,Mississippi,34759,13.0
+Winston,159,Mississippi,38970,5.8
+Yalobusha,161,Mississippi,41336,9.1
+Yazoo,163,Mississippi,33672,19.1
+Adair,001,Missouri,34867,6.1
+Andrew,003,Missouri,48186,5.8
+Atchison,005,Missouri,53958,16.3
+Audrain,007,Missouri,42029,10.4
+Barry,009,Missouri,37114,3.8
+Barton,011,Missouri,42031,18.7
+Bates,013,Missouri,44523,9.9
+Benton,015,Missouri,40318,5.0
+Bollinger,017,Missouri,36548,8.9
+Boone,019,Missouri,51330,4.5
+Buchanan,021,Missouri,42653,5.7
+Butler,023,Missouri,40255,11.4
+Caldwell,025,Missouri,41488,7.3
+Callaway,027,Missouri,42524,7.8
+Camden,029,Missouri,40778,5.2
+Cape Girardeau,031,Missouri,47386,4.2
+Carroll,033,Missouri,50990,9.5
+Carter,035,Missouri,35898,8.1
+Cass,037,Missouri,50654,4.4
+Cedar,039,Missouri,34130,8.6
+Chariton,041,Missouri,49650,13.0
+Christian,043,Missouri,43602,4.4
+Clark,045,Missouri,40825,14.3
+Clay,047,Missouri,51619,4.8
+Clinton,049,Missouri,46823,7.7
+Cole,051,Missouri,51905,6.5
+Cooper,053,Missouri,44486,11.0
+Crawford,055,Missouri,38430,6.6
+Dade,057,Missouri,38581,10.5
+Dallas,059,Missouri,35840,5.7
+Daviess,061,Missouri,37380,10.1
+DeKalb,063,Missouri,36799,7.2
+Dent,065,Missouri,36327,7.6
+Douglas,067,Missouri,31031,8.4
+Dunklin,069,Missouri,38821,6.9
+Franklin,071,Missouri,48108,4.0
+Gasconade,073,Missouri,43589,6.3
+Gentry,075,Missouri,46483,7.7
+Greene,077,Missouri,47388,3.1
+Grundy,079,Missouri,39098,10.6
+Harrison,081,Missouri,41238,12.8
+Henry,083,Missouri,44780,7.3
+Hickory,085,Missouri,31380,7.4
+Holt,087,Missouri,56644,12.6
+Howard,089,Missouri,43946,6.6
+Howell,091,Missouri,37414,6.4
+Iron,093,Missouri,36530,8.8
+Jackson,095,Missouri,50209,5.2
+Jasper,097,Missouri,42488,3.2
+Jefferson,099,Missouri,46027,4.9
+Johnson,101,Missouri,40207,6.8
+Knox,103,Missouri,40933,15.6
+Laclede,105,Missouri,38403,6.0
+Lafayette,107,Missouri,45825,7.5
+Lawrence,109,Missouri,36746,6.1
+Lewis,111,Missouri,39481,8.2
+Lincoln,113,Missouri,44032,6.9
+Linn,115,Missouri,42456,8.2
+Livingston,117,Missouri,43804,10.9
+Macon,121,Missouri,31941,7.0
+Madison,123,Missouri,44785,8.2
+Maries,125,Missouri,40312,8.9
+Marion,127,Missouri,37638,8.3
+McDonald,119,Missouri,44121,7.3
+Mercer,129,Missouri,35358,11.5
+Miller,131,Missouri,39349,8.9
+Mississippi,133,Missouri,37483,17.7
+Moniteau,135,Missouri,41930,10.8
+Monroe,137,Missouri,44528,8.3
+Montgomery,139,Missouri,46688,11.9
+Morgan,141,Missouri,42880,2.9
+New Madrid,143,Missouri,41953,11.9
+Newton,145,Missouri,41771,5.2
+Nodaway,147,Missouri,36315,10.8
+Oregon,149,Missouri,33166,8.3
+Osage,151,Missouri,49250,8.1
+Ozark,153,Missouri,33722,8.0
+Pemiscot,155,Missouri,40931,12.4
+Perry,157,Missouri,45002,6.8
+Pettis,159,Missouri,40971,7.1
+Phelps,161,Missouri,42030,5.3
+Pike,163,Missouri,40471,10.5
+Platte,165,Missouri,60698,3.2
+Polk,167,Missouri,36944,4.8
+Pulaski,169,Missouri,44732,6.8
+Putnam,171,Missouri,39308,9.7
+Ralls,173,Missouri,44688,11.9
+Randolph,175,Missouri,42615,8.2
+Ray,177,Missouri,46047,6.3
+Reynolds,179,Missouri,38107,7.6
+Ripley,181,Missouri,34297,10.5
+Saline,195,Missouri,56879,3.2
+Schuyler,197,Missouri,33058,9.4
+Scotland,199,Missouri,44925,7.2
+Scott,201,Missouri,37377,6.8
+Shannon,203,Missouri,78804,6.0
+Shelby,205,Missouri,43076,12.9
+St. Charles,183,Missouri,33550,13.5
+St. Clair,185,Missouri,41576,20.6
+St. Francois,187,Missouri,44148,6.9
+St. Louis,510,Missouri,33071,8.4
+St. Louis,189,Missouri,45373,13.5
+Ste. Genevieve,186,Missouri,41158,9.3
+Stoddard,207,Missouri,41975,4.6
+Stone,209,Missouri,44877,15.2
+Sullivan,211,Missouri,38859,4.6
+Taney,213,Missouri,32774,10.7
+Texas,215,Missouri,39496,12.6
+Vernon,217,Missouri,45011,5.5
+Warren,219,Missouri,33148,7.8
+Washington,221,Missouri,34018,9.4
+Wayne,223,Missouri,35845,5.9
+Webster,225,Missouri,41861,11.2
+Worth,227,Missouri,35480,8.2
+Wright,229,Missouri,51041,4.8
+Beaverhead,001,Montana,52501,9.2
+Big Horn,003,Montana,35950,14.1
+Blaine,005,Montana,36301,17.8
+Broadwater,007,Montana,48786,6.7
+Carbon,009,Montana,56900,5.6
+Carter,011,Montana,53760,32.0
+Cascade,013,Montana,52226,6.1
+Chouteau,015,Montana,48627,19.4
+Custer,017,Montana,51268,8.7
+Daniels,019,Montana,64205,30.2
+Dawson,021,Montana,50972,9.3
+Deer Lodge,023,Montana,45039,9.9
+Fallon,025,Montana,54203,8.9
+Fergus,027,Montana,48900,7.3
+Flathead,029,Montana,52740,5.2
+Gallatin,031,Montana,63432,5.4
+Garfield,033,Montana,44812,35.1
+Glacier,035,Montana,41773,12.8
+Golden Valley,037,Montana,56481,12.9
+Granite,039,Montana,49242,7.5
+Hill,041,Montana,50018,8.8
+Jefferson,043,Montana,52770,5.2
+Judith Basin,045,Montana,56953,15.1
+Lake,047,Montana,44068,7.9
+Lewis and Clark,049,Montana,54040,6.1
+Liberty,051,Montana,51268,13.4
+Lincoln,053,Montana,41129,9.0
+Madison,057,Montana,48924,25.0
+McCone,055,Montana,57112,6.5
+Meagher,059,Montana,49730,10.1
+Mineral,061,Montana,43233,8.7
+Missoula,063,Montana,54353,5.1
+Musselshell,065,Montana,49756,7.9
+Park,067,Montana,55213,4.3
+Petroleum,069,Montana,41080,23.8
+Phillips,071,Montana,48341,17.1
+Pondera,073,Montana,56218,13.0
+Powder River,075,Montana,44756,30.6
+Powell,077,Montana,47024,7.1
+Prairie,079,Montana,57918,22.0
+Ravalli,081,Montana,49860,5.5
+Richland,083,Montana,63761,2.0
+Roosevelt,085,Montana,41531,14.4
+Rosebud,087,Montana,50566,11.8
+Sanders,089,Montana,41398,10.9
+Sheridan,091,Montana,61236,21.3
+Silver Bow,093,Montana,50672,5.0
+Stillwater,095,Montana,57382,5.7
+Sweet Grass,097,Montana,54287,9.5
+Teton,099,Montana,53172,8.8
+Toole,101,Montana,60089,12.6
+Treasure,103,Montana,66721,17.6
+Valley,105,Montana,54556,14.8
+Wheatland,107,Montana,42348,9.7
+Wibaux,109,Montana,48913,18.9
+Yellowstone,111,Montana,56588,4.4
+Adams,001,Nebraska,53232,6.4
+Antelope,003,Nebraska,69121,25.6
+Arthur,005,Nebraska,53618,16.3
+Banner,007,Nebraska,59097,17.5
+Blaine,009,Nebraska,70372,16.5
+Boone,011,Nebraska,69564,18.7
+Box Butte,013,Nebraska,53723,9.2
+Boyd,015,Nebraska,62078,10.5
+Brown,017,Nebraska,60280,9.2
+Buffalo,019,Nebraska,60230,4.6
+Burt,021,Nebraska,53602,9.2
+Butler,023,Nebraska,56101,12.7
+Cass,025,Nebraska,57220,6.0
+Cedar,027,Nebraska,58373,15.8
+Chase,029,Nebraska,68843,17.1
+Cherry,031,Nebraska,50817,14.8
+Cheyenne,033,Nebraska,50334,4.4
+Clay,035,Nebraska,57104,11.8
+Colfax,037,Nebraska,49977,13.8
+Cuming,039,Nebraska,71653,10.9
+Custer,041,Nebraska,54458,13.2
+Dakota,043,Nebraska,47062,6.8
+Dawes,045,Nebraska,43101,12.5
+Dawson,047,Nebraska,49096,9.2
+Deuel,049,Nebraska,43738,8.2
+Dixon,051,Nebraska,49974,12.4
+Dodge,053,Nebraska,52445,6.5
+Douglas,055,Nebraska,65737,4.2
+Dundy,057,Nebraska,86360,21.5
+Fillmore,059,Nebraska,63206,10.4
+Franklin,061,Nebraska,57959,16.4
+Frontier,063,Nebraska,46216,20.3
+Furnas,065,Nebraska,53727,18.5
+Gage,067,Nebraska,52843,7.9
+Garden,069,Nebraska,50671,10.1
+Garfield,071,Nebraska,47856,15.1
+Gosper,073,Nebraska,59049,18.2
+Grant,075,Nebraska,54922,15.8
+Greeley,077,Nebraska,56500,20.9
+Hall,079,Nebraska,47793,7.5
+Hamilton,081,Nebraska,61230,10.9
+Harlan,083,Nebraska,57828,11.4
+Hayes,085,Nebraska,79926,22.5
+Hitchcock,087,Nebraska,46667,17.6
+Holt,089,Nebraska,59853,15.7
+Hooker,091,Nebraska,54516,14.0
+Howard,093,Nebraska,50857,10.6
+Jefferson,095,Nebraska,53407,10.0
+Johnson,097,Nebraska,39498,10.3
+Kearney,099,Nebraska,61585,11.2
+Keith,101,Nebraska,51040,7.7
+Keya Paha,103,Nebraska,66705,33.8
+Kimball,105,Nebraska,50075,12.5
+Knox,107,Nebraska,53356,14.3
+Lancaster,109,Nebraska,52887,4.7
+Lincoln,111,Nebraska,54043,8.9
+Logan,113,Nebraska,58616,19.2
+Loup,115,Nebraska,61740,17.3
+Madison,119,Nebraska,62907,39.2
+McPherson,117,Nebraska,55104,7.2
+Merrick,121,Nebraska,50870,8.5
+Morrill,123,Nebraska,63120,11.7
+Nance,125,Nebraska,46091,17.3
+Nemaha,127,Nebraska,51548,6.1
+Nuckolls,129,Nebraska,59449,14.7
+Otoe,131,Nebraska,57873,5.2
+Pawnee,133,Nebraska,51436,18.0
+Perkins,135,Nebraska,71191,13.7
+Phelps,137,Nebraska,59324,11.0
+Pierce,139,Nebraska,62493,9.3
+Platte,141,Nebraska,52316,8.9
+Polk,143,Nebraska,57312,7.3
+Red Willow,145,Nebraska,52196,12.5
+Richardson,147,Nebraska,54773,10.5
+Rock,149,Nebraska,72590,21.9
+Saline,151,Nebraska,47785,8.8
+Sarpy,153,Nebraska,55173,5.3
+Saunders,155,Nebraska,56892,6.5
+Scotts Bluff,157,Nebraska,49048,8.1
+Seward,159,Nebraska,56220,9.0
+Sheridan,161,Nebraska,56597,15.4
+Sherman,163,Nebraska,50461,14.9
+Sioux,165,Nebraska,64440,15.3
+Stanton,167,Nebraska,52621,15.1
+Thayer,169,Nebraska,60659,11.5
+Thomas,171,Nebraska,57805,9.1
+Thurston,173,Nebraska,45789,17.0
+Valley,175,Nebraska,59867,21.2
+Washington,177,Nebraska,60738,4.6
+Wayne,179,Nebraska,49143,11.0
+Webster,181,Nebraska,53815,8.6
+Wheeler,183,Nebraska,70710,3.2
+York,185,Nebraska,56457,11.3
+Carson City,510,Nevada,50081,8.5
+Churchill,001,Nevada,51244,4.1
+Clark,003,Nevada,78416,4.2
+Douglas,005,Nevada,50429,5.5
+Elko,007,Nevada,42962,-0.1
+Esmeralda,009,Nevada,46792,9.7
+Eureka,011,Nevada,51772,6.0
+Humboldt,013,Nevada,72931,4.9
+Lander,015,Nevada,43357,9.0
+Lincoln,017,Nevada,44098,9.4
+Lyon,019,Nevada,48982,18.7
+Mineral,021,Nevada,41367,4.3
+Nye,023,Nevada,37906,13.7
+Pershing,027,Nevada,65971,13.0
+Storey,029,Nevada,66076,4.9
+Washoe,031,Nevada,50653,8.7
+White Pine,033,Nevada,56510,6.9
+Belknap,001,New Hampshire,66919,5.4
+Carroll,003,New Hampshire,63403,4.2
+Cheshire,005,New Hampshire,56088,5.4
+Coos,007,New Hampshire,49564,10.6
+Grafton,009,New Hampshire,67943,6.5
+Hillsborough,011,New Hampshire,66548,6.0
+Merrimack,013,New Hampshire,63839,6.5
+Rockingham,015,New Hampshire,80220,2.6
+Strafford,017,New Hampshire,56104,6.7
+Sullivan,019,New Hampshire,57602,6.2
+Atlantic,001,New Jersey,55802,8.9
+Bergen,003,New Jersey,91972,4.2
+Burlington,005,New Jersey,67154,5.7
+Camden,007,New Jersey,58830,7.0
+Cape May,009,New Jersey,67836,7.3
+Cumberland,011,New Jersey,45498,10.1
+Essex,013,New Jersey,70497,6.9
+Gloucester,015,New Jersey,60386,6.2
+Hudson,017,New Jersey,71682,6.1
+Hunterdon,019,New Jersey,95088,3.4
+Mercer,021,New Jersey,74218,5.0
+Middlesex,023,New Jersey,66640,6.3
+Monmouth,025,New Jersey,86091,4.6
+Morris,027,New Jersey,102227,3.1
+Ocean,029,New Jersey,57344,7.2
+Passaic,031,New Jersey,55775,8.9
+Salem,033,New Jersey,54578,7.9
+Somerset,035,New Jersey,112825,2.1
+Sussex,037,New Jersey,67814,5.5
+Union,039,New Jersey,72543,5.3
+Warren,041,New Jersey,60525,6.3
+Bernalillo,001,New Mexico,48683,7.7
+Catron,003,New Mexico,36171,12.4
+Chaves,005,New Mexico,43615,8.7
+Cibola,006,New Mexico,32755,13.0
+Colfax,007,New Mexico,45610,11.2
+Curry,009,New Mexico,48894,12.0
+De Baca,011,New Mexico,56603,18.6
+Dona Ana,013,New Mexico,40218,7.5
+Eddy,015,New Mexico,62356,2.5
+Grant,017,New Mexico,45561,7.0
+Guadalupe,019,New Mexico,39140,11.3
+Harding,021,New Mexico,50723,23.3
+Hidalgo,023,New Mexico,48166,11.2
+Lea,025,New Mexico,47215,-4.6
+Lincoln,027,New Mexico,44732,6.8
+Los Alamos,028,New Mexico,76142,4.0
+Luna,029,New Mexico,38022,15.2
+McKinley,031,New Mexico,32804,13.7
+Mora,033,New Mexico,45300,12.0
+Otero,035,New Mexico,38779,10.1
+Quay,037,New Mexico,44691,12.1
+Rio Arriba,039,New Mexico,40771,12.0
+Roosevelt,041,New Mexico,46999,13.3
+San Juan,045,New Mexico,47257,7.5
+San Miguel,047,New Mexico,38370,6.3
+Sandoval,043,New Mexico,40675,12.4
+Santa Fe,049,New Mexico,63004,4.5
+Sierra,051,New Mexico,47388,16.3
+Socorro,053,New Mexico,39055,11.4
+Taos,055,New Mexico,42965,11.8
+Torrance,057,New Mexico,37276,11.9
+Union,059,New Mexico,41932,16.7
+Valencia,061,New Mexico,38918,10.3
+Albany,001,New York,66632,7.7
+Allegany,003,New York,40840,10.0
+Bronx,005,New York,43919,15.3
+Broome,007,New York,49314,9.2
+Cattaraugus,009,New York,45200,9.9
+Cayuga,011,New York,48585,9.4
+Chautauqua,013,New York,45357,9.4
+Chemung,015,New York,49439,8.3
+Chenango,017,New York,47842,10.5
+Clinton,019,New York,48292,7.7
+Columbia,021,New York,60859,6.5
+Cortland,023,New York,45776,10.5
+Delaware,025,New York,45822,7.8
+Dutchess,027,New York,62319,6.7
+Erie,029,New York,56748,8.6
+Essex,031,New York,50824,7.4
+Franklin,033,New York,42525,8.2
+Fulton,035,New York,48957,10.1
+Genesee,037,New York,49468,9.4
+Greene,039,New York,52484,7.2
+Hamilton,041,New York,60014,7.7
+Herkimer,043,New York,47266,9.0
+Jefferson,045,New York,53964,10.4
+Kings,047,New York,59468,9.4
+Lewis,049,New York,51992,10.3
+Livingston,051,New York,49382,7.1
+Madison,053,New York,49137,8.1
+Monroe,055,New York,58299,7.6
+Montgomery,057,New York,46332,10.3
+Nassau,059,New York,96253,4.4
+New York,061,New York,191220,2.1
+Niagara,063,New York,51506,9.5
+Oneida,065,New York,50201,7.9
+Onondaga,067,New York,58919,8.3
+Ontario,069,New York,59335,7.3
+Orange,071,New York,57688,8.3
+Orleans,073,New York,44477,11.8
+Oswego,075,New York,46210,9.9
+Otsego,077,New York,49275,7.9
+Putnam,079,New York,73152,5.2
+Queens,081,New York,57085,10.8
+Rensselaer,083,New York,54748,8.5
+Richmond,085,New York,62558,7.9
+Rockland,087,New York,66350,6.7
+Saratoga,091,New York,43034,9.3
+Schenectady,093,New York,77398,7.2
+Schoharie,095,New York,58210,7.2
+Schuyler,097,New York,46469,9.0
+Seneca,099,New York,46971,10.0
+St. Lawrence,089,New York,44065,9.3
+Steuben,101,New York,50331,7.7
+Suffolk,103,New York,76713,6.3
+Sullivan,105,New York,52249,7.6
+Tioga,107,New York,50990,8.9
+Tompkins,109,New York,49486,7.5
+Ulster,111,New York,56071,6.7
+Warren,113,New York,59509,8.9
+Washington,115,New York,46305,9.9
+Wayne,117,New York,51282,6.5
+Westchester,119,New York,115386,3.0
+Wyoming,121,New York,47331,10.9
+Yates,123,New York,45258,8.7
+Alamance,001,North Carolina,43973,6.6
+Alexander,003,North Carolina,40176,6.4
+Alleghany,005,North Carolina,40599,6.9
+Anson,007,North Carolina,38785,2.8
+Ashe,009,North Carolina,39612,8.1
+Avery,011,North Carolina,39437,6.9
+Beaufort,013,North Carolina,46363,5.7
+Bertie,015,North Carolina,40351,7.4
+Bladen,017,North Carolina,39264,10.3
+Brunswick,019,North Carolina,46829,3.8
+Buncombe,021,North Carolina,53309,4.9
+Burke,023,North Carolina,38946,8.1
+Cabarrus,025,North Carolina,49679,6.1
+Caldwell,027,North Carolina,38894,7.6
+Camden,029,North Carolina,48642,6.1
+Carteret,031,North Carolina,53276,5.4
+Caswell,033,North Carolina,39265,9.0
+Catawba,035,North Carolina,49193,6.5
+Chatham,037,North Carolina,66766,2.8
+Cherokee,039,North Carolina,36620,7.5
+Chowan,041,North Carolina,45388,7.1
+Clay,043,North Carolina,37625,7.8
+Cleveland,045,North Carolina,41616,7.1
+Columbus,047,North Carolina,37112,11.2
+Craven,049,North Carolina,48832,7.8
+Cumberland,051,North Carolina,42992,8.0
+Currituck,053,North Carolina,49152,4.8
+Dare,055,North Carolina,59240,4.7
+Davidson,057,North Carolina,43348,6.6
+Davie,059,North Carolina,52153,4.4
+Duplin,061,North Carolina,37872,7.1
+Durham,063,North Carolina,54056,5.2
+Edgecombe,065,North Carolina,39394,8.7
+Forsyth,067,North Carolina,51323,5.3
+Franklin,069,North Carolina,39490,7.2
+Gaston,071,North Carolina,44103,6.7
+Gates,073,North Carolina,41571,6.8
+Graham,075,North Carolina,37943,8.2
+Granville,077,North Carolina,42807,6.1
+Greene,079,North Carolina,34811,8.5
+Guilford,081,North Carolina,49856,6.0
+Halifax,083,North Carolina,39680,6.8
+Harnett,085,North Carolina,38280,6.7
+Haywood,087,North Carolina,43754,5.4
+Henderson,089,North Carolina,47385,3.7
+Hertford,091,North Carolina,36216,10.7
+Hoke,093,North Carolina,35411,7.8
+Hyde,095,North Carolina,42832,7.7
+Iredell,097,North Carolina,56201,5.1
+Jackson,099,North Carolina,38341,7.5
+Johnston,101,North Carolina,44087,6.7
+Jones,103,North Carolina,43254,4.4
+Lee,105,North Carolina,44870,5.9
+Lenoir,107,North Carolina,44361,8.2
+Lincoln,109,North Carolina,50216,6.1
+Macon,113,North Carolina,37858,7.9
+Madison,115,North Carolina,44564,7.0
+Martin,117,North Carolina,38148,6.3
+McDowell,111,North Carolina,38301,8.2
+Mecklenburg,119,North Carolina,65244,3.8
+Mitchell,121,North Carolina,39476,6.6
+Montgomery,123,North Carolina,39353,6.8
+Moore,125,North Carolina,54514,4.0
+Nash,127,North Carolina,45890,5.9
+New Hanover,129,North Carolina,50780,4.6
+Northampton,131,North Carolina,38402,6.4
+Onslow,133,North Carolina,43122,6.0
+Orange,135,North Carolina,67089,2.4
+Pamlico,137,North Carolina,45994,7.3
+Pasquotank,139,North Carolina,42529,7.6
+Pender,141,North Carolina,41292,4.8
+Perquimans,143,North Carolina,44402,7.7
+Person,145,North Carolina,41581,6.5
+Pitt,147,North Carolina,45169,5.3
+Polk,149,North Carolina,48125,3.1
+Randolph,151,North Carolina,41231,5.9
+Richmond,153,North Carolina,38554,8.8
+Robeson,155,North Carolina,33062,8.2
+Rockingham,157,North Carolina,40672,6.9
+Rowan,159,North Carolina,43724,7.4
+Rutherford,161,North Carolina,36714,7.8
+Sampson,163,North Carolina,38165,6.6
+Scotland,165,North Carolina,36247,6.9
+Stanly,167,North Carolina,42613,6.7
+Stokes,169,North Carolina,41186,6.2
+Surry,171,North Carolina,42133,6.1
+Swain,173,North Carolina,44213,8.3
+Transylvania,175,North Carolina,44747,3.9
+Tyrrell,177,North Carolina,37638,11.7
+Union,179,North Carolina,56820,4.2
+Vance,181,North Carolina,37774,7.9
+Wake,183,North Carolina,65450,4.5
+Warren,185,North Carolina,33779,11.4
+Washington,187,North Carolina,39912,8.5
+Watauga,189,North Carolina,40157,3.9
+Wayne,191,North Carolina,42882,6.9
+Wilkes,193,North Carolina,39518,5.9
+Wilson,195,North Carolina,43111,7.1
+Yadkin,197,North Carolina,41250,5.7
+Yancey,199,North Carolina,40422,6.3
+Adams,001,North Dakota,59255,20.0
+Barnes,003,North Dakota,64242,12.7
+Benson,005,North Dakota,45003,24.2
+Billings,007,North Dakota,82466,1.1
+Bottineau,009,North Dakota,68631,11.0
+Bowman,011,North Dakota,68963,1.0
+Burke,013,North Dakota,77237,0.9
+Burleigh,015,North Dakota,62801,2.7
+Cass,017,North Dakota,61899,4.2
+Cavalier,019,North Dakota,88702,38.1
+Dickey,021,North Dakota,71888,13.5
+Divide,023,North Dakota,62052,10.9
+Dunn,025,North Dakota,68491,1.8
+Eddy,027,North Dakota,74844,23.1
+Emmons,029,North Dakota,64430,25.9
+Foster,031,North Dakota,76313,23.2
+Golden Valley,033,North Dakota,46435,19.0
+Grand Forks,035,North Dakota,57659,8.0
+Grant,037,North Dakota,57761,27.5
+Griggs,039,North Dakota,73753,25.5
+Hettinger,041,North Dakota,59519,18.1
+Kidder,043,North Dakota,64918,22.2
+LaMoure,045,North Dakota,70351,16.9
+Logan,047,North Dakota,59859,16.1
+McHenry,049,North Dakota,59320,12.9
+McIntosh,051,North Dakota,70812,16.1
+McKenzie,053,North Dakota,64035,-5.5
+McLean,055,North Dakota,66025,7.8
+Mercer,057,North Dakota,60497,2.7
+Morton,059,North Dakota,57708,5.3
+Mountrail,061,North Dakota,64982,-0.9
+Nelson,063,North Dakota,75907,23.1
+Oliver,065,North Dakota,52076,13.7
+Pembina,067,North Dakota,72827,19.5
+Pierce,069,North Dakota,57159,18.3
+Ramsey,071,North Dakota,57250,14.1
+Ransom,073,North Dakota,65153,10.2
+Renville,075,North Dakota,80431,12.3
+Richland,077,North Dakota,54465,4.0
+Rolette,079,North Dakota,41884,14.9
+Sargent,081,North Dakota,67215,7.2
+Sheridan,083,North Dakota,58958,24.9
+Sioux,085,North Dakota,33675,19.4
+Slope,087,North Dakota,60039,33.2
+Stark,089,North Dakota,63650,-3.4
+Steele,091,North Dakota,84674,34.8
+Stutsman,093,North Dakota,62694,14.7
+Towner,095,North Dakota,87632,47.3
+Traill,097,North Dakota,64096,16.6
+Walsh,099,North Dakota,63790,21.4
+Ward,101,North Dakota,57492,2.4
+Wells,103,North Dakota,79403,30.6
+Williams,105,North Dakota,64850,-6.9
+Adams,001,Ohio,39658,11.5
+Allen,003,Ohio,46500,7.5
+Ashland,005,Ohio,43041,7.7
+Ashtabula,007,Ohio,43597,8.9
+Athens,009,Ohio,36642,6.6
+Auglaize,011,Ohio,52330,6.3
+Belmont,013,Ohio,43354,3.9
+Brown,015,Ohio,42275,8.6
+Butler,017,Ohio,52598,5.3
+Carroll,019,Ohio,44624,8.8
+Champaign,021,Ohio,46605,9.9
+Clark,023,Ohio,45363,9.0
+Clermont,025,Ohio,60535,5.1
+Clinton,027,Ohio,48542,7.8
+Columbiana,029,Ohio,42771,8.6
+Coshocton,031,Ohio,39640,9.3
+Crawford,033,Ohio,43918,10.7
+Cuyahoga,035,Ohio,59923,7.0
+Darke,037,Ohio,48088,8.8
+Defiance,039,Ohio,45385,8.3
+Delaware,041,Ohio,79382,4.3
+Erie,043,Ohio,56732,1.8
+Fairfield,045,Ohio,51153,7.0
+Fayette,047,Ohio,46261,15.5
+Franklin,049,Ohio,55294,7.4
+Fulton,051,Ohio,50349,6.8
+Gallia,053,Ohio,43932,8.5
+Geauga,055,Ohio,73958,3.0
+Greene,057,Ohio,54645,5.8
+Guernsey,059,Ohio,45218,8.4
+Hamilton,061,Ohio,65035,5.8
+Hancock,063,Ohio,54386,7.6
+Hardin,065,Ohio,36506,9.8
+Harrison,067,Ohio,42014,6.5
+Henry,069,Ohio,50752,9.8
+Highland,071,Ohio,41094,10.2
+Hocking,073,Ohio,42337,7.9
+Holmes,075,Ohio,48118,1.5
+Huron,077,Ohio,45844,9.7
+Jackson,079,Ohio,40663,10.4
+Jefferson,081,Ohio,44375,9.1
+Knox,083,Ohio,47964,8.1
+Lake,085,Ohio,56085,6.2
+Lawrence,087,Ohio,42905,8.9
+Licking,089,Ohio,50810,7.0
+Logan,091,Ohio,48471,9.7
+Lorain,093,Ohio,51157,6.6
+Lucas,095,Ohio,51024,6.9
+Madison,097,Ohio,46679,10.4
+Mahoning,099,Ohio,47729,7.7
+Marion,101,Ohio,41449,9.4
+Medina,103,Ohio,60514,5.0
+Meigs,105,Ohio,39644,10.0
+Mercer,107,Ohio,54527,7.0
+Miami,109,Ohio,52469,7.1
+Monroe,111,Ohio,41242,9.8
+Montgomery,113,Ohio,51618,7.2
+Morgan,115,Ohio,38583,11.8
+Morrow,117,Ohio,44282,8.7
+Muskingum,119,Ohio,46070,8.4
+Noble,121,Ohio,30397,8.6
+Ottawa,123,Ohio,57446,6.3
+Paulding,125,Ohio,46097,10.2
+Perry,127,Ohio,41913,8.7
+Pickaway,129,Ohio,46033,9.2
+Pike,131,Ohio,42774,10.2
+Portage,133,Ohio,48285,6.1
+Preble,135,Ohio,45016,9.0
+Putnam,137,Ohio,54646,7.8
+Richland,139,Ohio,43928,9.0
+Ross,141,Ohio,42348,8.6
+Sandusky,143,Ohio,46113,8.9
+Scioto,145,Ohio,43820,7.4
+Seneca,147,Ohio,44993,11.2
+Shelby,149,Ohio,49956,8.4
+Stark,151,Ohio,49592,6.9
+Summit,153,Ohio,56821,6.0
+Trumbull,155,Ohio,45142,8.6
+Tuscarawas,157,Ohio,47937,6.4
+Union,159,Ohio,64147,7.2
+Van Wert,161,Ohio,47339,9.8
+Vinton,163,Ohio,38881,11.0
+Warren,165,Ohio,65855,4.7
+Washington,167,Ohio,47365,6.8
+Wayne,169,Ohio,49901,6.3
+Williams,171,Ohio,46040,7.2
+Wood,173,Ohio,51147,5.3
+Wyandot,175,Ohio,50573,9.9
+Adair,001,Oklahoma,32724,9.3
+Alfalfa,003,Oklahoma,43043,5.1
+Atoka,005,Oklahoma,34758,5.7
+Beaver,007,Oklahoma,57190,5.1
+Beckham,009,Oklahoma,41041,4.3
+Blaine,011,Oklahoma,44435,1.3
+Bryan,013,Oklahoma,37561,5.7
+Caddo,015,Oklahoma,39673,5.7
+Canadian,017,Oklahoma,48267,3.6
+Carter,019,Oklahoma,45874,3.9
+Cherokee,021,Oklahoma,35764,5.4
+Choctaw,023,Oklahoma,35627,10.2
+Cimarron,025,Oklahoma,68446,2.5
+Cleveland,027,Oklahoma,48042,3.3
+Coal,029,Oklahoma,38938,0.5
+Comanche,031,Oklahoma,45432,6.6
+Cotton,033,Oklahoma,47794,8.6
+Craig,035,Oklahoma,41477,5.6
+Creek,037,Oklahoma,44706,5.0
+Custer,039,Oklahoma,43373,4.0
+Delaware,041,Oklahoma,35435,4.8
+Dewey,043,Oklahoma,51656,2.0
+Ellis,045,Oklahoma,55592,3.0
+Garfield,047,Oklahoma,46702,3.7
+Garvin,049,Oklahoma,42189,5.1
+Grady,051,Oklahoma,43506,3.9
+Grant,053,Oklahoma,53075,12.6
+Greer,055,Oklahoma,32547,8.9
+Harmon,057,Oklahoma,45688,9.9
+Harper,059,Oklahoma,50223,0.1
+Haskell,061,Oklahoma,33617,1.3
+Hughes,063,Oklahoma,43758,4.5
+Jackson,065,Oklahoma,46426,7.3
+Jefferson,067,Oklahoma,37467,9.7
+Johnston,069,Oklahoma,38971,9.6
+Kay,071,Oklahoma,44718,6.9
+Kingfisher,073,Oklahoma,58591,3.9
+Kiowa,075,Oklahoma,40736,8.8
+Latimer,077,Oklahoma,35756,2.7
+Le Flore,079,Oklahoma,35362,5.5
+Lincoln,081,Oklahoma,39164,6.6
+Logan,083,Oklahoma,46102,3.4
+Love,085,Oklahoma,40353,5.5
+Major,093,Oklahoma,49683,1.9
+Marshall,095,Oklahoma,35511,7.4
+Mayes,097,Oklahoma,38217,6.2
+McClain,087,Oklahoma,45667,3.5
+McCurtain,089,Oklahoma,36800,7.0
+McIntosh,091,Oklahoma,39149,6.6
+Murray,099,Oklahoma,45419,4.3
+Muskogee,101,Oklahoma,39894,5.3
+Noble,103,Oklahoma,47378,5.9
+Nowata,105,Oklahoma,39961,7.3
+Okfuskee,107,Oklahoma,33520,6.0
+Oklahoma,109,Oklahoma,56971,1.9
+Okmulgee,111,Oklahoma,37367,6.2
+Osage,113,Oklahoma,38588,5.9
+Ottawa,115,Oklahoma,40876,6.6
+Pawnee,117,Oklahoma,39491,5.6
+Payne,119,Oklahoma,40487,3.5
+Pittsburg,121,Oklahoma,40786,2.9
+Pontotoc,123,Oklahoma,47748,5.8
+Pottawatomie,125,Oklahoma,40043,0.7
+Pushmataha,127,Oklahoma,35650,8.9
+Roger Mills,129,Oklahoma,46054,4.0
+Rogers,131,Oklahoma,50583,3.6
+Seminole,133,Oklahoma,37463,6.6
+Sequoyah,135,Oklahoma,36537,6.7
+Stephens,137,Oklahoma,46027,4.2
+Texas,139,Oklahoma,55434,-2.0
+Tillman,141,Oklahoma,38316,0.5
+Tulsa,143,Oklahoma,65519,1.7
+Wagoner,145,Oklahoma,43111,4.0
+Washington,147,Oklahoma,58010,-2.4
+Washita,149,Oklahoma,38017,3.9
+Woods,151,Oklahoma,47226,3.0
+Woodward,153,Oklahoma,40710,6.0
+Baker,001,Oregon,46277,11.1
+Benton,003,Oregon,50399,5.2
+Clackamas,005,Oregon,64791,5.6
+Clatsop,007,Oregon,48777,6.6
+Columbia,009,Oregon,48749,7.4
+Coos,011,Oregon,50581,9.7
+Crook,013,Oregon,46179,7.4
+Curry,015,Oregon,48046,8.0
+Deschutes,017,Oregon,61216,6.5
+Douglas,019,Oregon,46342,10.9
+Gilliam,021,Oregon,67754,19.1
+Grant,023,Oregon,47569,11.7
+Harney,025,Oregon,47009,15.3
+Hood River,027,Oregon,60225,8.3
+Jackson,029,Oregon,51824,8.6
+Jefferson,031,Oregon,39552,11.8
+Josephine,033,Oregon,46913,7.4
+Klamath,035,Oregon,44513,10.0
+Lake,037,Oregon,47402,13.3
+Lane,039,Oregon,49583,7.9
+Lincoln,041,Oregon,47231,5.7
+Linn,043,Oregon,48040,9.3
+Malheur,045,Oregon,37964,13.1
+Marion,047,Oregon,48135,8.3
+Morrow,049,Oregon,58541,20.6
+Multnomah,051,Oregon,63852,7.5
+Polk,053,Oregon,45660,6.9
+Sherman,055,Oregon,66349,16.2
+Tillamook,057,Oregon,48060,7.7
+Umatilla,059,Oregon,46209,12.0
+Union,061,Oregon,45242,10.7
+Wallowa,063,Oregon,50303,10.7
+Wasco,065,Oregon,48643,12.1
+Washington,067,Oregon,66831,5.4
+Wheeler,069,Oregon,41366,10.6
+Yamhill,071,Oregon,51028,8.2
+Adams,001,Pennsylvania,54172,6.7
+Allegheny,003,Pennsylvania,68777,6.3
+Armstrong,005,Pennsylvania,51200,8.8
+Beaver,007,Pennsylvania,55449,10.1
+Bedford,009,Pennsylvania,46246,8.1
+Berks,011,Pennsylvania,55953,8.4
+Blair,013,Pennsylvania,52096,9.5
+Bradford,015,Pennsylvania,45979,6.8
+Bucks,017,Pennsylvania,80627,5.4
+Butler,019,Pennsylvania,64732,6.1
+Cambria,021,Pennsylvania,48637,9.0
+Cameron,023,Pennsylvania,53654,11.5
+Carbon,025,Pennsylvania,56868,7.5
+Centre,027,Pennsylvania,50615,5.6
+Chester,029,Pennsylvania,91927,4.0
+Clarion,031,Pennsylvania,45427,8.1
+Clearfield,033,Pennsylvania,50648,9.1
+Clinton,035,Pennsylvania,46338,8.4
+Columbia,037,Pennsylvania,47464,9.0
+Crawford,039,Pennsylvania,46356,10.0
+Cumberland,041,Pennsylvania,61596,7.6
+Dauphin,043,Pennsylvania,56792,7.4
+Delaware,045,Pennsylvania,73588,5.2
+Elk,047,Pennsylvania,53592,9.8
+Erie,049,Pennsylvania,50536,9.2
+Fayette,051,Pennsylvania,48007,10.3
+Forest,053,Pennsylvania,28271,11.9
+Franklin,055,Pennsylvania,51979,8.3
+Fulton,057,Pennsylvania,48976,7.7
+Greene,059,Pennsylvania,49103,10.1
+Huntingdon,061,Pennsylvania,43555,10.6
+Indiana,063,Pennsylvania,44472,8.1
+Jefferson,065,Pennsylvania,48971,8.4
+Juniata,067,Pennsylvania,50257,9.9
+Lackawanna,069,Pennsylvania,52580,8.7
+Lancaster,071,Pennsylvania,58434,7.2
+Lawrence,073,Pennsylvania,49059,9.4
+Lebanon,075,Pennsylvania,52743,7.4
+Lehigh,077,Pennsylvania,58402,7.5
+Luzerne,079,Pennsylvania,50391,9.7
+Lycoming,081,Pennsylvania,48721,9.0
+McKean,083,Pennsylvania,47361,6.8
+Mercer,085,Pennsylvania,47063,9.2
+Mifflin,087,Pennsylvania,44242,10.1
+Monroe,089,Pennsylvania,48409,9.6
+Montgomery,091,Pennsylvania,86340,5.1
+Montour,093,Pennsylvania,62658,7.5
+Northampton,095,Pennsylvania,60179,6.3
+Northumberland,097,Pennsylvania,47336,10.4
+Perry,099,Pennsylvania,50095,7.4
+Philadelphia,101,Pennsylvania,58941,8.8
+Pike,103,Pennsylvania,53289,5.2
+Potter,105,Pennsylvania,47910,7.0
+Schuylkill,107,Pennsylvania,47425,9.2
+Snyder,109,Pennsylvania,47000,9.6
+Somerset,111,Pennsylvania,47035,9.9
+Sullivan,113,Pennsylvania,51266,6.6
+Susquehanna,115,Pennsylvania,49114,5.0
+Tioga,117,Pennsylvania,45319,8.1
+Union,119,Pennsylvania,45235,7.7
+Venango,121,Pennsylvania,47125,8.6
+Warren,123,Pennsylvania,46793,8.6
+Washington,125,Pennsylvania,62473,7.3
+Wayne,127,Pennsylvania,49172,8.2
+Westmoreland,129,Pennsylvania,57951,7.8
+Wyoming,131,Pennsylvania,50959,8.0
+York,133,Pennsylvania,55761,7.2
+Bristol,001,Rhode Island,83127,3.9
+Kent,003,Rhode Island,65299,6.7
+Newport,005,Rhode Island,76214,5.0
+Providence,007,Rhode Island,53844,9.3
+Washington,009,Rhode Island,71717,4.8
+Abbeville,001,South Carolina,38033,8.5
+Aiken,003,South Carolina,47118,5.9
+Allendale,005,South Carolina,38991,17.8
+Anderson,007,South Carolina,43459,5.2
+Bamberg,009,South Carolina,37596,8.6
+Barnwell,011,South Carolina,38682,7.6
+Beaufort,013,South Carolina,61298,3.2
+Berkeley,015,South Carolina,44134,5.2
+Calhoun,017,South Carolina,44655,7.3
+Charleston,019,South Carolina,66656,3.4
+Cherokee,021,South Carolina,36567,8.4
+Chester,023,South Carolina,38931,9.2
+Chesterfield,025,South Carolina,34477,6.0
+Clarendon,027,South Carolina,38001,9.6
+Colleton,029,South Carolina,40336,8.9
+Darlington,031,South Carolina,41928,7.3
+Dillon,033,South Carolina,33030,8.4
+Dorchester,035,South Carolina,42662,4.5
+Edgefield,037,South Carolina,41178,9.8
+Fairfield,039,South Carolina,41827,9.3
+Florence,041,South Carolina,46749,6.8
+Georgetown,043,South Carolina,51775,5.1
+Greenville,045,South Carolina,52213,5.0
+Greenwood,047,South Carolina,40786,7.2
+Hampton,049,South Carolina,39185,15.8
+Horry,051,South Carolina,42110,6.2
+Jasper,053,South Carolina,34446,8.2
+Kershaw,055,South Carolina,45782,6.0
+Lancaster,057,South Carolina,52999,4.8
+Laurens,059,South Carolina,38108,6.5
+Lee,061,South Carolina,36638,9.9
+Lexington,063,South Carolina,50188,5.0
+Marion,067,South Carolina,42422,6.2
+Marlboro,069,South Carolina,36606,9.4
+McCormick,065,South Carolina,35748,10.4
+Newberry,071,South Carolina,41910,6.9
+Oconee,073,South Carolina,47511,4.5
+Orangeburg,075,South Carolina,38730,8.5
+Pickens,077,South Carolina,41770,4.8
+Richland,079,South Carolina,49678,6.1
+Saluda,081,South Carolina,37637,6.8
+Spartanburg,083,South Carolina,46543,5.4
+Sumter,085,South Carolina,43003,8.0
+Union,087,South Carolina,37515,8.4
+Williamsburg,089,South Carolina,38528,11.3
+York,091,South Carolina,51772,6.2
+Aurora,003,South Dakota,50586,23.9
+Beadle,005,South Dakota,54493,9.9
+Bennett,007,South Dakota,41856,17.0
+Bon Homme,009,South Dakota,43555,7.5
+Brookings,011,South Dakota,49278,5.7
+Brown,013,South Dakota,62587,12.2
+Brule,015,South Dakota,54352,19.4
+Buffalo,017,South Dakota,26748,31.8
+Butte,019,South Dakota,41250,5.1
+Campbell,021,South Dakota,71645,54.2
+Charles Mix,023,South Dakota,47405,16.8
+Clark,025,South Dakota,70492,54.8
+Clay,027,South Dakota,43533,6.1
+Codington,029,South Dakota,55331,6.9
+Corson,031,South Dakota,31442,16.5
+Custer,033,South Dakota,53169,4.8
+Davison,035,South Dakota,55832,5.1
+Day,037,South Dakota,64064,38.8
+Deuel,039,South Dakota,62036,23.0
+Dewey,041,South Dakota,45889,20.9
+Douglas,043,South Dakota,62134,6.9
+Edmunds,045,South Dakota,67747,25.8
+Fall River,047,South Dakota,51509,9.0
+Faulk,049,South Dakota,67007,22.4
+Grant,051,South Dakota,65019,18.5
+Gregory,053,South Dakota,50244,14.2
+Haakon,055,South Dakota,66588,33.7
+Hamlin,057,South Dakota,51773,20.4
+Hand,059,South Dakota,69452,27.0
+Hanson,061,South Dakota,72728,12.7
+Harding,063,South Dakota,50355,1.6
+Hughes,065,South Dakota,55872,2.0
+Hutchinson,067,South Dakota,59341,7.0
+Hyde,069,South Dakota,64756,35.7
+Jackson,071,South Dakota,30705,17.8
+Jerauld,073,South Dakota,49991,29.0
+Jones,075,South Dakota,59264,4.4
+Kingsbury,077,South Dakota,70268,22.4
+Lake,079,South Dakota,57367,11.7
+Lawrence,081,South Dakota,55779,3.2
+Lincoln,083,South Dakota,74493,3.4
+Lyman,085,South Dakota,46934,15.4
+Marshall,091,South Dakota,60576,11.8
+McCook,087,South Dakota,60086,42.6
+McPherson,089,South Dakota,65540,35.5
+Meade,093,South Dakota,49875,10.9
+Mellette,095,South Dakota,33840,16.7
+Miner,097,South Dakota,65604,32.1
+Minnehaha,099,South Dakota,64846,4.4
+Moody,101,South Dakota,60754,19.3
+Pennington,103,South Dakota,29721,16.0
+Perkins,105,South Dakota,56496,4.8
+Potter,107,South Dakota,48591,21.6
+Roberts,109,South Dakota,87915,15.0
+Sanborn,111,South Dakota,46059,24.4
+Shannon,113,South Dakota,61709,18.9
+Spink,115,South Dakota,71321,31.0
+Stanley,117,South Dakota,60870,0.9
+Sully,119,South Dakota,100301,29.4
+Todd,121,South Dakota,28440,10.9
+Tripp,123,South Dakota,56765,14.6
+Turner,125,South Dakota,69250,9.4
+Union,127,South Dakota,123000,2.9
+Walworth,129,South Dakota,54033,15.5
+Yankton,135,South Dakota,55638,7.2
+Ziebach,137,South Dakota,26103,36.8
+Anderson,001,Tennessee,46225,6.5
+Bedford,003,Tennessee,41795,5.5
+Benton,005,Tennessee,36438,7.1
+Bledsoe,007,Tennessee,29572,8.1
+Blount,009,Tennessee,48601,6.0
+Bradley,011,Tennessee,42546,5.8
+Campbell,013,Tennessee,37229,7.0
+Cannon,015,Tennessee,39178,5.7
+Carroll,017,Tennessee,38461,1.9
+Carter,019,Tennessee,36431,5.9
+Cheatham,021,Tennessee,48180,3.0
+Chester,023,Tennessee,38107,10.3
+Claiborne,025,Tennessee,38347,6.2
+Clay,027,Tennessee,34456,8.4
+Cocke,029,Tennessee,36279,8.6
+Coffee,031,Tennessee,42990,5.2
+Crockett,033,Tennessee,42410,1.9
+Cumberland,035,Tennessee,40087,5.2
+Davidson,037,Tennessee,71659,-1.3
+Decatur,039,Tennessee,44401,5.1
+DeKalb,041,Tennessee,42229,4.8
+Dickson,043,Tennessee,44476,3.7
+Dyer,045,Tennessee,44761,6.6
+Fayette,047,Tennessee,59214,3.8
+Fentress,049,Tennessee,36398,5.5
+Franklin,051,Tennessee,42890,5.8
+Gibson,053,Tennessee,41846,5.9
+Giles,055,Tennessee,41074,6.1
+Grainger,057,Tennessee,37480,7.7
+Greene,059,Tennessee,39310,6.2
+Grundy,061,Tennessee,36129,8.7
+Hamblen,063,Tennessee,40627,6.2
+Hamilton,065,Tennessee,55911,5.3
+Hancock,067,Tennessee,31243,11.1
+Hardeman,069,Tennessee,33036,7.4
+Hardin,071,Tennessee,43171,6.7
+Hawkins,073,Tennessee,37460,7.0
+Haywood,075,Tennessee,37669,6.5
+Henderson,077,Tennessee,39940,7.2
+Henry,079,Tennessee,44075,4.4
+Hickman,081,Tennessee,36316,4.5
+Houston,083,Tennessee,36777,8.3
+Humphreys,085,Tennessee,41569,4.9
+Jackson,087,Tennessee,34645,7.9
+Jefferson,089,Tennessee,40493,6.7
+Johnson,091,Tennessee,35745,6.8
+Knox,093,Tennessee,54642,4.2
+Lake,095,Tennessee,25921,5.1
+Lauderdale,097,Tennessee,35267,8.8
+Lawrence,099,Tennessee,37918,6.2
+Lewis,101,Tennessee,38830,6.8
+Lincoln,103,Tennessee,45271,6.8
+Loudon,105,Tennessee,53519,3.7
+Macon,111,Tennessee,39986,6.8
+Madison,113,Tennessee,35687,6.5
+Marion,115,Tennessee,35472,6.1
+Marshall,117,Tennessee,46574,6.6
+Maury,119,Tennessee,42471,6.8
+McMinn,107,Tennessee,42427,6.5
+McNairy,109,Tennessee,47100,5.3
+Meigs,121,Tennessee,37539,7.7
+Monroe,123,Tennessee,37822,6.9
+Montgomery,125,Tennessee,45871,5.5
+Moore,127,Tennessee,44085,3.9
+Morgan,129,Tennessee,33373,6.3
+Obion,131,Tennessee,45152,6.8
+Overton,133,Tennessee,37105,6.4
+Perry,135,Tennessee,37130,4.8
+Pickett,137,Tennessee,40804,3.0
+Polk,139,Tennessee,36639,5.3
+Putnam,141,Tennessee,42722,4.9
+Rhea,143,Tennessee,38408,8.6
+Roane,145,Tennessee,44706,5.5
+Robertson,147,Tennessee,46746,4.5
+Rutherford,149,Tennessee,45374,5.3
+Scott,151,Tennessee,33425,8.0
+Sequatchie,153,Tennessee,42009,7.1
+Sevier,155,Tennessee,44209,4.5
+Shelby,157,Tennessee,53855,6.7
+Smith,159,Tennessee,42452,3.6
+Stewart,161,Tennessee,44108,5.1
+Sullivan,163,Tennessee,45789,4.9
+Sumner,165,Tennessee,52403,2.9
+Tipton,167,Tennessee,43147,5.8
+Trousdale,169,Tennessee,32960,5.1
+Unicoi,171,Tennessee,39357,5.9
+Union,173,Tennessee,35370,6.5
+Van Buren,175,Tennessee,34084,5.3
+Warren,177,Tennessee,37857,7.0
+Washington,179,Tennessee,47940,6.0
+Wayne,181,Tennessee,32631,11.6
+Weakley,183,Tennessee,41159,6.6
+White,185,Tennessee,36062,4.7
+Williamson,187,Tennessee,94748,-0.8
+Wilson,189,Tennessee,53628,3.8
+Anderson,001,Texas,38807,6.8
+Andrews,003,Texas,50248,-4.5
+Angelina,005,Texas,42536,6.1
+Aransas,007,Texas,54374,1.1
+Archer,009,Texas,55290,5.0
+Armstrong,011,Texas,60233,10.0
+Atascosa,013,Texas,41599,5.3
+Austin,015,Texas,55686,3.0
+Bailey,017,Texas,49737,11.7
+Bandera,019,Texas,48461,2.2
+Bastrop,021,Texas,42177,5.6
+Baylor,023,Texas,53984,14.1
+Bee,025,Texas,31834,4.3
+Bell,027,Texas,46594,5.7
+Bexar,029,Texas,48569,4.3
+Blanco,031,Texas,58805,3.2
+Borden,033,Texas,66783,-8.2
+Bosque,035,Texas,45635,6.3
+Bowie,037,Texas,44151,6.8
+Brazoria,039,Texas,51812,3.2
+Brazos,041,Texas,43430,4.9
+Brewster,043,Texas,52483,5.6
+Briscoe,045,Texas,45758,1.0
+Brooks,047,Texas,41529,13.5
+Brown,049,Texas,42771,5.7
+Burleson,051,Texas,49975,6.0
+Burnet,053,Texas,53751,3.5
+Caldwell,055,Texas,38734,6.9
+Calhoun,057,Texas,52180,-2.6
+Callahan,059,Texas,45798,5.9
+Cameron,061,Texas,33690,11.6
+Camp,063,Texas,40272,7.2
+Carson,065,Texas,48021,-3.5
+Cass,067,Texas,41275,8.3
+Castro,069,Texas,71612,7.9
+Chambers,071,Texas,59687,4.1
+Cherokee,073,Texas,38190,7.5
+Childress,075,Texas,34028,9.2
+Clay,077,Texas,48038,6.4
+Cochran,079,Texas,44903,12.7
+Coke,081,Texas,45856,7.3
+Coleman,083,Texas,47128,7.5
+Collin,085,Texas,71246,2.6
+Collingsworth,087,Texas,44903,6.4
+Colorado,089,Texas,51732,6.9
+Comal,091,Texas,62994,3.1
+Comanche,093,Texas,47959,10.4
+Concho,095,Texas,41219,14.0
+Cooke,097,Texas,54759,3.4
+Coryell,099,Texas,38222,7.5
+Cottle,101,Texas,68268,12.9
+Crane,103,Texas,49749,-6.3
+Crockett,105,Texas,46364,1.8
+Crosby,107,Texas,41146,4.5
+Culberson,109,Texas,69350,15.1
+Dallam,111,Texas,65132,3.6
+Dallas,113,Texas,65401,2.8
+Dawson,115,Texas,42595,6.1
+Deaf Smith,117,Texas,54950,7.3
+Delta,119,Texas,43628,8.2
+Denton,121,Texas,63283,4.5
+DeWitt,123,Texas,60890,-3.7
+Dickens,125,Texas,38730,10.9
+Dimmit,127,Texas,44874,6.9
+Donley,129,Texas,45336,3.5
+Duval,131,Texas,42410,9.9
+Eastland,133,Texas,65416,-1.9
+Ector,135,Texas,49887,-4.2
+Edwards,137,Texas,55329,16.5
+El Paso,141,Texas,49333,5.2
+Ellis,139,Texas,41818,7.9
+Erath,143,Texas,43900,4.9
+Falls,145,Texas,39865,10.9
+Fannin,147,Texas,42562,5.7
+Fayette,149,Texas,57962,2.8
+Fisher,151,Texas,49100,6.9
+Floyd,153,Texas,42627,-1.6
+Foard,155,Texas,52630,15.8
+Fort Bend,157,Texas,61791,1.2
+Franklin,159,Texas,44725,6.9
+Freestone,161,Texas,40407,4.3
+Frio,163,Texas,33407,7.1
+Gaines,165,Texas,47826,4.1
+Galveston,167,Texas,57941,2.3
+Garza,169,Texas,31223,0.6
+Gillespie,171,Texas,68885,3.0
+Glasscock,173,Texas,87334,-7.2
+Goliad,175,Texas,49513,3.4
+Gonzales,177,Texas,47272,2.6
+Gray,179,Texas,45091,2.3
+Grayson,181,Texas,47045,5.5
+Gregg,183,Texas,49152,3.6
+Grimes,185,Texas,39033,4.2
+Guadalupe,187,Texas,49405,4.2
+Hale,189,Texas,38674,6.3
+Hall,191,Texas,35416,3.3
+Hamilton,193,Texas,65685,2.8
+Hansford,195,Texas,66588,-0.2
+Hardeman,197,Texas,45863,7.9
+Hardin,199,Texas,49159,3.8
+Harris,201,Texas,60183,1.6
+Harrison,203,Texas,45396,3.1
+Hartley,205,Texas,76005,3.0
+Haskell,207,Texas,46070,2.4
+Hays,209,Texas,50212,4.9
+Hemphill,211,Texas,61340,0.4
+Henderson,213,Texas,43356,5.3
+Hidalgo,215,Texas,31153,10.9
+Hill,217,Texas,44776,5.8
+Hockley,219,Texas,46051,6.6
+Hood,221,Texas,55132,4.1
+Hopkins,223,Texas,45219,5.9
+Houston,225,Texas,44693,8.9
+Howard,227,Texas,45105,2.5
+Hudspeth,229,Texas,26835,15.2
+Hunt,231,Texas,42819,6.6
+Hutchinson,233,Texas,46860,6.0
+Irion,235,Texas,72353,1.0
+Jack,237,Texas,41038,2.4
+Jackson,239,Texas,47642,-0.8
+Jasper,241,Texas,43486,5.3
+Jeff Davis,243,Texas,48623,10.9
+Jefferson,245,Texas,46547,5.2
+Jim Hogg,247,Texas,36847,9.5
+Jim Wells,249,Texas,46483,9.5
+Johnson,251,Texas,47654,6.3
+Jones,253,Texas,35520,6.1
+Karnes,255,Texas,61330,-4.2
+Kaufman,257,Texas,47580,7.6
+Kendall,259,Texas,84853,1.5
+Kenedy,261,Texas,46296,7.8
+Kent,263,Texas,51139,4.6
+Kerr,265,Texas,56093,2.9
+Kimble,267,Texas,48071,7.0
+King,269,Texas,81541,-0.9
+Kinney,271,Texas,35119,8.6
+Kleberg,273,Texas,43560,5.1
+Knox,275,Texas,42857,8.1
+La Salle,283,Texas,46538,6.8
+Lamar,277,Texas,50667,9.1
+Lamb,279,Texas,54153,4.4
+Lampasas,281,Texas,41114,1.8
+Lavaca,285,Texas,57399,1.4
+Lee,287,Texas,53791,-2.1
+Leon,289,Texas,42878,4.5
+Liberty,291,Texas,40904,6.1
+Limestone,293,Texas,41072,6.9
+Lipscomb,295,Texas,83655,-4.0
+Live Oak,297,Texas,38734,3.9
+Llano,299,Texas,52538,3.1
+Loving,301,Texas,49072,-11.1
+Lubbock,303,Texas,46502,3.8
+Lynn,305,Texas,40351,-9.9
+Madison,313,Texas,41306,5.9
+Marion,315,Texas,45772,7.2
+Martin,317,Texas,73356,-1.6
+Mason,319,Texas,35865,11.7
+Matagorda,321,Texas,42536,3.2
+Maverick,323,Texas,64602,-3.7
+McCulloch,307,Texas,49261,2.4
+McLennan,309,Texas,48150,3.6
+McMullen,311,Texas,35133,9.6
+Medina,325,Texas,44456,4.4
+Menard,327,Texas,41220,6.6
+Midland,329,Texas,126631,-8.3
+Milam,331,Texas,40552,8.1
+Mills,333,Texas,45663,12.7
+Mitchell,335,Texas,37113,4.0
+Montague,337,Texas,44790,5.0
+Montgomery,339,Texas,65516,1.0
+Moore,341,Texas,51476,7.5
+Morris,343,Texas,43036,7.0
+Motley,345,Texas,39505,21.3
+Nacogdoches,347,Texas,41188,4.8
+Navarro,349,Texas,42869,5.7
+Newton,351,Texas,36839,6.3
+Nolan,353,Texas,48017,5.4
+Nueces,355,Texas,47999,3.8
+Ochiltree,357,Texas,59892,-1.0
+Oldham,359,Texas,56033,5.7
+Orange,361,Texas,48173,4.2
+Palo Pinto,363,Texas,45095,5.0
+Panola,365,Texas,47191,0.3
+Parker,367,Texas,59929,4.7
+Parmer,369,Texas,57137,10.5
+Pecos,371,Texas,40391,1.0
+Polk,373,Texas,42830,4.0
+Potter,375,Texas,49498,4.0
+Presidio,377,Texas,53222,11.2
+Rains,379,Texas,38200,6.9
+Randall,381,Texas,52391,4.7
+Reagan,383,Texas,54091,0.6
+Real,385,Texas,40667,10.1
+Red River,387,Texas,47762,8.4
+Reeves,389,Texas,44232,-5.5
+Refugio,391,Texas,48266,1.3
+Roberts,393,Texas,52804,4.1
+Robertson,395,Texas,45866,4.8
+Rockwall,397,Texas,64943,3.1
+Runnels,399,Texas,44352,4.4
+Rusk,401,Texas,39551,3.1
+Sabine,403,Texas,40477,9.2
+San Augustine,405,Texas,43642,0.8
+San Jacinto,407,Texas,39298,3.8
+San Patricio,409,Texas,48391,3.3
+San Saba,411,Texas,40340,-3.4
+Schleicher,413,Texas,46015,8.2
+Scurry,415,Texas,47272,3.4
+Shackelford,417,Texas,86294,-4.7
+Shelby,419,Texas,44038,5.5
+Sherman,421,Texas,91855,-2.2
+Smith,423,Texas,57076,1.9
+Somervell,425,Texas,50164,5.3
+Starr,427,Texas,32146,15.1
+Stephens,429,Texas,45759,2.5
+Sterling,431,Texas,63329,0.6
+Stonewall,433,Texas,59419,2.6
+Sutton,435,Texas,56622,-10.0
+Swisher,437,Texas,53734,-1.6
+Tarrant,439,Texas,55615,4.2
+Taylor,441,Texas,52429,7.7
+Terrell,443,Texas,61631,21.9
+Terry,445,Texas,41634,9.5
+Throckmorton,447,Texas,44582,5.6
+Titus,449,Texas,41207,8.5
+Tom Green,451,Texas,52947,2.6
+Travis,453,Texas,74032,3.3
+Trinity,455,Texas,39206,4.8
+Tyler,457,Texas,36694,9.1
+Upshur,459,Texas,39674,4.2
+Upton,461,Texas,50428,5.5
+Uvalde,463,Texas,45255,7.2
+Val Verde,465,Texas,41079,6.6
+Van Zandt,467,Texas,42656,6.4
+Victoria,469,Texas,53881,2.4
+Walker,471,Texas,32334,3.9
+Waller,473,Texas,44779,4.2
+Ward,475,Texas,48109,-11.9
+Washington,477,Texas,58426,1.4
+Webb,479,Texas,35626,7.0
+Wharton,481,Texas,48384,4.2
+Wheeler,483,Texas,48691,8.4
+Wichita,485,Texas,46322,4.8
+Wilbarger,487,Texas,49537,-1.1
+Willacy,489,Texas,31710,12.9
+Williamson,491,Texas,56693,5.5
+Wilson,493,Texas,49745,3.1
+Winkler,495,Texas,62259,-5.3
+Wise,497,Texas,48435,5.9
+Wood,499,Texas,42978,5.9
+Yoakum,501,Texas,44395,-0.2
+Young,503,Texas,53227,2.7
+Zapata,505,Texas,28981,-0.1
+Zavala,507,Texas,33303,7.6
+Beaver,001,Utah,41667,6.2
+Box Elder,003,Utah,44131,9.4
+Cache,005,Utah,44947,6.8
+Carbon,007,Utah,42459,5.6
+Daggett,009,Utah,48761,2.7
+Davis,011,Utah,51852,6.3
+Duchesne,013,Utah,40780,5.7
+Emery,015,Utah,38057,9.5
+Garfield,017,Utah,44411,12.4
+Grand,019,Utah,60928,3.9
+Iron,021,Utah,36412,6.9
+Juab,023,Utah,42531,9.9
+Kane,025,Utah,45074,8.3
+Millard,027,Utah,41843,11.6
+Morgan,029,Utah,58631,4.4
+Piute,031,Utah,48595,6.6
+Rich,033,Utah,42762,8.6
+Salt Lake,035,Utah,59077,6.5
+San Juan,037,Utah,30198,7.3
+Sanpete,039,Utah,32927,9.9
+Sevier,041,Utah,39383,8.1
+Summit,043,Utah,156537,2.8
+Tooele,045,Utah,41301,8.7
+Uintah,047,Utah,32945,3.1
+Utah,049,Utah,46465,6.5
+Wasatch,051,Utah,61653,4.0
+Washington,053,Utah,43782,4.6
+Wayne,055,Utah,46145,11.6
+Weber,057,Utah,46675,7.4
+Addison,001,Vermont,55981,6.4
+Bennington,003,Vermont,59131,6.9
+Caledonia,005,Vermont,48094,9.9
+Chittenden,007,Vermont,64605,4.9
+Essex,009,Vermont,44173,9.5
+Franklin,011,Vermont,52181,7.2
+Grand Isle,013,Vermont,64231,6.1
+Lamoille,015,Vermont,59635,8.4
+Orange,017,Vermont,53146,7.5
+Orleans,019,Vermont,49998,9.8
+Rutland,021,Vermont,57283,7.3
+Washington,023,Vermont,64997,7.9
+Windham,025,Vermont,56610,8.1
+Windsor,027,Vermont,63786,6.8
+Accomack,001,Virginia,53762,8.2
+Albemarle,003,Virginia,77606,2.3
+Alexandria,510,Virginia,93835,4.4
+Alleghany,005,Virginia,43230,8.0
+Amelia,007,Virginia,46780,6.6
+Amherst,009,Virginia,40293,7.3
+Appomattox,011,Virginia,41750,6.8
+Arlington,013,Virginia,100823,2.8
+Augusta,015,Virginia,47794,6.4
+Bath,017,Virginia,70050,6.7
+Bedford,019,Virginia,49457,5.5
+Bedford,515,Virginia,49457,5.5
+Bland,021,Virginia,39609,7.2
+Botetourt,023,Virginia,53767,5.4
+Bristol,520,Virginia,42796,6.6
+Brunswick,025,Virginia,36499,10.4
+Buchanan,027,Virginia,38969,6.0
+Buckingham,029,Virginia,33425,9.8
+Buena Vista,530,Virginia,43534,6.1
+Campbell,031,Virginia,41030,8.8
+Caroline,033,Virginia,46682,6.8
+Carroll,035,Virginia,38908,9.4
+Charles City,036,Virginia,51498,7.8
+Charlotte,037,Virginia,38547,8.1
+Charlottesville,540,Virginia,77606,2.3
+Chesapeake,550,Virginia,53622,7.2
+Chesterfield,041,Virginia,58069,5.5
+Clarke,043,Virginia,69117,3.6
+Colonial Heights,570,Virginia,44938,10.5
+Covington,580,Virginia,43230,8.0
+Craig,045,Virginia,41988,8.2
+Culpeper,047,Virginia,50509,6.6
+Cumberland,049,Virginia,41225,8.0
+Danville,590,Virginia,42121,10.5
+Dickenson,051,Virginia,37046,10.5
+Dinwiddie,053,Virginia,44938,10.5
+Emporia,595,Virginia,36450,12.2
+Essex,057,Virginia,46657,9.1
+Fairfax,600,Virginia,88971,3.4
+Fairfax,059,Virginia,88971,3.4
+Falls Church,610,Virginia,88971,3.4
+Fauquier,061,Virginia,74801,4.0
+Floyd,063,Virginia,42304,7.8
+Fluvanna,065,Virginia,48440,6.1
+Franklin,067,Virginia,44821,7.1
+Franklin,620,Virginia,46909,8.0
+Frederick,069,Virginia,54832,5.6
+Fredericksburg,630,Virginia,55077,6.1
+Galax,640,Virginia,38908,9.4
+Giles,071,Virginia,43561,7.7
+Gloucester,073,Virginia,53341,6.2
+Goochland,075,Virginia,105619,1.5
+Grayson,077,Virginia,35093,9.5
+Greene,079,Virginia,48573,5.5
+Greensville,081,Virginia,36450,12.2
+Halifax,083,Virginia,40542,9.2
+Hampton,650,Virginia,46165,9.1
+Hanover,085,Virginia,64704,4.1
+Harrisonburg,660,Virginia,43232,7.0
+Henrico,087,Virginia,69872,3.4
+Henry,089,Virginia,43380,10.7
+Highland,091,Virginia,46315,4.8
+Hopewell,670,Virginia,41732,7.4
+Isle of Wight,093,Virginia,59285,6.0
+James City,095,Virginia,68279,4.8
+King and Queen,097,Virginia,48888,9.7
+King George,099,Virginia,57377,4.0
+King William,101,Virginia,50951,6.1
+Lancaster,103,Virginia,63885,5.4
+Lee,105,Virginia,33056,11.3
+Lexington,678,Virginia,43534,6.1
+Loudoun,107,Virginia,84374,4.8
+Louisa,109,Virginia,46040,5.6
+Lunenburg,111,Virginia,35793,8.8
+Lynchburg,680,Virginia,41030,8.8
+Madison,113,Virginia,51608,6.2
+Manassas,683,Virginia,59812,6.5
+Manassas Park,685,Virginia,59812,6.5
+Martinsville,690,Virginia,43380,10.7
+Mathews,115,Virginia,59026,4.3
+Mecklenburg,117,Virginia,40693,9.3
+Middlesex,119,Virginia,55466,5.0
+Montgomery,121,Virginia,39442,5.5
+Nelson,125,Virginia,55869,7.0
+New Kent,127,Virginia,77957,4.7
+Newport News,700,Virginia,45781,10.2
+Norfolk,710,Virginia,42996,9.0
+Northampton,131,Virginia,62614,11.9
+Northumberland,133,Virginia,57093,5.2
+Norton,720,Virginia,35929,8.7
+Nottoway,135,Virginia,38594,8.9
+Orange,137,Virginia,53217,5.2
+Page,139,Virginia,42307,8.4
+Patrick,141,Virginia,36426,8.6
+Petersburg,730,Virginia,44938,10.5
+Pittsylvania,143,Virginia,42121,10.5
+Poquoson,735,Virginia,62645,4.6
+Portsmouth,740,Virginia,44871,10.0
+Powhatan,145,Virginia,61547,4.9
+Prince Edward,147,Virginia,33868,7.1
+Prince George,149,Virginia,41732,7.4
+Prince William,153,Virginia,59812,6.5
+Pulaski,155,Virginia,43583,8.9
+Radford,750,Virginia,39442,5.5
+Rappahannock,157,Virginia,70807,4.0
+Richmond,760,Virginia,40791,10.1
+Richmond,159,Virginia,59148,7.2
+Roanoke,161,Virginia,46727,10.0
+Roanoke,770,Virginia,54977,5.5
+Rockbridge,163,Virginia,43534,6.1
+Rockingham,165,Virginia,43232,7.0
+Russell,167,Virginia,36423,8.7
+Salem,775,Virginia,54977,5.5
+Scott,169,Virginia,35882,7.3
+Shenandoah,171,Virginia,49948,7.8
+Smyth,173,Virginia,40220,9.3
+Southampton,175,Virginia,46909,8.0
+Spotsylvania,177,Virginia,55077,6.1
+Stafford,179,Virginia,58635,5.7
+Staunton,790,Virginia,47794,6.4
+Suffolk,800,Virginia,55561,6.8
+Surry,181,Virginia,47927,8.8
+Sussex,183,Virginia,35062,9.2
+Tazewell,185,Virginia,39795,6.2
+Virginia Beach,810,Virginia,60796,5.7
+Warren,187,Virginia,50504,6.7
+Washington,191,Virginia,42796,6.6
+Waynesboro,820,Virginia,47794,6.4
+Westmoreland,193,Virginia,48577,7.7
+Williamsburg,830,Virginia,68279,4.8
+Winchester,840,Virginia,54832,5.6
+Wise,195,Virginia,35929,8.7
+Wythe,197,Virginia,39116,9.7
+York,199,Virginia,62645,4.6
+Adams,001,Washington,49618,18.2
+Asotin,003,Washington,49273,6.7
+Benton,005,Washington,51757,7.2
+Chelan,007,Washington,60518,9.0
+Clallam,009,Washington,49718,6.9
+Clark,011,Washington,57863,5.3
+Columbia,013,Washington,57249,3.6
+Cowlitz,015,Washington,48232,6.9
+Douglas,017,Washington,45305,11.0
+Ferry,019,Washington,39899,11.4
+Franklin,021,Washington,43271,10.7
+Garfield,023,Washington,57967,14.9
+Grant,025,Washington,48468,20.5
+Grays Harbor,027,Washington,43710,8.4
+Island,029,Washington,59200,5.9
+Jefferson,031,Washington,56585,5.2
+King,033,Washington,96647,5.0
+Kitsap,035,Washington,60704,6.1
+Kittitas,037,Washington,45267,6.6
+Klickitat,039,Washington,51973,8.3
+Lewis,041,Washington,47752,8.3
+Lincoln,043,Washington,50851,13.5
+Mason,045,Washington,45901,7.6
+Okanogan,047,Washington,47535,14.9
+Pacific,049,Washington,43749,7.0
+Pend Oreille,051,Washington,46571,7.1
+Pierce,053,Washington,56532,7.7
+San Juan,055,Washington,81858,3.5
+Skagit,057,Washington,57315,7.7
+Skamania,059,Washington,49519,6.3
+Snohomish,061,Washington,62267,7.5
+Spokane,063,Washington,50038,6.7
+Stevens,065,Washington,42740,7.1
+Thurston,067,Washington,56007,7.7
+Wahkiakum,069,Washington,47027,6.8
+Walla Walla,071,Washington,51767,11.0
+Whatcom,073,Washington,52787,5.9
+Whitman,075,Washington,44628,9.7
+Yakima,077,Washington,49099,11.8
+Barbour,001,West Virginia,35878,6.6
+Berkeley,003,West Virginia,45610,6.7
+Boone,005,West Virginia,39493,8.2
+Braxton,007,West Virginia,34972,6.8
+Brooke,009,West Virginia,49579,9.8
+Cabell,011,West Virginia,46805,6.6
+Calhoun,013,West Virginia,34734,10.6
+Clay,015,West Virginia,35702,8.7
+Doddridge,017,West Virginia,32085,4.5
+Fayette,019,West Virginia,38680,5.2
+Gilmer,021,West Virginia,31020,4.6
+Grant,023,West Virginia,40571,9.1
+Greenbrier,025,West Virginia,40759,6.1
+Hampshire,027,West Virginia,39802,6.0
+Hancock,029,West Virginia,47007,6.9
+Hardy,031,West Virginia,38269,8.5
+Harrison,033,West Virginia,52124,3.9
+Jackson,035,West Virginia,41622,6.7
+Jefferson,037,West Virginia,54836,4.8
+Kanawha,039,West Virginia,52969,6.4
+Lewis,041,West Virginia,43634,3.6
+Lincoln,043,West Virginia,35309,8.8
+Logan,045,West Virginia,41110,7.7
+Marion,049,West Virginia,34918,9.7
+Marshall,051,West Virginia,45684,4.6
+Mason,053,West Virginia,44092,3.1
+McDowell,047,West Virginia,37641,8.3
+Mercer,055,West Virginia,41372,7.1
+Mineral,057,West Virginia,45193,6.5
+Mingo,059,West Virginia,35115,5.1
+Monongalia,061,West Virginia,48802,4.1
+Monroe,063,West Virginia,35005,7.9
+Morgan,065,West Virginia,39311,6.9
+Nicholas,067,West Virginia,37492,7.8
+Ohio,069,West Virginia,61452,2.9
+Pendleton,071,West Virginia,40054,7.0
+Pleasants,073,West Virginia,46074,3.8
+Pocahontas,075,West Virginia,43810,8.6
+Preston,077,West Virginia,40563,6.7
+Putnam,079,West Virginia,50363,4.7
+Raleigh,081,West Virginia,45356,4.3
+Randolph,083,West Virginia,41194,7.6
+Ritchie,085,West Virginia,42068,6.0
+Roane,087,West Virginia,40224,9.5
+Summers,089,West Virginia,37181,6.0
+Taylor,091,West Virginia,43460,3.0
+Tucker,093,West Virginia,47175,9.6
+Tyler,095,West Virginia,41195,4.1
+Upshur,097,West Virginia,37337,5.2
+Wayne,099,West Virginia,37566,6.8
+Webster,101,West Virginia,33320,12.7
+Wetzel,103,West Virginia,38428,4.9
+Wirt,105,West Virginia,35205,7.2
+Wood,107,West Virginia,48566,4.1
+Wyoming,109,West Virginia,33534,8.3
+Adams,001,Wisconsin,44159,6.4
+Ashland,003,Wisconsin,44520,6.7
+Barron,005,Wisconsin,53179,6.6
+Bayfield,007,Wisconsin,53369,6.1
+Brown,009,Wisconsin,56093,4.8
+Buffalo,011,Wisconsin,50518,9.2
+Burnett,013,Wisconsin,48574,6.9
+Calumet,015,Wisconsin,55460,4.5
+Chippewa,017,Wisconsin,50639,6.9
+Clark,019,Wisconsin,46154,8.6
+Columbia,021,Wisconsin,56134,4.9
+Crawford,023,Wisconsin,46113,7.5
+Dane,025,Wisconsin,66094,3.8
+Dodge,027,Wisconsin,48547,6.3
+Door,029,Wisconsin,66516,4.1
+Douglas,031,Wisconsin,45962,3.9
+Dunn,033,Wisconsin,44626,8.3
+Eau Claire,035,Wisconsin,52141,4.9
+Florence,037,Wisconsin,56604,-3.2
+Fond du Lac,039,Wisconsin,52813,5.8
+Forest,041,Wisconsin,44657,5.6
+Grant,043,Wisconsin,49410,8.9
+Green,045,Wisconsin,56620,6.1
+Green Lake,047,Wisconsin,47898,5.1
+Iowa,049,Wisconsin,53603,7.4
+Iron,051,Wisconsin,53164,6.9
+Jackson,053,Wisconsin,49528,8.7
+Jefferson,055,Wisconsin,49591,5.1
+Juneau,057,Wisconsin,42620,7.2
+Kenosha,059,Wisconsin,51229,5.5
+Kewaunee,061,Wisconsin,52638,8.6
+La Crosse,063,Wisconsin,54532,4.5
+Lafayette,065,Wisconsin,48891,12.1
+Langlade,067,Wisconsin,48036,8.5
+Lincoln,069,Wisconsin,50216,6.8
+Manitowoc,071,Wisconsin,50829,6.1
+Marathon,073,Wisconsin,55136,5.6
+Marinette,075,Wisconsin,49557,7.0
+Marquette,077,Wisconsin,45391,6.6
+Menominee,078,Wisconsin,35082,4.1
+Milwaukee,079,Wisconsin,51002,6.0
+Monroe,081,Wisconsin,45741,8.2
+Oconto,083,Wisconsin,50060,6.0
+Oneida,085,Wisconsin,54861,5.6
+Outagamie,087,Wisconsin,54862,4.2
+Ozaukee,089,Wisconsin,87395,2.2
+Pepin,091,Wisconsin,54316,9.7
+Pierce,093,Wisconsin,48775,4.1
+Polk,095,Wisconsin,50730,6.2
+Portage,097,Wisconsin,49815,6.5
+Price,099,Wisconsin,49837,6.3
+Racine,101,Wisconsin,53094,4.7
+Richland,103,Wisconsin,48516,9.8
+Rock,105,Wisconsin,48836,6.1
+Rusk,107,Wisconsin,48292,7.8
+Sauk,111,Wisconsin,59602,3.3
+Sawyer,113,Wisconsin,55166,2.5
+Shawano,115,Wisconsin,50276,5.3
+Sheboygan,117,Wisconsin,47067,7.9
+St. Croix,109,Wisconsin,55616,4.5
+Taylor,119,Wisconsin,46070,10.7
+Trempealeau,121,Wisconsin,48324,7.7
+Vernon,123,Wisconsin,44976,7.4
+Vilas,125,Wisconsin,55140,4.6
+Walworth,127,Wisconsin,53546,4.7
+Washburn,129,Wisconsin,52457,7.6
+Washington,131,Wisconsin,62506,4.4
+Waukesha,133,Wisconsin,75958,2.8
+Waupaca,135,Wisconsin,49711,6.4
+Waushara,137,Wisconsin,44594,6.0
+Winnebago,139,Wisconsin,50840,3.9
+Wood,141,Wisconsin,50929,6.3
+Albany,001,Wyoming,43148,4.4
+Big Horn,003,Wyoming,43939,11.0
+Campbell,005,Wyoming,53932,-0.4
+Carbon,007,Wyoming,59028,5.0
+Converse,009,Wyoming,64373,-2.4
+Crook,011,Wyoming,47752,3.9
+Fremont,013,Wyoming,48350,4.7
+Goshen,015,Wyoming,44562,5.1
+Hot Springs,017,Wyoming,67005,3.9
+Johnson,019,Wyoming,56748,3.8
+Laramie,021,Wyoming,55094,2.9
+Lincoln,023,Wyoming,48449,6.0
+Natrona,025,Wyoming,68447,-2.3
+Niobrara,027,Wyoming,55291,13.2
+Park,029,Wyoming,59827,3.1
+Platte,031,Wyoming,52359,1.1
+Sheridan,033,Wyoming,61543,4.0
+Sublette,035,Wyoming,54496,-0.1
+Sweetwater,037,Wyoming,54000,-3.5
+Teton,039,Wyoming,220645,-1.0
+Uinta,041,Wyoming,42854,3.5
+Washakie,043,Wyoming,54361,6.3
+Weston,045,Wyoming,47599,2.0

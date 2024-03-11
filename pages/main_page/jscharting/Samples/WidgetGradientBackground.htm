@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gauge Widgets On Gradient Backgrounds | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        padding: 5px;
+        box-sizing: content-box;
+        margin: 8px;
+        border-radius: 10px;
+      }
+
+      #chartDiv2 .jsc-widget .title {
+        color: black;
+        font-size: 22px;
+      }
+      #chartDiv2 .jsc-widget .value {
+        font-size: 18px;
+      }
+
+      #chartDiv3 .jsc-widget .label {
+        color: #1c4527;
+      }
+
+      #chartDiv5 .jsc-widget .title {
+        color: white;
+        font-size: 20px;
+      }
+      #chartDiv5 .jsc-widget .value {
+        color: white;
+      }
+      #chartDiv5 .jsc-widget .axis-ticks {
+        color: white;
+      }
+
+      #chartDiv6 .jsc-widget .axis-ticks {
+        color: #d0bec9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 260px; height: 160px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 180px; height: 210px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 250px; height: 80px;"></div>
+      <div id="chartDiv4" class="chartDiv" style="max-width: 550px; height: 140px;"></div>
+      <div id="chartDiv5" class="chartDiv" style="max-width: 500px; height: 300px;"></div>
+      <div id="chartDiv6" class="chartDiv" style="max-width: 280px; height: 450px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Use Circular, Linear, and BarColumn widgets on gradient backgrounds.
+Learn how to:
+
+  - Draw widgets on gradient fills.
+*/
+      // JS
+      var gradients = [
+        'linear-gradient(60deg,#919bff,#133a94)',
+        'linear-gradient(45deg,#fff1bf,#ec458d,#474ed7)',
+        'linear-gradient(0deg,#51c26f,#f0f9a7)',
+        'linear-gradient(210deg,#1a2766,#ae1b1e,#fc9f32)',
+        'linear-gradient(14deg,#f8997d,#ad336d)',
+        'linear-gradient(-60deg,#f90c71,#30001a)',
+      ];
+      /* Apply gradients to divs */
+      var elements = document.getElementsByClassName('chartDiv');
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].style.backgroundImage = gradients[i];
+      }
+
+      var chart1 = new JSCWidgets.Circular('chartDiv1', {
+        label: 'Total Earning',
+        value: 60567,
+        icon: ['linear/ecommerce/money'],
+        max: 100000,
+        color: 'white',
+        valueFormat: 'c0',
+        valuePosition: 'right',
+        labelPosition: 'right',
+      });
+      var chart2 = new JSCWidgets.Circular('chartDiv2', {
+        title: 'Sales',
+        value: 584,
+        max: 2000,
+        color: 'black',
+        valueText: '<b>%value</b><br>units',
+        barWidth: 5,
+        barRounded: false,
+        barBackgroundColor: 'rgba(0,0,0,0.2)',
+      });
+      var chart3 = new JSCWidgets.Linear('chartDiv3', {
+        label: 'Download',
+        value: 38,
+        max: 100,
+        color: '#307442',
+        valueText: '%value%',
+        labelPosition: 'top',
+        barWidth: 5,
+        barBackgroundColor: 'rgba(240,249,167,0.3)',
+      });
+      var chart4 = new JSCWidgets.Linear('chartDiv4', {
+        label: 'Space Used',
+        value: 240.6,
+        icon: 'material/hardware/computer',
+        max: 500,
+        color: 'white',
+        labelPosition: 'bottom right',
+        valueText: '%value GB',
+        iconText: '%icon <span style="font-size:20px;">{%value/%max*100:n0}%</span>',
+        labelText: '{%max-%value} GB remaining of %max GB',
+        barWidth: 16,
+        barRounded: false,
+      });
+
+      var chart5 = new JSCWidgets.BarColumn('chartDiv5', {
+        title: 'Daily Average Steps by Month',
+        label: 'months',
+        value: [4889, 4056, 5677, 7217, 8098, 10310, 8407, 8529, 6124, 5435, 3858, 3304],
+        max: 12000,
+        color: '#fdb6d4',
+        barBackgroundColor: 'rgba(255,255,255,0.1)',
+        barRounded: false,
+        chartOptions: { defaultPoint: { radius: 0 } },
+      });
+
+      var chart6 = new JSCWidgets.BarColumn('chartDiv6', {
+        horizontal: true,
+        color: '#d0bec9',
+        //color:'#4b4047',
+        barBackgroundColor: 'rgba(48,0,26,0.35)',
+        label: 'quarters',
+        value: [29, 97, 110, 129, 144, 176, 124, 34, 103, 29],
+        yAxis: true,
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Chart Heatmap | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; min-width: 330px; height: 250px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A Gantt heatmap chart encoding hours spent each day as a color.
+Learn how to:
+
+  - Create a Gantt heatmap chart.
+*/
+      // JS
+
+      var data = [
+        { task: 'Preparations', date: '1/1/2022', hours: 8.4 },
+        { task: 'Preparations', date: '1/2/2022', hours: 7.6 },
+        { task: 'Preparations', date: '1/3/2022', hours: 6.7 },
+        { task: 'Preparations', date: '1/4/2022', hours: 8.0 },
+        { task: 'Preparations', date: '1/5/2022', hours: 9.0 },
+        { task: 'Preparations', date: '1/6/2022', hours: 7.7 },
+        { task: 'Preparations', date: '1/7/2022', hours: 6.1 },
+        { task: 'Preparations', date: '1/8/2022', hours: 6.0 },
+        { task: 'Preparations', date: '1/9/2022', hours: 8.0 },
+        { task: 'Preparations', date: '1/10/2022', hours: 6.9 },
+        { task: 'Preparations', date: '1/11/2022', hours: 8.6 },
+        { task: 'Preparations', date: '1/12/2022', hours: 7.6 },
+        { task: 'Preparations', date: '1/13/2022', hours: 9.0 },
+        { task: 'Preparations', date: '1/14/2022', hours: 6.7 },
+        { task: 'Preparations', date: '1/15/2022', hours: 8.3 },
+        { task: 'Execution', date: '1/16/2022', hours: 6.5 },
+        { task: 'Execution', date: '1/17/2022', hours: 8.1 },
+        { task: 'Execution', date: '1/18/2022', hours: 6.1 },
+        { task: 'Execution', date: '1/19/2022', hours: 8.7 },
+        { task: 'Execution', date: '1/20/2022', hours: 6.6 },
+        { task: 'Cleanup', date: '1/21/2022', hours: 6.1 },
+        { task: 'Cleanup', date: '1/22/2022', hours: 6.2 },
+        { task: 'Cleanup', date: '1/23/2022', hours: 7.8 },
+        { task: 'Cleanup', date: '1/24/2022', hours: 8.2 },
+        { task: 'Cleanup', date: '1/25/2022', hours: 6.4 },
+        { task: 'Cleanup', date: '1/26/2022', hours: 6.7 },
+        { task: 'Cleanup', date: '1/27/2022', hours: 7.4 },
+        { task: 'Cleanup', date: '1/28/2022', hours: 8.7 },
+        { task: 'Cleanup', date: '1/29/2022', hours: 6.1 },
+        { task: 'Cleanup', date: '1/30/2022', hours: 8.8 },
+        { task: 'Cleanup', date: '1/31/2022', hours: 6.6 },
+        { task: 'Cleanup', date: '2/1/2022', hours: 8.9 },
+        { task: 'Cleanup', date: '2/2/2022', hours: 8.8 },
+        { task: 'Cleanup', date: '2/3/2022', hours: 8.2 },
+        { task: 'Cleanup', date: '2/4/2022', hours: 7.3 },
+        { task: 'Cleanup', date: '2/5/2022', hours: 8.7 },
+        { task: 'Cleanup', date: '2/6/2022', hours: 8.8 },
+        { task: 'Cleanup', date: '2/7/2022', hours: 6.6 },
+        { task: 'Cleanup', date: '2/8/2022', hours: 8.9 },
+        { task: 'Cleanup', date: '2/9/2022', hours: 9.0 },
+        { task: 'Cleanup', date: '2/10/2022', hours: 8.6 },
+        { task: 'Cleanup', date: '2/11/2022', hours: 8.7 },
+        { task: 'Cleanup', date: '2/12/2022', hours: 8.7 },
+        { task: 'Presentation', date: '2/13/2022', hours: 6.4 },
+        { task: 'Presentation', date: '2/14/2022', hours: 7.6 },
+        { task: 'Presentation', date: '2/15/2022', hours: 8.3 },
+      ];
+
+      var chart = JSC.chart('chartDiv', {
+        type: 'heatmap solid',
+        title_label_text: 'Project Alpha Hours/Day',
+        palette: {
+          /*Using a function instead of token like '%zValue' improves performance.*/
+          pointValue: function (p) {
+            return p.options('z');
+          },
+          colors: ['#ffffd9', '#edf8b0', '#c7e9b4', '#7fcdbb', '#41b6c3', '#1d91c0', '#225ea8', '#253494', '#081d58'],
+          colorBar_width: 12,
+        },
+        legend: { position: 'bottom right' },
+        xAxis_scale_type: 'time',
+        yAxis: {
+          scale_invert: true,
+          defaultTick: {
+            gridLine_visible: false,
+            line_visible: false,
+          },
+        },
+        defaultPoint: {
+          outline_color: 'white',
+          tooltip: '%yValue<br>%xValue - %zValue hours',
+        },
+        series: generateSeries(data),
+      });
+
+      function generateSeries(data) {
+        return (
+          JSC.nest()
+            .key('task')
+            .key('date')
+            // Custom point configuration
+            .pointRollup(function (key, vals) {
+              return {
+                y: vals[0].task,
+                x: key,
+                z: vals[0].hours,
+              };
+            })
+            .series(data)
+        );
+      }
+    </script>
+  </body>
+</html>

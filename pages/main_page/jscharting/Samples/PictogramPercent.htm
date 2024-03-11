@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Percent Typography Pictogram | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #labelsWrapper {
+        width: 580px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      #labelTitle {
+        width: 100%;
+        text-align: left;
+        font-family: tahoma, geneva, sans-serif;
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="labelsWrapper">
+      <div id="labelTitle" style="width: 100%;">Computers/PCs Household Adoption Rate</div>
+      <div id="iconsDiv" style="width: 300px; height: 300px;"></div>
+      <div id="labelDiv" style="width: 260px; height: 130px; margin-left: 15px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Pictogram chart showing value out of 100 with value typography.
+Learn how to:
+
+  - Create a pictogram with labels.
+*/
+      // JS
+
+      var palette = [/* Main color */ '#26C6DA', '#B2EBF2'];
+      var icons = [
+        '<icon name=material/hardware/computer margin=2 size=25 color=' + palette[0] + '>',
+        '<icon name=material/hardware/computer margin=2 size=25 color=' + palette[1] + '>',
+      ];
+
+      var value = 10.7;
+
+      renderPictograph([value, 100 - value]);
+
+      renderLabel(
+        value,
+        'of households in the United States <span style="color:' +
+          palette[0] +
+          '">don\'t have</span> a computer at home'
+      );
+
+      function renderPictograph(values) {
+        return JSC.label(iconsDiv, makePictograph(values, icons, 10, 10));
+
+        function makePictograph(values, icons, width, height) {
+          var iconsArr = [],
+            valuesSum = JSC.sum(values),
+            area = width * height,
+            ii = 0,
+            valueIconCount = Math.round((values[0] / valuesSum) * area);
+          for (let i = 0; i < height - 1; i++) {
+            for (var j = 0; j < width - 1; j++) {
+              iconsArr.push(ii++ < valueIconCount - 1 ? icons[0] : icons[1]);
+            }
+            iconsArr.push('<br>');
+          }
+          return iconsArr.join('');
+        }
+      }
+
+      function renderLabel(value, text) {
+        return JSC.label(
+          labelDiv,
+          '<span style="color:' +
+            palette[0] +
+            '; font-weight:bold;font-size:46px;">' +
+            value +
+            '%</span><br>' +
+            '<span style="font-size:20px">' +
+            text +
+            '</span>'
+        );
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+type,category,option,percent
+Gender,Male,Strongly approve,26
+Gender,Male,Somewhat approve,19
+Gender,Male,Strongly disapprove,37
+Gender,Male,Somewhat disapprove,13
+Gender,Female,Strongly approve,21
+Gender,Female,Somewhat approve,17
+Gender,Female,Strongly disapprove,45
+Gender,Female,Somewhat disapprove,12
+Age,18-29,Strongly approve,11
+Age,18-29,Somewhat approve,21
+Age,18-29,Strongly disapprove,42
+Age,18-29,Somewhat disapprove,17
+Age,30-44,Strongly approve,16
+Age,30-44,Somewhat approve,22
+Age,30-44,Strongly disapprove,40
+Age,30-44,Somewhat disapprove,16
+Age,45-64,Strongly approve,27
+Age,45-64,Somewhat approve,17
+Age,45-64,Strongly disapprove,41
+Age,45-64,Somewhat disapprove,11
+Age,65+,Strongly approve,38
+Age,65+,Somewhat approve,12
+Age,65+,Strongly disapprove,40
+Age,65+,Somewhat disapprove,8
+Race,White,Strongly approve,30
+Race,White,Somewhat approve,19
+Race,White,Strongly disapprove,36
+Race,White,Somewhat disapprove,11
+Race,Black,Strongly approve,4
+Race,Black,Somewhat approve,13
+Race,Black,Strongly disapprove,59
+Race,Black,Somewhat disapprove,17
+Race,Hispanic,Strongly approve,14
+Race,Hispanic,Somewhat approve,15
+Race,Hispanic,Strongly disapprove,48
+Race,Hispanic,Somewhat disapprove,17
+Race,Other,Strongly approve,14
+Race,Other,Somewhat approve,18
+Race,Other,Strongly disapprove,43
+Race,Other,Somewhat disapprove,13
+Party,Democrat,Strongly approve,3
+Party,Democrat,Somewhat approve,6
+Party,Democrat,Strongly disapprove,76
+Party,Democrat,Somewhat disapprove,12
+Party,Independent,Strongly approve,16
+Party,Independent,Somewhat approve,21
+Party,Independent,Strongly disapprove,37
+Party,Independent,Somewhat disapprove,16
+Party,Republican,Strongly approve,59
+Party,Republican,Somewhat approve,27
+Party,Republican,Strongly disapprove,6
+Party,Republican,Somewhat disapprove,7
+2016 Vote,Clinton,Strongly approve,1
+2016 Vote,Clinton,Somewhat approve,4
+2016 Vote,Clinton,Strongly disapprove,88
+2016 Vote,Clinton,Somewhat disapprove,6
+2016 Vote,Trump,Strongly approve,60
+2016 Vote,Trump,Somewhat approve,26
+2016 Vote,Trump,Strongly disapprove,6
+2016 Vote,Trump,Somewhat disapprove,6
+Family Income,< $50K,Strongly approve,23
+Family Income,< $50K,Somewhat approve,19
+Family Income,< $50K,Strongly disapprove,38
+Family Income,< $50K,Somewhat disapprove,13
+Family Income,$50-100K,Strongly approve,21
+Family Income,$50-100K,Somewhat approve,18
+Family Income,$50-100K,Strongly disapprove,49
+Family Income,$50-100K,Somewhat disapprove,10
+Family Income,$100K+,Strongly approve,31
+Family Income,$100K+,Somewhat approve,18
+Family Income,$100K+,Strongly disapprove,39
+Family Income,$100K+,Somewhat disapprove,10
+Census Region,Northeast,Strongly approve,23
+Census Region,Northeast,Somewhat approve,16
+Census Region,Northeast,Strongly disapprove,46
+Census Region,Northeast,Somewhat disapprove,11
+Census Region,Midwest,Strongly approve,25
+Census Region,Midwest,Somewhat approve,21
+Census Region,Midwest,Strongly disapprove,42
+Census Region,Midwest,Somewhat disapprove,8
+Census Region,South,Strongly approve,26
+Census Region,South,Somewhat approve,21
+Census Region,South,Strongly disapprove,36
+Census Region,South,Somewhat disapprove,12
+Census Region,West,Strongly approve,19
+Census Region,West,Somewhat approve,14
+Census Region,West,Strongly disapprove,46
+Census Region,West,Somewhat disapprove,14
+,Registered voters,Strongly approve,27
+,Registered voters,Somewhat approve,16
+,Registered voters,Strongly disapprove,45
+,Registered voters,Somewhat disapprove,10
+,Total,Strongly approve,23
+,Total,Somewhat approve,18
+,Total,Strongly disapprove,41
+,Total,Somewhat disapprove,13

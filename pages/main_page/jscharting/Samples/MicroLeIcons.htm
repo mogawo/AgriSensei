@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Micro Legend Entry Icons | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Microcharts used in legend columns.
+Learn how to:
+
+  - Replace series legend icons column with microcharts.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        defaultSeries_type: 'column',
+        modules: ['types'],
+        legend: {
+          template: '%value,%micro,%name',
+          header: 'Value,<chart type=scale width=80 max=%yMaxSum>,Name',
+        },
+        defaultSeries_legendEntry: {
+          attributes: {
+            micro: '<chart type=bar data=%sum width=80 height=15 max=%yMaxSum color=%color>',
+          },
+        },
+        toolbar_visible: false,
+        title_label_text: 'Acme Tool Sales',
+        yAxis: { label_text: 'Units Sold' },
+        xAxis: {
+          label_text: 'Quarter',
+          categories: ['Q1', 'Q2', 'Q3', 'Q4'],
+        },
+        series: [
+          {
+            name: 'Saw',
+            id: 's1',
+            points: [230, 240, 267, 238],
+          },
+          { name: 'Hammer', points: [325, 367, 382, 371] },
+          { name: 'Grinder', points: [285, 292, 267, 218] },
+          { name: 'Drill', points: [185, 192, 198, 248] },
+        ],
+      });
+    </script>
+  </body>
+</html>

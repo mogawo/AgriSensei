@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Scrollable Calendar HTML Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #calendarDiv {
+        font-family: tahoma, geneva, sans-serif;
+      }
+      #titleDiv {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+      #ticksDiv {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .ticks {
+        color: #bdbdbd;
+        font-size: 10px;
+        text-align: center;
+        flex-grow: 1;
+        flex-basis: 0;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="calendarDiv" style="max-width: 600px; margin: 0 auto;">
+      <div id="headerDiv" style="padding-left: 40px;"></div>
+      <div id="calendarScroll" style="width: 100%; height: 410px; margin: 0 auto; overflow-y: scroll;">
+        <div id="chartDiv1" style="width: 100%; height: 1125px; margin: 0 auto;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Calendar chart used with HTML to create a scrollable chart area.
+Learn how to:
+
+  - Create a scrollable chart.
+*/
+      // JS
+      var weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      var palette1 = {
+        sport: '#039BE5',
+        meeting: '#43A047',
+        birthday: '#F4511E',
+      };
+      var dateRange = ['1/1/2023', '1/7/2023'];
+
+      var data = [
+        { date: '1/2/2023 8:00', event: 'Gym', type: 'sport' },
+        { date: '1/2/2023 18:00', event: 'Gym', type: 'sport' },
+        { date: '1/4/2023 10:00', event: 'Meeting Tyler', type: 'meeting' },
+        { date: '1/5/2023 06:30', event: 'Meeting  Sara', type: 'meeting' },
+        { date: '1/5/2023 17:30', event: 'Gym', type: 'sport' },
+        { date: '1/6/2023 14:00', event: 'Meeting Parents', type: 'meeting' },
+        { date: '1/6/2023 16:00', event: 'Birthday: Mom', type: 'birthday' },
+        { date: '1/7/2023 10:30', event: 'Tennis', type: 'sport' },
+      ];
+      var chart = renderChart(data);
+      renderHeader();
+      function renderChart(data) {
+        return JSC.chart('chartDiv1', {
+          debug: true,
+          type: 'horizontal calendar week solid',
+          legend_visible: false,
+          defaultAxis_defaultTick: {
+            label: {
+              color: '#BDBDBD',
+              style_fontSize: 10,
+            },
+            line_visible: false,
+          },
+          yAxis_visible: false,
+          xAxis_scale_interval: 1,
+          defaultSeries: {
+            shape_innerPadding: 0,
+            mouseTracking_enabled: false,
+            defaultPoint: {
+              label: {
+                style_fontSize: 10,
+                text: '%event',
+                align: 'left',
+              },
+              attributes_event: '',
+            },
+          },
+          series: makeSeries(data),
+        });
+
+        function makeSeries(data) {
+          return [
+            {
+              points: data.map(function (item) {
+                var labelText =
+                  '<span style="opacity:0.5">' + JSC.formatDate(item.date, 't') + '</span><br>' + item.event;
+                return {
+                  date: item.date,
+                  attributes_event: [labelText],
+                  color: [palette1[item.type], 0.5],
+                };
+              }),
+            },
+          ];
+        }
+      }
+
+      function renderHeader() {
+        // Create title div
+        var title = document.createElement('div');
+        title.setAttribute('id', 'titleDiv');
+        document.getElementById('headerDiv').appendChild(title);
+        title.innerHTML = 'January 2023';
+        // Create xAxis labels div
+        var ticks = document.createElement('div');
+        ticks.setAttribute('id', 'ticksDiv');
+        document.getElementById('headerDiv').appendChild(ticks);
+        // Create all ticks divs
+        makeCustomTicks().forEach(function (item, i) {
+          var tick = document.createElement('div');
+          tick.setAttribute('id', 'tickDiv' + i);
+          tick.setAttribute('class', 'ticks');
+          document.getElementById('ticksDiv').appendChild(tick);
+          tick.innerHTML = item;
+        });
+        function makeCustomTicks() {
+          var ticks = [];
+          for (var i = new Date(dateRange[0]); i <= new Date(dateRange[1]); i.setDate(i.getDate() + 1)) {
+            ticks.push(new Date(i));
+          }
+          ticks = ticks.map(function (v, i) {
+            return (
+              weekDays[i] +
+              '<br>' +
+              '<span style="font-size:14px;font-weight:bold;">' +
+              JSC.formatDate(v, ' d') +
+              '</span><br>' +
+              JSC.formatDate(v, 'MMM')
+            );
+          });
+          return ticks;
+        }
+      }
+    </script>
+  </body>
+</html>

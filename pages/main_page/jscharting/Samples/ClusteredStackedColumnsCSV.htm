@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Clustered Stacked Columns CSV | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple column stack clusters from CSV data.
+Learn how to:
+
+  - Draw dynamic clustered column stacks.
+*/
+      // JS
+      var chart;
+      var palette = ['#263238', '#B0BEC5', '#0088ca'];
+      JSC.fetch('./resources/appleProductsSales3.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        });
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'column solid',
+          legend: {
+            template: '%icon %name',
+            position: 'inside top right',
+            defaultEntry: {
+              icon: { outline_width: 0, width: 10 },
+            },
+            customEntries: [
+              { name: 'Mac', icon_color: palette[0] },
+              { name: 'iPad', icon_color: palette[1] },
+              { name: 'iPhone', icon_color: palette[2] },
+            ],
+          },
+          title_label_text: 'Apple Sales by Product',
+          defaultSeries: { legendEntry_visible: false },
+          defaultPoint: {
+            outline: { width: 0, color: 'white' },
+            tooltip: '%xValue %seriesName<br>%name Sales: <b>%yvalueM</b>',
+            label: {
+              color: 'white',
+              verticalAlign: 'bottom',
+            },
+          },
+          yAxis: generateAxis(data),
+          xAxis: { defaultTick_line_visible: false },
+          series: makeSeries(data),
+        });
+      }
+      function makeSeries(data) {
+        var myNest = JSC.nest().key('quarter').key('year');
+        var seriesMac = myNest
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: values.year + '',
+              y: values.Mac,
+              name: 'Mac',
+              color: palette[0],
+            };
+          })
+          .series(data);
+        var seriesIpad = myNest
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: values.year + '',
+              y: values.iPad,
+              name: 'iPad',
+              color: palette[1],
+            };
+          })
+          .series(data);
+        var seriesIphone = myNest
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: values.year + '',
+              y: values.iPhone,
+              name: 'iPhone',
+              color: palette[2],
+              label_text: '%seriesName',
+            };
+          })
+          .series(data);
+        addAxisID(seriesIphone);
+        addAxisID(seriesMac);
+        addAxisID(seriesIpad);
+        return seriesMac.concat(seriesIpad, seriesIphone);
+
+        // Add y axis ID to each series in array of series
+        function addAxisID(series) {
+          series.forEach(function (ser) {
+            ser.yAxis = 'y' + ser.name;
+          });
+        }
+      }
+
+      /**
+       * Creates configurations for 4 y axes. One for each stack in a cluster.
+       * @param data
+       * @returns {*[]}
+       */
+      function generateAxis(data) {
+        var uniqueQuarters = [];
+        data.forEach(function (a) {
+          if (uniqueQuarters.indexOf(a.quarter) === -1) {
+            uniqueQuarters.push(a.quarter);
+          }
+        });
+        var mainYAxisId = 'y' + uniqueQuarters[0];
+        var axes = uniqueQuarters.map(function (q, i) {
+          return {
+            id: 'y' + q,
+            visible: false,
+            scale: {
+              type: 'stacked',
+              syncWith: i ? mainYAxisId : undefined,
+            },
+          };
+        });
+
+        // Modify the first (main) y axis.
+        JSC.merge(axes[0], { label_text: 'Millions', visible: true });
+        return axes;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gradient Range Columns Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 850px; height: 700px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Gradient range columns sorted by.
+Learn how to:
+
+  - Draw multiple line segments that show change in value.
+*/
+      // JS
+      var chart;
+      var palette = ['#0052D4', '#65C7F7', '#9CECFB'];
+
+      JSC.fetch('./resources/US-violent-crimes-rate-by-state.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          title_label_text: 'United States Violence Rates by State',
+          legend: {
+            template: '%year1 %icon %year2',
+            position: 'inside top right',
+            customEntries: [
+              {
+                attributes_year1: '2008',
+                attributes_year2: '2018',
+                icon_width: 80,
+                icon_fill: palette.slice().reverse().concat([0]),
+              },
+            ],
+          },
+          defaultSeries_legendEntry_visible: false,
+          xAxis: {
+            crosshair: {
+              enabled: true,
+              outline_color: '#f3f3f3',
+              label_style: { fontWeight: 'bold' },
+            },
+            defaultTick: {
+              label_rotate: -90,
+              gridLine_color: '#EEEEEE',
+              line_color: '#EEEEEE',
+            },
+          },
+          yAxis: {
+            label_text: 'Incidents / 100,000 People',
+            defaultTick_gridLine_visible: false,
+            alternateGridFill: 'none',
+          },
+          defaultPoint: {
+            outline_width: 0,
+            label: {
+              autoHide: false,
+              visible: true,
+              rotate: -90,
+              style: { fontSize: 10, color: '#424242' },
+            },
+          },
+          series: makeSeries(data),
+          toolbar_items: {
+            'Sort by:': { boxVisible: false },
+            Sort: {
+              type: 'select',
+              items: 'State Name,2008 Results,2018 Results,Difference between years',
+              events_change: function (val) {
+                chart.options({ series: makeSeries(sortData(val, data)) });
+              },
+            },
+          },
+        });
+      }
+
+      function makeSeries(data) {
+        return [
+          {
+            type: 'column solid',
+            id: 'bars',
+            points: data.map(function (state) {
+              return {
+                id: state.state,
+                x: state.state,
+                y: [state['2008_result'], state['2018_result']],
+                tooltip: '2008: <b>' + state['2008_result'] + '</b><br>' + '2018: <b>' + state['2018_result'] + '</b>',
+                fill:
+                  state['2008_result'] < state['2018_result']
+                    ? palette.concat([90])
+                    : palette.slice().reverse().concat([90]),
+              };
+            }),
+          },
+          // This marker series is used to place labels on top and bottom of the columns.
+          {
+            type: 'marker',
+            mouseTracking_enabled: false,
+            defaultPoint: {
+              label: { align: 'center', padding: 5 },
+              marker_size: 0,
+            },
+            points: data.map(function (state) {
+              return {
+                x: state.state,
+                y: state['2008_result'],
+                label_verticalAlign: state['2008_result'] < state['2018_result'] ? 'bottom' : 'top',
+              };
+            }),
+          },
+        ];
+      }
+
+      function sortData(sorting, data) {
+        switch (sorting) {
+          case 'State Name':
+            return JSC.sortBy(data, 'state');
+          case '2008 Results':
+            return JSC.sortBy(data, '2008_result');
+          case '2018 Results':
+            return JSC.sortBy(data, '2018_result');
+          case 'Difference between years':
+            return data.sort(function (a, b) {
+              return Math.abs(a['2008_result'] - a['2018_result']) - Math.abs(b['2008_result'] - b['2018_result']);
+            });
+        }
+        return data;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<p>Some uses of multiple axes include:</p>
+
+<ul class="simpleKvpList">
+    <li><section>Add an extra scale like Fahrenheit and Celsius</section></li>
+    <li><section>Different series using different scales</section></li>
+    <li><section>Multiple column stacks</section></li>
+    <li><section>To keep point ticks</section></li>
+    <li><section>Draw Arbitrary grid</section></li>
+    <li><section>Show only when a series exists</section></li>
+</ul>
+
+<p>Reading each section below will provide a good overview of how to manage multiple axes.</p>
+
+<h2>Using Multiple Axes</h2>
+
+<h3>Bound to Series</h3>
+
+<p>Chart options include xAxis and yAxis properties. You can configure single Y axis chart options using an object
+    with the Y axis property:
+</p>
+
+<span class="codeText">
+	JSC.Chart('chartDivId', {
+        yAxis: {}
+    })
+</span>
+
+<p>To use multiple Y axes, define the options as an array of objects, one for each Y axis.
+</p>
+
+<span class="codeText">
+	JSC.Chart('chartDivId', {
+        yAxis: [{/*Y Axis 1 options*/}, {/*Y Axis 2 options*/}]
+    })
+</span>
+
+<p>When multiple axes are defined, there is always a main axis and additional axes. All series bind to the main axis
+    by default. To bind a series to a specific axis, specify the axis id property and the series.yAxis property
+    with that id.
+</p>
+
+<span class="codeText">
+	JSC.Chart('chartDivId', {
+        yAxis: [{ }, { id: 'y2'}],
+        series: [{ }, { yAxis:'y2'}]
+    })
+</span>
+
+<p>An example using multiple axes in this way:</p>
+<span class="docsReference">Samples.MultiYAxes</span>
+
+<p>The following section describes what happens to axes that no series are bound to. They will sync with the main axis.
+    However, you can disable this behavior by setting the axis <a href="Types.axis.scale.syncWith">scale_syncWith</a>
+    property to <span class="example">&#39;none&#39;</span>.
+    In this case, axes will be ignored unless a series specifies them.
+</p>
+
+<h3>Sync with Main Axis</h3>
+
+<p>If no series binds to an axis, it can be used for other purposes.</p>
+
+<p>In v2.9 and earlier, additional axes required setting <a href="Types.axis.scale.syncWith">scale_syncWith</a>:
+    <span class="example">&#39;targetAxisId&#39;</span> in order to
+    sync scales with another axis.
+</p>
+
+<p>In v3 and above, extra axes will sync with the main axis by default so you don't have to manually specify
+    id settings. However, without extra settings, it will not duplicate the parent axis ticks until you
+    indicate you want ticks to draw by default. You can do this by setting an interval, or using:
+</p>
+
+<span class="codeText">
+	JSC.Chart('chartDivId', {
+        yAxis:[ { }, { defaultTick_enabled: true} ]
+
+    })
+</span>
+
+<p>With this approach, you can add an axis that duplicates a main axis showing, for example, Fahrenheit
+    while also showing Celsius values on the extra axis as demonstrated in this example:</p>
+
+<span class="docsReference">Samples.AxisShadowing</span>
+
+<h3>Extra Axis for Point Ticks</h3>
+
+<p>An exciting feature in JSCharting is point ticks. These allow a data point to have an X or Y
+    axis tick that will get added to the Y axis at the point's y value. If the point y
+    value is a range, the point's Y axis tick value will be a range tick.
+</p>
+
+<p>Similar to the <a href="Types.series.defaultPoint">series.defaultPoint</a> property, series also have
+    <a href="Types.series.firstPoint">firstPoint</a> and <a href="Types.series.lastPoint">lastPoint</a>
+    properties. Mix these features together, and you can replace the legend with a more interesting chart that
+    is easier to read. This code demonstrates adding a Y axis tick at the last point of each series:
+</p>
+
+<p class="codepen" data-height="320" data-theme-id="35044" data-default-tab="js,result" data-user="jsblog" data-slug-hash="27d14ff1a2b8dd255ccfc130a3ad4892" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="Docs v3 - Point Ticks on Extra Axis">
+  <span>See the Pen <a href="https://codepen.io/jsblog/pen/27d14ff1a2b8dd255ccfc130a3ad4892">
+  Docs v3 - Point Ticks on Extra Axis</a> by Arthur Puszynski (<a href="https://codepen.io/jsblog">@jsblog</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h3>Multiple column stacks</h3>
+
+<p>Additional axes can also be used to control multiple side-by-side column stacks. Using the Y axis
+    <a href="Types.axis.scale.type">scale_type</a>: <span class="example">&#39;stacked&#39;</span> setting stacks all
+    columns that share an x value across different series. You can bind two of the series with another Y
+    axis to stack those columns in a separate stack. Since all series share an X axis, the column stacks do not overlap.
+</p>
+
+<p class="codepen" data-height="320" data-theme-id="35044" data-default-tab="js,result" data-user="jsblog" data-slug-hash="ca4a66aa6031b46f48c19aefc0179853" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="Docs v3 - Multiple Axis Stacks">
+  <span>See the Pen <a href="https://codepen.io/jsblog/pen/ca4a66aa6031b46f48c19aefc0179853">
+  Docs v3 - Multiple Axis Stacks</a> by Arthur Puszynski (<a href="https://codepen.io/jsblog">@jsblog</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h3>Draw Arbitrary Grid Lines or Ticks</h3>
+
+<p>You can take full control of an axis to draw grid lines as well. Set the scale_range property
+    with a min and max value to take control of the axis. Then specify the interval,
+    gridLine or defaultTick properties as needed.</p>
