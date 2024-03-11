@@ -5,6 +5,11 @@ const sensorDisplay = document.querySelector('.display');
 
 let itemIdCounter = 0;
 
+function loadUser(user)
+{
+    userId = user;
+}
+
 addItemButton.addEventListener('click', () => {
     const newSensor = createSensorElement();
     itemsContainer.appendChild(newSensor);

@@ -39,6 +39,9 @@ pub use comps::data_packet::DataPacket;
 
 // pub use serde_json;
 
+mod connection;
+pub use connection::*;
+
 pub struct ServerAdress{
     pub host_address: &'static mut str
 }
