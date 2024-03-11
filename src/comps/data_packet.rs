@@ -23,7 +23,7 @@ impl DataPacket{
     }
     
     fn pull(sensor_id: u64, query: &Query) -> Result<Vec<Self>, rusqlite::Error>{
-        if !matches!(query, Query::None){
+        if matches!(query, Query::None){
             return Ok(Vec::new());
         }
         let conn = Database::connect();
