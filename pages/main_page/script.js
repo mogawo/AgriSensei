@@ -42,11 +42,11 @@ function createSensorElement() {
 
     newSensor.innerHTML = `
             <div class="sensorName">
-                <h2 class='nameTag' style='background-color: darkkhaki'>${newSensor.dataset.name}</h2>
+                <h2 class='nameTag'>${newSensor.dataset.name}</h2>
                 <button class="nameChange"><img src="images/pencil.png"></button> 
             </div>
             <div class="sensorDescription">
-                <p class='descriptionTag' style='background-color: darkkhaki'>${newSensor.dataset.description}</p>
+                <p class='descriptionTag'>${newSensor.dataset.description}</p>
                 <button class="descriptionChange"><img src="images/pencil.png"></button>
             </div>
             <br>
@@ -76,7 +76,7 @@ function createSensorElement() {
             if (keypressEvent.key === 'Enter') {
                 newSensor.dataset.name = nameInput.value;
                 sensorNameDiv.innerHTML = `
-                    <h2 class='nameTag' style='background-color: darkkhaki'>${newSensor.dataset.name}</h2>
+                    <h2 class='nameTag'>${newSensor.dataset.name}</h2>
                     <button class="nameChange"><img src="images/pencil.png"></button> 
                 `;
             }
@@ -100,7 +100,7 @@ function createSensorElement() {
             if (keypressEvent.key === 'Enter') {
                 newSensor.dataset.description = descInput.value;
                 sensorDescDiv.innerHTML = `
-                    <p class='descriptionTag' style='background-color: darkkhaki'>${newSensor.dataset.description}</p>
+                    <p class='descriptionTag'>${newSensor.dataset.description}</p>
                     <button class="descriptionChange"><img src="images/pencil.png"></button>
                 `;
             }

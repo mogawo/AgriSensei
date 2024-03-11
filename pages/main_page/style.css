@@ -106,6 +106,7 @@
 }
 
 .sensorName{
+    background-color: transparent;
     display: flex;
     align-items: center;
 }
@@ -115,10 +116,12 @@
 }
 
 .sensorName h1{
+    background-color: transparent;
     margin: 0;
 }
 
 .sensorName button{
+    background-color: transparent;
     margin-left: auto;
 }
 
@@ -159,10 +162,10 @@
 }
 
 .nameTag{
+    background-color: transparent;
     height: 28px;
     font-size: 24px;
     max-width: 200px;
-    background-color: rgb(119, 114, 39);
     border-width: 0px;
 }
 
@@ -180,15 +183,12 @@
 }
 
 .sensorDescription button{
+    background-color: transparent;
     margin-left: auto;
 }
 
-.descriptionTab{
-    height: 28px;
-    font-size: 24px;
-    max-width: 200px;
-    background-color: rgb(119, 114, 39);
-    border-width: 0px;
+.descriptionTag{
+    background-color: transparent;
 }
 
 .display{
