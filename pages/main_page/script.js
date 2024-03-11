@@ -23,15 +23,15 @@ function createSensorElement() {
     newSensor.dataset.recentTime = 1640; // Implement a time conversion function
     newSensor.dataset.description = "Add Description";
     newSensor.dataset.name = "Sensor " + newSensor.dataset.itemId;
-    let array = [85, 82, 81, 82, 84];
+    let array = [85, 82, 81, 82, 84, 84];
     newSensor.dataset.humidityHistory = JSON.stringify(array);
-    let array2 = [100, 100, 100, 100, 100];
+    let array2 = [100, 100, 100, 100, 100, 100];
     newSensor.dataset.batteryHistory = JSON.stringify(array2);
     // Read from the list by doing
     // let humidityHistoryArray = JSON.parse(newSensor.dataset.humidityHistory); to create a new array
     // Store to the list by doing
     // newSensor.dataset.humidityHistory = JSON.stringify(humidityHistoryArray); to convert the array to a string
-    let timeArray = [1600, 1610, 1620, 1630, 1640];
+    let timeArray = [1600, 1610, 1620, 1630, 1640, 1650];
     newSensor.dataset.timeHistory = JSON.stringify(timeArray);
 
     newSensor.innerHTML = `
@@ -187,7 +187,7 @@ function handleSummaryTab(sensorData)
 
     summaryDisplay.innerHTML = `
     <div class="humidityReading">
-        <p>Humidity level: </p>
+        <p>Humidity Level: </p>
     </div>
     <div class="sensorBattery">    
         <p>Sensor Battery Level: </p>
@@ -291,14 +291,14 @@ function generateGraph(sensorData, graphID)
         min = find_min(batteryHistoryArray);
         max = find_max(batteryHistoryArray);
     }
-    if (max + 15 <= 100)
+    if (max + 10 <= 100)
     {
         max += 10;
     }
     else {
         max = 100;
     }
-    if (min - 15 >= 0)
+    if (min - 10 >= 0)
     {
         min -= 10;
     }
@@ -334,14 +334,29 @@ function handleDetailsTab(sensorData)
     const detailsDisplay = document.createElement('div');
     detailsDisplay.classList.add('sensorReadings');
     detailsDisplay.innerHTML = `
-    <div class = "details">
-        <img src="images/details.png">
+    <div class='humidityReading'>
+        <p>Humidity Level: </p>
     </div>
+    <div class='batteryReading'></div>
     `;
     
     const showDisplay = document.querySelector('.sensorData');
     showDisplay.appendChild(detailsDisplay);
 
+    const humidityReading = document.querySelector('.humidityReading');
+    let humidityHistoryArray = JSON.parse(sensorData.dataset.humidityHistory);
+    let timeHistoryArray = JSON.parse(sensorData.dataset.timeHistory); 
+    for (let i = humidityHistoryArray.length-1; i >= 0; i--)
+    {
+        console.log(i);
+        var newHistory = document.createElement('div');
+        newHistory.classList.add('humidityList');
+        newHistory.innerHTML = `
+        <p>${timeHistoryArray[i]}: &nbsp${humidityHistoryArray[i]}%</p>
+        `
+        humidityReading.appendChild(newHistory);
+    }
+        
     return;
 }
 
