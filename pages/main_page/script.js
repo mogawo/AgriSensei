@@ -4,13 +4,15 @@ const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
 const usernameDisplay = document.createElement('div');
 
-var loggedInUser = 'Username';
+var loggedInUser = localStorage.getItem('loggedInUser') || 'Username';
 
 function setUser(username)
 {
     console.log("ACCESSED");
     loggedInUser = username;
 }
+
+console.log(loggedInUser);
 
 usernameDisplay.classList.add('username');
 usernameDisplay.innerHTML = `
@@ -20,11 +22,6 @@ sensorDisplay.appendChild(usernameDisplay);
 
 
 let itemIdCounter = 0;
-
-function loadUser(user)
-{
-    userId = user;
-}
 
 addItemButton.addEventListener('click', () => {
     const newSensor = createSensorElement();

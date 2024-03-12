@@ -89,12 +89,23 @@ function handleSignUp()
 function handleLogIn() {
     if (username.value in users)
     {
-        window.location = "../main_page/index.html"; 
-        if (password.value == users[username.value] || password.value == '')
-        {
-            setUser(username.value);
-            window.location = "../main_page/index.html"; 
-        }
+        setUser(username.value);
+        localStorage.setItem('loggedInUser', username.value);
+        window.location.href = "../main_page/index.html"; 
+        // if (password.value == users[username.value] || password.value == '')
+        // {
+        //     setUser(username.value);
+        //     window.location = "../main_page/index.html"; 
+        // }
+    }
+    else
+    {    
+        const response = document.createElement('div'); 
+        response.classList.add('response');
+        response.innerHTML = `
+            <p>Account does not exist<p>
+        `;
+        body.appendChild(response);
     }
     console.log("Invalid Username or Password");
     username.value = '';
