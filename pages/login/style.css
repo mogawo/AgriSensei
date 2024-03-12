@@ -7,6 +7,9 @@
 .body {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .display{
@@ -35,13 +38,34 @@
     /* background-color: pink; */
 }
 
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.signupStyle {
+    background-color: lightgreen;
+    border: 0px;
+    padding: 4px;
+    border-radius: 5px;
+    align-self: center;
+}
+
 .loginStyle {
     background-color: lightgreen;
     border: 0px;
     padding: 4px;
     border-radius: 5px;
+    align-self: flex-end;
 }
 
 .login:hover {
     background-color: green;
+}
+
+.response {
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 5px;
 }

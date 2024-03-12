@@ -105,6 +105,15 @@
     background-color: rgb(38, 148, 43);
 }
 
+.username{
+    margin: 20px;
+    padding: 2px;
+    width: 500px;
+    border-radius: 5px;
+    background-color: beige;
+    border: gray 1px solid;
+}
+
 .sensorName{
     background-color: transparent;
     display: flex;

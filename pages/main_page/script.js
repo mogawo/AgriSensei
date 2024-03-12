@@ -2,6 +2,22 @@ const addItemButton = document.getElementById('addItemButton');
 const addSensorButton = document.getElementById('addNewSensor');
 const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
+const usernameDisplay = document.createElement('div');
+
+var loggedInUser = 'Username';
+
+function setUser(username)
+{
+    console.log("ACCESSED");
+    loggedInUser = username;
+}
+
+usernameDisplay.classList.add('username');
+usernameDisplay.innerHTML = `
+    <p>Logged in with username: ${loggedInUser}<p>
+`;
+sensorDisplay.appendChild(usernameDisplay);
+
 
 let itemIdCounter = 0;
 
@@ -25,6 +41,9 @@ function createSensorElement() {
     newSensor.classList.add('sensor');
     newSensor.onclick = function ()
     { 
+        if (usernameDisplay != null) {
+            usernameDisplay.remove();
+        }
         showSensorInfo(newSensor);
         handleSummaryTab(newSensor);
     };

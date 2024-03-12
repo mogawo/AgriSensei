@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <script src="https://code.jquery.com/jquery-4.0.0-beta.min.js"></script>
+
+    <script src="../main_page/script.js"></script>
 </head>
 
 <body>
@@ -22,8 +24,9 @@
                 <h>Password:</h>
                 <input id="passwordInput" ><br></br>
             </div>
-            <div>
-                <button class="loginStyle" id="login">Log In</button>
+            <div class="buttons">
+                <button class="signupStyle" id="signup" onclick="handleSignUp()">Sign Up</button>
+                <button class="loginStyle" id="login" onclick="handleLogIn()">Log In</button>
             </div>
         </div>
     </div>
