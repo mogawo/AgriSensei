@@ -309,12 +309,14 @@ function generateGraph(sensorData, graphID)
     if (graphName == 'humidityGraph')
     {
         combinedArray = humidityHistoryArray.map((humidity, i) => [timeHistoryArray[i], humidity]);
+        combinedArray = combinedArray.slice(combinedArray.length-5,combinedArray.length);
         min = find_min(humidityHistoryArray);
         max = find_max(humidityHistoryArray);
     }
     else if (graphName == 'batteryGraph')
     {
         combinedArray = batteryHistoryArray.map((battery, i) => [timeHistoryArray[i], battery]);
+        combinedArray = combinedArray.slice(combinedArray.length-5,combinedArray.length);
         min = find_min(batteryHistoryArray);
         max = find_max(batteryHistoryArray);
     }
