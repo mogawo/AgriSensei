@@ -60,11 +60,11 @@ impl Message for GetMessage{
             } else {
                 match uri_path
                 {
-                    "/" => GetMessage::response(r"pages\main_page\index.html"),
-                    "/script.js" => GetMessage::response(r"pages\main_page\script.js"),
-                    "/style.css" => GetMessage::response(r"pages\main_page\style.css"),
-                    "/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
-                    "/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
+                    "/" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\index.html"),
+                    "/script.js" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\script.js"),
+                    "/style.css" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\style.css"),
+                    "/images/cog-xxl.png" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\images\cog-xxl.png"),
+                    "/favicon.ico" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\images\favicon.ico"),
                     _ => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))
                 }
             }
@@ -83,7 +83,7 @@ impl GetMessage{
             .ok_or(MessageError("Unable to Parse HTTP extensions"))?;
         let file_data = fs::read(file_path.as_ref())?;
 
-        println!("{}, {}, {}", file_path.as_ref(), mime_type, file_data.len());
+        // println!("{}, {}, {}", file_path.as_ref(), mime_type, file_data.len());
         let response = Response::builder()
             .header("Content-Type", mime_type)
             .header("Content-Length", file_data.len())

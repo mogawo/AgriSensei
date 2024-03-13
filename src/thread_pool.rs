@@ -44,15 +44,43 @@ struct Worker
     thread: Option<thread::JoinHandle<()>>,
 }
 
+struct Avg{
+    pub sum: f64,
+    pub count: f64,
+    pub avg: f64
+}
+
+impl Avg{
+    pub fn new() -> Self{
+        Avg{
+            sum: 0.,
+            count: 1.,
+            avg: 0.
+        }
+    }
+    pub fn add(&mut self, x: f64){
+        self.sum += x;
+        self.count += 1.;
+        self.avg = self.sum / self.count;
+    }
+}
+
+use std::time::{Instant, Duration};
 impl Worker
 {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker{
+        let mut avg = Avg::new();
         let thread = thread::spawn(move || loop {
                 let message = receiver.lock().unwrap().recv();
                 match message{
                     Ok(job) => {
                         println!("Worker {id} got a job; executing.");
+                        let now = Instant::now();
                         job();
+                        let elap = now.elapsed();
+                        println!("Took {:#?}", elap);
+                        avg.add(elap.as_secs() as f64);
+                        // println!("Average Process time = {}, count = {}", avg.avg, avg.count);
                     }
                     Err(_) => {
                         println!("Worker {id} disconnected; shutting down.");

@@ -32,18 +32,20 @@ use comps::*;
 use chrono::prelude::*;
 
 mod testing;
+pub use testing::*;
 
 pub use comps::user_profile::UserProfile;
 pub use comps::sensor::{Sensor, SensorType};
 pub use comps::data_packet::DataPacket;
 
 // pub use serde_json;
-
-pub struct ServerAdress{
-    pub host_address: &'static mut str
-}
+const LOOP_BACK_ADDRESS: &'static str = "127.0.0.1:7878"; //
 
 //Starts a local server with a given ip string
+pub fn start_server_default(){
+    start_server(LOOP_BACK_ADDRESS)
+}
+
 pub fn start_server(host_address: &'static str){
     let listener = TcpListener::bind(host_address).unwrap();
     let pool = ThreadPool::new(4);

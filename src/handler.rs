@@ -50,7 +50,7 @@ pub  fn handle_connection(mut stream: TcpStream) -> Result<(), ServerError<'stat
 
     stream.write_all(&response_bytes).unwrap();
     stream.flush().unwrap();
-    Err(ServerError::ThreadError("Thread has been closed"))
+    Ok(())
 }
 
 pub trait Assemble{
@@ -90,7 +90,7 @@ impl Assemble for Response<Vec<u8>>{
 
  fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError<'static>>
 {
-    println!("{:#?}", req);
+    // println!("{:#?}", req);
     match req.method()
     {
         &Method::GET => GetMessage::process_request(req),
