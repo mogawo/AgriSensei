@@ -2,6 +2,43 @@ const addItemButton = document.getElementById('addItemButton');
 const addSensorButton = document.getElementById('addNewSensor');
 const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
+const usernameDisplay = document.createElement('div');
+
+var loggedInUser = localStorage.getItem('loggedInUser') || 'Username';
+
+function setUser(username)
+{
+    console.log("ACCESSED");
+    loggedInUser = username;
+}
+
+console.log(loggedInUser);
+
+usernameDisplay.classList.add('username');
+usernameDisplay.innerHTML = `
+    <p>Logged in with username: ${loggedInUser}<p>
+`;
+sensorDisplay.appendChild(usernameDisplay);
+
+function getData() {
+    const apiUrl = '../../user/1';
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+getData();
 
 let itemIdCounter = 0;
 
@@ -20,6 +57,9 @@ function createSensorElement() {
     newSensor.classList.add('sensor');
     newSensor.onclick = function ()
     { 
+        if (usernameDisplay != null) {
+            usernameDisplay.remove();
+        }
         showSensorInfo(newSensor);
         handleSummaryTab(newSensor);
     };
@@ -285,15 +325,27 @@ function generateGraph(sensorData, graphID)
     let combinedArray;
     let min;
     let max;
+
+    let n;
+    if (humidityHistoryArray.length < 5)
+    {
+        n = humidityHistoryArray.length;
+    }
+    else
+    {
+        n = 5;
+    }
     if (graphName == 'humidityGraph')
     {
         combinedArray = humidityHistoryArray.map((humidity, i) => [timeHistoryArray[i], humidity]);
+        combinedArray = combinedArray.slice(combinedArray.length-n,combinedArray.length);
         min = find_min(humidityHistoryArray);
         max = find_max(humidityHistoryArray);
     }
     else if (graphName == 'batteryGraph')
     {
         combinedArray = batteryHistoryArray.map((battery, i) => [timeHistoryArray[i], battery]);
+        combinedArray = combinedArray.slice(combinedArray.length-n,combinedArray.length);
         min = find_min(batteryHistoryArray);
         max = find_max(batteryHistoryArray);
     }
