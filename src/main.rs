@@ -1,6 +1,5 @@
 
-const LOOP_BACK_ADDRESS: &'static str = "127.0.0.1:7878"; 
-use regex::Regex;
+
 fn main(){
     agrisensei::test_database_init();
     agrisensei::start_server_default();

@@ -45,9 +45,6 @@ impl Message for GetMessage{
         //If section returns json of user profile
         // SUPPOSED to return back a html webpage, but this should be
         // fine for now
-        let user_id = Regex::new(Patterns::USER_OPTIONS)
-            .unwrap()
-            .captures(uri_path).unwrap();
 
         if let Some(user_id) = Regex::new(Patterns::USER_OPTIONS)
             .unwrap()

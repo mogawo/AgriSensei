@@ -41,7 +41,7 @@ pub use comps::data_packet::DataPacket;
 pub use comps::device::*;
 
 // pub use serde_json;
-const LOOP_BACK_ADDRESS: &'static str = "127.0.0.1:7878"; //
+const LOOP_BACK_ADDRESS: &'static str = "localhost:5500"; //
 
 //Starts a local server with a given ip string
 pub fn start_server_default(){
