@@ -1,6 +1,15 @@
 use crate::{comps::{components::*, data_packet::DataPacket}, message::Message};
 use std::{borrow::BorrowMut, fmt::write, str::{from_utf8, FromStr}};
 
+
+// measurement - Acts as a heartbeat
+//  Device (integer) - The device that has the measurements
+//  Sensors (array of objects) - List of sensor measurements
+//  Sensor (integer) - The sensor ID that has the measurement
+//  Value (float) - The value measured
+
+
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Sensor{ 
     pub sensor_id  : u64,
@@ -29,8 +38,8 @@ impl Sensor{
         Sensor::pull(user_id, sensor_filter).ok()
     }
     fn pull(user_id: u64, sensor_filter: &Query) -> Result<Vec<Sensor>, ServerError<'static>>{
-        if !matches!(sensor_filter, Query::All | Query::SensorFilter(_)){
-            
+        if matches!(sensor_filter, Query::None){
+            return Ok(Vec::new());
         }
         
         let conn = Database::connect();

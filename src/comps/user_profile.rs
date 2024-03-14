@@ -44,8 +44,10 @@ impl UserProfile{
             })
         })
     }
+}
 
-    pub fn to_json(&self) -> String{
-        serde_json::to_string(self).unwrap()
+impl Display for UserProfile{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", serde_json::to_string_pretty(self).unwrap())
     }
 }

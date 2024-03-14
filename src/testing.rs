@@ -57,3 +57,29 @@ pub fn add_packet(){
     }
 }
 
+pub fn add_measurements(){
+    
+    let mut sensors = Vec::new();
+    for sensor_id in 1..= 5 {
+        for val in 1..=5{
+            let sensor_data = json!(
+                {
+                    "sensor_id": sensor_id,
+                    "value"    : val + sensor_id
+                }
+            ).as_object().unwrap().to_owned();
+            sensors.push(sensor_data);
+        }
+    }
+    for device_id in 1..=2{
+        let json_data = json!(
+            {
+                "device_id": device_id,
+                "sensors": sensors
+            }
+        ).as_object().unwrap().to_owned();
+        PostMessage::add_measurements(1, json_data).unwrap();
+    }
+}
+
+

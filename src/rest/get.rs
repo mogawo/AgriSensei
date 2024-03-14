@@ -45,6 +45,10 @@ impl Message for GetMessage{
         //If section returns json of user profile
         // SUPPOSED to return back a html webpage, but this should be
         // fine for now
+        let user_id = Regex::new(Patterns::USER_OPTIONS)
+            .unwrap()
+            .captures(uri_path).unwrap();
+
         if let Some(user_id) = Regex::new(Patterns::USER_OPTIONS)
             .unwrap()
             .captures(uri_path)
@@ -56,16 +60,16 @@ impl Message for GetMessage{
                     .within(&Query::All);
 
                 let profile = serde_json::to_vec(&profile).unwrap();
-                GetMessage::response_data(profile)
-            } else {
+                GetMessage::response_data(profile)} 
+                else {
                 match uri_path
                 {
-                    "/" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\index.html"),
-                    "/script.js" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\script.js"),
-                    "/style.css" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\style.css"),
+                    "/"                   => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\index.html"),
+                    "/script.js"          => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\script.js"),
+                    "/style.css"          => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\style.css"),
                     "/images/cog-xxl.png" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\images\cog-xxl.png"),
-                    "/favicon.ico" => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\images\favicon.ico"),
-                    _ => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))
+                    "/favicon.ico"        => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\images\favicon.ico"),
+                    _                     => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))
                 }
             }
     }

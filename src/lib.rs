@@ -27,16 +27,18 @@ pub mod comps{
     pub mod data_packet;
     pub mod sensor;
     pub mod user_profile;
+    pub mod device;
 }
 use comps::*;
 use chrono::prelude::*;
 
 mod testing;
-pub use testing::*;
+use testing::*;
 
 pub use comps::user_profile::UserProfile;
 pub use comps::sensor::{Sensor, SensorType};
 pub use comps::data_packet::DataPacket;
+pub use comps::device::*;
 
 // pub use serde_json;
 const LOOP_BACK_ADDRESS: &'static str = "127.0.0.1:7878"; //
@@ -73,10 +75,17 @@ pub fn test_database_add_packets(){
     testing::add_packet();
 }
 
+pub fn test_add_measurements(){
+    testing::add_measurements();
+}
+
 //DELETES current database and init a new database
 pub fn new_database(){
     Database::new();
 }
+//-----------------------------------------------------------
+//Functions below are for direct access to Database if needed
+//-----------------------------------------------------------
 
 //Addes new user to database. Needs the Database to be init first
 //Optional value is the user_id
@@ -90,6 +99,7 @@ pub fn new_sensor(sensor_type: SensorType, user_id: u64) -> Option<u64>{
     Database::new_sensor(sensor_type, user_id)
 }
 
+
 //Addes new packet to database. Needs the Database to be init first
 //Optional value is the the chrono::DateTime<Utc> which is the primary
 // key for the data packet
@@ -102,4 +112,12 @@ pub fn add_packet(packet: &DataPacket) -> Option<chrono::DateTime<Utc>>{
 // means that the user does not exist within the Database
 pub fn pull_user_profile(user_id: u64) -> Option<UserProfile>{
     Some(UserProfile::pull_user(user_id)?.include(&Query::All).within(&Query::All))
+}
+
+pub fn add_device_measurements(device: &Device){
+    Database::add_device_measurements(device)
+}
+
+pub fn pull_device(user_id: u64, device_id: u64) -> device::Device{
+    Device::pull_device(user_id, device_id).unwrap()
 }
