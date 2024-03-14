@@ -1,5 +1,5 @@
 use std::borrow::BorrowMut;
-use crate::comps::{components::*, sensor::*};
+use crate::{comps::{components::*, sensor::*}, Device};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserProfile{
@@ -45,7 +45,11 @@ impl UserProfile{
         })
     }
 
-    pub fn to_json(&self) -> String{
-        serde_json::to_string(self).unwrap()
+    
+}
+
+impl Display for UserProfile{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", serde_json::to_string_pretty(self).unwrap())
     }
 }
