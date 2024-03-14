@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Organizational Chart Path Highlighting and Selection | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 770px; height: 560px;"></div>
+
+    <script type="text/javascript">
+      /*
+Select and highlight a path from a point up the tree in an organizational chart with custom styles, colors and images using point click, select and mute states.
+Learn how to:
+
+  - Use point click event to select one node at a time.
+  - Use point select state to manually highlight clicked points and paths.
+  - Use mute point state to highlight hovered path.
+*/
+      // JS
+      var selectedPoint;
+      var highlightColor = '#5C6BC0',
+        mutedHighlightColor = '#9FA8DA',
+        mutedFill = '#f3f4fa',
+        selectedFill = '#E8EAF6',
+        normalFill = 'white';
+
+      var points = [
+        {
+          x: 'Eliott Nieves',
+          id: 'president',
+          attributes: { role: 'CEO', photo: getImgText('images/vector-avatars2/avatar-1.svg') },
+        },
+        {
+          x: 'Harvey-Lee Travis',
+          id: 'vPresident1',
+          parent: 'president',
+          attributes: { role: 'Vice President', photo: getImgText('images/vector-avatars2/avatar-2.svg') },
+        },
+        {
+          x: 'Gethin Morley',
+          id: 'vPresident2',
+          parent: 'president',
+          attributes: { role: 'Vice President', photo: getImgText('images/vector-avatars2/avatar-4.svg') },
+        },
+        {
+          x: 'Sonnie Kim',
+          id: 'vPresident3',
+          parent: 'president',
+          attributes: { role: 'Vice President', photo: getImgText('images/vector-avatars2/avatar-3.svg') },
+        },
+        { x: 'Dante Curtis', id: 'manager1', parent: 'vPresident1', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Honey Mullen', id: 'manager2', parent: 'vPresident1', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Steffan Taylor', id: 'manager3', parent: 'vPresident2', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Charlton Hester', id: 'manager4', parent: 'vPresident2', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Ishmael Orr', id: 'manager5', parent: 'vPresident2', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Dua Frost', id: 'manager6', parent: 'manager5', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Salahuddin Eastwood', id: 'manager7', parent: 'manager5', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Nicole Tapia', id: 'employee1', parent: 'manager6', attributes: { role: 'Employee', photo: '' } },
+        { x: 'Arisha Hinton', id: 'employee2', parent: 'manager6', attributes: { role: 'Employee', photo: '' } },
+        { x: 'Martha Morley', id: 'employee3', parent: 'manager6', attributes: { role: 'Employee', photo: '' } },
+        { x: 'Cathy Mcpherson', id: 'employee4', parent: 'manager6', attributes: { role: 'Employee', photo: '' } },
+        { x: 'Kiara Johns', id: 'manager8', parent: 'vPresident3', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Grant Cash', id: 'manager9', parent: 'vPresident3', attributes: { role: 'Manager', photo: '' } },
+        { x: 'Juanita Cottrell', id: 'employee5', parent: 'manager8', attributes: { role: 'Employee', photo: '' } },
+        { x: 'Allana Frey', id: 'employee6', parent: 'manager8', attributes: { role: 'Employee', photo: '' } },
+      ];
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        defaultTooltip_enabled: false,
+
+        /* These options will apply to all annotations including point nodes. */
+        defaultAnnotation: { padding: [5, 10], margin: 6 },
+        annotations: [
+          {
+            position: 'bottom',
+            label_text: 'Click on a node to select all nodes up the tree or click again to deselect.',
+          },
+        ],
+
+        defaultSeries: {
+          color: normalFill,
+          /* Point selection is disabled because it is managed manually with point click events. */
+          pointSelection: false,
+        },
+        defaultPoint: {
+          focusGlow: false,
+          connectorLine: { color: '#e0e0e0', radius: [10, 3] },
+          label: {
+            text: '%photo%name<br><span style="color:#9E9E9E">%role</span>',
+            style_color: 'black',
+          },
+          outline: { color: '#e0e0e0', width: 1 },
+          annotation: { syncHeight_with: 'level' },
+          states: {
+            mute: {
+              opacity: 0.8,
+              outline: { color: mutedHighlightColor, opacity: 0.9, width: 2 },
+            },
+            select: { enabled: true, outline: { color: highlightColor, width: 2 }, color: selectedFill },
+            hover: {
+              outline: { color: mutedHighlightColor, width: 2 },
+              color: mutedFill,
+            },
+          },
+          events: {
+            click: pointClick,
+            mouseOver: pointMouseOver,
+            mouseOut: pointMouseOut,
+          },
+        },
+        series: [{ points: points }],
+      });
+
+      /**
+       * Event Handlers
+       */
+
+      function pointClick() {
+        var point = this,
+          chart = point.chart;
+        resetStyles(chart);
+        if (point.id === selectedPoint) {
+          selectedPoint = undefined;
+          return;
+        }
+        selectedPoint = point.id;
+        styleSelectedPoint(chart);
+      }
+
+      function pointMouseOver() {
+        var point = this,
+          chart = point.chart;
+        chart.connectors([point.id, 'up'], { color: mutedHighlightColor, width: 2 });
+        chart.series().points([point.id, 'up']).options({ muted: true });
+      }
+
+      function pointMouseOut() {
+        var point = this,
+          chart = point.chart;
+        // Reset point and line styling.
+        resetStyles(chart);
+        // Style clicked points
+        styleSelectedPoint(chart);
+        return false;
+      }
+
+      /**
+       * Styling helper functions
+       */
+
+      function styleSelectedPoint(chart) {
+        if (selectedPoint) {
+          chart.connectors([selectedPoint, 'up'], { color: highlightColor, width: 2 });
+          chart.series().points([selectedPoint, 'up']).options({ selected: true, muted: false });
+        }
+      }
+
+      /**
+       * Clears connectors and point states.
+       * @param chart Chart object
+       */
+      function resetStyles(chart) {
+        chart.connectors();
+        chart.series().points().options({ selected: false, muted: false });
+      }
+
+      function getImgText(name) {
+        return '<img width=50 height=50 align=center margin_bottom=4 margin_top=4 src=' + name + '><br>';
+      }
+    </script>
+  </body>
+</html>

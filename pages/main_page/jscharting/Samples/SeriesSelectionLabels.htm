@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Series Selection Labels | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+    <div id="selectedList"></div>
+
+    <script type="text/javascript">
+      /*
+Uses checkboxes on first points of series indicating series selection.
+Learn how to:
+
+  - Use selection with checkboxes in labels.
+  - Use select series when clicking points.
+*/
+      // JS
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'column',
+        title_label_text: 'Click Legend Entries To Select Series',
+        defaultSeries: {
+          firstPoint: { label_text: seriesLabelText() },
+        },
+        defaultPoint: {
+          // Force point selected state styling to be computed.
+          states_select_enabled: true,
+          events_click: function () {
+            var point = this;
+            toggleSeriesSelection(point.series);
+          },
+        },
+        toolbar_items: {
+          'Clear Selection': {
+            id: 'clearAll',
+            position: 'inside top left',
+            events_click: clearAll,
+            visible: false,
+          },
+        },
+        legend_visible: false,
+        yAxis_label_text: 'Units Sold',
+        xAxis_label_text: 'Quarter',
+        series: [
+          {
+            name: 'Apples',
+            id: 's1',
+            points: [
+              { x: 'Q1', y: 230 },
+              { x: 'Q2', y: 240 },
+              { x: 'Q3', y: 267 },
+              { x: 'Q4', y: 238 },
+            ],
+          },
+          {
+            name: 'Oranges',
+            points: [
+              { x: 'Q1', y: 325 },
+              { x: 'Q2', y: 367 },
+              { x: 'Q3', y: 382 },
+              { x: 'Q4', y: 371 },
+            ],
+          },
+          {
+            name: 'Banana',
+            points: [
+              { x: 'Q1', y: 285 },
+              { x: 'Q2', y: 292 },
+              { x: 'Q3', y: 267 },
+              { x: 'Q4', y: 218 },
+            ],
+          },
+          {
+            name: 'Grapes',
+            points: [
+              { x: 'Q1', y: 185 },
+              { x: 'Q2', y: 192 },
+              { x: 'Q3', y: 198 },
+              { x: 'Q4', y: 248 },
+            ],
+          },
+        ],
+      });
+
+      function toggleSeriesSelection(series) {
+        // New selected value
+        var isSelected = !series.options('selected'),
+          chart = series.chart;
+        series
+          //Toggle the series selected property.
+          .options({ selected: isSelected, firstPoint_label_text: seriesLabelText(isSelected) });
+
+        // Update clear all button visibility
+        var selectedCount = chart.series(function (s) {
+          return s.options('selected');
+        }).items.length;
+        chart.uiItems('clearAll').options({ visible: !!selectedCount });
+      }
+
+      function seriesLabelText(checked) {
+        return '<icon name=system/default/checkbox' + (checked ? '' : '-blank') + '> %seriesName';
+      }
+
+      function clearAll() {
+        this.chart
+          //Find all selected series
+          .series(function (s) {
+            return s.options('selected');
+          })
+          // Toggle their selected state
+          .each(toggleSeriesSelection);
+      }
+    </script>
+  </body>
+</html>

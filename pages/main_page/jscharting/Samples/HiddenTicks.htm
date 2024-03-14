@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hidden Axis Tick Styling | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 450px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Use defaultHiddenTick to stagger tick labels by setting a pixel offset for ticks that are overlapped.
+Learn how to:
+
+  - Style hidden axis ticks.
+  - Offset hidden axis ticks.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'column',
+        xAxis: {
+          // Prevent autorotating overlapping ticks
+          autoRotate: 0,
+          defaultHiddenTick: {
+            // Offset overlapping tick labels
+            label: {
+              opacity: 0.9,
+              offset: '0,14',
+              color: '#887ea5',
+              style: { fontSize: '11px' },
+            },
+          },
+          label: { text: 'Student', margin_top: 12 },
+        },
+
+        yAxis: {
+          label_text: 'Test Score',
+          defaultTick_label_text: '%value',
+        },
+        defaultPoint: {
+          tooltip: '<b>%name</b> %yValue<br/>Percentile: <b>%yPercentile%</b>',
+          subvalue_line_width: 2,
+        },
+        legend_visible: false,
+        title: {
+          label_text: 'Estimated Test Results. [Best: %maxPointName %max, Worst: %minPointName %min]',
+        },
+        series: [
+          {
+            name: 'Score Estimates',
+            points: {
+              mapTo: 'name,y,subvalue.range',
+              data: [
+                ['Alexander', 102],
+                ['Ben', 173],
+                ['Josiah', 171],
+                ['Joseph', 75],
+                ['Dylan', 22],
+                ['Jordan', 100],
+                ['Liam', 177],
+                ['Parker', 127],
+                ['Jake', 104],
+                ['David', 125],
+                ['Carter', 171],
+                ['Cooper', 40],
+                ['Nolan', 151],
+                ['William', 52],
+                ['Jackson', 154],
+              ],
+            },
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

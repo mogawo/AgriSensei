@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multiple Shape Label Alignment | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 500px; height: 450px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Shows 20 shape labels and their alignments set for a pie series. You can see how the labels align to the pie and directions they stack with labels sharing the same alignments.
+Learn how to:
+
+  - Place shape labels around pie and other shape series.
+*/
+      // JS
+
+      function getLabelsArray() {
+        return [
+          { text: 'Middle Center', verticalAlign: 'middle', align: 'center' },
+          { text: 'Middle Left', verticalAlign: 'middle', align: 'left' },
+          { text: 'Inside Middle Right', verticalAlign: 'middle', align: 'right', placement: 'inside' },
+          { text: 'Outside Middle Left', verticalAlign: 'middle', align: 'left', placement: 'outside' },
+          { text: 'Outside Middle Right', verticalAlign: 'middle', align: 'right', placement: 'outside' },
+
+          { text: 'Top Center', verticalAlign: 'top', align: 'center' },
+          { text: 'Top Left', verticalAlign: 'top', align: 'left' },
+          { text: 'Top Right', verticalAlign: 'top', align: 'right' },
+
+          { text: 'Bottom Center', verticalAlign: 'bottom', align: 'center' },
+          { text: 'Bottom Left', verticalAlign: 'bottom', align: 'left' },
+          { text: 'Bottom Right', verticalAlign: 'bottom', align: 'right' },
+        ];
+      }
+
+      function getLabels() {
+        var duplicateCount = 1;
+        let result = getLabelsArray().map(function (v) {
+          v.text += ' 1';
+          return v;
+        });
+        for (var i = 0; i < duplicateCount; i++) {
+          result = result.concat(
+            getLabelsArray().map(function (v) {
+              v.text += ' 2';
+              return v;
+            })
+          );
+        }
+        return result;
+      }
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'pie donut',
+
+        title: { label: { text: 'Shape label position and stacking direction' }, position: 'center' },
+        legend_visible: false,
+
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          shape: {
+            innerSize: 0.9,
+            size: '70%',
+            defaultLabel: { maxWidth: 60, margin: 10 },
+          },
+          defaultPoint_marker: { fill: 'white', outline: { width: 2 } },
+        },
+
+        series: [
+          {
+            shape: { label: getLabels() },
+            //name: 'Purchases',
+            points: [
+              ['A', 29.9],
+              ['B', 97.5],
+              ['C', 110.4],
+              ['D', 129.2],
+              ['E', 144.0],
+              ['F', 176.0],
+            ],
+          },
+        ],
+      });
+
+      function generateAnnotations() {
+        var result = [
+          {
+            position: 'inside center',
+            boxVisible: false,
+
+            label: {
+              text: 'Annotation, uiItems, and legend <br>positioning layout around the chartArea.',
+              align: 'center',
+            },
+          },
+        ];
+        result = result.concat(
+          positions.map(function (pos) {
+            return { position: pos, label_text: pos };
+          })
+        );
+        positions.push('center');
+        result = result.concat(
+          positions.map(function (pos) {
+            return {
+              position: 'inside ' + pos,
+              label_text: 'inside ' + pos,
+            };
+          })
+        );
+
+        //Double and Triple them
+        result = result.concat(
+          positions.map(function (pos) {
+            return { position: pos, label_text: pos };
+          })
+        );
+        result = result.concat(
+          positions.map(function (pos) {
+            return {
+              position: 'inside ' + pos,
+              label_text: 'inside ' + pos,
+            };
+          })
+        );
+        return result;
+      }
+    </script>
+  </body>
+</html>

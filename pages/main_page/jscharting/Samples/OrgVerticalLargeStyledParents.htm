@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Large Synced Width Vertical Layout Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 1000px; height: 700px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Large organizational chart with vertical leaf point layout and synced node widths.
+Learn how to:
+
+  - Integrate sparklines into organizational chart nodes.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          defaultLeafPoint: { outline_width: 0, label_align: 'left' },
+        },
+        defaultPoint: {
+          outline_color: '#e0e0e0',
+          color: 'white',
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          leafPointLayout: 'vertical',
+          annotation_syncWidth: 'all',
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        return [
+          { name: 'CEO', id: 'ceo' },
+          { name: 'VP Operations', id: 'vpo', parent: 'ceo' },
+          { name: 'Products Manager', id: 'pm', parent: 'vpo' },
+          { name: 'Sales Lead', id: 'pm_sl', parent: 'pm' },
+          { name: 'Amazon Sales Reporting', id: 'pm_sl_asr', parent: 'pm_sl' },
+          { name: 'Off Amazon Sales Reporting', id: 'pm_sl_oasr', parent: 'pm_sl' },
+          { name: 'Funnel Testing', id: 'pm_sl_ft', parent: 'pm_sl' },
+          { name: 'CRM System Population & Maintain', id: 'pm_sl_crmspm', parent: 'pm_sl' },
+          { name: 'Inbound & Outbound Sales', id: 'pm_sl_ios', parent: 'pm_sl' },
+          { name: 'Supply Lead', id: 'pm_sul', parent: 'pm' },
+          { name: 'Supplier Liaison', id: 'pm_sul_sl', parent: 'pm_sul' },
+          { name: 'Inventory Management', id: 'pm_sul_im', parent: 'pm_sul' },
+          { name: 'Shipping Management', id: 'pm_sul_sm', parent: 'pm_sul' },
+          { name: 'Inspection Liaison', id: 'pm_sul_il', parent: 'pm_sul' },
+          { name: 'Inspection KPI Management', id: 'pm_sul_ikpim', parent: 'pm_sul' },
+          { name: 'Research Lead', id: 'pm_rl', parent: 'pm' },
+          { name: 'New Product Research', id: 'pm_rl_npr', parent: 'pm_rl' },
+          { name: 'Amazon Ranking Strategies', id: 'pm_rl_ars', parent: 'pm_rl' },
+          { name: 'SEO Ranking Strategies', id: 'pm_rl_seors', parent: 'pm_rl' },
+          { name: 'Cost/Profit Analysis', id: 'pm_rl_cpa', parent: 'pm_rl' },
+          { name: 'Existing Product Analysis', id: 'pm_rl_epa', parent: 'pm_rl' },
+          { name: 'Marketplace Expansion Analysis', id: 'pm_rl_mea', parent: 'pm_rl' },
+          { name: 'Amazon Market Trend Analysis', id: 'pm_rl_amta', parent: 'pm_rl' },
+          { name: 'eCommerce Trend Analysis', id: 'pm_rl_eta', parent: 'pm_rl' },
+
+          { name: 'Operations Manager', id: 'om', parent: 'vpo' },
+          { name: 'Operations Lead', id: 'om_ol', parent: 'om' },
+          { name: 'Management Liaison', id: 'om_ol_ml', parent: 'om_ol' },
+          { name: 'Sales Forecast', id: 'om_ol_sf', parent: 'om_ol' },
+          { name: 'Design Implementation', id: 'om_ol_di', parent: 'om_ol' },
+          { name: 'KPI Measurement', id: 'om_ol_kpim', parent: 'om_ol' },
+          { name: 'KPI Enforcement', id: 'om_ol_kpie', parent: 'om_ol' },
+          { name: 'Business System Development', id: 'om_ol_bsd', parent: 'om_ol' },
+          { name: 'Business System Enforcement', id: 'om_ol_bse', parent: 'om_ol' },
+          { name: 'Virtual Assistant', id: 'om_va', parent: 'om' },
+          { name: 'Meeting Minutes', id: 'om_va_mm', parent: 'om_va' },
+          { name: 'Meeting Liaison', id: 'om_va_ml', parent: 'om_va' },
+          { name: 'Meeting Set-up', id: 'om_va_ms', parent: 'om_va' },
+          { name: 'SOP Administration', id: 'om_va_sopa', parent: 'om_va' },
+          { name: 'Travel Coordination', id: 'om_va_tc', parent: 'om_va' },
+          { name: 'General Administration', id: 'om_va_ga', parent: 'om_va' },
+
+          { name: 'Legal Team Lead', id: 'ltl', parent: 'vpo' },
+          { name: 'Lawyer', id: 'ltl_l', parent: 'ltl' },
+          { name: 'Trademarking', id: 'ltl_l_t', parent: 'ltl_l' },
+          { name: 'Patenting', id: 'ltl_l_p', parent: 'ltl_l' },
+          { name: 'Counter Claiming', id: 'ltl_l_cc', parent: 'ltl_l' },
+          { name: 'Enforcement', id: 'ltl_l_e', parent: 'ltl_l' },
+          { name: 'Misc. Consultation', id: 'ltl_l_mc', parent: 'ltl_l' },
+          { name: 'Virtual Assistant', id: 'ltl_va', parent: 'ltl' },
+          { name: 'Infringement Identification', id: 'ltl_va_ii', parent: 'ltl_va' },
+          { name: 'Claimant Research', id: 'ltl_va_cr', parent: 'ltl_va' },
+          { name: 'Claimant Liaison with Lawyer', id: 'ltl_va_cll', parent: 'ltl_va' },
+          { name: 'Insurance Liaison with Lawyer', id: 'ltl_va_ill', parent: 'ltl_va' },
+
+          { name: 'Accounting Manager', id: 'am', parent: 'vpo' },
+          { name: 'Accountant', id: 'am_a', parent: 'am' },
+          { name: 'Taxes', id: 'am_a_t', parent: 'am_a' },
+          { name: 'Misc. Consultation', id: 'am_a_mc', parent: 'am_a' },
+          { name: 'Bookkeeper', id: 'am_b', parent: 'am' },
+          { name: 'Forecasting', id: 'am_b_f', parent: 'am_b' },
+          { name: 'Budgeting', id: 'am_b_b', parent: 'am_b' },
+          { name: 'Supply Payment', id: 'am_b_sp', parent: 'am_b' },
+          { name: 'Cash Flow', id: 'am_b_cf', parent: 'am_b' },
+          { name: 'KPI', id: 'am_b_kpi', parent: 'am_b' },
+
+          { name: 'Customer Service Manager', id: 'csm', parent: 'vpo' },
+          { name: 'Virtual Assistant', id: 'csm_va', parent: 'csm' },
+          { name: 'Liaison Wholesale Inquiries to Project Manager', id: 'csm_va_lwipm', parent: 'csm_va' },
+          { name: 'Process Refunds & Replacements', id: 'csm_va_prr', parent: 'csm_va' },
+          { name: 'Customer Feedback Monitor', id: 'csm_va_cfm', parent: 'csm_va' },
+          { name: 'ID & Reply to Negative Reviews', id: 'csm_va_idrnr', parent: 'csm_va' },
+          { name: 'Email Positive Feedback to Leave Positive Product Review', id: 'csm_va_epflpr', parent: 'csm_va' },
+          { name: 'CS Representative', id: 'csm_csr', parent: 'csm' },
+          { name: 'Respond to CS Inquiries on Social Media Platforms', id: 'csm_csr_rcsismp', parent: 'csm_csr' },
+          { name: 'Respond to CS Inquiries on Websites', id: 'csm_csr_rcsiw', parent: 'csm_csr' },
+          { name: 'Respond to CS Questions on Amazon', id: 'csm_csr_rcsqa', parent: 'csm_csr' },
+          { name: 'Respond to CS Inquiries on Other Sale Outlets', id: 'csm_csr_rcsioso', parent: 'csm_csr' },
+
+          { name: 'Design & Marketing Manager', id: 'dmm', parent: 'vpo' },
+          { name: 'Advertising Lead', id: 'dmm_al', parent: 'dmm' },
+          { name: 'Launch Promotions & Giveaways', id: 'dmm_al_lpg', parent: 'dmm_al' },
+          { name: 'Amazon Sponsored Products', id: 'dmm_al_asp', parent: 'dmm_al' },
+          { name: 'AMS Advertizing', id: 'dmm_al_amsa', parent: 'dmm_al' },
+          { name: 'Social Media Marketing', id: 'dmm_al_smm', parent: 'dmm_al' },
+          { name: 'Influencer Marketing', id: 'dmm_al_im', parent: 'dmm_al' },
+          { name: 'Product Listing Copywriting', id: 'dmm_al_plc', parent: 'dmm_al' },
+          { name: 'Audio/Video Lead', id: 'dmm_avl', parent: 'dmm' },
+          { name: 'Product Photography', id: 'dmm_avl_pp', parent: 'dmm_avl' },
+          { name: '360 Interactive Photography', id: 'dmm_avl_360ip', parent: 'dmm_avl' },
+          { name: 'Video Production', id: 'dmm_avl_vp', parent: 'dmm_avl' },
+          { name: 'Audio Production', id: 'dmm_avl_ap', parent: 'dmm_avl' },
+          { name: 'Talent Liaison', id: 'dmm_avl_tl', parent: 'dmm_avl' },
+          { name: 'TM and Copyright Compliance', id: 'dmm_avl_tmcc', parent: 'dmm_avl' },
+          { name: 'Graphic Designer', id: 'dmm_gd', parent: 'dmm' },
+          { name: 'Product Packaging', id: 'dmm_gd_pp', parent: 'dmm_gd' },
+          { name: 'Branding', id: 'dmm_gd_b', parent: 'dmm_gd' },
+          { name: 'Listing Graphics', id: 'dmm_gd_lg', parent: 'dmm_gd' },
+          { name: 'Facebook & Instagram Banner Ad Design', id: 'dmm_gd_fibad', parent: 'dmm_gd' },
+          { name: 'Development & Programming Team', id: 'dmm_dpt', parent: 'dmm' },
+          { name: 'Website Programming', id: 'dmm_dpt_wp', parent: 'dmm_dpt' },
+          { name: 'Website Design & Optimization', id: 'dmm_dpt_wdo', parent: 'dmm_dpt' },
+          { name: 'App Development', id: 'dmm_dpt_ad', parent: 'dmm_dpt' },
+          { name: 'All Technical Support', id: 'dmm_dpt_ats', parent: 'dmm_dpt' },
+        ];
+      }
+    </script>
+  </body>
+</html>

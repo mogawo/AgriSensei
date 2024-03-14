@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Venn Chart Icon Groups | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 700px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Venn chart illustrating digital marketing scopes.
+Learn how to:
+
+  - Draw a venn chart.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'venn',
+        title: { label: { text: 'Digital Marketing', style_fontSize: '19px' }, position: 'center' },
+        toolbar_visible: false,
+        palette: 'bright',
+        defaultTooltip_enabled: false,
+        series: [
+          {
+            points: [
+              { name: 'Website', y: 16 },
+              { name: 'PPC', y: 8 },
+              { name: 'SEO', y: 8 },
+              { name: 'Social', y: 8 },
+              { name: 'Email', y: 8 },
+              {
+                name: 'Landing pages',
+                sets: ['Website', 'PPC'],
+                y: 2,
+              },
+              {
+                name: 'CRO',
+                sets: ['Website', 'PPC', 'SEO'],
+                y: 2,
+              },
+              {
+                name: 'Keyword research',
+                sets: ['PPC', 'SEO'],
+                y: 2,
+              },
+
+              {
+                name: 'Clean code content',
+                sets: ['Website', 'SEO'],
+                y: 2,
+              },
+              {
+                name: 'Sharable content',
+                sets: ['Website', 'SEO', 'Social'],
+                y: 2,
+              },
+              {
+                name: 'Authorship influencers',
+                sets: ['SEO', 'Social'],
+                y: 2,
+              },
+
+              {
+                name: 'Social links',
+                label: { rotate: -45, offset: '20,-5', autoWrap: false },
+                sets: ['Website', 'Social'],
+                y: 2,
+              },
+              {
+                name: 'News and updates',
+                sets: ['Website', 'Social', 'Email'],
+                y: 2,
+              },
+              {
+                name: 'Customer service',
+                sets: ['Social', 'Email'],
+                y: 2,
+              },
+              {
+                name: 'Upselling',
+                sets: ['Website', 'Email'],
+                y: 2,
+              },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

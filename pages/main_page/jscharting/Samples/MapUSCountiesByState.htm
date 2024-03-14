@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>US Counties Selection Map | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 500px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A simplified example of drawing US state counties on a map. It uses external topoJSON and data files to generate a US counties map dynamically.
+Learn how to:
+
+  - Create a US counties map.
+*/
+      // JS
+      var chart;
+      var states = [
+        'Alabama',
+        'Alaska',
+        'Arizona',
+        'Arkansas',
+        'California',
+        'Colorado',
+        'Connecticut',
+        'Delaware',
+        'District of Columbia',
+        'Florida',
+        'Georgia',
+        'Hawaii',
+        'Idaho',
+        'Illinois',
+        'Indiana',
+        'Iowa',
+        'Kansas',
+        'Kentucky',
+        'Louisiana',
+        'Maine',
+        'Maryland',
+        'Massachusetts',
+        'Michigan',
+        'Minnesota',
+        'Mississippi',
+        'Missouri',
+        'Montana',
+        'Nebraska',
+        'Nevada',
+        'New Hampshire',
+        'New Jersey',
+        'New Mexico',
+        'New York',
+        'North Carolina',
+        'North Dakota',
+        'Ohio',
+        'Oklahoma',
+        'Oregon',
+        'Pennsylvania',
+        'Rhode Island',
+        'South Carolina',
+        'South Dakota',
+        'Tennessee',
+        'Texas',
+        'Utah',
+        'Vermont',
+        'Virginia',
+        'Washington',
+        'West Virginia',
+        'Wisconsin',
+        'Wyoming',
+      ];
+
+      JSC.fetch('./resources/us-albers-counties.json.txt')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          // counties data
+          data = JSON.parse(text);
+          chart = renderChart(countySeries(data, states[0]));
+        });
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'map solid',
+          title_label: {
+            text: states[0] + ' counties',
+            style_fontSize: 16,
+          },
+          mapping_referenceLayers: 'resources/us-albers-counties.json.txt',
+          legend_visible: false,
+          defaultPoint: {
+            tooltip: '<b>%name</b>',
+            states: {
+              hover: { fill: 'currentColor' },
+              select: { enabled: true, fill: 'currentColor', outline: { color: 'black', width: 3 } },
+            },
+          },
+          series: series,
+          toolbar_items: {
+            resetZoom_visible: false,
+            zoom_visible: false,
+            export_visible: false,
+            label: {
+              label_text: 'Choose state:',
+              position: 'inside top left',
+              boxVisible: false,
+            },
+            countryList: {
+              type: 'select',
+              position: 'inside top left',
+              items: states.join(','),
+              events_change: selectState,
+            },
+          },
+        });
+      }
+      function selectState(val) {
+        var countiesSeries = countySeries(data, val);
+        chart.options({ title_label_text: val + ' counties' });
+        chart.series.splice(0, chart.series(0) ? 1 : 0, countiesSeries);
+      }
+
+      function countySeries(data, state) {
+        var stateCounties = data.objects.collection.geometries.filter(function (item) {
+          return item.properties.state === state;
+        });
+        var points = stateCounties.map(function (item) {
+          return { map: item.id };
+        });
+        return [{ points: points }];
+      }
+    </script>
+  </body>
+</html>

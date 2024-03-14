@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pictogram Icons Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 800px; height: 220px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with dynamically generated a pictogram icons for each node.
+Learn how to:
+
+  - Draw pictograms inside organizational nodes.
+*/
+      // JS
+      var palette = ['#03A9F4', '#FF5722', '#009688', '#673AB7'];
+      var icons = {
+        Developer: makeEmployeeIcon(palette[0]),
+        Designer: makeEmployeeIcon(palette[1]),
+        Analyst: makeEmployeeIcon(palette[2]),
+        Tester: makeEmployeeIcon(palette[3]),
+      };
+      var points = [
+        {
+          name: 'Cari Ellery',
+          id: 'dm',
+          attributes: { position: 'Department Manager', team: '' },
+          label_style_fontSize: 14,
+        },
+        { name: 'Jewell Robert', id: 'am1', parent: 'dm', attributes: { position: 'Assistant Manager', team: '' } },
+        {
+          name: 'Christian Bardsley',
+          id: 'am2',
+          parent: 'dm',
+          attributes: { position: 'Assistant Manager', team: '' },
+        },
+        {
+          name: 'Honor West',
+          id: 'tl1',
+          parent: 'dm',
+          attributes: {
+            position: 'Team Lead',
+            team: ':<br>' + makeIconsGroup(['Developer', 'Developer', 'Developer', 'Designer', 'Analyst', 'Tester']),
+          },
+        },
+        {
+          name: 'Linden Lamb',
+          id: 'tl2',
+          parent: 'dm',
+          attributes: {
+            position: 'Team Lead',
+            team: ':<br>' + makeIconsGroup(['Developer', 'Designer', 'Designer', 'Tester']),
+          },
+        },
+        {
+          name: 'Gifty Holme',
+          id: 'tl3',
+          parent: 'dm',
+          attributes: {
+            position: 'Team Lead',
+            team: ':<br>' + makeIconsGroup(['Developer', 'Developer', 'Developer', 'Developer', 'Tester']),
+          },
+        },
+      ];
+
+      /* Dynamically create legend entry configs */
+      var legendEntries = [];
+      Object.keys(icons).forEach(function (key, i) {
+        legendEntries.push({ name: key, icon_color: palette[i] });
+      });
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        legend: {
+          visible: true,
+          template: '%icon %name',
+          customEntries: legendEntries,
+          position: 'top left',
+          defaultEntry_icon: {
+            name: 'material/social/person',
+            outline_width: 0,
+            size: 16,
+          },
+        },
+        defaultPoint: {
+          outline_width: 0,
+          color: 'white',
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          annotation: {
+            label: {
+              text: '<b>%name</b><br>%position%team',
+              verticalAlign: 'top',
+            },
+            width: 140,
+            syncHeight: 'level',
+          },
+        },
+        series: [{ points: points }],
+      });
+
+      function makeIconsGroup(arr) {
+        var result = '';
+        arr.forEach(function (item, i) {
+          result += icons[item];
+        });
+        return result;
+      }
+
+      function makeEmployeeIcon(color) {
+        return (
+          '<icon name=material/social/person color=' + color + ' size=16 margin_top=5 margin_left=2 margin_right=2>'
+        );
+      }
+    </script>
+  </body>
+</html>

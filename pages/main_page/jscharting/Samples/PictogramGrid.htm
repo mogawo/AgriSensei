@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pictogram SparkLine Data Grid | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #gridWrapper {
+        max-width: 640px;
+        margin: 0px auto;
+      }
+      #gridTitle {
+        font-size: 18px;
+        font-family: tahoma, geneva, sans-serif;
+      }
+      #gridSubTitle {
+        margin: 4px 0 10px 0;
+        font-size: 14px;
+        font-family: tahoma, geneva, sans-serif;
+      }
+      .jscGrid .dataTable thead th {
+        background: white;
+        color: black;
+        text-align: left;
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid #f5f5f5;
+        font-family: tahoma, geneva, sans-serif;
+      }
+      .jscGrid .dataTable tr {
+        background: white !important;
+      }
+      .jscGrid .dataTable td {
+        min-width: 120px;
+        border-bottom: 1px solid #f5f5f5;
+        font-family: tahoma, geneva, sans-serif;
+        font-weight: 300;
+      }
+      .jscGrid .dataTable tr td:first-child {
+        color: black;
+        min-width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gridWrapper">
+      <div id="gridTitle">Water footprint of food</div>
+      <div id="gridSubTitle">
+        The water footprint of a product is the amount of water that is consumed and polluted in all processing stages
+        of its production.
+      </div>
+      <div id="gridDiv" style="height: 620px;"></div>
+      <input id="gridBtn" type="button" value="Show numbers" style="margin: 5px;" />
+    </div>
+
+    <script type="text/javascript">
+      /*
+Pictogram graph with sparkline grid view.
+Learn how to:
+
+  - Create a pictogram data grid.
+  - Toggle data grid view.
+*/
+      // JS
+      var grid,
+        maxIcons = 5,
+        palette = ['#64B5F6', '#90CAF9'],
+        iconView = true;
+
+      JSC.fetch('./resources/water-footprint-of-food.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          renderGrid(data).then(function (g) {
+            grid = g;
+          });
+          document.getElementById('gridBtn').addEventListener('click', function () {
+            return toggleView(data);
+          });
+        });
+
+      function renderGrid(data) {
+        return new JSC.Grid('gridDiv', {
+          data: makeIconSeries(data),
+          className: 'dataTable',
+          exportFile: false,
+          columns: [
+            { header: 'Product' },
+            { header: 'Litre per kilogram' },
+            { header: 'Litre per kilocalorie' },
+            { header: 'Litre per gram of protein' },
+            { header: 'Litre per gram of fat' },
+          ],
+        });
+      }
+
+      function makeIconSeries(data) {
+        return data.map(function (item) {
+          return {
+            product: item.product,
+            value1: makeIconsRow(item.value1, maxIcons, JSC.max(data, 'value1')),
+            value2: makeIconsRow(item.value2, maxIcons, JSC.max(data, 'value2')),
+            value3: makeIconsRow(item.value3, maxIcons, JSC.max(data, 'value3')),
+            value4: makeIconsRow(item.value4, maxIcons, JSC.max(data, 'value4')),
+          };
+        });
+
+        function makeIconsRow(value, maxIconCount, maxYValue) {
+          var string = '',
+            iconCount = Math.ceil(mapValue(0, maxIconCount, 0, maxYValue, value)),
+            iconString = iconText(palette[1], palette[0]),
+            emptyIconString = iconText('white', palette[0]);
+
+          for (var i = 0; i < maxIcons; i++) {
+            string += i < iconCount ? iconString : emptyIconString;
+          }
+          return string;
+
+          function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+            return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+          }
+
+          function iconText(color, outlineColor) {
+            return (
+              '<icon name=weather/drop margin=2 size=20 outline_width=2 color=' +
+              color +
+              ' outline_color=' +
+              outlineColor +
+              '>'
+            );
+          }
+        }
+      }
+
+      function makeMicrochartSeries(data) {
+        return data.map(function (item) {
+          return {
+            product: item.product,
+            value1: makeMicrochart(item.value1, JSC.max(data, 'value1')),
+            value2: makeMicrochart(item.value2, JSC.max(data, 'value2')),
+            value3: makeMicrochart(item.value3, JSC.max(data, 'value3')),
+            value4: makeMicrochart(item.value4, JSC.max(data, 'value4')),
+          };
+        });
+
+        function makeMicrochart(value, maxValue) {
+          return (
+            '<absolute><chart type=bar size=116x22 margin_left=4 max=' +
+            maxValue +
+            ' data=' +
+            value +
+            ' colors=' +
+            palette[1] +
+            '>' +
+            '<span style="width:40px; margin:5px 8px;">' +
+            JSC.formatNumber(value, 'n0') +
+            '</span></absolute>'
+          );
+        }
+      }
+
+      function toggleView(data) {
+        grid.options({
+          data: iconView ? makeMicrochartSeries(data) : makeIconSeries(data),
+        });
+        document.getElementById('gridBtn').value = iconView ? 'Show icon rows' : 'Show numbers';
+        iconView = !iconView;
+      }
+    </script>
+  </body>
+</html>

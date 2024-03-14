@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Point Marker Gantt Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; min-width: 330px; height: 440px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Uses point diamond markers on top of bars to simulate an arrow-like shape.
+Learn how to:
+
+  - Use point markers with Gantt bars.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        title_label_text: 'Website Design Project',
+        type: 'horizontal column solid',
+        zAxis_scale_type: 'stacked',
+        yAxis_scale_type: 'time',
+        xAxis_visible: false,
+        legend_visible: false,
+        defaultSeries: {
+          palette: ['#505268', '#666A86', '#788AA3', '#92B6B1', '#B2C9AB', '#E8DDB5'],
+          mouseTracking_enabled: false,
+          defaultPoint: {
+            opacity: 1,
+            radius: 0,
+            marker: {
+              outline_width: 0,
+              visible: true,
+              type: 'diamond',
+              size: 45,
+              opacity: 1,
+            },
+            outline_width: 0,
+            label: {
+              text: '<b>%name</b><br/>{%low:date MMM d} - {%high:date MMM d}',
+              style: { fontWeight: 'normal', fontSize: 10 },
+              align: 'left',
+              verticalAlign: 'middle',
+              padding: 6,
+              placement: 'inside',
+            },
+            tooltip: '<b>%designer</b><br/>{days(%high-%low)} days',
+          },
+        },
+        series: [
+          {
+            points: [
+              {
+                name: 'Wireframe',
+                y: ['1/1/2022', '1/25/2022'],
+                attributes: { designer: 'Devlin Cowins' },
+              },
+              {
+                name: 'Home Page',
+                y: ['1/15/2022', '1/28/2022'],
+                attributes: { designer: 'Frasco Hatchell' },
+              },
+              {
+                name: 'About Us Page',
+                y: ['1/20/2022', '2/6/2022'],
+                attributes: { designer: 'Dorthea Duffit' },
+              },
+              {
+                name: 'Landing Page',
+                y: ['1/28/2022', '2/15/2022'],
+                attributes: { designer: 'Stanislas Pickersail' },
+              },
+              {
+                name: 'Checkout Page',
+                y: ['2/5/2022', '2/18/2022'],
+                attributes: { designer: 'Rachel Steinhammer' },
+              },
+              {
+                name: 'Product Page',
+                y: ['2/13/2022', '3/2/2022'],
+                attributes: { designer: 'Coreen Ambrozik' },
+              },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

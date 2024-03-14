@@ -1,0 +1,215 @@
+<img src="tutorials/images/organizational-hierarchy-connectors.png" title="JavaScript Chart ...SEO image title" />
+
+
+
+<h2>Introduction</h2>
+<p>
+	Customization and control over org relationship paths and Gantt dependencies is provided through
+	hierarchy paths, similar to breadcrumbs. These paths are used to customize the connector lines and
+	point annotations between points in the hierarchy. For example, you can highlight the path from
+	the current hovered point to the top point in the hierarchy or change the styling of the path and
+	points when clicking a given point.
+</p>
+
+<h2>Style Connector Lines</h2>
+
+<p>
+	You can define styling of connector lines for each point individually, and each parent (for points
+	with multiple parents).
+</p>
+
+<p>
+	All connector lines for points in a series can be styled with
+	<a href="Types.pointConnector">Series.defaultPoint.connectorLine</a> properties.
+	<a href="Types.point.connectorLine">Point.connectorLine</a> allows setting parent connector line
+	styling per point, including connectorLine_radius to control the corner rounding. Line styling can
+	also be set for individual parent connectors when multiple parents are defined as detailed in the
+	following Specifying Parent Points section.
+</p>
+
+<h3>Specifying Parent Points</h3>
+
+<p>Parent points are specified by point ID.</p>
+
+<p>Within the context of point object such as:</p>
+<span class="codeText">
+	var chartOptions = { series:[{ points:[{ id:'id', name:'Node id', },{ id:'id2', name:'Node id2',
+	},{ id:'id3', name:'Node id3', },{ id:'id4', name:'Node id4', parent: 'id' }] }] };
+</span>
+
+<p>
+	The simple way to specify parents for point id4 above through the
+	<a href="Types.point.parent">point.parent property</a> is with:
+</p>
+
+<span class="example">parent: 'id', or 'id,id2'</span>
+
+<p>You can also define the point connector with ID and line style through the parent property.</p>
+
+<span class="example"
+	>parent: {id:'id', line: {color: 'blue'}} or {id: 'id,id2', line: {color: 'blue'}}</span
+>
+
+<p>
+	Additionally, you can specify an array of point connectors. This example defines 3 parent
+	connectors, one with a blue line and two with a green line style.
+</p>
+
+<span class="codeText">
+	var chartOptions = { series:[{ points:[{ id:'id', name:'Node id', },{ id:'id2', name:'Node id2',
+	},{ id:'id3', name:'Node id4', parent: [{id:'id', line:{color:'blue'}}, {id:'id2,id3',
+	line:{color:'green'}}] }] }] };
+</span>
+
+<h2>Highlight a connector path</h2>
+
+<p>
+	To highlight a path between two points or from a point all the way up or down the hierarchy, use
+	the <a href="iObject.Chart.connectors()">chart.connectors()</a> function.
+</p>
+
+<span class="example">chart.connectors(pathSelector [, style] [, updateOptions])</span>
+
+<h3>Path Selectors</h3>
+
+<p>The syntax for path selectors is</p>
+<span class="example">['pointID', (PointID2 or Direction)]</span>
+
+<p>The direction can be one of the following keywords: up, down, (both or all)</p>
+<p>This example makes all connector lines from pointID to the top of the hierarchy red:</p>
+
+<span class="codeText">chart.connectors(['pointID', 'up'], { color:'red' });</span>
+
+<p>More examples of path selectors:</p>
+<span class="codeText">
+	// All branches from pointID down the hierarchy.
+['pointID', 'down'],
+	// All branches from pointID up and down the hierarchy.
+['pointID', 'both'],
+	// All branches between pointA and pointB
+['pointA', 'pointB'],
+	// A specific branch of points.
+['pointA', 'pointB', 'pointC'],
+	// Multiple branches and selectors.
+[['pointA', 'pointC'], ['pointC', 'up']]
+</span>
+
+
+<p>
+	This function returns an array of paths where each path is an array of point IDs that are connected.
+	If there are multiple paths in your selection, they will all be returned in the array.
+</p>
+
+<p>
+	The following are some examples using the chart.connector() function. All these examples return
+	arrays of paths.
+</p>
+
+<span class="codeText">
+	/* Style the specified connector lines red.*/
+	chart.connectors(['pointID','up'], {color:'red'});
+
+	/* Do nothing except return the paths involved.*/
+	chart.connectors(['pointID', 'up'], {});
+
+	/* Reset the specified connector styles to their original state.*/
+	chart.connectors(['pointID', 'up']);
+
+	/* Reset all connector lines to their original state.*/
+	chart.connectors();
+</span>
+
+<p>
+	Individual paths (arrays of points) can be used as path selectors to style individual paths with
+	the <a href="iObject.Chart.connectors()">Chart.connectors()</a> function as well.
+</p>
+
+<p>
+	When connectors are styled this way, multiple calls to the
+	<a href="iObject.Chart.connectors()">Chart.connectors()</a> function apply the styling updates to
+	the prior styles. If you wish to reset styles to the original styling, all styles set in this
+	manner can be reset by calling <a href="iObject.Chart.connectors()">Chart.connectors()</a> without
+	any arguments.To style a new path only, call
+	<a href="iObject.Chart.connectors()">Chart.connectors()</a> without any arguments first to reset
+	all styles, then call it again with a path and style to apply it only to the specific path.
+</p>
+
+<p>
+	When using the <a href="iObject.Chart.connectors()">Chart.connectors()</a> function to get a list
+	of paths from a pathSelector and to avoid resetting other styles you have applied, use an empty
+	object for line styling. For example:
+</p>
+
+<span class="codeText">
+	var paths = chart.connectors(['pointID', 'up'], { })
+</span>
+<p>Without this empty object, the selected paths are reset to their original states.</p>
+
+
+
+<h2>Highlight points along the path</h2>
+
+<p>
+	To style the points along these paths, you can use the same path selector with the
+	Chart.series().points() function to select them.
+
+	<span class="codeText">chart.series().points([pointID,'up']); </span>
+</p>
+
+<p><span class="docsNote">
+Point collections based on path selectors like the above will return a collection of points sorted
+	in the order they were added to the chart. This way they can be removed from the hierarchical
+	chart individually starting with the last to first.
+</span></p>
+
+<p>
+	It is then recommended that you use the point selected or muted states to style these points
+	rather than any specific styling options such as color properties, because the selected and muted
+	states apply very efficiently and can be used with point hover events maintaining the highest
+	performance. For example, to highlight paths up the tree when hovering points, use:
+</p>
+
+<span class="codeText">chart.series().points([pointID, 'up']).options({selected: true});</span>
+
+<p>
+	In the case of Gantt charts, these paths can traverse multiple series and will still work without
+	issues.
+</p>
+
+<h4>Important Notes</h4>
+
+<ul>
+	<li>Use point states to modify point styling with mouse hover events to optimize performance.</li>
+	<li>
+		When using series.pointSelection=false to apply a style manually, set
+		point_state_selected_enabled:true to ensure the style is created internally.
+	</li>
+	<li>
+		When using the mute state for styling, make sure to have a point mouseOut event handler that
+		returns false to prevent automatic mute state changes.
+	</li>
+	<li>
+		Styling lines with chart.connectors() supports animation when you specify updateOptions (3rd
+		argument), but not when resetting styles.
+	</li>
+</ul>
+
+<h4>Some examples</h4>
+<span class="docsReference">
+Samples.orgPathHighlightOptions |
+    Samples.orgPathHighlightSelect |
+	Samples.orgPointSelectionModes |
+	Samples.orgBreadcrumbs |
+	Samples.orgGroupHighlight |
+	Samples.ganttCriticalPath
+
+</span>
+
+<h2>Manual Tree Traversal</h2>
+
+<p>
+	Point objects have <a href="iObject.Point.getParents()">Point.getParents()</a> and
+	<a href="iObject.Point.getChildren()">Point.getChildren()</a> functions that return collections of
+	points. This lets you traverse the hierarchy programmatically to manually analyze the tree data if necessary.
+</p>
+

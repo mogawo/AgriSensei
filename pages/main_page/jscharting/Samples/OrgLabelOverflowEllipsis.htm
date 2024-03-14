@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Truncated Leaf Node Label Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 700px; height: 380px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Use maxWidth and no wrapping to truncate the leaf labels on an organizational chart.
+Learn how to:
+
+  - Limit label width without wrapping.
+  - Use overflow ellipsis instead of wrapping.
+*/
+      // JS
+      var palette = ['#00796B', '#80CBC4'];
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultTooltip: {
+          label: { maxWidth: 200 },
+          outline: { width: 2, color: '#a6bac4' },
+        },
+        defaultSeries_defaultLeafPoint_label: {
+          align: 'left',
+          maxWidth: 100,
+          autoWrap: false,
+          textOverflow: 'ellipsis',
+        },
+        defaultPoint: {
+          outline_width: 0,
+          focusGlow_width: 0,
+          color: 'white',
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          leafPointLayout: 'vertical',
+          annotation_syncWidth: 'all',
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: 'Office of the Director', id: 'od' },
+          { name: 'Six Regions Nationwide', id: 'srn', parent: 'od' },
+          { name: 'Mid-Atlantic', id: 'srn_ma', parent: 'srn' },
+          { name: 'Midwest', id: 'srn_m', parent: 'srn' },
+          { name: 'Northeast', id: 'srn_n', parent: 'srn' },
+          { name: 'Pacific', id: 'srn_p', parent: 'srn' },
+          { name: 'Southeast', id: 'srn_s', parent: 'srn' },
+          { name: 'Southwest and Rocky Mountain Region', id: 'srn_srmr', parent: 'srn' },
+
+          { name: 'Office of the Enforcement Director', id: 'oed', parent: 'od' },
+          { name: 'Expert Services', id: 'oed_bes', parent: 'oed' },
+          { name: 'Validation and Analytics', id: 'oed_bva', parent: 'oed' },
+
+          { name: 'Division of Program Operations ', id: 'dpo', parent: 'od' },
+          { name: 'Scheduling and Jurisdiction', id: 'dpo_bsj', parent: 'dpo' },
+          { name: 'Performance Management', id: 'dpo_bpm', parent: 'dpo' },
+          { name: 'Quality Assurance', id: 'dpo_bqa', parent: 'dpo' },
+          { name: 'National Programs', id: 'dpo_bnp', parent: 'dpo' },
+          { name: 'Data Systems', id: 'dpo_bds', parent: 'dpo' },
+
+          { name: 'Division of Policy and Program Development', id: 'dppd', parent: 'od' },
+          { name: 'Regulatory and Legislative Development', id: 'dppd_brld', parent: 'dppd' },
+          { name: 'Policy Development', id: 'dppd_bpd', parent: 'dppd' },
+          { name: 'Training, Education, and Program Development', id: 'dppd_btepd', parent: 'dppd' },
+          { name: 'Outreach and Public Engagement', id: 'dppd_bope', parent: 'dppd' },
+          { name: 'Help Desk Branch', id: 'dppd_hdb', parent: 'dppd' },
+
+          { name: 'Division of Management and Administrative Programs', id: 'dmap', parent: 'od' },
+          { name: 'Budget and Finance', id: 'dmap_bbf', parent: 'dmap' },
+          { name: 'Human Capital and Workforce Management', id: 'dmap_bhcwm', parent: 'dmap' },
+          { name: 'Information Services', id: 'dmap_bis', parent: 'dmap' },
+        ];
+        // Apply a color from palette to each group of points
+        points.forEach(function (point, i) {
+          if (point.id === 'od') {
+            JSC.merge(point, {
+              color: palette[0],
+              label: {
+                color: 'white',
+                style_fontSize: 14,
+              },
+              annotation_padding: 10,
+              tooltip: '',
+            });
+          } else if (point.parent === 'od') {
+            JSC.merge(point, {
+              color: palette[1],
+              annotation_padding: 8,
+              tooltip: '',
+            });
+          }
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

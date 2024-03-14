@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Directional Hierarchy Highlighting Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="margin: 8px auto; max-width: 750px;">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 750px; height: 440px;"></div>
+      <div id="hoverInfo" style="min-height: 200px; text-align: left;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Highlight organizational hierarchy paths in different directions and style states.
+Learn how to:
+
+  - Highlight organizational paths in different directions.
+  - List highlighted organizational path breadcrumbs.
+*/
+      // JS
+      var highlightDirection = 'Both',
+        highlightUpColor = '#1aa8ff',
+        highlightDownColor = '#006e98';
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+
+        /* These options will apply to all annotations including point nodes and breadcrumbs.*/
+        defaultAnnotation: { padding: [5, 10], margin: 10 },
+        annotations: [
+          {
+            position: 'inside top right',
+            label_text: 'View the paths emanating from points on hover in the selected direction.',
+            offset: '0,-15',
+          },
+        ],
+        defaultSeries: {
+          color: '#f3f7ff',
+          /* Disables selection by clicking points. */
+          pointSelection: false,
+        },
+        defaultTooltip_enabled: false,
+        defaultPoint: {
+          focusGlow: false,
+          connectorLine: {
+            color: 'gray',
+            width: 1,
+            caps: { end: { type: 'arrow', size: 4 } },
+          },
+          outline: { color: 'gray', width: 1, dashStyle: 'dash' },
+          states: {
+            /* Select state is used to highlight points up the tree. */
+            select: {
+              /* Ensure select styles are created despite being disabled with point clicks. (defaultSeries.pointSelection) */
+              enabled: true,
+              opacity: 1,
+              outline: { color: highlightUpColor },
+            },
+            /* Muted state is used to highlight points down the tree. */
+            mute: {
+              enabled: true,
+              opacity: 1,
+              outline: { color: highlightDownColor, width: 2 },
+            },
+          },
+          events: {
+            mouseOver: pointOver,
+            mouseOut: pointOut,
+          },
+        },
+        series: [
+          {
+            points: [
+              { x: 'Eliott Nieves', id: 'president', attributes_role: 'CEO' },
+              { x: 'Harvey-Lee Travis', id: 'vPresident1', parent: 'president', attributes_role: 'Vice President' },
+              { x: 'Gethin Morley', id: 'vPresident2', parent: 'president', attributes_role: 'Vice President' },
+              { x: 'Sonnie Kim', id: 'vPresident3', parent: 'president', attributes_role: 'Vice President' },
+              { x: 'Dante Curtis', id: 'manager1', parent: 'vPresident1', attributes_role: 'Manager' },
+              { x: 'Honey Mullen', id: 'manager2', parent: 'vPresident1', attributes_role: 'Manager' },
+              { x: 'Steffan Taylor', id: 'manager3', parent: 'vPresident2', attributes_role: 'Manager' },
+              { x: 'Charlton Hester', id: 'manager4', parent: 'vPresident2', attributes_role: 'Manager' },
+              { x: 'Ishmael Orr', id: 'manager5', parent: 'vPresident2', attributes_role: 'Manager' },
+              { x: 'Dua Frost', id: 'manager6', parent: 'manager5', attributes_role: 'Manager' },
+              { x: 'Salahuddin Eastwood', id: 'manager7', parent: 'manager5', attributes_role: 'Manager' },
+              { x: 'Nicole Tapia', id: 'employee1', parent: 'manager6', attributes_role: 'Employee' },
+              { x: 'Arisha Hinton', id: 'employee2', parent: 'manager6', attributes_role: 'Employee' },
+              { x: 'Martha Morley', id: 'employee3', parent: 'manager6', attributes_role: 'Employee' },
+              { x: 'Cathy Mcpherson', id: 'employee4', parent: 'manager6', attributes_role: 'Employee' },
+              { x: 'Kiara Johns', id: 'manager8', parent: 'vPresident3', attributes_role: 'Manager' },
+              { x: 'Grant Cash', id: 'manager9', parent: 'vPresident3', attributes_role: 'Manager' },
+              { x: 'Juanita Cottrell', id: 'employee5', parent: 'manager8', attributes_role: 'Employee' },
+              { x: 'Allana Frey', id: 'employee6', parent: 'manager8', attributes_role: 'Employee' },
+            ],
+          },
+        ],
+
+        toolbar_items: {
+          'Path Highlight Direction': {
+            itemsBox: {
+              visible: true,
+              layout: 'horizontal',
+            },
+            defaultItem: { type: 'radio' },
+            value: highlightDirection,
+            items: 'Up,Down,Both',
+            events_change: function (val) {
+              highlightDirection = val;
+            },
+          },
+        },
+      });
+
+      function pointOver() {
+        var point = this,
+          chart = point.chart;
+
+        switch (highlightDirection) {
+          case 'Up':
+            highlightUp(point.id);
+            break;
+          case 'Down':
+            highlightDown(point.id);
+            break;
+          case 'Both':
+            highlightUp(point.id);
+            highlightDown(point.id);
+        }
+
+        chart.series().points(point.id).options({ selected: true, muted: false });
+
+        updateInfo(point);
+
+        // Use the selected state to highlight up the tree.
+        function highlightUp(id) {
+          chart.connectors([id, 'up'], { color: highlightUpColor, width: 2 });
+          chart.series().points([id, 'up']).options({ selected: true, muted: false });
+        }
+
+        // Use the muted state to highlight points down the tree.
+        function highlightDown(id) {
+          chart.connectors([id, 'down'], { color: highlightDownColor, width: 2 });
+          chart.series().points([id, 'down']).options({ selected: false, muted: true });
+        }
+      }
+
+      function pointOut() {
+        var point = this;
+        reset(point.chart);
+      }
+
+      function reset(c) {
+        c.connectors();
+        c.series().points().options({ selected: false });
+        var el = document.getElementById('hoverInfo');
+        el.innerHTML = '';
+      }
+
+      function updateInfo(point) {
+        var chart = point.chart,
+          pathSelection = [point.id, highlightDirection],
+          paths = chart.connectors(pathSelection, {});
+
+        var html = ' Showing ' + paths.length + ' path' + (paths.length > 1 ? 's' : '') + ' top down.<br/>';
+
+        var pathList = paths.map(function (path) {
+          // Reverse so it lists top down.
+          path.reverse();
+
+          var result = '<li>' + path.map(idToPointName).join(' > ') + '</li>';
+          // Bold the hovered point name.
+          result = result.replace(point.x, '<b>' + point.x + '</b>');
+          return result;
+        });
+
+        html += '<ul>' + pathList.join('') + '</ul>';
+
+        var el = document.getElementById('hoverInfo');
+        el.innerHTML = html;
+
+        function idToPointName(id) {
+          var point = chart.series().points(id);
+          return point.x || point.name;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+date,organization,actual,forecast
+6/1/2016,,4.90,
+12/1/2016,,4.70,
+6/1/2017,,4.40,
+12/1/2017,,4.10,
+6/1/2018,,4.00,
+12/1/2018,,3.90,
+6/1/2019,American Chemisty Council,3.70,3.70
+6/1/2019,Ameriprise Financial,3.70,3.70
+6/1/2019,BBVA Compass,3.70,3.70
+6/1/2019,BMO Capital,3.70,3.70
+6/1/2019,Corelogic,3.70,3.70
+6/1/2019,Daiwa Capital,3.70,3.70
+6/1/2019,"Decision Economics, Inc.",3.70,3.70
+6/1/2019,Deloitte LP,3.70,3.70
+6/1/2019,"Deutsche Bank Securities, Inc.",3.70,3.70
+6/1/2019,Econoclast,3.70,3.70
+6/1/2019,Economic Analysis Associates Inc.,3.70,3.70
+6/1/2019,Economic Outlook Group,3.70,3.70
+6/1/2019,Fannie Mae,3.70,3.70
+6/1/2019,"First Trust Advisors, L.P.",3.70,3.70
+6/1/2019,Georgia State University,3.70,3.70
+6/1/2019,Macroeconomic Advisers,3.70,3.70
+6/1/2019,Moody's Investors Service,3.70,3.70
+6/1/2019,Mortgage Bankers Association,3.70,3.70
+6/1/2019,Naroff Economic Advisors,3.70,3.70
+6/1/2019,National Association of Home Builders,3.70,3.70
+6/1/2019,National Association of Manufacturers,3.70,3.70
+6/1/2019,National Association of Realtors,3.70,3.70
+6/1/2019,Nationwide Insurance,3.70,3.70
+6/1/2019,NEMA Business Information Services,3.70,3.70
+6/1/2019,Oxford Economics,3.70,3.70
+6/1/2019,Pantheon Macroeconomics,3.70,3.70
+6/1/2019,Parsec Financial Management,3.70,3.70
+6/1/2019,Pierpont Securities,3.70,3.70
+6/1/2019,PNC Financial Services Group,3.70,3.70
+6/1/2019,Point Loma Nazarene University,3.70,3.70
+6/1/2019,Societe Generale,3.70,3.70
+6/1/2019,The Northern Trust,3.70,3.70
+6/1/2019,Wrightson ICAP,3.70,3.70
+12/1/2019,American Chemisty Council,,3.60
+12/1/2019,Ameriprise Financial,,3.50
+12/1/2019,BBVA Compass,,3.50
+12/1/2019,BMO Capital,,3.70
+12/1/2019,Corelogic,,3.50
+12/1/2019,Daiwa Capital,,3.70
+12/1/2019,"Decision Economics, Inc.",,3.30
+12/1/2019,Deloitte LP,,3.86
+12/1/2019,"Deutsche Bank Securities, Inc.",,4.00
+12/1/2019,Econoclast,,3.50
+12/1/2019,Economic Analysis Associates Inc.,,3.40
+12/1/2019,Economic Outlook Group,,3.50
+12/1/2019,Fannie Mae,,3.70
+12/1/2019,"First Trust Advisors, L.P.",,3.50
+12/1/2019,Georgia State University,,3.80
+12/1/2019,Macroeconomic Advisers,,3.60
+12/1/2019,Moody's Investors Service,,3.59
+12/1/2019,Mortgage Bankers Association,,3.70
+12/1/2019,Naroff Economic Advisors,,3.70
+12/1/2019,National Association of Home Builders,,3.60
+12/1/2019,National Association of Manufacturers,,3.60
+12/1/2019,National Association of Realtors,,3.80
+12/1/2019,Nationwide Insurance,,3.40
+12/1/2019,NEMA Business Information Services,,3.50
+12/1/2019,Oxford Economics,,3.50
+12/1/2019,Pantheon Macroeconomics,,3.80
+12/1/2019,Parsec Financial Management,,3.40
+12/1/2019,Pierpont Securities,,3.50
+12/1/2019,PNC Financial Services Group,,3.80
+12/1/2019,Point Loma Nazarene University,,3.50
+12/1/2019,Societe Generale,,3.70
+12/1/2019,The Northern Trust,,3.70
+12/1/2019,Wrightson ICAP,,3.70
+6/1/2020,American Chemisty Council,,3.60
+6/1/2020,Ameriprise Financial,,3.70
+6/1/2020,BBVA Compass,,3.60
+6/1/2020,BMO Capital,,3.70
+6/1/2020,Corelogic,,3.50
+6/1/2020,Daiwa Capital,,3.80
+6/1/2020,"Decision Economics, Inc.",,3.50
+6/1/2020,Deloitte LP,,3.99
+6/1/2020,"Deutsche Bank Securities, Inc.",,4.30
+6/1/2020,Econoclast,,3.60
+6/1/2020,Economic Analysis Associates Inc.,,3.30
+6/1/2020,Economic Outlook Group,,3.80
+6/1/2020,Fannie Mae,,3.70
+6/1/2020,"First Trust Advisors, L.P.",,3.40
+6/1/2020,Georgia State University,,4.00
+6/1/2020,Macroeconomic Advisers,,3.50
+6/1/2020,Moody's Investors Service,,3.56
+6/1/2020,Mortgage Bankers Association,,4.10
+6/1/2020,Naroff Economic Advisors,,4.00
+6/1/2020,National Association of Home Builders,,3.70
+6/1/2020,National Association of Manufacturers,,3.90
+6/1/2020,National Association of Realtors,,3.90
+6/1/2020,Nationwide Insurance,,3.40
+6/1/2020,NEMA Business Information Services,,3.50
+6/1/2020,Oxford Economics,,3.40
+6/1/2020,Pantheon Macroeconomics,,4.10
+6/1/2020,Parsec Financial Management,,3.20
+6/1/2020,Pierpont Securities,,3.40
+6/1/2020,PNC Financial Services Group,,4.00
+6/1/2020,Point Loma Nazarene University,,3.50
+6/1/2020,Societe Generale,,3.90
+6/1/2020,The Northern Trust,,3.80
+6/1/2020,Wrightson ICAP,,4.00
+12/1/2020,American Chemisty Council,,3.70
+12/1/2020,Ameriprise Financial,,3.70
+12/1/2020,BBVA Compass,,3.70
+12/1/2020,BMO Capital,,3.70
+12/1/2020,Corelogic,,3.50
+12/1/2020,Daiwa Capital,,4.20
+12/1/2020,"Decision Economics, Inc.",,3.60
+12/1/2020,Deloitte LP,,3.99
+12/1/2020,"Deutsche Bank Securities, Inc.",,4.10
+12/1/2020,Econoclast,,3.70
+12/1/2020,Economic Analysis Associates Inc.,,3.20
+12/1/2020,Economic Outlook Group,,4.00
+12/1/2020,Fannie Mae,,4.10
+12/1/2020,"First Trust Advisors, L.P.",,3.40
+12/1/2020,Georgia State University,,4.10
+12/1/2020,Macroeconomic Advisers,,3.50
+12/1/2020,Moody's Investors Service,,3.53
+12/1/2020,Mortgage Bankers Association,,4.10
+12/1/2020,Naroff Economic Advisors,,4.80
+12/1/2020,National Association of Home Builders,,3.80
+12/1/2020,National Association of Manufacturers,,4.10
+12/1/2020,National Association of Realtors,,4.00
+12/1/2020,Nationwide Insurance,,3.50
+12/1/2020,NEMA Business Information Services,,3.50
+12/1/2020,Oxford Economics,,3.60
+12/1/2020,Pantheon Macroeconomics,,4.40
+12/1/2020,Parsec Financial Management,,3.00
+12/1/2020,Pierpont Securities,,3.40
+12/1/2020,PNC Financial Services Group,,4.00
+12/1/2020,Point Loma Nazarene University,,3.50
+12/1/2020,Societe Generale,,4.50
+12/1/2020,The Northern Trust,,3.90
+12/1/2020,Wrightson ICAP,,4.20
+6/1/2021,American Chemisty Council,,3.70
+6/1/2021,Ameriprise Financial,,3.60
+6/1/2021,BBVA Compass,,3.70
+6/1/2021,BMO Capital,,3.80
+6/1/2021,Corelogic,,3.60
+6/1/2021,Daiwa Capital,,4.70
+6/1/2021,"Decision Economics, Inc.",,3.80
+6/1/2021,Deloitte LP,,3.95
+6/1/2021,"Deutsche Bank Securities, Inc.",,4.00
+6/1/2021,Econoclast,,3.90
+6/1/2021,Economic Analysis Associates Inc.,,3.20
+6/1/2021,Economic Outlook Group,,3.70
+6/1/2021,Fannie Mae,,4.30
+6/1/2021,"First Trust Advisors, L.P.",,3.30
+6/1/2021,Georgia State University,,4.20
+6/1/2021,Macroeconomic Advisers,,3.60
+6/1/2021,Moody's Investors Service,,3.50
+6/1/2021,Mortgage Bankers Association,,4.20
+6/1/2021,Naroff Economic Advisors,,5.20
+6/1/2021,National Association of Home Builders,,3.90
+6/1/2021,National Association of Manufacturers,,4.30
+6/1/2021,National Association of Realtors,,4.10
+6/1/2021,Nationwide Insurance,,3.50
+6/1/2021,NEMA Business Information Services,,3.60
+6/1/2021,Oxford Economics,,3.60
+6/1/2021,Pantheon Macroeconomics,,4.60
+6/1/2021,Parsec Financial Management,,3.30
+6/1/2021,Pierpont Securities,,3.30
+6/1/2021,PNC Financial Services Group,,4.00
+6/1/2021,Point Loma Nazarene University,,3.60
+6/1/2021,Societe Generale,,4.80
+6/1/2021,The Northern Trust,,3.90
+6/1/2021,Wrightson ICAP,,4.40
+12/1/2021,American Chemisty Council,,3.70
+12/1/2021,Ameriprise Financial,,3.60
+12/1/2021,BBVA Compass,,3.80
+12/1/2021,BMO Capital,,3.80
+12/1/2021,Corelogic,,3.70
+12/1/2021,Daiwa Capital,,5.10
+12/1/2021,"Decision Economics, Inc.",,4.00
+12/1/2021,Deloitte LP,,3.96
+12/1/2021,"Deutsche Bank Securities, Inc.",,4.00
+12/1/2021,Econoclast,,4.00
+12/1/2021,Economic Analysis Associates Inc.,,3.00
+12/1/2021,Economic Outlook Group,,3.50
+12/1/2021,Fannie Mae,,4.50
+12/1/2021,"First Trust Advisors, L.P.",,3.30
+12/1/2021,Georgia State University,,4.20
+12/1/2021,Macroeconomic Advisers,,3.70
+12/1/2021,Moody's Investors Service,,3.47
+12/1/2021,Mortgage Bankers Association,,4.20
+12/1/2021,Naroff Economic Advisors,,5.00
+12/1/2021,National Association of Home Builders,,4.10
+12/1/2021,National Association of Manufacturers,,4.40
+12/1/2021,National Association of Realtors,,4.20
+12/1/2021,Nationwide Insurance,,3.60
+12/1/2021,NEMA Business Information Services,,3.70
+12/1/2021,Oxford Economics,,3.70
+12/1/2021,Pantheon Macroeconomics,,4.50
+12/1/2021,Parsec Financial Management,,3.80
+12/1/2021,Pierpont Securities,,3.20
+12/1/2021,PNC Financial Services Group,,4.00
+12/1/2021,Point Loma Nazarene University,,3.70
+12/1/2021,Societe Generale,,4.70
+12/1/2021,The Northern Trust,,3.90
+12/1/2021,Wrightson ICAP,,4.30
+6/1/2022,American Chemisty Council,,3.80
+6/1/2022,Ameriprise Financial,,3.60
+6/1/2022,BBVA Compass,,3.90
+6/1/2022,BMO Capital,,3.80
+6/1/2022,Corelogic,,3.80
+6/1/2022,Daiwa Capital,,
+6/1/2022,"Decision Economics, Inc.",,4.20
+6/1/2022,Deloitte LP,,3.97
+6/1/2022,"Deutsche Bank Securities, Inc.",,4.10
+6/1/2022,Econoclast,,4.20
+6/1/2022,Economic Analysis Associates Inc.,,3.20
+6/1/2022,Economic Outlook Group,,3.80
+6/1/2022,Fannie Mae,,4.50
+6/1/2022,"First Trust Advisors, L.P.",,
+6/1/2022,Georgia State University,,4.50
+6/1/2022,Macroeconomic Advisers,,3.80
+6/1/2022,Moody's Investors Service,,3.45
+6/1/2022,Mortgage Bankers Association,,4.00
+6/1/2022,Naroff Economic Advisors,,4.80
+6/1/2022,National Association of Home Builders,,
+6/1/2022,National Association of Manufacturers,,
+6/1/2022,National Association of Realtors,,4.20
+6/1/2022,Nationwide Insurance,,3.70
+6/1/2022,NEMA Business Information Services,,3.80
+6/1/2022,Oxford Economics,,3.80
+6/1/2022,Pantheon Macroeconomics,,
+6/1/2022,Parsec Financial Management,,4.20
+6/1/2022,Pierpont Securities,,3.30
+6/1/2022,PNC Financial Services Group,,4.20
+6/1/2022,Point Loma Nazarene University,,3.70
+6/1/2022,Societe Generale,,4.60
+6/1/2022,The Northern Trust,,3.90
+6/1/2022,Wrightson ICAP,,4.10
+12/1/2022,American Chemisty Council,,3.80
+12/1/2022,Ameriprise Financial,,3.50
+12/1/2022,BBVA Compass,,4.00
+12/1/2022,BMO Capital,,3.80
+12/1/2022,Corelogic,,3.90
+12/1/2022,Daiwa Capital,,
+12/1/2022,"Decision Economics, Inc.",,4.40
+12/1/2022,Deloitte LP,,3.99
+12/1/2022,"Deutsche Bank Securities, Inc.",,4.10
+12/1/2022,Econoclast,,4.20
+12/1/2022,Economic Analysis Associates Inc.,,3.30
+12/1/2022,Economic Outlook Group,,3.80
+12/1/2022,Fannie Mae,,4.40
+12/1/2022,"First Trust Advisors, L.P.",,
+12/1/2022,Georgia State University,,4.70
+12/1/2022,Macroeconomic Advisers,,3.90
+12/1/2022,Moody's Investors Service,,3.40
+12/1/2022,Mortgage Bankers Association,,4.00
+12/1/2022,Naroff Economic Advisors,,4.50
+12/1/2022,National Association of Home Builders,,
+12/1/2022,National Association of Manufacturers,,
+12/1/2022,National Association of Realtors,,4.20
+12/1/2022,Nationwide Insurance,,3.80
+12/1/2022,NEMA Business Information Services,,3.90
+12/1/2022,Oxford Economics,,3.80
+12/1/2022,Pantheon Macroeconomics,,
+12/1/2022,Parsec Financial Management,,4.00
+12/1/2022,Pierpont Securities,,3.40
+12/1/2022,PNC Financial Services Group,,4.30
+12/1/2022,Point Loma Nazarene University,,3.80
+12/1/2022,Societe Generale,,4.60
+12/1/2022,The Northern Trust,,4.00
+12/1/2022,Wrightson ICAP,,3.90

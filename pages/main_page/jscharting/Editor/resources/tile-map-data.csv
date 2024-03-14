@@ -1,0 +1,52 @@
+state,code,region,col,row
+Alabama,AL,South,6,6
+Alaska,AK,West,0,0
+Arizona,AZ,West,1,5
+Arkansas,AR,South,4,5
+California,CA,West,0,4
+Colorado,CO,West,2,4
+Connecticut,CT,Northeast,9,3
+Delaware,DE,South,9,4
+District of Columbia,DC,South,8,5
+Florida,FL,South,8,7
+Georgia,GA,South,7,6
+Hawaii,HI,West,0,7
+Idaho,ID,West,1,2
+Illinois,IL,Midwest,5,2
+Indiana,IN,Midwest,5,3
+Iowa,IA,Midwest,4,3
+Kansas,KS,Midwest,3,5
+Kentucky,KY,South,5,4
+Louisiana,LA,South,4,6
+Maine,ME,Northeast,10,0
+Maryland,MD,South,8,4
+Massachusetts,MA,Northeast,9,2
+Michigan,MI,Midwest,6,2
+Minnesota,MN,Midwest,4,2
+Mississippi,MS,South,5,6
+Missouri,MO,Midwest,4,4
+Montana,MT,West,2,2
+Nebraska,NE,Midwest,3,4
+Nevada,NV,West,1,3
+New Hampshire,NH,Northeast,10,1
+New Jersey,NJ,Northeast,8,3
+New Mexico,NM,West,2,5
+New York,NY,Northeast,8,2
+North Carolina,NC,South,6,5
+North Dakota,ND,Midwest,3,2
+Ohio,OH,Midwest,6,3
+Oklahoma,OK,South,3,6
+Oregon,OR,West,0,3
+Pennsylvania,PA,Northeast,7,3
+Rhode Island,RI,Northeast,10,3
+South Carolina,SC,South,7,5
+South Dakota,SD,Midwest,3,3
+Tennessee,TN,South,5,5
+Texas,TX,South,3,7
+Utah,UT,West,1,4
+Vermont,VT,Northeast,9,1
+Virginia,VA,South,7,4
+Washington,WA,West,0,2
+West Virginia,WV,South,6,4
+Wisconsin,WI,Midwest,5,1
+Wyoming,WY,West,2,3

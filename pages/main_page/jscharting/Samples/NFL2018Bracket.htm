@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Organizational Brackets Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #_jsc_overlay0 div {
+        padding: 0 !important;
+      }
+      .match {
+        border-collapse: collapse;
+        width: 190px;
+        font-size: 12px;
+      }
+      .match td {
+        padding: 4px 8px;
+      }
+      .match td:last-child {
+        text-align: right;
+      }
+      .match tr {
+        border: 1px solid #495057;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .AFC {
+        background-color: #ff8787;
+      }
+      .NFC {
+        background-color: #4dabf7;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 840px; height: 420px; margin: 0px auto; overflow: hidden;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational brackets chart with HTML annotations.
+Learn how to:
+
+  - Use HTML annotations and tooltips.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/NFL-2018-playoff-bracket.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          type: 'organizational left',
+          title_label_text: '2018 NFL Season Playoff Bracket',
+          defaultSeries: { mouseTracking_enabled: false },
+          legend: {
+            template: '%icon %name',
+            position: 'outside top',
+            customEntries: [
+              { name: 'AFC', icon_color: '#ff8787' },
+              { name: 'NFC', icon_color: '#4dabf7' },
+            ],
+          },
+          defaultAnnotation: {
+            label_style_fontSize: 14,
+            margin: { left: 30, right: 40, top: 30 },
+          },
+          annotations: [
+            {
+              label_text:
+                '<icon name=system/default/square size=14 verticalAlign=middle color=#ff8787> AFC <icon name=system/default/square size=14 verticalAlign=middle color=#4dabf7> NFC',
+              position: 'inside left top',
+              offset: '220,-27',
+              margin: 0,
+            },
+            {
+              label_text: 'Wild card playoffs',
+              position: 'inside top',
+            },
+            {
+              label_text: 'Divisional playoffs',
+              position: 'inside top',
+            },
+            {
+              label_text: 'Conference championships',
+              position: 'inside top',
+            },
+            {
+              label_text: 'Super Bowl',
+              position: 'inside top',
+            },
+          ],
+          defaultPoint: {
+            focusGlow: false,
+            connectorLine: { width: 1, color: '#495057' },
+            annotation: {
+              asHTML: true,
+              margin: 5,
+              label: {
+                text: makeTextLabel,
+                style_fontSize: 10,
+              },
+            },
+            outline_width: 0,
+            color: '#333333',
+          },
+          series: series,
+        });
+      }
+
+      function makeTextLabel(point) {
+        var text = '';
+        var team1 = point.tokenValue('%team1'),
+          team2 = point.tokenValue('%team2');
+        var points1 = point.tokenValue('%points1'),
+          points2 = point.tokenValue('%points2');
+        var team1_conf = point.tokenValue('%teamConf1'),
+          team2_conf = point.tokenValue('%teamConf2');
+        if (points1 > points2) {
+          text =
+            '<table class="match"><tr class="bold ' +
+            team1_conf +
+            '"><td>' +
+            team1 +
+            '</td><td>' +
+            points1 +
+            '</td></tr><tr class="' +
+            team2_conf +
+            '"><td>' +
+            team2 +
+            '</td><td>' +
+            points2 +
+            '</td></tr></table>';
+        } else {
+          text =
+            '<table class="match"><tr class="' +
+            team1_conf +
+            '"><td>' +
+            team1 +
+            '</td><td>' +
+            points1 +
+            '</td></tr><tr class="bold ' +
+            team2_conf +
+            '"><td>' +
+            team2 +
+            '</td><td>' +
+            points2 +
+            '</td></tr></table>';
+        }
+        return text;
+      }
+
+      function makeSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return {
+                name: item.playoffs,
+                id: item.id,
+                parent: item.parent,
+                attributes: {
+                  team1: item.team1,
+                  team2: item.team2,
+                  points1: item.points1,
+                  points2: item.points2,
+                  teamConf1: item.team1_conf,
+                  teamConf2: item.team2_conf,
+                },
+              };
+            }),
+          },
+        ];
+      }
+    </script>
+  </body>
+</html>

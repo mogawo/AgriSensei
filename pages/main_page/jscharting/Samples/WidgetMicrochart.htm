@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Microchart Widget Variations | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 130px; height: 180px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 100px; height: 120px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 250px; height: 60px;"></div>
+      <div id="chartDiv4" class="chartDiv" style="max-width: 130px; height: 180px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Micro chart widgets using area line, columns, line and labels.
+Learn how to:
+
+  - Use micro charts in widgets.
+*/
+      // JS
+      var chart1, chart2, chart3, chart4;
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var microchartWidgetDefaults = {
+        title: 'Values',
+        orientation: 'vertical',
+        chartType: 'area spline',
+        data: [
+          {
+            name: 'Value',
+            points: [
+              { x: '1/1/2022', y: 8 },
+              { x: '1/2/2022', y: 2 },
+              { x: '1/3/2022', y: 4 },
+              { x: '1/4/2022', y: 5 },
+              { x: '1/5/2022', y: 6 },
+              { x: '1/6/2022', y: 2 },
+              { x: '1/7/2022', y: 4 },
+            ],
+          },
+        ],
+        color: '#77a9d2',
+        valueFormat: 'n',
+      };
+
+      /* Widget Constructor */
+      function MicrochartWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, microchartWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              defaultAxis_visible: false,
+              xAxis: {
+                scale_type: 'time',
+                formatString: 'MMM dd',
+                crosshair: {
+                  enabled: true,
+                  outline_width: 0,
+                  corners: 'square',
+                  gridLine_visible: false,
+                },
+              },
+              defaultSeries: { shape_opacity: 0.2, line_width: 4 },
+              defaultTooltip: {
+                fill: '#263238',
+                shadow: false,
+                outline_width: 0,
+                opacity: 0.95,
+                padding: 6,
+                label: {
+                  color: 'white',
+                  align: 'center',
+                  text: '<span style="align:center;">%xValue<br>%points</span>',
+                },
+              },
+              defaultPoint: {
+                outline_width: 0,
+                opacity: 0.6,
+                tooltip: '<span style="color:%color;font-size:12px; align:center;"><b>%yValue</b></span>',
+                marker: {
+                  type: 'circle',
+                  opacity: 0,
+                  size: 10,
+                },
+                focusGlow: { color: '%color', width: 2 },
+              },
+              legend_visible: false,
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      MicrochartWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.title) {
+          result.title = {
+            title: {
+              margin_bottom: 15,
+              label: {
+                text: options.title,
+                style: {
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                },
+              },
+            },
+          };
+        }
+        if (options.orientation) {
+          result.annotations = [
+            {
+              label: {
+                text:
+                  '<span style="color:' +
+                  options.color +
+                  ';font-size:28px; font-weight:bold;">%sum</span><br>' +
+                  '<span style="font-size:14px; color:#9E9E9E;">' +
+                  options.title +
+                  '</span>',
+                style_fontSize: 24,
+              },
+              position: options.orientation === 'vertical' ? 'top left' : 'right',
+            },
+          ];
+        }
+        if (options.chartType) {
+          result.type = options.chartType;
+        }
+        if (options.color) {
+          result.palette = [options.color];
+        }
+        if (options.valueFormat) {
+          result.yAxis_formatString = options.valueFormat;
+        }
+        if (options.data) {
+          result.series = options.data;
+        }
+        return result;
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      MicrochartWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      JSC.fetch('./resources/website_analytics.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart1 = new MicrochartWidget('chartDiv1', {
+            title: 'Sessions',
+            orientation: 'vertical',
+            chartType: 'area spline',
+            data: [{ name: 'Sessions', points: JSC.nest().key('date').rollup('sessions').points(data) }],
+            color: '#1DE9B6',
+            valueFormat: 'c0',
+          });
+          chart2 = new MicrochartWidget('chartDiv2', {
+            title: 'Users',
+            orientation: 'vertical',
+            chartType: 'column solid',
+            data: [{ name: 'Returning Users', points: JSC.nest().key('date').rollup('returning_users').points(data) }],
+            color: '#FBC02D',
+            valueFormat: 'n0',
+          });
+          chart3 = new MicrochartWidget('chartDiv3', {
+            title: 'New Users',
+            orientation: 'horizontal',
+            chartType: 'spline',
+            data: [{ name: 'New Users', points: JSC.nest().key('date').rollup('new_users').points(data) }],
+            color: '#F44336',
+            valueFormat: 'n0',
+          });
+          chart4 = new MicrochartWidget('chartDiv4', {});
+        });
+    </script>
+  </body>
+</html>

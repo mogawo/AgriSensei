@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multiple Bar Pictogram Charts | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #samWrapper {
+        max-width: 940px;
+        margin: 0px auto;
+        justify-content: space-around;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .label {
+        width: 470px;
+        height: 170px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="samWrapper">
+      <p
+        style="
+          font-size: 14px;
+          font-family: tahoma, geneva, sans-serif;
+          font-weight: bold;
+          text-align: center;
+          width: 100%;
+        "
+      >
+        Percent Distribution of the US Total Population by Age
+      </p>
+      <div id="label1" class="label"></div>
+      <div id="label2" class="label"></div>
+      <div id="label3" class="label"></div>
+      <div id="label4" class="label"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Multiple pictogram bar charts.
+Learn how to:
+
+  - Create multiple bar pictographs.
+*/
+      // JS
+      var colors = {
+        '<15': '#31C4C6',
+        '15-24': '#33658A',
+        '25-44': '#2F4858',
+        '45-64': '#F6AE2D',
+        '65+': '#F26419',
+      };
+
+      JSC.fetch('./resources/US-population-by-age.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          var series = makeSeries(data);
+          series.forEach(function (item, i) {
+            renderLabels('label' + (i + 1), item);
+          });
+        });
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key('year')
+          .key('age_group')
+          .pointRollup(function (key, val) {
+            return { x: key, y: val[0].percent };
+          })
+          .series(data);
+      }
+
+      function renderLabels(div, data) {
+        var pictorialChart = '';
+        data.points.forEach(function (item, i) {
+          pictorialChart += makeIconsRow(item, 20, 40);
+        });
+        return JSC.label(
+          div,
+          '<span style="font-weight:bold;width:76px; align:right;margin:5px;">' +
+            data.name +
+            '</span><br>' +
+            pictorialChart
+        );
+
+        function makeIconsRow(point, maxIconCount, maxYValue) {
+          var string = '<span style="width:40px; align:right;margin:5px 3px;">' + point.x + '</span>',
+            iconCount = Math.round((point.y / maxYValue) * maxIconCount),
+            iconString =
+              '<icon name=material/social/person margin_left=2 margin_right=2 margin_top=4 margin_bottom=4 size=18 color=' +
+              colors[point.x] +
+              '>';
+
+          for (var i = 0; i < iconCount; i++) {
+            string += iconString;
+          }
+          string +=
+            ' <span style="width:50px; align:left; margin:5px 0px; font-weight:bold; color:' +
+            colors[point.x] +
+            '">' +
+            point.y +
+            '%</span><br>';
+          return string;
+        }
+      }
+    </script>
+  </body>
+</html>

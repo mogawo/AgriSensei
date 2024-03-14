@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Timeline | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 900px; height: 240px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A gantt timeline chart with multiple axes.
+Learn how to:
+
+  - Use multiple axes with a gantt timeline chart.
+*/
+      // JS
+      var pointColor = '#212529';
+      var data = [
+        ['Cheetah', '3/24/2001', 10],
+        ['Puma', '9/25/2001', 10.1],
+        ['Jaguar', '8/23/2002', 10.2],
+        ['Panther', '10/24/2003', 10.3],
+        ['Tiger', '4/29/2005', 10.4],
+        ['Leopard', '10/26/2007', 10.5],
+        ['Snow Leopard', '8/28/2009', 10.6],
+        ['Lion', '7/20/2011', 10.7],
+        ['Mountain Lion', '7/25/2012', 10.8],
+        ['Mavericks', '10/22/2013', 10.9],
+        ['Yosemite', '10/16/2014', 10.1],
+        ['El Capitan', '6/8/2015', 10.11],
+        ['Sierra', '9/20/2016', 10.12],
+        ['High Sierra', '9/25/2017', 10.13],
+        ['Mojave', '9/24/2018', 10.14],
+        ['Catalina', '10/7/2019', 10.15],
+      ];
+      var chart = renderChart(makeSeries(data), makeCustomTicks(data));
+
+      function renderChart(series, customTicks) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'horizontal column solid',
+          title_label: { text: 'MacOS Version History', style_fontSize: '16px' },
+          legend_visible: false,
+          xAxis: { visible: false, spacingPercentage: 0.05 },
+          defaultSeries: {
+            lastPoint: {
+              tooltip: '%name %version %vName<br><b>%yStart - present</b>',
+            },
+          },
+          palette: [pointColor],
+          defaultPoint: {
+            tooltip: '%name %version %vName<br><b>%yStart - %yValue</b>',
+            outline: { color: 'white', width: 2 },
+            focusGlow: false,
+          },
+          yAxis: [
+            {
+              scale: {
+                type: 'time',
+                interval: { unit: 'year', multiplier: 1 },
+              },
+              orientation: 'top',
+            },
+            {
+              customTicks: customTicks,
+              defaultTick: {
+                enabled: false,
+                gridLine_visible: false,
+                label_rotate: -90,
+                line: {
+                  length: 15,
+                  color: '#797979',
+                  caps_end: { type: 'arrow', size: 5 },
+                },
+              },
+            },
+          ],
+          toolbar_visible: false,
+          series: series,
+        });
+      }
+
+      function makeCustomTicks(data) {
+        return data.map(function (entry) {
+          return { value: entry[1], label_text: entry[0] };
+        });
+      }
+
+      function makeSeries(data) {
+        var points = data.map(function (entry, i) {
+          var y = [entry[1], i < data.length - 1 ? data[i + 1][1] : JSC.formatDate(new Date(), 'd')];
+          return {
+            name: 'MacOS',
+            y: y,
+            attributes: { version: entry[2], vName: entry[0] },
+          };
+        });
+        return [{ points: points }];
+      }
+    </script>
+  </body>
+</html>

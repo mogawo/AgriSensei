@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multi Interactive Bar Series | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" style="max-width: 700px; height: 580px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple interactive bar series on a single chart comparing NFL ranking by year.
+Learn how to:
+
+  - Create multiple interactively connected bar series.
+*/
+      // JS
+      var chart,
+        years = [],
+        maxValue;
+      var palette = ['#F46036', '#5B85AA', '#414770', '#171123'];
+
+      JSC.fetch('./resources/nfl-history.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text).reverse();
+          data.forEach(function (a) {
+            if (years.indexOf(a.year) === -1) {
+              years.push(a.year);
+            }
+          });
+          maxValue = Math.ceil(JSC.max(data, 'w') / 10) * 10;
+          chart = renderChart(data);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv1', {
+          title_label_text: 'NFL Ranking by year',
+          type: 'horizontal column solid',
+          zAxis: { scale_type: 'stacked' },
+          xAxis: {
+            alternateGridFill: 'none',
+            defaultTick: { gridLine_visible: false },
+            scale: {
+              range: { padding: 0.02 },
+              invert: true,
+              interval: 1,
+            },
+          },
+          yAxis: [
+            {
+              alternateGridFill: 'none',
+              orientation: 'top',
+              customTicks: makeCustomTicks(data),
+              defaultTick_enabled: false,
+            },
+            {
+              alternateGridFill: 'none',
+              defaultTick_label_text: function (t) {
+                return t % maxValue;
+              },
+              scale: {
+                range: [0, maxValue * years.length],
+                interval: maxValue / 4,
+              },
+            },
+          ],
+          defaultPoint: {
+            hoverAction: 'highlightSeries',
+            label: {
+              align: 'right',
+              text: '%abbr',
+              style_fontSize: 12,
+            },
+            tooltip: '%team  <b>%wins - %losses</b>',
+            outline_width: 0,
+          },
+          legend: {
+            visible: false,
+            position: 'bottom',
+            template: '%icon %name',
+          },
+          toolbar_visible: false,
+          series: makeSeries(data),
+        });
+      }
+
+      function makeSeries(data) {
+        // Visible series
+        return JSC.nest()
+          .key('team')
+          .key('year')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            var index = years.indexOf(values.year);
+            return {
+              x: values.rank,
+              y: [index * maxValue, index * maxValue + values.w],
+              color: palette[index],
+              attributes: {
+                team: values.team,
+                abbr: values.abbr,
+                wins: values.w,
+                losses: values.l,
+              },
+            };
+          })
+          .series(data);
+      }
+
+      function makeCustomTicks(data) {
+        return JSC.nest()
+          .key('year')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            var index = years.indexOf(values.year);
+            return {
+              value: [index * maxValue, (index + 1) * maxValue],
+              label_text: key,
+            };
+          })
+          .points(data);
+      }
+    </script>
+  </body>
+</html>

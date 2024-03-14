@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Checkbox Comparison Grid | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/datagrid.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .jscGrid .dataTable {
+      }
+      .jscGrid .dataTable thead th {
+        background: white;
+        color: #5db0e4;
+        text-align: left;
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid #f5f5f5;
+        font-family: tahoma, geneva, sans-serif;
+      }
+      .jscGrid .dataTable tr {
+        background: white !important;
+      }
+      .jscGrid .dataTable td {
+        min-width: 120px;
+        border-bottom: 1px solid #f5f5f5;
+        font-family: tahoma, geneva, sans-serif;
+        font-weight: 300;
+      }
+      .jscGrid .dataTable tr td:first-child {
+        font-weight: bold;
+        min-width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 500px; margin: 0px auto;"></div>
+    <div id="gridDiv" style="max-width: 700px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Legend checkboxes to compare iPhone models in a data grid.
+Learn how to:
+
+  - Draw faux stepped line series.
+*/
+      // JS
+      var chart, grid, data;
+      var palette = JSC.colorToPalette('#EF5350', { lightness: 0.3 }, 3, 0).concat(
+        //1
+        JSC.colorToPalette('#F06292', { lightness: 0.3 }, 2, 0), //3G
+        JSC.colorToPalette('#F50057', { lightness: 0.3 }, 3, 0), //3GS
+        JSC.colorToPalette('#BA68C8', { lightness: 0.3 }, 3, 0), //4
+        JSC.colorToPalette('#7B1FA2', { lightness: 0.3 }, 4, 0), //4S
+        JSC.colorToPalette('#9575CD', { lightness: 0.3 }, 3, 0), //5
+        JSC.colorToPalette('#512DA8', { lightness: 0.3 }, 3, 0), //5C
+        JSC.colorToPalette('#651FFF', { lightness: 0.3 }, 3, 0), //5S
+        JSC.colorToPalette('#7986CB', { lightness: 0.3 }, 4, 0), //6
+        JSC.colorToPalette('#3949AB', { lightness: 0.3 }, 3, 0), //6 Plus
+        JSC.colorToPalette('#64B5F6', { lightness: 0.3 }, 4, 0), //6S
+        JSC.colorToPalette('#1565C0', { lightness: 0.3 }, 4, 0), //6S Plus
+        JSC.colorToPalette('#4FC3F7', { lightness: 0.3 }, 4, 0), //SE 1
+        JSC.colorToPalette('#4DD0E1', { lightness: 0.3 }, 3, 0), //7
+        JSC.colorToPalette('#00ACC1', { lightness: 0.3 }, 3, 0), //7 Plus
+        JSC.colorToPalette('#80CBC4', { lightness: 0.3 }, 3, 0), //8
+        JSC.colorToPalette('#00897B', { lightness: 0.3 }, 3, 0), //8 Plus
+        JSC.colorToPalette('#A5D6A7', { lightness: 0.3 }, 2, 0), //X
+        JSC.colorToPalette('#4CAF50', { lightness: 0.3 }, 3, 0), //Xs
+        JSC.colorToPalette('#00E676', { lightness: 0.3 }, 3, 0), //Xs Max
+        JSC.colorToPalette('#AED581', { lightness: 0.3 }, 3, 0), //Xr
+        JSC.colorToPalette('#FFEE58', { lightness: 0.3 }, 3, 0), //11
+        JSC.colorToPalette('#FFCA28', { lightness: 0.3 }, 3, 0), //11 Pro
+        JSC.colorToPalette('#FF9800', { lightness: 0.3 }, 3, 0), //11 Pro Max
+        JSC.colorToPalette('#0288D1', { lightness: 0.3 }, 3, 0) //SE 2
+      );
+      var firstSelection = ['iPhone SE 1', 'iPhone SE 2'];
+      JSC.fetch('./resources/iphone-models-info.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          data = JSC.csv2Json(text, {
+            coerce: function (value, i) {
+              return {
+                Name: value.name,
+                Storage: value.storage,
+                Processor: value.processor,
+                'Initial OS': value.initial_os,
+                'Latest OS': value.latest_os,
+                'Display size': value.display_size,
+                'Display resolution': value.display_resolution,
+                'Rear camera': value.rear_camera,
+                'Front camera': value.front_camera,
+                Weight: value.weight,
+                Height: value.height,
+                Width: value.width,
+                Depth: value.depth,
+                Power: value.power,
+                Ram: value.ram,
+                'Touch ID':
+                  value.touch_id === 'yes'
+                    ? '<icon name=material/navigation/check size=14 color=green>'
+                    : '<icon name=material/navigation/close size=14 color=red>',
+                'Face ID':
+                  value.face_id === 'yes'
+                    ? '<icon name=material/navigation/check size=14 color=green>'
+                    : '<icon name=material/navigation/close size=14 color=red>',
+              };
+            },
+          });
+          renderChart(function (c) {
+            chart = c;
+            chart
+              .series(function (s) {
+                return firstSelection.indexOf(s.options('attributes_model')) !== -1;
+              })
+              .options({ selected: true });
+            grid = renderGrid(firstSelection);
+            makeCustomEntries();
+          });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(cb) {
+        return JSC.chart(
+          'chartDiv',
+          {
+            palette: palette,
+            defaultSeries: {
+              type: 'line',
+              line_width: 2,
+              line_opacity: 0.2,
+              states_select_line: { width: 3, opacity: 1 },
+              legendEntry_visible: false,
+              firstPoint_label: {
+                visible: true,
+                autoHide: true,
+                align: 'right',
+                verticalAlign: 'top',
+                text: function (point) {
+                  return point
+                    .replaceTokens('%seriesName')
+                    .replace(/GB/g, '')
+                    .replace(/iPhone/g, '');
+                },
+              },
+            },
+            title: {
+              position: 'center',
+              label: {
+                text: 'iPhone Prices',
+                style_fontSize: 18,
+              },
+            },
+            defaultPoint: {
+              marker_visible: false,
+              focusGlow: false,
+              tooltip: '<span style="color:%color"><b>%seriesName</b></span> %value',
+              label: { style_fontSize: 10 },
+            },
+            legend: {
+              position: 'right',
+              template: '%icon,%name',
+              title_label_text: 'Select models to compare',
+              customEntries: makeCustomEntries(),
+              defaultEntry: {
+                style_fontSize: 9,
+                icon_width: 8,
+                checkbox: {
+                  enabled: true,
+                  checked: false,
+                  color: '#BDBDBD',
+                },
+                events: {
+                  click: function () {
+                    return false;
+                  },
+                  hover: function () {
+                    return false;
+                  },
+                },
+              },
+            },
+            yAxis: {
+              alternateGridFill: 'none',
+              formatString: 'c0',
+              defaultTick_label_style_fontSize: 10,
+            },
+            xAxis: {
+              scale_type: 'time',
+              crosshair_enabled: true,
+              defaultTick_label_style_fontSize: 10,
+            },
+            toolbar_items: {
+              'Clear Selection': {
+                id: 'clearAll',
+                position: 'inside top left',
+                events_click: clearAll,
+                visible: true,
+              },
+            },
+            series: [
+              //iphone 1 (4,8,16)
+              {
+                name: 'iPhone 1 4GB',
+                points: [
+                  { x: '6/1/2007', y: 500 },
+                  { x: '8/1/2007', y: 500 },
+                ],
+                attributes_model: 'iPhone 1',
+              },
+              {
+                name: 'iPhone 1 8GB',
+                points: [
+                  { x: '6/1/2007', y: 600 },
+                  { x: '7/1/2007', y: 600 },
+                  { x: '8/1/2007', y: 400 },
+                  { x: '5/1/2008', y: 400 },
+                ],
+                attributes_model: 'iPhone 1',
+              },
+              {
+                name: 'iPhone 1 16GB',
+                points: [
+                  { x: '1/1/2008', y: 500 },
+                  { x: '5/1/2008', y: 500 },
+                ],
+                attributes_model: 'iPhone 1',
+              },
+              //iphone 3G (8, 16)
+              {
+                name: 'iPhone 3G 8GB',
+                points: [
+                  { x: '6/1/2008', y: 600 },
+                  { x: '5/1/2009', y: 600 },
+                  { x: '6/1/2009', y: 500 },
+                  { x: '5/1/2010', y: 500 },
+                  { x: '6/1/2010', y: 400 },
+                  { x: '5/1/2011', y: 400 },
+                  { x: '6/1/2011', y: 500 },
+                  { x: '9/1/2011', y: 500 },
+                ],
+                attributes_model: 'iPhone 3G',
+              },
+              {
+                name: 'iPhone 3G 16GB',
+                points: [
+                  { x: '6/1/2008', y: 700 },
+                  { x: '5/1/2009', y: 700 },
+                ],
+                attributes_model: 'iPhone 3G',
+              },
+              //iphone 3GS (8, 16, 32)
+              {
+                name: 'iPhone 3GS 8GB',
+                points: [
+                  { x: '6/1/2010', y: 500 },
+                  { x: '5/1/2011', y: 500 },
+                  { x: '6/1/2011', y: 550 },
+                  { x: '9/1/2011', y: 550 },
+                  { x: '10/1/2011', y: 450 },
+                  { x: '8/1/2012', y: 450 },
+                ],
+                attributes_model: 'iPhone 3GS',
+              },
+              {
+                name: 'iPhone 3GS 16GB',
+                points: [
+                  { x: '6/1/2009', y: 600 },
+                  { x: '5/1/2010', y: 600 },
+                ],
+                attributes_model: 'iPhone 3GS',
+              },
+              {
+                name: 'iPhone 3GS 32GB',
+                points: [
+                  { x: '6/1/2009', y: 700 },
+                  { x: '5/1/2010', y: 700 },
+                ],
+                attributes_model: 'iPhone 3GS',
+              },
+              //iphone 4 (8, 16, 32)
+              {
+                name: 'iPhone 4 8GB',
+                points: [
+                  { x: '10/1/2011', y: 550 },
+                  { x: '8/1/2012', y: 550 },
+                  { x: '9/1/2012', y: 450 },
+                  { x: '8/1/2013', y: 450 },
+                ],
+                attributes_model: 'iPhone 4',
+              },
+              {
+                name: 'iPhone 4 16GB',
+                points: [
+                  { x: '6/1/2010', y: 600 },
+                  { x: '5/1/2011', y: 600 },
+                  { x: '6/1/2011', y: 650 },
+                  { x: '9/1/2011', y: 650 },
+                ],
+                attributes_model: 'iPhone 4',
+              },
+              {
+                name: 'iPhone 4 32GB',
+                points: [
+                  { x: '6/1/2010', y: 700 },
+                  { x: '5/1/2011', y: 700 },
+                  { x: '6/1/2011', y: 750 },
+                  { x: '9/1/2011', y: 750 },
+                ],
+                attributes_model: 'iPhone 4',
+              },
+              //iphone 4S (8, 16, 32, 64)
+              {
+                name: 'iPhone 4S 8GB',
+                points: [
+                  { x: '9/1/2013', y: 450 },
+                  { x: '8/1/2014', y: 450 },
+                ],
+                attributes_model: 'iPhone 4S',
+              },
+              {
+                name: 'iPhone 4S 16GB',
+                points: [
+                  { x: '10/1/2011', y: 650 },
+                  { x: '8/1/2012', y: 650 },
+                  { x: '9/1/2012', y: 550 },
+                  { x: '8/1/2013', y: 550 },
+                ],
+                attributes_model: 'iPhone 4S',
+              },
+              {
+                name: 'iPhone 4S 32GB',
+                points: [
+                  { x: '10/1/2011', y: 750 },
+                  { x: '8/1/2012', y: 750 },
+                ],
+                attributes_model: 'iPhone 4S',
+              },
+              {
+                name: 'iPhone 4S 64GB',
+                points: [
+                  { x: '10/1/2011', y: 850 },
+                  { x: '8/1/2012', y: 850 },
+                ],
+                attributes_model: 'iPhone 4S',
+              },
+              //iphone 5 (16, 32, 64)
+              {
+                name: 'iPhone 5 16GB',
+                points: [
+                  { x: '9/1/2012', y: 650 },
+                  { x: '8/1/2013', y: 650 },
+                ],
+                attributes_model: 'iPhone 5',
+              },
+              {
+                name: 'iPhone 5 32GB',
+                points: [
+                  { x: '9/1/2012', y: 750 },
+                  { x: '8/1/2013', y: 750 },
+                ],
+                attributes_model: 'iPhone 5',
+              },
+              {
+                name: 'iPhone 5 64GB',
+                points: [
+                  { x: '9/1/2012', y: 850 },
+                  { x: '8/1/2013', y: 850 },
+                ],
+                attributes_model: 'iPhone 5',
+              },
+
+              //iphone 5C (8, 16, 32)
+              {
+                name: 'iPhone 5C 8GB',
+                points: [
+                  { x: '9/1/2014', y: 450 },
+                  { x: '8/1/2015', y: 450 },
+                ],
+                attributes_model: 'iPhone 5C',
+              },
+              {
+                name: 'iPhone 5C 16GB',
+                points: [
+                  { x: '9/1/2013', y: 550 },
+                  { x: '8/1/2014', y: 550 },
+                ],
+                attributes_model: 'iPhone 5C',
+              },
+              {
+                name: 'iPhone 5C 32GB',
+                points: [
+                  { x: '9/1/2013', y: 650 },
+                  { x: '8/1/2014', y: 650 },
+                ],
+                attributes_model: 'iPhone 5C',
+              },
+              //iphone 5S (16, 32, 64)
+              {
+                name: 'iPhone 5S 16GB',
+                points: [
+                  { x: '9/1/2013', y: 650 },
+                  { x: '8/1/2014', y: 650 },
+                  { x: '9/1/2014', y: 550 },
+                  { x: '8/1/2015', y: 550 },
+                  { x: '9/1/2015', y: 450 },
+                  { x: '7/1/2016', y: 450 },
+                ],
+                attributes_model: 'iPhone 5S',
+              },
+              {
+                name: 'iPhone 5S 32GB',
+                points: [
+                  { x: '9/1/2013', y: 750 },
+                  { x: '8/1/2014', y: 750 },
+                  { x: '9/1/2014', y: 600 },
+                  { x: '8/1/2015', y: 600 },
+                  { x: '9/1/2015', y: 500 },
+                  { x: '7/1/2016', y: 500 },
+                ],
+                attributes_model: 'iPhone 5S',
+              },
+              {
+                name: 'iPhone 5S 64GB',
+                points: [
+                  { x: '9/1/2013', y: 850 },
+                  { x: '8/1/2014', y: 850 },
+                ],
+                attributes_model: 'iPhone 5S',
+              },
+              //iphone 6 (16, 32, 64, 128)
+              {
+                name: 'iPhone 6 16GB',
+                points: [
+                  { x: '9/1/2014', y: 650 },
+                  { x: '8/1/2015', y: 650 },
+                  { x: '9/1/2015', y: 550 },
+                  { x: '8/1/2016', y: 550 },
+                ],
+                attributes_model: 'iPhone 6',
+              },
+              {
+                name: 'iPhone 6 32GB',
+                points: [
+                  { x: '9/1/2014', y: 700 },
+                  { x: '8/1/2015', y: 700 },
+                  { x: '9/1/2015', y: 600 },
+                  { x: '8/1/2016', y: 600 },
+                ],
+                attributes_model: 'iPhone 6',
+              },
+              {
+                name: 'iPhone 6 64GB',
+                points: [
+                  { x: '9/1/2014', y: 750 },
+                  { x: '8/1/2015', y: 750 },
+                  { x: '9/1/2015', y: 650 },
+                  { x: '8/1/2016', y: 650 },
+                ],
+                attributes_model: 'iPhone 6',
+              },
+              {
+                name: 'iPhone 6 128GB',
+                points: [
+                  { x: '9/1/2014', y: 850 },
+                  { x: '8/1/2015', y: 850 },
+                ],
+                attributes_model: 'iPhone 6',
+              },
+              //iphone 6 Plus (16, 64, 128)
+              {
+                name: 'iPhone 6 Plus 16GB',
+                points: [
+                  { x: '9/1/2014', y: 750 },
+                  { x: '8/1/2015', y: 750 },
+                ],
+                attributes_model: 'iPhone 6 Plus',
+              },
+              {
+                name: 'iPhone 6 Plus 64GB',
+                points: [
+                  { x: '9/1/2014', y: 850 },
+                  { x: '8/1/2015', y: 850 },
+                  { x: '9/1/2015', y: 750 },
+                  { x: '8/1/2016', y: 750 },
+                ],
+                attributes_model: 'iPhone 6 Plus',
+              },
+              {
+                name: 'iPhone 6 Plus 128GB',
+                points: [
+                  { x: '9/1/2014', y: 950 },
+                  { x: '8/1/2015', y: 950 },
+                ],
+                attributes_model: 'iPhone 6 Plus',
+              },
+              //iphone 6S (16, 32, 64, 128)
+              {
+                name: 'iPhone 6S 16GB',
+                points: [
+                  { x: '9/1/2015', y: 650 },
+                  { x: '8/1/2016', y: 650 },
+                ],
+                attributes_model: 'iPhone 6S',
+              },
+              {
+                name: 'iPhone 6S 32GB',
+                points: [
+                  { x: '9/1/2016', y: 550 },
+                  { x: '8/1/2017', y: 550 },
+                  { x: '9/1/2017', y: 450 },
+                  { x: '8/1/2018', y: 450 },
+                ],
+                attributes_model: 'iPhone 6S',
+              },
+              {
+                name: 'iPhone 6S 64GB',
+                points: [
+                  { x: '9/1/2015', y: 750 },
+                  { x: '8/1/2016', y: 750 },
+                ],
+                attributes_model: 'iPhone 6S',
+              },
+              {
+                name: 'iPhone 6S 128GB',
+                points: [
+                  { x: '9/1/2015', y: 850 },
+                  { x: '8/1/2016', y: 850 },
+                  { x: '9/1/2016', y: 650 },
+                  { x: '8/1/2017', y: 650 },
+                  { x: '9/1/2017', y: 550 },
+                  { x: '8/1/2018', y: 550 },
+                ],
+                attributes_model: 'iPhone 6S',
+              },
+              //iphone 6S Plus (16, 32, 64, 128)
+              {
+                name: 'iPhone 6S Plus 16GB',
+                points: [
+                  { x: '9/1/2015', y: 650 },
+                  { x: '8/1/2016', y: 650 },
+                ],
+                attributes_model: 'iPhone 6S Plus',
+              },
+              {
+                name: 'iPhone 6S Plus 32GB',
+                points: [
+                  { x: '9/1/2016', y: 750 },
+                  { x: '8/1/2017', y: 750 },
+                  { x: '9/1/2017', y: 550 },
+                  { x: '8/1/2018', y: 550 },
+                ],
+                attributes_model: 'iPhone 6S Plus',
+              },
+              {
+                name: 'iPhone 6S Plus 64GB',
+                points: [
+                  { x: '9/1/2015', y: 850 },
+                  { x: '8/1/2016', y: 850 },
+                ],
+                attributes_model: 'iPhone 6S Plus',
+              },
+              {
+                name: 'iPhone 6S Plus 128GB',
+                points: [
+                  { x: '9/1/2015', y: 950 },
+                  { x: '8/1/2016', y: 950 },
+                  { x: '9/1/2016', y: 850 },
+                  { x: '8/1/2017', y: 850 },
+                  { x: '9/1/2017', y: 650 },
+                  { x: '8/1/2018', y: 650 },
+                ],
+                attributes_model: 'iPhone 6S Plus',
+              },
+              //iphone SE (16, 32, 64, 128)
+              {
+                name: 'iPhone SE 1 16GB',
+                points: [
+                  { x: '3/1/2016', y: 400 },
+                  { x: '8/1/2017', y: 400 },
+                ],
+                attributes_model: 'iPhone SE 1',
+              },
+              {
+                name: 'iPhone SE 1 32GB',
+                points: [
+                  { x: '9/1/2017', y: 350 },
+                  { x: '8/1/2018', y: 350 },
+                ],
+                attributes_model: 'iPhone SE 1',
+              },
+              {
+                name: 'iPhone SE 1 64GB',
+                points: [
+                  { x: '7/1/2016', y: 500 },
+                  { x: '8/1/2016', y: 500 },
+                  { x: '9/1/2016', y: 450 },
+                  { x: '8/1/2017', y: 450 },
+                ],
+                attributes_model: 'iPhone SE 1',
+              },
+              {
+                name: 'iPhone SE 1 128GB',
+                points: [
+                  { x: '9/1/2017', y: 450 },
+                  { x: '8/1/2018', y: 450 },
+                ],
+                attributes_model: 'iPhone SE 1',
+              },
+              //iphone 7 (32, 128, 256)
+              {
+                name: 'iPhone 7 32GB',
+                points: [
+                  { x: '9/1/2016', y: 650 },
+                  { x: '8/1/2017', y: 650 },
+                  { x: '9/1/2017', y: 550 },
+                  { x: '8/1/2018', y: 550 },
+                  { x: '9/1/2018', y: 450 },
+                  { x: '8/1/2019', y: 450 },
+                ],
+                attributes_model: 'iPhone 7',
+              },
+              {
+                name: 'iPhone 7 128GB',
+                points: [
+                  { x: '9/1/2016', y: 750 },
+                  { x: '8/1/2017', y: 750 },
+                  { x: '9/1/2017', y: 650 },
+                  { x: '8/1/2018', y: 650 },
+                  { x: '9/1/2018', y: 550 },
+                  { x: '8/1/2019', y: 550 },
+                ],
+                attributes_model: 'iPhone 7',
+              },
+              {
+                name: 'iPhone 7 256GB',
+                points: [
+                  { x: '9/1/2016', y: 850 },
+                  { x: '8/1/2017', y: 850 },
+                ],
+                attributes_model: 'iPhone 7',
+              },
+              //iphone 7 Plus (32, 128, 256)
+              {
+                name: 'iPhone 7 Plus 32GB',
+                points: [
+                  { x: '9/1/2016', y: 770 },
+                  { x: '8/1/2017', y: 770 },
+                  { x: '9/1/2017', y: 670 },
+                  { x: '8/1/2018', y: 670 },
+                  { x: '9/1/2018', y: 570 },
+                  { x: '8/1/2019', y: 570 },
+                ],
+                attributes_model: 'iPhone 7 Plus',
+              },
+              {
+                name: 'iPhone 7 Plus 128GB',
+                points: [
+                  { x: '9/1/2016', y: 870 },
+                  { x: '8/1/2017', y: 870 },
+                  { x: '9/1/2017', y: 770 },
+                  { x: '8/1/2018', y: 770 },
+                  { x: '9/1/2018', y: 670 },
+                  { x: '8/1/2019', y: 670 },
+                ],
+                attributes_model: 'iPhone 7 Plus',
+              },
+              {
+                name: 'iPhone 7 Plus 256GB',
+                points: [
+                  { x: '9/1/2016', y: 970 },
+                  { x: '8/1/2017', y: 970 },
+                ],
+                attributes_model: 'iPhone 7 Plus',
+              },
+              //iphone 8 (64, 128, 256)
+              {
+                name: 'iPhone 8 64GB',
+                points: [
+                  { x: '9/1/2017', y: 700 },
+                  { x: '8/1/2018', y: 700 },
+                  { x: '9/1/2018', y: 600 },
+                  { x: '8/1/2019', y: 600 },
+                ],
+                attributes_model: 'iPhone 8',
+              },
+              {
+                name: 'iPhone 8 128GB',
+                points: [
+                  { x: '9/1/2019', y: 500 },
+                  { x: '8/1/2020', y: 500 },
+                ],
+                attributes_model: 'iPhone 8',
+              },
+              {
+                name: 'iPhone 8 256GB',
+                points: [
+                  { x: '9/1/2017', y: 850 },
+                  { x: '8/1/2018', y: 850 },
+                  { x: '9/1/2018', y: 750 },
+                  { x: '8/1/2019', y: 750 },
+                ],
+                attributes_model: 'iPhone 8',
+              },
+              //iphone 8 Plus (64, 128, 256)
+              {
+                name: 'iPhone 8 Plus 64GB',
+                points: [
+                  { x: '9/1/2017', y: 800 },
+                  { x: '8/1/2018', y: 800 },
+                  { x: '9/1/2018', y: 700 },
+                  { x: '8/1/2019', y: 700 },
+                ],
+                attributes_model: 'iPhone 8 Plus',
+              },
+              {
+                name: 'iPhone 8 Plus 128GB',
+                points: [
+                  { x: '9/1/2019', y: 600 },
+                  { x: '8/1/2020', y: 600 },
+                ],
+                attributes_model: 'iPhone 8 Plus',
+              },
+              {
+                name: 'iPhone 8 Plus 256GB',
+                points: [
+                  { x: '9/1/2017', y: 950 },
+                  { x: '8/1/2018', y: 950 },
+                  { x: '9/1/2018', y: 850 },
+                  { x: '8/1/2019', y: 850 },
+                ],
+                attributes_model: 'iPhone 8 Plus',
+              },
+              //iphone X (64, 256)
+              {
+                name: 'iPhone X 64GB',
+                points: [
+                  { x: '9/1/2017', y: 1000 },
+                  { x: '8/1/2018', y: 1000 },
+                ],
+                attributes_model: 'iPhone X',
+              },
+              {
+                name: 'iPhone X 256GB',
+                points: [
+                  { x: '9/1/2017', y: 1150 },
+                  { x: '8/1/2018', y: 1150 },
+                ],
+                attributes_model: 'iPhone X',
+              },
+              //iphone Xs (64, 256, 512)
+              {
+                name: 'iPhone Xs 64GB',
+                points: [
+                  { x: '9/1/2018', y: 1000 },
+                  { x: '8/1/2019', y: 1000 },
+                ],
+                attributes_model: 'iPhone Xs',
+              },
+              {
+                name: 'iPhone Xs 256GB',
+                points: [
+                  { x: '9/1/2018', y: 1150 },
+                  { x: '8/1/2019', y: 1150 },
+                ],
+                attributes_model: 'iPhone Xs',
+              },
+              {
+                name: 'iPhone Xs 512GB',
+                points: [
+                  { x: '9/1/2018', y: 1350 },
+                  { x: '8/1/2019', y: 1350 },
+                ],
+                attributes_model: 'iPhone Xs',
+              },
+              //iphone Xs Max (64, 256, 512)
+              {
+                name: 'iPhone Xs Max 64GB',
+                points: [
+                  { x: '9/1/2018', y: 1100 },
+                  { x: '8/1/2019', y: 1100 },
+                ],
+                attributes_model: 'iPhone Xs Max',
+              },
+              {
+                name: 'iPhone Xs Max 256GB',
+                points: [
+                  { x: '9/1/2018', y: 1250 },
+                  { x: '8/1/2019', y: 1250 },
+                ],
+                attributes_model: 'iPhone Xs Max',
+              },
+              {
+                name: 'iPhone Xs Max 512GB',
+                points: [
+                  { x: '9/1/2018', y: 1450 },
+                  { x: '8/1/2019', y: 1450 },
+                ],
+                attributes_model: 'iPhone Xs Max',
+              },
+              //iphone Xr (64, 128, 256)
+              {
+                name: 'iPhone Xr 64GB',
+                points: [
+                  { x: '9/1/2018', y: 700 },
+                  { x: '8/1/2019', y: 700 },
+                  { x: '8/1/2019', y: 600 },
+                  { x: '8/1/2020', y: 600 },
+                ],
+                attributes_model: 'iPhone Xr',
+              },
+              {
+                name: 'iPhone Xr 128GB',
+                points: [
+                  { x: '9/1/2018', y: 800 },
+                  { x: '8/1/2019', y: 800 },
+                  { x: '8/1/2019', y: 650 },
+                  { x: '8/1/2020', y: 650 },
+                ],
+                attributes_model: 'iPhone Xr',
+              },
+              {
+                name: 'iPhone Xr 256GB',
+                points: [
+                  { x: '9/1/2018', y: 900 },
+                  { x: '8/1/2019', y: 900 },
+                ],
+                attributes_model: 'iPhone Xr',
+              },
+              //iphone 11 (64, 128, 256)
+              {
+                name: 'iPhone 11 64GB',
+                points: [
+                  { x: '9/1/2019', y: 700 },
+                  { x: '8/1/2020', y: 700 },
+                ],
+                attributes_model: 'iPhone 11',
+              },
+              {
+                name: 'iPhone 11 128GB',
+                points: [
+                  { x: '9/1/2019', y: 750 },
+                  { x: '8/1/2020', y: 750 },
+                ],
+                attributes_model: 'iPhone 11',
+              },
+              {
+                name: 'iPhone 11 256GB',
+                points: [
+                  { x: '9/1/2019', y: 850 },
+                  { x: '8/1/2020', y: 850 },
+                ],
+                attributes_model: 'iPhone 11',
+              },
+              //iphone 11 Pro (64, 256, 512)
+              {
+                name: 'iPhone 11 Pro 64GB',
+                points: [
+                  { x: '9/1/2019', y: 1000 },
+                  { x: '8/1/2020', y: 1000 },
+                ],
+                attributes_model: 'iPhone 11 Pro',
+              },
+              {
+                name: 'iPhone 11 Pro 256GB',
+                points: [
+                  { x: '9/1/2019', y: 1150 },
+                  { x: '8/1/2020', y: 1150 },
+                ],
+                attributes_model: 'iPhone 11 Pro',
+              },
+              {
+                name: 'iPhone 11 Pro 512GB',
+                points: [
+                  { x: '9/1/2019', y: 1350 },
+                  { x: '8/1/2020', y: 1350 },
+                ],
+                attributes_model: 'iPhone 11 Pro',
+              },
+              //iphone 11 Pro Max (64, 256, 512)
+              {
+                name: 'iPhone 11 Pro Max 64GB',
+                points: [
+                  { x: '9/1/2019', y: 1100 },
+                  { x: '8/1/2020', y: 1100 },
+                ],
+                attributes_model: 'iPhone 11 Pro Max',
+              },
+              {
+                name: 'iPhone 11 Pro Max 256GB',
+                points: [
+                  { x: '9/1/2019', y: 1250 },
+                  { x: '8/1/2020', y: 1250 },
+                ],
+                attributes_model: 'iPhone 11 Pro Max',
+              },
+              {
+                name: 'iPhone 11 Pro Max 512GB',
+                points: [
+                  { x: '9/1/2019', y: 1450 },
+                  { x: '8/1/2020', y: 1450 },
+                ],
+                attributes_model: 'iPhone 11 Pro Max',
+              },
+              //iphone SE 2 (64, 128, 256)
+              {
+                name: 'iPhone SE 2 64GB',
+                points: [
+                  { x: '4/1/2020', y: 400 },
+                  { x: '8/1/2020', y: 400 },
+                ],
+                attributes_model: 'iPhone SE 2',
+              },
+              {
+                name: 'iPhone SE 2 128GB',
+                points: [
+                  { x: '4/1/2020', y: 450 },
+                  { x: '8/1/2020', y: 450 },
+                ],
+                attributes_model: 'iPhone SE 2',
+              },
+              {
+                name: 'iPhone SE 2 256GB',
+                points: [
+                  { x: '4/1/2020', y: 550 },
+                  { x: '8/1/2020', y: 550 },
+                ],
+                attributes_model: 'iPhone SE 2',
+              },
+            ],
+          },
+          cb
+        );
+      }
+
+      function clearAll() {
+        updateGrid([]);
+        this.chart.legends(0).entries().options({ checkbox_checked: false });
+        this.chart
+          //Find all selected series
+          .series(function (s) {
+            return s.options('selected');
+          })
+          // Toggle their selected state
+          .each(toggleSeriesSelection);
+      }
+
+      function toggleSeriesSelection(series) {
+        // New selected value
+        var isSelected = !series.options('selected'),
+          chart = series.chart;
+
+        series
+          //Toggle the series selected property.
+          .options({ selected: isSelected });
+
+        // Update clear all button visibility
+        var selectedSeries = chart.series(function (s) {
+          return s.options('selected');
+        }).items;
+        var selectedCount = selectedSeries.length;
+        chart.uiItems('clearAll').options({ visible: !!selectedCount });
+      }
+
+      function renderGrid(series) {
+        return new JSC.Grid('gridDiv', {
+          data: makeGridData(series),
+          className: 'dataTable',
+        });
+      }
+
+      function makeGridData(models) {
+        var selectedModelsData = [];
+        var gridData = [
+          { ' ': 'Storage' },
+          { ' ': 'Processor' },
+          { ' ': 'Initial OS' },
+          { ' ': 'Latest OS' },
+          { ' ': 'Display size' },
+          { ' ': 'Display resolution' },
+          { ' ': 'Rear camera' },
+          { ' ': 'Front camera' },
+          { ' ': 'Weight' },
+          { ' ': 'Height' },
+          { ' ': 'Width' },
+          { ' ': 'Depth' },
+          { ' ': 'Power' },
+          { ' ': 'Ram' },
+          { ' ': 'Touch ID' },
+          { ' ': 'Face ID' },
+        ];
+        models.forEach(function (item, i) {
+          selectedModelsData.push(
+            data.filter(function (m) {
+              return m.Name === item;
+            })[0]
+          );
+        });
+        selectedModelsData.forEach(function (item, i) {
+          for (var key in item) {
+            var rowData = gridData.filter(function (x) {
+              return x[' '] === key;
+            })[0];
+            var tmp = {};
+            tmp[item.Name] = item[key];
+            gridData[gridData.indexOf(rowData)] = JSC.merge(
+              gridData[gridData.indexOf(rowData)],
+              gridData[gridData.indexOf(rowData)],
+              tmp
+            );
+          }
+        });
+        return gridData;
+      }
+
+      function updateGrid(models) {
+        var selectedModelsCount = models.length;
+        document.getElementById('gridDiv').style.visibility = !!selectedModelsCount ? 'visible' : 'hidden';
+        grid.options({ data: makeGridData(models) });
+      }
+
+      function makeCustomEntries() {
+        var sortOrder = -1;
+        return data.map(function (item) {
+          var result = {
+            name: item.Name,
+            sortOrder: sortOrder,
+            icon: 'none',
+            style_fontWeight: 'bold',
+            checkbox: {
+              enabled: true,
+              checked: false,
+              color: '#424242',
+            },
+            events_click: function () {
+              var entry = this,
+                series = chart.series(function (s) {
+                  return s.options('attributes_model') === entry.options('name');
+                }),
+                models = chart
+                  .legends(0)
+                  .entries(function (e) {
+                    return e.options('checkbox.checked');
+                  })
+                  .map(function (e) {
+                    return e.options('name');
+                  });
+              updateGrid(models);
+              series.each(function (item, i) {
+                toggleSeriesSelection(item);
+              });
+            },
+          };
+          if (firstSelection.indexOf(item.Name) !== -1) {
+            result.checkbox.checked = true;
+          }
+          sortOrder += item.Storage.split(', ').length;
+          return result;
+        });
+      }
+    </script>
+  </body>
+</html>

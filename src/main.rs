@@ -11,4 +11,3 @@ fn main(){
     agrisensei::test_add_measurements();
     println!("{}", agrisensei::pull_device(1, 1))
 }
-

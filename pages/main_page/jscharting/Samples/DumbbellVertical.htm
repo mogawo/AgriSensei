@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Vertical Dumbbell Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 540px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A vertical dumbbell chart.
+Learn how to:
+
+  - Create dumbbell charts.
+*/
+      // JS
+      var palette = ['#29B6F6', '#7E57C2'];
+      var chart;
+      var data = [
+        { country: 'China', '2022': 5.585, '2016': 5.245 },
+        { country: 'India', '2022': 3.777, '2016': 4.404 },
+        { country: 'United States', '2022': 6.977, '2016': 7.104 },
+        { country: 'Indonesia', '2022': 5.24, '2016': 5.314 },
+        { country: 'Pakistan', '2022': 4.516, '2016': 5.132 },
+        { country: 'Brazil', '2022': 6.293, '2016': 6.952 },
+        { country: 'Nigeria', '2022': 4.552, '2016': 4.875 },
+        { country: 'Bangladesh', '2022': 5.155, '2016': 4.643 },
+        { country: 'Russia', '2022': 5.459, '2016': 5.856 },
+        { country: 'Mexico', '2022': 6.128, '2016': 6.778 },
+      ];
+
+      var series = makeSeries(data);
+      chart = JSC.chart('chartDiv', {
+        debug: true,
+        title_label: {
+          style_fontSize: 16,
+          text:
+            'Happiness Index <span style="color:' +
+            palette[0] +
+            '"><b>2016</b></span> vs <span style="color:' +
+            palette[1] +
+            '"><b>2022</b></span>',
+          margin_bottom: 10,
+        },
+        type: 'line',
+        palette: palette,
+        legend_visible: false,
+        defaultTooltip_enabled: false,
+        defaultAxis_defaultTick: {
+          gridLine_color: '#E0E0E0',
+          line_visible: false,
+        },
+        xAxis_defaultTick: {
+          label_rotate: -90,
+          gridLine: { center: true, visible: false },
+        },
+        yAxis_alternateGridFill: 'none',
+        defaultSeries: {
+          line: { color: '#E0E0E0', width: 2 },
+          mouseTracking_enabled: false,
+          defaultPoint: {
+            label: {
+              visible: true,
+              align: 'center',
+              autoHide: false,
+            },
+            tooltip: '%xValue (%seriesName): <b>%value%</b>',
+            marker: {
+              type: 'circle',
+              opacity: 1,
+              outline_width: 0,
+              size: 16,
+            },
+            xAxisTick_hoverAction: 'highlightSeries',
+          },
+          firstPoint: { color: palette[0] },
+          lastPoint: { color: palette[1] },
+        },
+        series: series,
+      });
+
+      function makeSeries(data) {
+        return data.map(function (item) {
+          var y2022 = item['2022'];
+          var y2016 = item['2016'];
+          return {
+            name: item.country,
+            points: [
+              {
+                x: item.country,
+                y: y2022,
+                label_verticalAlign: y2022 < y2016 ? 'bottom' : y2022 === y2016 ? 'bottom' : 'top',
+              },
+              {
+                x: item.country,
+                y: y2016,
+                label_verticalAlign: y2022 > y2016 ? 'bottom' : y2022 === y2016 ? 'top' : 'top',
+              },
+            ],
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

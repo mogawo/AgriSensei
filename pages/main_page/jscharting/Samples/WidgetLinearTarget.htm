@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Gauge Target Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      #widgetsWrapper {
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 320px; height: 440px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 290px; height: 480px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 380px; height: 840px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Linear gauge widgets with target values.
+Learn how to:
+
+  - Use target values in Linear widgets.
+*/
+      // JS
+      var chart1 = new JSCWidgets.Linear('chartDiv1', {
+        title: 'My Activity',
+        label: ['Walk', 'Run', 'Bicycle', 'Sleep'],
+        value: [9843, 0.5, 5.94, 7.5],
+        target: [8000, 1, 10, 8],
+        targetColor: 'black',
+        targetText: ['Steps goal: %value', 'Running goal: %value', 'Cycling goal: %value', 'Sleep goal: %value'],
+        valueText: ['%value steps', '%value miles', '%value miles', '%value h'],
+        icon: [
+          'material/maps/directions-walk',
+          'material/maps/directions-run',
+          'material/maps/directions-bike',
+          'material/maps/hotel',
+        ],
+        // max: [10000, 1.2, 12, 12],
+        color: ['#B5CA8D', '#8BB174', '#426B69', '#222E50'],
+      });
+
+      var chart2 = new JSCWidgets.Linear('chartDiv2', {
+        title: 'Sales',
+        label: ['Harvey', 'Madiha', 'Kellan', 'Dane', 'Bradlee', 'Elaina', 'Georgia'],
+        value: [462, 835, 550, 436, 1054, 562, 667],
+
+        target: 650,
+        max: 1200,
+        targetColor: [['#e4554f', 'black']],
+        targetText: 'Monthly target: %value',
+        color: '#00a5a4',
+      });
+      var chart3 = new JSCWidgets.Linear('chartDiv3', {
+        title: '2021 Electricity Consumption',
+        label: 'months',
+        value: [1260, 1045, 954, 743, 780, 670, 658, 603, 691, 872, 890, 1034],
+        target: 893,
+        max: 1600,
+        targetText: 'Average consumption: %value',
+        targetColor: ['#0288D1'],
+        color: '#F9A825',
+        valueText: '%value kWh',
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Gauge KPI Change Indicator Arrow Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .circular .value {
+        color: #555555;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background: #eeeeee;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 300px; height: 180px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 150px; height: 180px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 200px; height: 220px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Circular Gauge widgets with KPI value change indicator arrows.
+Learn how to:
+
+  - Use KPI value change indicator arrows in circular gauge widgets.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Circular('chartDiv1', {
+        label: 'Total Earnings',
+        value: 60567,
+        prevValue: 70000,
+        max: 100000,
+        icon: 'linear/ecommerce/money',
+        valueFormat: 'c0',
+        color: '#EF6C00',
+        iconPosition: 'right',
+        labelPosition: 'right',
+      });
+
+      var widget2 = new JSCWidgets.Circular('chartDiv2', {
+        label: 'Sales',
+        value: 584,
+        prevValue: 400,
+        max: 2000,
+        valueFormat: 'c0',
+        color: '#FBC02D',
+        iconPosition: 'top',
+        labelPosition: 'top left',
+      });
+
+      var widget2 = new JSCWidgets.Circular('chartDiv3', {
+        label: 'Users',
+        value: 16654,
+        max: 20000,
+        prevValue: 16000,
+        icon: 'linearicons/user',
+        valueFormat: 'n0',
+        color: '#00B8D4',
+        iconPosition: 'top left',
+        labelPosition: 'top right',
+      });
+    </script>
+  </body>
+</html>

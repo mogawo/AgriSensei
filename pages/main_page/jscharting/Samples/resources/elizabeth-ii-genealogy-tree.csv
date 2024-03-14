@@ -1,0 +1,16 @@
+name,id,parent,birth_year,death_year
+Queen Elizabeth II,q,,1926,
+King George VI,f,q,1895,1952
+The Queen Mother,m,q,1900,2002
+King George V,ff,f,1865,1936
+Queen Mary,fm,f,1867,1963
+Claude Bowes-Lyon,mf,m,1855,1944
+Cecilia Cavendish-Bentinck,mm,m,1862,1938
+King Edward VII,fff,ff,1841,1910
+Queen Alexandra of Denmark,ffm,ff,1844,1925
+"Francis, Duke of Teck",fmf,fm,1837,1900
+Princess Mary Adelaide,fmm,fm,1833,1897
+Claude Bowes-Lyon ,mff,mf,1824,1904
+Frances Dora Smith,mfm,mf,1832,1922
+Charles Cavendish-Bentinck,mmf,mm,1817,1865
+Caroline Louisa Burnaby,mmm,mm,1832,1918

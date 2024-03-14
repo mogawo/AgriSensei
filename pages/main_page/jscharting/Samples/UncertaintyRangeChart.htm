@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Uncertainty Range Line Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An uncertainty line projection chart.
+Learn how to:
+
+  - Create An uncertainty line projection.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/CO2-concentration-projections.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        var nestDate = JSC.nest().key('date');
+        var series = [
+          {
+            name: 'Range',
+            type: 'area',
+            line_width: 0,
+            opacity: 0.4,
+            color: 'mediumaquamarine',
+            points: nestDate
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  x: '1/1/' + key,
+                  y: [+values.low_bound, +values.high_bound],
+                  tooltip: '%icon Projection: <b>[%yStart - %yValue] ppm</b>',
+                };
+              })
+              .points(
+                data.filter(function (x) {
+                  return +x.low_bound !== 0;
+                })
+              ),
+          },
+          {
+            name: 'BaseLine',
+            color: 'teal',
+            points: nestDate
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  x: '1/1/' + key,
+                  y: values.baseline,
+                };
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.date <= 2020;
+                })
+              ),
+          },
+          {
+            name: 'BaseLine',
+            color: 'teal',
+            line_dashStyle: 'ShortDash',
+            points: nestDate
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  x: '1/1/' + key,
+                  y: values.baseline,
+                };
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.date >= 2020;
+                })
+              ),
+          },
+        ];
+        series[2].points[0].tooltip = '';
+
+        return JSC.chart('chartDiv', {
+          title_label_text: 'Projection of CO2 concentration, 1975-2100',
+          defaultPoint: {
+            marker_visible: false,
+            focusGlow: false,
+            tooltip: '%icon Baseline: <b>%yValue ppm</b>',
+          },
+          legend_visible: false,
+          yAxis: {
+            alternateGridFill: 'none',
+            label_text: 'CO2 concentration (ppm)',
+          },
+          xAxis: {
+            scale_type: 'time',
+            formatString: 'yyyy',
+            crosshair_enabled: true,
+          },
+          series: series,
+        });
+      }
+    </script>
+  </body>
+</html>

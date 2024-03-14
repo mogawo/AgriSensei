@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Radar Arcs with Markers | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div style="margin: 0px auto;">
+      <div id="senateChartDiv" style="width: 720px; height: 380px; margin: 0px auto;"></div>
+      <div id="houseChartDiv" style="width: 720px; height: 500px; margin: 0px auto;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Radar chart used to display US senate and house demographics.
+Learn how to:
+
+  - Draw half radar arcs with markers.
+*/
+      // JS
+      var tabs = ['Party', 'Gender', 'Age'];
+      var defaultTab = 'Age';
+      var senateData = [
+        {
+          type: 'Party',
+          categories: ['Republicans', 'Democrats', 'Independents'],
+          values: [52, 46, 2],
+          colors: ['#D32F2F', '#1976D2', '#dddecc'],
+        },
+        { type: 'Gender', categories: ['Women', 'Men'], values: [25, 75], colors: ['#EF5350', '#42A5F5'] },
+        {
+          type: 'Age',
+          categories: ['40-49', '50-59', '60-69', '70-79', '80+'],
+          values: [12, 19, 38, 24, 7],
+          colors: ['#FFA000', '#FFEE58', '#8BC34A', '#009688', '#006064'],
+        },
+      ];
+      var houseData = [
+        {
+          type: 'Party',
+          categories: ['Republicans', 'Democrats', 'Independents', 'Libertarians', 'Vacant'],
+          values: [195, 233, 1, 1, 5],
+          colors: ['#D32F2F', '#1976D2', '#dddecc', '#fed300', '#ffffff'],
+        },
+        {
+          type: 'Gender',
+          categories: ['Women', 'Men', 'Vacant'],
+          values: [101, 329, 5],
+          colors: ['#EF5350', '#42A5F5', '#ffffff'],
+        },
+        {
+          type: 'Age',
+          categories: ['30-39', '40-49', '50-59', '60-69', '70-79', '80+', 'Vacant'],
+          values: [25, 81, 112, 127, 73, 12, 5],
+          colors: ['#FF7043', '#FFA000', '#FFEE58', '#8BC34A', '#009688', '#006064', '#ffffff'],
+        },
+      ];
+
+      var config = {
+        type: 'radar marker',
+        legend: {
+          template: '%icon %name: (<b>%pointCount</b>)',
+          defaultEntry: {
+            cursor: 'default',
+            events_click: function () {
+              return false;
+            },
+          },
+        },
+        defaultAxis_visible: false,
+        defaultPoint_marker: { outline_width: 0 },
+      };
+
+      var senateChart = JSC.chart(
+        'senateChartDiv',
+        JSC.merge(
+          {
+            title_label: {
+              text: 'Demographics of the 116th United States Congress',
+              style_fontSize: 20,
+              margin_bottom: 40,
+            },
+            defaultSeries: {
+              mouseTracking_enabled: false,
+              shape_size: 390,
+              angle: { sweep: 180, start: -180 },
+            },
+            annotations: [
+              {
+                label: {
+                  text: 'Senate',
+                  style_fontSize: 26,
+                  margin_bottom: 20,
+                },
+                position: 'inside bottom',
+              },
+            ],
+            legend_position: 'inside top',
+
+            yAxis: { scale_range: [-6, 5] },
+            defaultPoint: {
+              marker: { type: 'circle', size: 16 },
+            },
+            series: makeSeries(senateData, defaultTab, 5),
+            toolbar_items: {
+              export_visible: false,
+              caseTypes: {
+                items: generateTabs(),
+                value: defaultTab, //'Party',
+                position: 'inside top left',
+                boxVisible: false,
+                label_text: '',
+                width: 280,
+                offset: '0,-48',
+                margin: 5,
+                itemsBox: {
+                  layout: 'horizontal',
+                  visible: true,
+                  margin_top: 5,
+                },
+                defaultItem: {
+                  type: 'radio',
+                  position: 'top',
+                  icon_visible: false,
+                  padding: [6, 12, 6, -8],
+                  margin: 0,
+                  outline_width: 0,
+                  fill: '#F5F5F5',
+                  label: { color: '#BDBDBD', style_fontSize: '20px' },
+                  states_select: { label_color: '#424242' },
+                  states_hover: { label_color: '#424242' },
+                },
+                events: {
+                  change: function (val) {
+                    senateChart.options({ series: makeSeries(senateData, val, 5) });
+                    houseChart.options({ series: makeSeries(houseData, val, 15) });
+                  },
+                },
+              },
+            },
+          },
+          config
+        )
+      );
+
+      var houseChart = JSC.chart(
+        'houseChartDiv',
+        JSC.merge(
+          {
+            defaultSeries: {
+              mouseTracking_enabled: false,
+              shape: { padding: 160 },
+
+              angle: { sweep: 180, start: 0 },
+            },
+            annotations: [
+              {
+                label: {
+                  text: 'House',
+                  style_fontSize: 26,
+                  margin_top: 20,
+                },
+                position: 'inside top',
+              },
+            ],
+            legend_position: 'bottom',
+            yAxis: { scale_range: [-8, 15] },
+            defaultPoint: {
+              marker: { type: 'circle', size: 14 },
+            },
+            series: makeSeries(houseData, defaultTab, 15),
+            toolbar_items: { export_visible: false },
+          },
+          config
+        )
+      );
+
+      function makeSeries(data, type, chartHeight) {
+        var typeData = data.filter(function (item) {
+          return item.type === type;
+        })[0];
+        var series = [];
+        var sum = 0;
+        var ranges = [];
+        typeData.categories.forEach(function (category, i) {
+          var result = {
+            name: category,
+            color: typeData.colors[i],
+            points: [],
+          };
+          if (category === 'Vacant') {
+            result.defaultPoint_marker_outline = { width: 2, color: '#E0E0E0' };
+          }
+          series.push(result);
+          ranges.push([sum + 1, (sum += typeData.values[i])]);
+        });
+
+        for (var i = 0; i < Math.ceil(sum / chartHeight); i++) {
+          for (var j = 0; j < chartHeight; j++) {
+            var index = i + j + (chartHeight - 1) * i,
+              seriesIndex = mapValue(ranges, index + 1);
+            if (index <= sum - 1) {
+              series[seriesIndex].points.push({ x: i, y: j });
+            } else break;
+          }
+        }
+        return series;
+
+        function mapValue(ranges, value) {
+          return ranges.indexOf(
+            ranges.filter(function (item) {
+              return value >= item[0] && value <= item[1];
+            })[0]
+          );
+        }
+      }
+
+      function generateTabs() {
+        var buttons = {};
+        tabs.forEach(function (item, i) {
+          buttons[item] = { label_text: item };
+        });
+        return buttons;
+      }
+    </script>
+  </body>
+</html>

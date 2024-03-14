@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Gauge Progress Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .circular .value {
+        font-size: 45px;
+      }
+
+      #chartDiv1 .jsc-widget .circular .value {
+        font-size: 65px;
+      }
+      #chartDiv1 .jsc-widget .circular .title {
+        text-align: center;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 150px; margin: 0 auto;">
+      <input type="checkbox" id="modeCheckbox" name="dark" />
+      <label for="modeCheckbox">Dark Background</label>
+    </div>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 475px; height: 300px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+An example using a Circular widget with multiple values to show progress.
+Learn how to:
+
+  - Multiple values with Circular widgets.
+*/
+      // JS
+
+      var widget = new JSCWidgets.Circular('chartDiv1', {
+        title: 'Team Progress',
+        label: ['Team A', 'Team B'],
+        value: [85, 75],
+        max: 100,
+        color: '#1bb045',
+        valueText: '%value%',
+        labelPosition: 'bottom',
+        barWidth: 5,
+        barRounded: false,
+      });
+
+      var checkboxEl = document.getElementById('modeCheckbox');
+
+      checkboxEl.addEventListener('change', function () {
+        var color = checkboxEl.checked ? 'black' : 'white';
+        var elements = document.getElementsByClassName('chartDiv');
+        for (let i = 0; i < elements.length; i++) {
+          elements[i].style.backgroundColor = color;
+        }
+      });
+    </script>
+  </body>
+</html>

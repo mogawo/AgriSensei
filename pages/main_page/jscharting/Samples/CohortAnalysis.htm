@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cohort Analysis Heatmap | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 560px; height: 300px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A cohort analysis heatmap chart.
+Learn how to:
+
+  - Make data driven heatmap charts.
+*/
+      // JS
+      var chart;
+      var palette = ['#ffff66', '#dbed66', '#b6db66', '#92c866', '#6db666', '#49a466', '#249266', '#008066'];
+      JSC.fetch('./resources/cohort-analysis2.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text, {
+            coerce: function (d, i) {
+              return {
+                date_of_first_purchase: d.date_of_first_purchase,
+                date_of_purchase: d.date_of_purchase,
+                day_number: new Date(new Date(d.date_of_purchase) - new Date(d.date_of_first_purchase)).getDate() - 1,
+                amount: +d.amount,
+              };
+            },
+          });
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      // Makes label text giving each label a specific width
+      var mapColumns = function (labels, colWidths) {
+        return labels
+          .map(function (v, i) {
+            return span(v, colWidths[i]);
+          })
+          .join('');
+
+        function span(val, width) {
+          return '<span style="width:' + width + 'px; align:center;">' + val + '</span>';
+        }
+      };
+
+      var columnWidths = [60, 36];
+      // Custom templates
+      var tickTemplate = mapColumns(['<b>%yValue</b>', '%zvalue'], columnWidths);
+      var headerTemplate = '<b>' + mapColumns(['Date', 'Users'], columnWidths) + '</b>';
+
+      function renderChart(data) {
+        var firstPoints = JSC.nest()
+          .key('date_of_first_purchase')
+          .pointRollup(function (key, val) {
+            return {
+              y: JSC.formatDate(val[0].date_of_first_purchase, 'm'),
+              z: val.length,
+            };
+          })
+          .points(
+            data.filter(function (x) {
+              return x.date_of_purchase === x.date_of_first_purchase;
+            })
+          );
+
+        var allUsers = JSC.nest()
+          .key('day_number')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: 'Day ' + values.day_number,
+              y: 'All Users',
+              z: val.length,
+              yAxisTick_label_text: tickTemplate,
+              attributes: {
+                percent: (val.length / JSC.sum(firstPoints, 'z')) * 100,
+                revenue: JSC.sum(val, 'amount'),
+              },
+              color: '#F5F5F5',
+            };
+          })
+          .points(data);
+        var series = JSC.nest()
+          .key('date_of_first_purchase')
+          .key('date_of_purchase')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            var result = {
+              x: 'Day ' + values.day_number,
+              y: JSC.formatDate(values.date_of_first_purchase, 'm'),
+              z: val.length,
+              attributes_percent:
+                (val.length /
+                  firstPoints.find(function (p) {
+                    return p.y === JSC.formatDate(values.date_of_first_purchase, 'm');
+                  }).z) *
+                100,
+              attributes_revenue: JSC.sum(val, 'amount'),
+            };
+            if (values.day_number === 0) result.color = '#F5F5F5';
+            return result;
+          })
+          .series(data);
+
+        var allSeries = [{ points: allUsers }].concat(series);
+        return JSC.chart('chartDiv', {
+          type: 'heatmap solid',
+          debug: true,
+          annotations: [
+            {
+              // The title
+              label: { text: 'Cohort Analysis', style_fontSize: '15px' },
+            },
+            {
+              label_text: headerTemplate,
+              position: '-5,38',
+            },
+          ],
+          defaultSeries: {
+            firstPoint: {
+              color: '#176252',
+              yAxisTick_label_text: tickTemplate,
+              label_text: '{%percent:n0}%',
+            },
+            defaultPoint: {
+              label_text: '{%percent:n1}%',
+              outline_color: 'white',
+              tooltip:
+                '<b>%xValue</b> after Acquisition Date<br><b>{%percent:n1}%</b> User Retention<br><b>%zValue</b> Users<br>Revenue: {%revenue:c2}',
+            },
+            palette: {
+              colorsValueRange: [0, findMaxValue(series, 'attributes_percent')],
+              colors: palette,
+              pointValue: '{%percent}',
+            },
+          },
+          legend_visible: false,
+          defaultAxis: {
+            defaultTick: {
+              line_visible: false,
+              gridLine_visible: false,
+            },
+          },
+          yAxis: { scale: { invert: true } },
+          xAxis: {
+            orientation: 'opposite',
+            scale: { interval: 1 },
+          },
+          series: allSeries,
+          toolbar: {
+            items: {
+              countryList: {
+                type: 'select',
+                position: 'top right',
+                margin: 10,
+                items: 'User Retention, Users, Revenue',
+                events_change: function (val) {
+                  switch (val) {
+                    case 'User Retention':
+                      chart.options({
+                        defaultPoint_label_text: '{%percent:n1}%',
+                        defaultSeries: {
+                          firstPoint_label_text: '{%percent:n0}%',
+                          palette: {
+                            colorsValueRange: [0, findMaxValue(series, 'attributes_percent')],
+                            colors: palette,
+                            pointValue: '{%percent}',
+                          },
+                        },
+                      });
+                      break;
+                    case 'Users':
+                      chart.options({
+                        defaultPoint_label_text: '{%zValue:n0}',
+                        defaultSeries: {
+                          firstPoint_label_text: '{%zValue:n0}',
+                          palette: {
+                            colorsValueRange: [0, findMaxValue(series, 'z')],
+                            colors: palette,
+                            pointValue: '{%zValue}',
+                          },
+                        },
+                      });
+                      break;
+                    case 'Revenue':
+                      chart.options({
+                        defaultPoint_label_text: '{%revenue:n0}',
+                        defaultSeries: {
+                          firstPoint_label_text: '{%revenue:n0}',
+                          palette: {
+                            colorsValueRange: [0, findMaxValue(series, 'attributes_revenue')],
+                            colors: palette,
+                            pointValue: '{%revenue}',
+                          },
+                        },
+                      });
+                      break;
+                  }
+                },
+              },
+            },
+          },
+        });
+
+        function findMaxValue(series, value) {
+          return JSC.max(
+            series.map(function (s) {
+              return JSC.max(s.points.slice(1), value);
+            })
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

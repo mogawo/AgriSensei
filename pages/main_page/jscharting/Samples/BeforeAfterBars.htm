@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animated Before After Bar Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 550px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An interactive multivariate animated before and after comparison chart.
+Learn how to:
+
+  - Use positive and negative bars to compare two data sets.
+*/
+      // JS
+      var chart, data;
+      var palette = ['#D32F2F', '#76e0de'];
+
+      // Resembles underline Used to highlight selected label.
+      var selectedFill = {
+        angle: 90,
+        stops: [
+          [0, '#ffffff'],
+          [0.94, '#ffffff'],
+          [0.94, '#000000'],
+          [1, '#000000'],
+        ],
+      };
+
+      JSC.fetch('./resources/covid19-and-mental-health.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data, 2018), makeRangeTicks(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series, ticks) {
+        // Add a tick to style the total tick label
+        ticks.push({ value: 'Total', label_style_fontWeight: 'bold' });
+
+        return JSC.chart('chartDiv', {
+          type: 'horizontal column solid',
+          title: {
+            label_text:
+              'Share of U.S. ' +
+              colorText('mentally distressed', palette[0]) +
+              ' and ' +
+              colorText('mentally healthy', palette[1]) +
+              ' adults before and after the start of the COVID-19 pandemic by group',
+            margin_bottom: 30,
+          },
+          legend_visible: false,
+          animation_duration: 1000,
+          palette: palette,
+          xAxis: {
+            customTicks: ticks,
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+            },
+          },
+          yAxis: {
+            scale: { type: 'stacked', range: [-40, 110] },
+            defaultTick_label_text: '{Math.abs(%value)}%',
+          },
+          defaultSeries_mouseTracking_enabled: false,
+          defaultPoint: {
+            outline_width: 0,
+            label: {
+              text: '{Math.abs(%yValue)}%',
+              placement: 'outside',
+              autoHide: false,
+            },
+          },
+          series: series,
+          toolbar_items: {
+            beforeAfterButtons: {
+              label_text: '',
+              position: 'inside top left',
+              margin_top: -30,
+              itemsBox: {
+                layout: 'horizontal',
+                visible: true,
+              },
+              defaultItem: {
+                type: 'radio',
+                padding: [0, 0, 4, -20],
+                margin: 3,
+                label_style: { fontSize: 14, color: '#9E9E9E' },
+                icon_visible: false,
+                states: {
+                  select: {
+                    fill: selectedFill,
+                    label_style: { color: '#000000' },
+                  },
+                  hover_fill: selectedFill,
+                },
+              },
+              events: { change: changeEvent },
+              value: 'Before',
+              items: ['Before', 'After'],
+            },
+          },
+        });
+
+        function colorText(text, color) {
+          return '<span style="color:' + color + ';font-weight:bold">' + text + '</span>';
+        }
+      }
+
+      function changeEvent(val) {
+        chart.options({ series: makeSeries(data, val === 'After' ? 2020 : 2018) });
+      }
+
+      function makeRangeTicks(data) {
+        var ticks = [];
+        var dataEntries = JSC.nest().key('type').entries(data);
+        dataEntries.forEach(function (entry) {
+          var key = entry.key,
+            val = entry.values;
+          if (key.length) {
+            var result = {
+              value: [val[0].category, val[val.length - 1].category],
+              label: {
+                placement: 'outside',
+                text: key.split(' ').join('<br>'),
+                //Alternative to the above new lines to wrap text can be: maxWidth: 60
+              },
+              gridLine_visible: true,
+            };
+            ticks.push(result);
+          }
+        });
+        return ticks;
+      }
+
+      function makeSeries(data, year) {
+        return JSC.nest()
+          .key('option')
+          .key('category')
+          .pointRollup(function (key, val) {
+            var value = val[0],
+              distressed = value.option === 'Psychological Distress';
+            return {
+              x: key,
+              id: key + ' ' + value.option,
+              attributes_group: value.type,
+              label_align: distressed ? 'left' : 'right',
+              y: value['year_' + year] * (distressed ? -1 : 1),
+            };
+          })
+          .series(data);
+      }
+    </script>
+  </body>
+</html>

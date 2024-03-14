@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Critical Path Gantt Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 400px; margin: auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Toggle visibility of a critical dependency path highlighting.
+Learn how to:
+
+  - Highlight a specific branch in the dependency hierarchy.
+*/
+      // JS
+      // Helper functions to create axisTick label template with two columns of text describing each task.
+      var columnWidths = [80, 30],
+        span = function (val, width) {
+          return '<span style="width:' + width + 'px;">' + val + '</span>';
+        },
+        mapLabels = function (labels) {
+          return labels
+            .map(function (v, i) {
+              return span(v, columnWidths[i]);
+            })
+            .join('');
+        },
+        tickTemplate = mapLabels(['%name', '{weeks(%high-%low):n0}w']);
+
+      // The critical path
+      var criticalPath = 'site_prep,power,excavation,foundation,framing,roofing,interior'.split(','),
+        criticalpathStyle = { color: '#d50000', width: 2 };
+
+      var chart = JSC.chart(
+        'chartDiv1',
+        {
+          title_label_text: 'House Construction from %min to %max',
+          legend_visible: false,
+
+          /*Typical Gantt setup. Horizontal columns by default.*/
+          type: 'horizontal column solid',
+          /*Make columns overlap.*/
+          zAxis_scale_type: 'stacked',
+          /*Time Y Axis.*/
+          yAxis: {
+            scale: { type: 'time', range: { padding: 0 } },
+          },
+          xAxis: { spacingPercentage: 0.5 },
+          palette: ['#33658A', '#86BBD8', '#758E4F', '#F6AE2D', '#F26419', '#590925'],
+          defaultSeries: {
+            defaultPoint: {
+              xAxisTick_label_text: tickTemplate,
+              outline_width: 0,
+              tooltip: '<b>%name</b> <br/>%low - %high<br/>{days(%high-%low)} days',
+            },
+          },
+          series: [
+            {
+              points: [
+                { name: 'Site Prep', y: ['02/01/2022', '02/15/2022'], id: 'site_prep' },
+                { name: 'Septic', y: ['02/15/2022', '03/08/2022'], id: 'septic', parent: 'site_prep' },
+              ],
+            },
+            {
+              points: [
+                { name: 'Water', y: ['02/15/2022', '03/01/2022'], id: 'water', parent: 'site_prep' },
+                { name: 'Power', y: ['02/15/2022', '03/15/2022'], id: 'power', parent: 'site_prep' },
+                { name: 'Data', y: ['02/15/2022', '02/22/2022'], id: 'data', parent: 'site_prep' },
+              ],
+            },
+            {
+              points: [
+                {
+                  name: 'Excavation',
+                  y: ['03/15/2022', '03/29/2022'],
+                  id: 'excavation',
+                  parent: 'septic,water,power,data',
+                },
+              ],
+            },
+            {
+              points: [
+                { name: 'Foundation', y: ['03/29/2022', '04/05/2022'], id: 'foundation', parent: 'excavation' },
+                { name: 'Framing', y: ['04/05/2022', '04/19/2022'], id: 'framing', parent: 'foundation' },
+                { name: 'Roofing', y: ['04/19/2022', '05/03/2022'], id: 'roofing', parent: 'framing' },
+                { name: 'Windows', y: ['04/19/2022', '04/26/2022'], id: 'windows', parent: 'framing' },
+              ],
+            },
+            {
+              points: [
+                { name: 'Interior', y: ['05/03/2022', '05/24/2022'], id: 'interior', parent: 'windows,roofing' },
+              ],
+            },
+            {
+              points: [{ name: 'Grading', y: ['03/29/2022', '04/23/2022'], id: 'grading', parent: 'excavation' }],
+            },
+          ],
+          toolbar_items: {
+            'Critical Path': {
+              type: 'checkbox',
+              value: true,
+              position: 'inside top right',
+              events_change: function (value) {
+                var chart = this.chart;
+                if (value) {
+                  chart.connectors(criticalPath, criticalpathStyle);
+                } else {
+                  chart.connectors();
+                }
+              },
+            },
+          },
+        },
+        highlightCriticalPath
+      );
+
+      function highlightCriticalPath(chart) {
+        chart.connectors(criticalPath, criticalpathStyle);
+      }
+    </script>
+  </body>
+</html>

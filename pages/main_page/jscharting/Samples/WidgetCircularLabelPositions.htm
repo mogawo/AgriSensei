@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Gauge Widget Label Positions | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      .jsc-widget .circular .value {
+        font-size: 25px;
+      }
+      #chartDiv1 .jsc-widget .circular .value {
+        font-size: 35px;
+      }
+      #chartDiv1 .jsc-widget .circular .icon {
+        color: #bbbbbb;
+      }
+
+      #chartDiv2 .jsc-widget .circular .value {
+        font-size: 32px;
+      }
+
+      #chartDiv3 .jsc-widget .circular .value {
+        font-size: 26px;
+      }
+      #chartDiv3 .jsc-widget .circular .icon {
+        font-size: 25px;
+      }
+
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 150px; margin: 0 auto;">
+      <input type="checkbox" id="modeCheckbox" name="dark" />
+      <label for="modeCheckbox">Dark Background</label>
+    </div>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 245px; height: 650px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 200px; height: 650px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 200px; height: 650px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Demonstrate different value, icon, and label positions with Circular widgets.
+Learn how to:
+
+  - Position labels in Circular widgets.
+*/
+      // JS
+
+      var widget1 = new JSCWidgets.Circular('chartDiv1', {
+        label: ['Steps', 'Running', 'Cycling'],
+        value: [9443, 0.5, 5.94],
+        valueText: ['%value ', '%value <sub>mi</sub>', '%value <sub>mi</sub>'],
+        icon: ['material/maps/directions-walk', 'material/maps/directions-run', 'material/maps/directions-bike'],
+        min: 0,
+        max: [10000, 1.2, 12],
+        barWidth: 5,
+        barRounded: false,
+        color: '#673AB7',
+      });
+
+      var widget2 = new JSCWidgets.Circular('chartDiv2', {
+        label: ['Steps', 'Running', 'Cycling'],
+        icon: ['material/maps/directions-walk', 'material/maps/directions-run', 'material/maps/directions-bike'],
+        value: [9443, 0.5, 5.94],
+        valueText: ['%value ', '%value <sub>mi</sub>', '%value <sub>mi</sub>'],
+        min: 0,
+        max: [10000, 1.2, 12],
+        color: '#673AB7',
+        barWidth: 15,
+        barBackgroundWidth: 3,
+        labelPosition: 'top left',
+        iconPosition: 'top right',
+      });
+      var widget3 = new JSCWidgets.Circular('chartDiv3', {
+        value: [9443, 0.5, 5.94],
+        valueText: ['%value ', '%value <sub>mi</sub>', '%value <sub>mi</sub>'],
+        icon: ['material/maps/directions-walk', 'material/maps/directions-run', 'material/maps/directions-bike'],
+        min: 0,
+        max: [10000, 1.2, 12],
+        color: '#673AB7',
+        barWidth: 10,
+        labelPosition: 'inside left',
+        iconPosition: 'inside left',
+        valuePosition: 'inside right',
+      });
+
+      var checkboxEl = document.getElementById('modeCheckbox');
+
+      checkboxEl.addEventListener('change', function () {
+        var color = checkboxEl.checked ? 'black' : 'white';
+        var elements = document.getElementsByClassName('chartDiv');
+        for (let i = 0; i < elements.length; i++) {
+          elements[i].style.backgroundColor = color;
+        }
+      });
+    </script>
+  </body>
+</html>

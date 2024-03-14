@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Choropleth Map Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 400px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 400px; height: 400px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Map usage with zoom UI in a widget.
+Learn how to:
+
+  - Use mapping charts in a widget.
+*/
+      // JS
+
+      /* Default Widget Options */
+      var mapWidgetDefaults = {
+        title: 'Map',
+        series: [
+          {
+            points: [
+              { map: 'CA', z: 6.9 },
+              { map: 'US', z: 4.2 },
+              { map: 'MX', z: 3.8 },
+              { map: 'GL', z: 6.8 },
+            ],
+          },
+        ],
+        palette: ['#e0f3db', '#a8ddb5', '#43a2ca'],
+        legend: true,
+      };
+
+      var chart1, chart2;
+      JSC.fetch('./resources/laborForceUs.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var pointsData = JSC.csv2Json(text, {
+            coerce: function (d, i) {
+              if (d.year == '2020') {
+                return {
+                  map: 'US.name:' + d.state,
+                  z: (parseInt(d.unemployed) * 100) / parseInt(d.labor_force),
+                };
+              }
+            },
+          }).filter(function (el) {
+            return el != null;
+          });
+
+          chart1 = new MapWidget('chartDiv1', {
+            title: 'US Unemployment Rate',
+            series: [{ points: pointsData }],
+            palette: ['#0000ff', '#0024ed', '#0049db', '#006dc8', '#0092b6', '#00b6a4', '#00db92', '#00ff80'].reverse(),
+            legend: false,
+          });
+          chart2 = new MapWidget('chartDiv2', {});
+        });
+
+      /* WIDGET DEFINITION */
+
+      /* Widget Constructor */
+      function MapWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, mapWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              type: 'map solid',
+              title: {
+                margin_bottom: 15,
+                label_style: { fontWeight: 'bold', fontSize: 16 },
+              },
+              defaultTooltip: {
+                shadow: false,
+                outline_width: 0,
+                opacity: 0.9,
+                padding: 10,
+                label_color: 'white',
+                fill: '#333747',
+              },
+              defaultPoint: {
+                outline: { width: 1, color: 'white' },
+                tooltip: '%name<br><span style="font-size:16px; margin:5px 0 0 0;"><b>{%zValue:n2}%</b></span>',
+                focusGlow: false,
+              },
+              legend_position: 'bottom',
+              toolbar_visible: false,
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      MapWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.series) {
+          result.series = options.series;
+        }
+        if (options.palette) {
+          result.palette = {
+            pointValue: '{%zValue:n1}%',
+            colors: options.palette,
+            colorBar: {
+              width: 10,
+              axis_defaultTick_label_text: '%value%',
+            },
+          };
+        }
+
+        result.legend_visible = options.legend ? options.legend : false;
+
+        return result;
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      MapWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+    </script>
+  </body>
+</html>

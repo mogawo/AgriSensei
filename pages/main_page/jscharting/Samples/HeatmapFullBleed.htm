@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Full Bleed Heatmap Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .widgetCard {
+        background-color: white;
+        border-radius: 20px;
+        width: 100%;
+        box-sizing: content-box;
+        overflow: hidden;
+        text-align: center;
+        margin: 10px auto;
+      }
+      #widgetsWrapper {
+        box-sizing: border-box;
+        width: 100%;
+      }
+      #widgetsWrapper p {
+        font-family: tahoma, geneva, sans-serif;
+        text-align: center;
+      }
+      .chartDiv {
+        margin: 4px auto;
+        box-sizing: content-box;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <p>2022 Sales per month</p>
+      <div class="widgetCard" style="max-width: 700px; height: 300px;">
+        <div id="chartDiv1" class="chartDiv" style="margin: 0 auto;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+A full bleed heatmap chart that extends the chart area to the edges of the SVG image.
+Learn how to:
+
+  - Extend the chart area to the edges of the SVG image.
+*/
+      // JS
+      var palette = ['#3c506b', '#577399', '#BDD5EA', '#F7F7FF'].reverse();
+      var data = [
+        { x: 'Jan', y: 'Lizzy Knaggs', z: 90 },
+        { x: 'Feb', y: 'Lizzy Knaggs', z: 177 },
+        { x: 'Mar', y: 'Lizzy Knaggs', z: 147 },
+        { x: 'Apr', y: 'Lizzy Knaggs', z: 193 },
+        { x: 'May', y: 'Lizzy Knaggs', z: 120 },
+        { x: 'Jun', y: 'Lizzy Knaggs', z: 116 },
+        { x: 'Jul', y: 'Lizzy Knaggs', z: 176 },
+        { x: 'Aug', y: 'Lizzy Knaggs', z: 198 },
+        { x: 'Sep', y: 'Lizzy Knaggs', z: 98 },
+        { x: 'Oct', y: 'Lizzy Knaggs', z: 124 },
+        { x: 'Nov', y: 'Lizzy Knaggs', z: 109 },
+        { x: 'Dec', y: 'Lizzy Knaggs', z: 136 },
+
+        { x: 'Jan', y: 'Ira Kendal', z: 185 },
+        { x: 'Feb', y: 'Ira Kendal', z: 103 },
+        { x: 'Mar', y: 'Ira Kendal', z: 199 },
+        { x: 'Apr', y: 'Ira Kendal', z: 190 },
+        { x: 'May', y: 'Ira Kendal', z: 174 },
+        { x: 'Jun', y: 'Ira Kendal', z: 189 },
+        { x: 'Jul', y: 'Ira Kendal', z: 132 },
+        { x: 'Aug', y: 'Ira Kendal', z: 200 },
+        { x: 'Sep', y: 'Ira Kendal', z: 176 },
+        { x: 'Oct', y: 'Ira Kendal', z: 97 },
+        { x: 'Nov', y: 'Ira Kendal', z: 171 },
+        { x: 'Dec', y: 'Ira Kendal', z: 120 },
+
+        { x: 'Jan', y: 'Miles Parris', z: 173 },
+        { x: 'Feb', y: 'Miles Parris', z: 114 },
+        { x: 'Mar', y: 'Miles Parris', z: 189 },
+        { x: 'Apr', y: 'Miles Parris', z: 198 },
+        { x: 'May', y: 'Miles Parris', z: 182 },
+        { x: 'Jun', y: 'Miles Parris', z: 187 },
+        { x: 'Jul', y: 'Miles Parris', z: 122 },
+        { x: 'Aug', y: 'Miles Parris', z: 140 },
+        { x: 'Sep', y: 'Miles Parris', z: 145 },
+        { x: 'Oct', y: 'Miles Parris', z: 130 },
+        { x: 'Nov', y: 'Miles Parris', z: 108 },
+        { x: 'Dec', y: 'Miles Parris', z: 178 },
+
+        { x: 'Jan', y: 'Thelma Twist', z: 129 },
+        { x: 'Feb', y: 'Thelma Twist', z: 124 },
+        { x: 'Mar', y: 'Thelma Twist', z: 147 },
+        { x: 'Apr', y: 'Thelma Twist', z: 96 },
+        { x: 'May', y: 'Thelma Twist', z: 138 },
+        { x: 'Jun', y: 'Thelma Twist', z: 107 },
+        { x: 'Jul', y: 'Thelma Twist', z: 114 },
+        { x: 'Aug', y: 'Thelma Twist', z: 148 },
+        { x: 'Sep', y: 'Thelma Twist', z: 195 },
+        { x: 'Oct', y: 'Thelma Twist', z: 174 },
+        { x: 'Nov', y: 'Thelma Twist', z: 146 },
+        { x: 'Dec', y: 'Thelma Twist', z: 194 },
+
+        { x: 'Jan', y: 'Warner Thompsett', z: 189 },
+        { x: 'Feb', y: 'Warner Thompsett', z: 160 },
+        { x: 'Mar', y: 'Warner Thompsett', z: 154 },
+        { x: 'Apr', y: 'Warner Thompsett', z: 98 },
+        { x: 'May', y: 'Warner Thompsett', z: 171 },
+        { x: 'Jun', y: 'Warner Thompsett', z: 159 },
+        { x: 'Jul', y: 'Warner Thompsett', z: 102 },
+        { x: 'Aug', y: 'Warner Thompsett', z: 138 },
+        { x: 'Sep', y: 'Warner Thompsett', z: 173 },
+        { x: 'Oct', y: 'Warner Thompsett', z: 114 },
+        { x: 'Nov', y: 'Warner Thompsett', z: 128 },
+        { x: 'Dec', y: 'Warner Thompsett', z: 101 },
+      ];
+      var chart = JSC.chart('chartDiv1', {
+        margin: [-4, -4],
+        box_fill: 'none',
+        type: 'heatmap solid',
+        overlapBranding: true,
+        palette: {
+          pointValue: function (p) {
+            return p.options('z');
+          },
+          colors: palette,
+        },
+        legend_visible: false,
+        defaultAxis_defaultTick: {
+          line_visible: false,
+          label: { color: '#263238', maxWidth: 80 },
+          placement: 'inside',
+        },
+        xAxis_defaultTick_padding: -2,
+        defaultPoint: {
+          outline_width: 0,
+          tooltip: '%yValue - %xValue<br><b>%zValue sales</b>',
+        },
+        series: [{ points: data }],
+      });
+    </script>
+  </body>
+</html>

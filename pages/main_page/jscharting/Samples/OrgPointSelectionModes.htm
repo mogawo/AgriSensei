@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Point Selection Modes Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 440px;"></div>
+
+    <script type="text/javascript">
+      /*
+Try different point selection modes with organizational chart hierarchy highlighting.
+Learn how to:
+
+  - Highlight organizational chart connector lines and annotations using point selection.
+*/
+      // JS
+      var highlightColor = '#544040',
+        mutedHighlightColor = '#504545',
+        hoverConnectorsColor = '#4b2f2f',
+        selectionMode = 'single';
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        animation_duration: 0,
+        events: {
+          pointSelectionChanged: pointSelectionChanged,
+        },
+        annotations: [
+          {
+            position: 'inside top right',
+            label_text: 'Click nodes to select them based on the point selection mode.',
+          },
+        ],
+        defaultTooltip_enabled: false,
+        defaultSeries: {
+          color: '#fffff6',
+          pointSelection: selectionMode,
+          defaultPoint: {
+            /* Default line styling for connector lines. */
+            connectorLine: { color: '#b6b6b6', width: 1 },
+            outline: { color: '#cbcbcb', width: 1 },
+            states: {
+              /* The select state is used by points that are clicked. */
+              select: { fill: '#bac9e1', outline: { color: highlightColor } },
+              /* The mute state is used to style points that are part a clicked path. */
+              mute: { enabled: true, opacity: 1, outline_color: mutedHighlightColor },
+            },
+            annotation: { padding: [5, 10], margin: 5 },
+            events: {
+              /* Returning false from these events prevents mute state changes the chart does automatically. */
+              mouseOver: pointMouseOver,
+              mouseOut: pointMouseOut,
+            },
+          },
+        },
+        series: [
+          {
+            points: [
+              { x: 'Project Manager', id: 'PM' },
+              { x: 'Deputy Project Manager', id: 'DPM', parent: 'PM' },
+              { x: 'System Engineering', id: 'SE', parent: 'DPM' },
+              { x: 'Independent Test Group', id: 'ITG', parent: 'DPM' },
+              { x: 'Project Technical Lead', id: 'PTL', parent: 'DPM' },
+              { x: 'Quality Assurance', id: 'QA', parent: 'DPM' },
+              { x: 'Configuration Manager', id: 'CM', parent: 'DPM' },
+
+              { x: 'S/W Subproject Manager 1', id: 'SM1', parent: 'PTL' },
+              { x: 'Team 1', id: 'team11', parent: 'SM1' },
+              { x: 'Team 2', id: 'team12', parent: 'SM1' },
+              { x: 'Team 3', id: 'team13', parent: 'SM1' },
+
+              { x: 'S/W Subproject Manager 2', id: 'SM2', parent: 'PTL' },
+              { x: 'Team 1', id: 'team21', parent: 'SM2' },
+              { x: 'Team 2', id: 'team22', parent: 'SM2' },
+
+              { x: 'S/W Subproject Manager 3', id: 'SM3', parent: 'PTL' },
+              { x: 'Team 1', id: 'team31', parent: 'SM3' },
+              { x: 'Team 2', id: 'team32', parent: 'SM3' },
+            ],
+          },
+        ],
+
+        toolbar_items: {
+          'Selection Mode': {
+            itemsBox: {
+              visible: true,
+              layout: 'horizontal',
+            },
+            defaultItem: { type: 'radio' },
+            value: 'single',
+            items: 'single,multiple,2,3',
+            events_change: function (val) {
+              this.chart.options({ defaultSeries: { pointSelection: val.length < 2 ? { max: parseInt(val) } : val } });
+            },
+          },
+        },
+      });
+
+      var selectedPoints = [];
+
+      function pointSelectionChanged(points) {
+        selectedPoints = points.map(function (p) {
+          return p.id;
+        });
+        // Clear all connector styling.
+        this.connectors();
+        styleSelectedPoints(this);
+      }
+
+      function styleSelectedPoints(c) {
+        // Clear point mute states.
+        c.series().points().options({ muted: false });
+
+        if (selectedPoints.length) {
+          var paths = selectedPoints.map(function (pid) {
+            return [pid, 'up'];
+          });
+          c.connectors(paths, { color: highlightColor, dashStyle: 'dash', width: 2 });
+          c.series().points(paths).options({ muted: true });
+        }
+      }
+
+      function pointMouseOver() {
+        this.chart.connectors([this.id, 'up'], { color: hoverConnectorsColor });
+        return false;
+      }
+
+      function pointMouseOut() {
+        // Reset only the point connectors that were highlighted by pointMouseOver().
+        // This prevents the currently selected connectors from flickering.
+        this.chart.connectors([this.id, 'up']);
+        styleSelectedPoints(this.chart);
+        return false;
+      }
+    </script>
+  </body>
+</html>

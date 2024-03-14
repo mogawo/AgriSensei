@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Dependency Line Styling Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 840px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Gantt chart with large dependency line radii and dash styling.
+Learn how to:
+
+  - Control Gantt dependency line radii.
+*/
+      // JS
+
+      var chartConfig = {
+        type: 'horizontal column solid',
+        palette: 'fiveColor1',
+        zAxis_scale_type: 'stacked',
+        legend: { visible: false, position: 'top', template: '%icon %name' },
+        xAxis_spacingPercentage: 0.5,
+        yAxis_scale_type: 'time',
+        defaultSeries: {
+          defaultPoint: {
+            xAxisTick_label_text: '%name',
+            connectorLine: {
+              /* Radii for the first corner, then the second corner. */
+              radius: [90, 1],
+              dashStyle: 'longdash',
+            },
+          },
+        },
+        series: [
+          {
+            points: [
+              { name: 'Instructor Shoot', y: ['02/03/2022', '02/05/2022'], id: 'IS' },
+              { name: 'Portraiture photography selected', y: ['02/07/2022', '02/08/2022'], id: 'PPS', parent: 'IS' },
+              { name: 'Class editing', y: ['02/11/2022', '02/12/2022'], id: 'CE', parent: 'IS' },
+              { name: 'GTM planning kicked off', y: ['02/07/2022', '02/11/2022'], id: 'GTM PKO', parent: 'IS' },
+              { name: 'Complete class workbook', y: ['02/15/2022', '02/20/2022'], id: 'CCW', parent: 'CE' },
+              { name: 'Complete class trailer', y: ['02/14/2022', '02/16/2022'], id: 'CCT', parent: 'IS' },
+              { name: 'Social media posts prepared', y: ['02/14/2022', '02/18/2022'], id: 'SMPP', parent: 'CE' },
+              { name: 'Site copy', y: ['02/14/2022', '02/21/2022'], id: 'SC', parent: 'SMPP' },
+              { name: 'Test class on site', y: ['02/21/2022', '02/22/2022'], id: 'TCS', parent: 'CF' },
+              { name: 'Launch', y: ['02/22/2022', '02/24/2022'], id: 'L', parent: 'TCS,GTM PKO' },
+              { name: 'Engineering sing off', y: ['02/22/2022', '02/25/2022'], id: 'ESO', parent: 'L' },
+              { name: 'Promote on social media', y: ['02/24/2022', '02/25/2022'], id: 'PSM', parent: 'CBF' },
+              { name: 'Class finishing', y: ['02/17/2022', '02/19/2022'], id: 'CF', parent: 'CCT' },
+              { name: 'Class branding finalized', y: ['02/22/2022', '02/23/2022'], id: 'CBF' /*parent:'ESO'*/ },
+            ],
+          },
+        ],
+      };
+
+      var chart = JSC.chart('chartDiv', chartConfig);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Select All Checkbox | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Point selection with checkboxes and a custom select or clear all checkbox.
+Learn how to:
+
+  - Use legend entry checkboxes to select points.
+  - Custom legend entry to select or clear all points.
+*/
+      // JS
+
+      /**
+       * If all points are selected or cleared, this syncs the checkAll checkbox.
+       */
+      function syncAllCheckbox() {
+        var chart = this;
+        var allPoints = chart.series().points().items.length;
+        var selectedPoints = chart.series().points(function (p) {
+          return p.options('selected');
+        }).items.length;
+
+        //If selected point count equals all points count or if no points are selected.
+        if (selectedPoints === allPoints || !selectedPoints) {
+          chart.legends(0).entries('checkAll').options({ checkbox_checked: !!selectedPoints });
+        }
+      }
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'column',
+        title_label_text: 'Select points',
+        events_pointSelectionChanged: syncAllCheckbox,
+        legend: {
+          defaultEntry: {
+            // Enable checkboxes for each point legend entry.
+            checkbox_enabled: true,
+            hoverAction: 'none',
+          },
+          customEntries: [
+            {
+              id: 'checkAll',
+              // Position as first entry.
+              sortOrder: -1,
+              // Enable checkbox. Required since custom entries don't have them by default.
+              checkbox_enabled: true,
+              // Appearance
+              value: 'Value',
+              name: 'Name',
+              icon: 'none',
+              style_fontWeight: 'bold',
+              // Apply checked state to all points.
+              events_click: function () {
+                var checked = this.options('checkbox.checked');
+                this.chart.series().points().options({ selected: checked });
+              },
+            },
+          ],
+        },
+        defaultSeries: {
+          palette: 'default',
+          pointSelection: 'multiple',
+          firstPoint_legendEntry_lineAbove: true,
+        },
+
+        yAxis_label_text: 'Units Sold',
+        xAxis_label_text: 'Quarter',
+        series: [
+          {
+            name: 'A',
+            points: [
+              { x: 'Q1', y: 230 },
+              { x: 'Q2', y: 240 },
+              { x: 'Q3', y: 267 },
+              { x: 'Q4', y: 238 },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

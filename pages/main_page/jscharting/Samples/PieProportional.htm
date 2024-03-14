@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Proportional Pie Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 600px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple pie series with dynamic shape labels.
+Learn how to:
+
+  - Use dynamic shape labels.
+*/
+      // JS
+      var palette = ['#f44336', '#f4a236'];
+
+      var data = [
+        { name: 'Donald Trump', rating: 45.5, type: 'start' },
+        { name: 'Donald Trump', rating: 43.8, type: 'final' },
+        { name: 'Barack Obama', rating: 64.1, type: 'start' },
+        { name: 'Barack Obama', rating: 57.9, type: 'final' },
+        { name: 'George W. Bush', rating: 46, type: 'start' },
+        { name: 'George W. Bush', rating: 32.3, type: 'final' },
+        { name: 'Bill Clinton', rating: 53.5, type: 'start' },
+        { name: 'Bill Clinton', rating: 67, type: 'final' },
+        { name: 'George H.W. Bush', rating: 61, type: 'start' },
+        { name: 'George H.W. Bush', rating: 47.1, type: 'final' },
+        { name: 'Ronald Reagan', rating: 51, type: 'start' },
+        { name: 'Ronald Reagan', rating: 63.1, type: 'final' },
+        { name: 'Jimmy Carter', rating: 66, type: 'start' },
+        { name: 'Jimmy Carter', rating: 33.7, type: 'final' },
+        { name: 'Gerald Ford', rating: 71, type: 'start' },
+        { name: 'Gerald Ford', rating: 51.5, type: 'final' },
+        { name: 'Richard Nixon', rating: 59, type: 'start' },
+        { name: 'Richard Nixon', rating: 25.1, type: 'final' },
+        { name: 'Lyndon B. Johnson', rating: 76, type: 'start' },
+        { name: 'Lyndon B. Johnson', rating: 48.7, type: 'final' },
+        { name: 'John F. Kennedy', rating: 72, type: 'start' },
+        { name: 'John F. Kennedy', rating: 58.2, type: 'final' },
+        { name: 'Dwight D. Eisenhower', rating: 68, type: 'start' },
+        { name: 'Dwight D. Eisenhower', rating: 60.1, type: 'final' },
+        { name: 'Harry S. Truman', rating: 87, type: 'start' },
+        { name: 'Harry S. Truman', rating: 32, type: 'final' },
+      ];
+
+      var config = {
+        debug: true,
+        title: {
+          label: {
+            text: 'Approval rating of US presidents',
+            style_fontSize: 16,
+            margin_bottom: 20,
+          },
+          position: 'center',
+        },
+        legend: {
+          position: 'inside top',
+          margin_top: -28,
+          template: '%icon %name',
+          defaultEntry: {
+            icon_outline_width: 0,
+            style_fontSize: 14,
+          },
+          customEntries: [
+            { icon_color: palette[0], name: 'at the beginning of his career' },
+            { icon_color: palette[1], name: 'at the end of his career' },
+          ],
+        },
+        defaultSeries: {
+          type: 'pie',
+          palette: palette,
+          angle: 180,
+          shape: {
+            size: '20%',
+            label: { text: labelText },
+          },
+          mouseTracking: false,
+          legendEntry_visible: false,
+        },
+        defaultPoint: {
+          outline_width: 0,
+          legendEntry_visible: false,
+        },
+        series: makeSeries(data),
+        toolbar_visible: false,
+      };
+
+      var chart = JSC.chart('chartDiv', config);
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key('name')
+          .key('type')
+          .pointRollup(function (key, val) {
+            return { y: 50, z: val[0].rating };
+          })
+          .series(data);
+      }
+
+      function labelText(series) {
+        var p1z = series.points(0).tokenValue('%zValue');
+        var p2z = series.points(1).tokenValue('%zValue');
+
+        return wrapSpan(p1z, palette[0]) + wrapSpan(p2z, palette[1]) + '<br>%name';
+
+        function wrapSpan(text, color) {
+          return '<span style="color:' + color + '; width:44px;align:center"><b>' + text + '%</b></span>';
+        }
+      }
+    </script>
+  </body>
+</html>

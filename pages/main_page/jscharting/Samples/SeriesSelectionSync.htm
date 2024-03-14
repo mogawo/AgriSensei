@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interactive Line Selection | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div style="max-width: 740px; margin: 0px auto;">
+      <select id="selectState"></select>
+      <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Uses series selection to highlight line series in sync with a dropdown control.
+Learn how to:
+
+  - Use selection to highlight line series.
+*/
+      // JS
+      var chart, selectEl;
+
+      fetch('./resources/laborForceUs.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          bindUi();
+          var series = makeSeries(text);
+          chart = renderChart(series, function (chrt) {
+            // Set the initial series after chart is rendered
+            updateDropdown('Average');
+            selectSeries('Average', chrt);
+          });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      // Convert csv text to a chart series
+      function makeSeries(csvText) {
+        // Parse the csv text into JSON.
+        var data = JSC.csv2Json(csvText, {
+          coerce: function (d) {
+            return {
+              state: d.state === 'Total' ? 'Average' : d.state,
+              year: d.year,
+              rate: (parseInt(d.unemployed) * 100) / parseInt(d.labor_force),
+            };
+          },
+        }).filter(function (x) {
+          return parseInt(x.year) > 1990;
+        });
+
+        // Create a series for the chart.
+        return JSC.nest()
+          .key('state')
+          .key('year')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: '1/1/' + values.year,
+              y: values.rate,
+            };
+          })
+          .series(data);
+      }
+
+      // Render the chart
+      function renderChart(series, cb) {
+        populateDropdown(series);
+        return JSC.chart(
+          'chartDiv',
+          {
+            type: 'spline',
+            title_label_text: 'Average US Unemployment Rate',
+            defaultTooltip_enabled: false,
+            yAxis: {
+              defaultTick_label_text: '%value%',
+              scale_range: [2, 14],
+            },
+            xAxis: {
+              scale_type: 'time',
+              formatString: 'yyyy',
+            },
+            defaultPoint: {
+              marker: { visible: false, size: 12 },
+              states: {
+                // Point hover and mute states are not necessary
+                hover: { enabled: false },
+                mute: { enabled: false },
+              },
+              events: {
+                mouseOver: function () {
+                  var point = this;
+                  var id = point.series.options('name');
+                  updateDropdown(id);
+                  selectSeries(id);
+                  return false;
+                },
+              },
+              focusGlow: false,
+            },
+            legend_visible: false,
+            defaultSeries: {
+              // Default line is translucent and desaturated
+              line: { opacity: 0.2, color: 'desaturate' },
+              states: {
+                select: {
+                  // Selected line is solid, and thicker.
+                  line: {
+                    opacity: 1,
+                    color: 'currentColor',
+                    width: 3,
+                  },
+                },
+                // Series hover and mute states are not necessary
+                hover: { enabled: false },
+                mute: { enabled: false },
+              },
+              line_width: 1,
+            },
+            series: series,
+          },
+          cb
+        );
+      }
+
+      // Set the selected series on the chart.
+      function selectSeries(id, chrt) {
+        (chrt || chart).series().each(function (s) {
+          s.options({ selected: id === s.name });
+        });
+      }
+
+      function updateDropdown(id) {
+        for (var i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].text === id) {
+            selectEl.options[i].selected = true;
+            return;
+          }
+        }
+      }
+
+      function bindUi() {
+        selectEl = document.getElementById('selectState');
+        selectEl.addEventListener('change', function () {
+          selectChanged(this);
+        });
+      }
+
+      function populateDropdown(series) {
+        series.forEach(function (s) {
+          var el = document.createElement('option');
+          el.textContent = s.name;
+          el.value = s.name;
+          selectEl.appendChild(el);
+        });
+      }
+
+      function selectChanged(control) {
+        selectSeries(control.options[control.selectedIndex].value);
+      }
+    </script>
+  </body>
+</html>

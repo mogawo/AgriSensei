@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Composite Circular Guage Calendar Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 660px; height: 480px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Calendar with a composite circular gauge microchart.
+Learn how to:
+
+  - Load CSV heatmap data into a calendar chart.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'calendar month solid',
+        data: './resources/CarSales_2017.csv',
+        legend: {
+          title_label: {
+            text: '<b>Select Month</b>',
+            align: 'right',
+            style: { fontSize: '15px' },
+          },
+          defaultEntry: {
+            style: { fontSize: '13px' },
+            states_hidden_color: '#a5a5a5',
+          },
+        },
+        palette: {
+          colors: ['#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'],
+          colorBar_axis: { scale_interval: 5 },
+        },
+        calendar: {
+          defaultEdgePoint: { mouseTracking: false, label_visible: false },
+          defaultEmptyPoint: {
+            outline_width: 0,
+            hatch: { style: 'none' },
+            opacity: 0.5,
+            legendEntry_visible: false,
+          },
+        },
+        title: {
+          label: {
+            text: 'Car Sales vs Goal',
+            style_fontSize: 15,
+          },
+        },
+        yAxis_visible: false,
+        defaultPoint: {
+          opacity: 0.00001,
+          focusGlow: false,
+          label: {
+            color: '#424242',
+            verticalAlign: 'top',
+            text: function (p) {
+              return makeLabels(p);
+            },
+          },
+          outline_width: 0,
+          tooltip: '<b>{%date:date D}</b><br> %zValue cars sold',
+        },
+        defaultSeries_shape_innerPadding: 0.04,
+        toolbar_visible: false,
+      });
+
+      function makeLabels(p) {
+        var salesGoal = 8;
+
+        // The circle circular gauge is created with a pie with two points, one with a color and a gray one.
+        // On top a circle icon to clip the middle, and a centered label on top of that.
+        // The <absolute> tag allows stacking items this way.
+
+        if (p.replaceTokens('%zValue') < salesGoal) {
+          return (
+            '<span style="align:right; color:#757575; font-size:11px">%name</span><br>' +
+            '<absolute><chart pie data=' +
+            p.replaceTokens('%zValue') +
+            ',' +
+            (salesGoal - p.replaceTokens('%zValue')) +
+            ' size=42 colors=,' +
+            p.replaceTokens('%color') +
+            ',#F5F5F5 align=center verticalAlign=middle>' +
+            '<icon name=system/default/circle size=30 color=white margin_left=10 align=center verticalAlign=middle><span style="width:50px; align:center;"><b>%zValue</b></span></absolute>'
+          );
+        } else {
+          return (
+            '<span style="align:right; color:#757575; font-size:11px">%name</span><br>' +
+            '<absolute><chart pie data=' +
+            p.replaceTokens('%zValue') +
+            ',1 size=42 colors=,' +
+            p.replaceTokens('%color') +
+            ',' +
+            p.replaceTokens('%color') +
+            ' align=center verticalAlign=middle>' +
+            '<icon name=system/default/circle size=30 color=white margin_left=10 align=center verticalAlign=middle><span style="width:50px; align:center;"><b>%zValue</b></span></absolute>'
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

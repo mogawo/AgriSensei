@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Grid Table Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        font-family: 'Roboto';
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="gridDiv2" class="chartDiv" style="max-width: 700px;"></div>
+      <div id="gridDiv1" class="chartDiv" style="max-width: 500px; height: 320px;"></div>
+      <div id="gridDiv3" class="chartDiv" style="max-width: 500px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Grid and table usage in dashboard widgets.
+Learn how to:
+
+  - Use grids in widgets.
+*/
+      // JS
+      var grid1, grid2;
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var tableWidgetDefaults = {
+        title: '',
+        data: [
+          { name: { first: 'Reiss', last: 'Hughes' }, value1: 5, value2: [9, 10] },
+          { name: { first: 'Louis', last: 'Vasquez' }, value1: 3, value2: [3, 4] },
+          { name: { first: 'Donnie', last: 'Bates' }, value1: 2, value2: [4, 1] },
+          { name: { first: 'Nelson', last: 'Conrad' }, value1: 6, value2: [6, 5] },
+          { name: { first: 'Hira', last: 'Glass' }, value1: 7, value2: [7, 2] },
+        ],
+        /* Columns headers and formatting */
+        columns: [
+          { header: 'First Name', value: '%name.first' },
+          { header: 'Last Name', value: '%name.last' },
+          { header: 'Value One', value: '%value1', align: 'right' },
+          { header: 'Value Two', value: '%value2.0 and %value2.1', align: 'center' },
+          { header: 'Sum', value: '{%value1+%value2.0+%value2.1}', align: 'right' },
+        ],
+        headerCol: true,
+        headerRow: true,
+      };
+
+      /* Widget Constructor */
+      function TableWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, tableWidgetDefaults, options));
+        this.chart = new JSC.Grid(div, JSC.merge({ cssFile: './resources/tableDashWidget.css' }, this.currentConfig));
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      TableWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.title) {
+          result.title = options.title;
+        }
+        if (options.data) {
+          result.data = options.data;
+        }
+        if (options.columns) {
+          result.columns = options.columns;
+        }
+        result.headerCol = options.headerCol || false;
+        result.headerRow = options.headerRow || false;
+        return result;
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      TableWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      /* USING THE WIDGET */
+
+      JSC.fetch('./resources/WaveBuoyNetwork4k.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text1) {
+          var data1 = JSC.csv2Json(text1);
+          grid1 = new TableWidget('gridDiv1', {
+            title: 'Grid with 15K records',
+            data: data1,
+            columns: [
+              { header: 'Time', value: '{%time:date g}' },
+              { header: 'Peak period (s)', value: '%PeakPeriod', align: 'right' },
+              { header: 'Peak direction (C°)', value: '%PeakDirection', align: 'right' },
+              { header: 'Upcross period (s)', value: '%UpcrossPeriod', align: 'right' },
+              { header: 'Significant wave height (cm)', value: '%SignificantWaveHeight', align: 'right' },
+              { header: 'Sea temperature (C°)', value: '%SeaTemperature', align: 'right' },
+            ],
+            headerCol: true,
+            headerRow: true,
+          });
+          JSC.fetch('./resources/orgData.csv')
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text2) {
+              var data2 = JSC.csv2Json(text2, {
+                coerce: function (d, i) {
+                  return {
+                    name: d.name,
+                    photo: 'images/avatar' + d.photo + '.png',
+                    position: d.position,
+                    phone: d.phone,
+                    address: d.address,
+                    email: d.email,
+                  };
+                },
+              });
+              grid2 = new TableWidget('gridDiv2', {
+                title: '',
+                data: data2,
+                columns: [
+                  { header: ' ', value: '<img width=30 height=30 src=%photo>' },
+                  { header: 'Name', value: '%name' },
+                  { header: 'Position', value: '%position' },
+                  { header: 'Phone', value: '%phone' },
+                  { header: 'Address', value: '%address' },
+                  { header: 'Email', value: '%email' },
+                ],
+                headerCol: false,
+                headerRow: true,
+              });
+            });
+        });
+      grid3 = new TableWidget('gridDiv3', {});
+    </script>
+  </body>
+</html>

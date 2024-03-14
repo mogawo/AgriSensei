@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animated Pie Chart Race | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 460px; height: 520px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An animated pie chart race of tea production for key countries.
+Learn how to:
+
+  - Create a pie chart race animation.
+*/
+      // JS
+      var chart, timer;
+      var startYear, endYear;
+      var colors = [
+        '#1565c0',
+        '#4b9fe0',
+        '#80d8ff',
+        '#c0ecff',
+        '#ffcfc0',
+        '#ff9e80',
+        '#f3744d',
+        '#e64a19',
+        '#388e3c',
+        '#79c283',
+        '#b9f6ca',
+        '#dcfbe5',
+        '#f5c0fe',
+        '#ea80fc',
+        '#b350cf',
+        '#7b1fa2',
+      ];
+      var countries = [];
+      var colorByCountry;
+
+      JSC.fetch('./resources/tea-production-by-country.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          startYear = data[0].year;
+          endYear = data[data.length - 1].year;
+          // Make array of countries
+          data.forEach(function (a) {
+            if (countries.indexOf(a.country) === -1) {
+              countries.push(a.country);
+            }
+          });
+          // Palette for setting the color for a specific country
+          colorByCountry = mapColors(colors, countries);
+          chart = renderChart(data);
+        });
+
+      function renderChart(data) {
+        var frameDelay = 400,
+          stopped,
+          currentYear = startYear;
+
+        return JSC.chart(
+          'chartDiv',
+          {
+            type: 'pie donut',
+            /* Control the speed of the slider animation when clicked. */
+            animation_duration: 50,
+            margin_right: 30,
+            title: {
+              position: 'center',
+              label: {
+                margin_bottom: 40,
+                text: '<b>Tea Producing Countries</b>',
+                style_fontSize: 18,
+              },
+            },
+            legend_visible: false,
+            annotations: [
+              {
+                id: 'date',
+                margin: 10,
+                label: {
+                  text: bold(startYear),
+                  style: {
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                  },
+                },
+                position: 'inside bottom right',
+              },
+            ],
+            defaultPoint: {
+              tooltip: '%name<br><b>%yValue tonnes</b>',
+              outline_color: 'white',
+              label: {
+                text: '<b>%name</b><br>%percentOfTotal%',
+                color: '#424242',
+                line: {
+                  color: '#e0e0e0',
+                  caps_start_type: 'none',
+                },
+              },
+            },
+            defaultSeries: {
+              angle_orientation: 120,
+              shape: { size: '80%', center: '60%,56%' },
+            },
+            series: makeSeries(data),
+            toolbar: {
+              defaultItem: {
+                position: 'inside top',
+                /* Move outside the chart area */
+                offset: '0,-40',
+                boxVisible: false,
+              },
+              items: {
+                slider: {
+                  type: 'range',
+                  width: 300,
+                  /* Reduce chart update frequency to smooth slider action. */
+                  debounce: 100,
+                  value: startYear,
+                  min: startYear,
+                  max: endYear,
+                  events_change: function (val) {
+                    updateChart(Math.round(val));
+                    chart.uiItems('Pause').options({ value: true });
+                    playPause(true);
+                    clearInterval(timer);
+                  },
+                },
+                Pause: {
+                  type: 'option',
+                  value: false,
+                  width: 50,
+                  margin: [6, 6, 6, 16],
+                  icon_name: 'system/default/pause',
+                  label_text: 'Pause',
+                  events_change: function (val) {
+                    playPause(val);
+                  },
+                },
+              },
+            },
+          },
+          function (c) {
+            playPause(false, c);
+          }
+        );
+
+        function makeSeries() {
+          var yearData = data.filter(function (x) {
+            return x.year === currentYear;
+          });
+          yearData.sort(function (a, b) {
+            return b.value - a.value;
+          });
+          var points = [];
+          yearData.forEach(function (item, i) {
+            points.push({
+              name: item.country,
+              y: item.value,
+              id: item.country,
+              color: colorByCountry[item.country],
+            });
+          });
+          return [{ points: points }];
+        }
+
+        function updateChart(date, cb) {
+          currentYear = date;
+          // Update the chart year label.
+          chart.annotations('date').options({ label_text: bold(currentYear) }, { animation: { duration: 600 } });
+          // Update points. The { then: cb } update option will execute the callback once the animation is finished.
+          chart.series(0).options(makeSeries(data)[0], { then: cb, animation: { duration: 600 } });
+        }
+
+        function advanceAnimation() {
+          if (!stopped) {
+            timer = setTimeout(function () {
+              currentYear += 1;
+              if (currentYear >= endYear) {
+                clearInterval(timer);
+                currentYear = startYear;
+                playPause(true);
+              }
+              chart.uiItems('slider').options({ value: currentYear });
+              updateChart(currentYear, advanceAnimation);
+            }, frameDelay);
+          }
+        }
+
+        function playPause(val, chrt) {
+          var c = chrt || chart;
+          if (val) {
+            // Stop
+            c.uiItems('Pause').options({ label_text: 'Play', icon_name: 'system/default/play' });
+            clearInterval(timer);
+            stopped = true;
+          } else {
+            // Play
+            c.uiItems('Pause').options({ label_text: 'Pause', icon_name: 'system/default/pause' });
+            stopped = false;
+            advanceAnimation();
+          }
+        }
+
+        function bold(date) {
+          return '<b>' + date + '</b>';
+        }
+      }
+
+      function mapColors(colors, countries) {
+        var result = {};
+        countries.forEach(function (item, i) {
+          result[item] = colors[i];
+        });
+        return result;
+      }
+    </script>
+  </body>
+</html>

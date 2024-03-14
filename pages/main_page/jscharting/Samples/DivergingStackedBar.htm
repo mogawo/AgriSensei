@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Diverging Stacked Bar | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 600px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A diverging stacked bar chart with range category axis ticks.
+Learn how to:
+
+  - Make a diverging stacked bar chart.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/Trump-job-approval.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data), makeCustomTicks(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series, ticks) {
+        return JSC.chart('chartDiv', {
+          title_label_text: 'Do you approve or disapprove of the way Donald Trump is handling his job as President?',
+          palette: [
+            '#26A69A', //Strongly approve
+            '#67c0b8', //Somewhat approve
+            '#EF5350', //Strongly disapprove
+            '#f38684', //Somewhat disapprove
+          ],
+          defaultPoint: {
+            tooltip: '%icon %seriesName: <b>{Math.abs(%yValue)}%</b>',
+          },
+          type: 'horizontal column solid',
+          legend: {
+            position: 'bottom left',
+            template: '%icon %name',
+          },
+          xAxis: {
+            crosshair_enabled: true,
+            customTicks: ticks,
+          },
+          yAxis: {
+            scale_type: 'stacked',
+            defaultTick_label_text: '{Math.abs(%value)}%',
+            scale_range: [-100, 100],
+          },
+          series: series,
+        });
+      }
+
+      function makeCustomTicks(data) {
+        var ticks = JSC.nest()
+          .key('type')
+          .pointRollup(function (key, val) {
+            if (key.length) {
+              var result = {
+                value: [val[0].category, val[val.length - 1].category],
+                label_text: key.split(' ').join('<br>'),
+                label: { placement: 'outside' },
+              };
+            }
+            return result;
+          })
+          .points(data);
+
+        return ticks.filter(function (x) {
+          return x;
+        });
+      }
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key('option')
+          .key('category')
+          .pointRollup(function (key, val) {
+            var result = {
+              x: key,
+              y: val[0].percent,
+              attributes_group: val[0].type,
+            };
+            switch (val[0].option) {
+              case 'Strongly approve':
+                result.y = val[0].percent;
+                break;
+              case 'Somewhat approve':
+                result.y = val[0].percent;
+                break;
+              case 'Somewhat disapprove':
+                result.y = -val[0].percent;
+                break;
+              case 'Strongly disapprove':
+                result.y = -val[0].percent;
+                break;
+              case 'Not sure':
+                result.y = -val[0].percent;
+                break;
+            }
+            return result;
+          })
+          .series(data);
+      }
+    </script>
+  </body>
+</html>

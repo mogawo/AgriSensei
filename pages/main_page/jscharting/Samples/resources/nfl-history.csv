@@ -1,0 +1,129 @@
+rank,team,w,l,year,abbr
+1,Minnesota Vikings,13,3,2017,MIN
+2,New England Patriots,13,3,2017,NE
+3,Philadelphia Eagles,13,3,2017,PHI
+4,Pittsburgh Steelers,13,3,2017,PIT
+5,Carolina Panthers,11,5,2017,CAR
+6,Los Angeles Rams,11,5,2017,LAR
+7,New Orleans Saints,11,5,2017,NO
+8,Atlanta Falcons,10,6,2017,ATL
+9,Jacksonville Jaguars,10,6,2017,JAX
+10,Kansas City Chiefs,10,6,2017,KC
+11,Baltimore Ravens,9,7,2017,BAL
+12,Buffalo Bills,9,7,2017,BUF
+13,Dallas Cowboys,9,7,2017,DAL
+14,Detroit Lions,9,7,2017,DET
+15,Los Angeles Chargers,9,7,2017,LAC
+16,Seattle Seahawks,9,7,2017,SEA
+17,Tennessee Titans,9,7,2017,TEN
+18,Arizona Cardinals,8,8,2017,ARI
+19,Cincinnati Bengals,7,9,2017,CIN
+20,Green Bay Packers,7,9,2017,GB
+21,Washington Football Team,7,9,2017,WAS
+22,Miami Dolphins,6,10,2017,MIA
+23,Las Vegas Raiders,6,10,2017,LV
+24,San Francisco 49ers,6,10,2017,SF
+25,Chicago Bears,5,11,2017,CHI
+26,Denver Broncos,5,11,2017,DEN
+27,New York Jets,5,11,2017,NYJ
+28,Tampa Bay Buccaneers,5,11,2017,TB
+29,Houston Texans,4,12,2017,HOU
+30,Indianapolis Colts,4,12,2017,IND
+31,New York Giants,3,13,2017,NYG
+32,Cleveland Browns,0,16,2017,CLE
+1,Los Angeles Rams,13,3,2018,LAR
+2,New Orleans Saints,13,3,2018,NO
+3,Chicago Bears,12,4,2018,CHI
+4,Kansas City Chiefs,12,4,2018,KC
+5,Los Angeles Chargers,12,4,2018,LAC
+6,Houston Texans,11,5,2018,HOU
+7,New England Patriots,11,5,2018,NE
+8,Baltimore Ravens,10,6,2018,BAL
+9,Dallas Cowboys,10,6,2018,DAL
+10,Indianapolis Colts,10,6,2018,IND
+11,Seattle Seahawks,10,6,2018,SEA
+12,Pittsburgh Steelers,9,6,2018,PIT
+13,Philadelphia Eagles,9,7,2018,PHI
+14,Tennessee Titans,9,7,2018,TEN
+15,Minnesota Vikings,8,7,2018,MIN
+16,Cleveland Browns,7,8,2018,CLE
+17,Atlanta Falcons,7,9,2018,ATL
+18,Carolina Panthers,7,9,2018,CAR
+19,Miami Dolphins,7,9,2018,MIA
+20,Washington Football Team,7,9,2018,WAS
+21,Green Bay Packers,6,9,2018,GB
+22,Buffalo Bills,6,10,2018,BUF
+23,Cincinnati Bengals,6,10,2018,CIN
+24,Denver Broncos,6,10,2018,DEN
+25,Detroit Lions,6,10,2018,DET
+26,Jacksonville Jaguars,5,11,2018,JAX
+27,New York Giants,5,11,2018,NYG
+28,Tampa Bay Buccaneers,5,11,2018,TB
+29,New York Jets,4,12,2018,NYJ
+30,Las Vegas Raiders,4,12,2018,LV
+31,San Francisco 49ers,4,12,2018,SF
+32,Arizona Cardinals,3,13,2018,ARI
+1,Baltimore Ravens,14,2,2019,BAL
+2,Green Bay Packers,13,3,2019,GB
+3,New Orleans Saints,13,3,2019,NO
+4,San Francisco 49ers,13,3,2019,SF
+5,Kansas City Chiefs,12,4,2019,KC
+6,New England Patriots,12,4,2019,NE
+7,Seattle Seahawks,11,5,2019,SEA
+8,Buffalo Bills,10,6,2019,BUF
+9,Houston Texans,10,6,2019,HOU
+10,Minnesota Vikings,10,6,2019,MIN
+11,Los Angeles Rams,9,7,2019,LAR
+12,Philadelphia Eagles,9,7,2019,PHI
+13,Tennessee Titans,9,7,2019,TEN
+14,Chicago Bears,8,8,2019,CHI
+15,Dallas Cowboys,8,8,2019,DAL
+16,Pittsburgh Steelers,8,8,2019,PIT
+17,Atlanta Falcons,7,9,2019,ATL
+18,Denver Broncos,7,9,2019,DEN
+19,Indianapolis Colts,7,9,2019,IND
+20,New York Jets,7,9,2019,NYJ
+21,Las Vegas Raiders,7,9,2019,LV
+22,Tampa Bay Buccaneers,7,9,2019,TB
+23,Cleveland Browns,6,10,2019,CLE
+24,Jacksonville Jaguars,6,10,2019,JAX
+25,Arizona Cardinals,5,10,2019,ARI
+26,Carolina Panthers,5,11,2019,CAR
+27,Los Angeles Chargers,5,11,2019,LAC
+28,Miami Dolphins,5,11,2019,MIA
+29,New York Giants,4,12,2019,NYG
+30,Detroit Lions,3,12,2019,DET
+31,Washington Football Team,3,13,2019,WAS
+32,Cincinnati Bengals,2,14,2019,CIN
+1,Kansas City Chiefs,14,2,2020,KC
+2,Buffalo Bills,13,3,2020,BUF
+3,Green Bay Packers,13,3,2020,GB
+4,New Orleans Saints,12,4,2020,NO
+5,Pittsburgh Steelers,12,4,2020,PIT
+6,Seattle Seahawks,12,4,2020,SEA
+7,Baltimore Ravens,11,5,2020,BAL
+8,Cleveland Browns,11,5,2020,CLE
+9,Indianapolis Colts,11,5,2020,IND
+10,Tampa Bay Buccaneers,11,5,2020,TB
+11,Tennessee Titans,11,5,2020,TEN
+12,Los Angeles Rams,10,6,2020,LAR
+13,Miami Dolphins,10,6,2020,MIA
+14,Arizona Cardinals,8,8,2020,ARI
+15,Chicago Bears,8,8,2020,CHI
+16,Las Vegas Raiders,8,8,2020,LV
+17,Los Angeles Chargers,7,9,2020,LAC
+18,Minnesota Vikings,7,9,2020,MIN
+19,New England Patriots,7,9,2020,NE
+20,Washington Football Team,7,9,2020,WAS
+21,Dallas Cowboys,6,10,2020,DAL
+22,New York Giants,6,10,2020,NYG
+23,San Francisco 49ers,6,10,2020,SF
+24,Carolina Panthers,5,11,2020,CAR
+25,Denver Broncos,5,11,2020,DEN
+26,Detroit Lions,5,11,2020,DET
+27,Cincinnati Bengals,4,11,2020,CIN
+28,Philadelphia Eagles,4,11,2020,PHI
+29,Atlanta Falcons,4,12,2020,ATL
+30,Houston Texans,4,12,2020,HOU
+31,New York Jets,2,14,2020,NYJ
+32,Jacksonville Jaguars,1,15,2020,JAX

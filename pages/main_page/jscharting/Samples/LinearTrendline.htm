@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Trendline | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Linear trendline calculation with prediction and r squared value.
+Learn how to:
+
+  - Use gradient color axisMarkers.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/real-gdp-us.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeChartData(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(chartData) {
+        return JSC.chart(
+          'chartDiv',
+          JSC.merge(chartData, {
+            type: 'line',
+            margin_right: 20,
+            legend_visible: false,
+            title_label_text: 'Real Gross Domestic Product in US, Not Seasonally Adjusted',
+            defaultPoint: {
+              tooltip: '%icon <b>%valueB</b>',
+              marker_visible: false,
+            },
+            yAxis: {
+              alternateGridFill: 'none',
+              formatString: 'c0',
+              defaultTick_label_text: '%valueB',
+            },
+            xAxis: {
+              scale_type: 'time',
+              crosshair: {
+                enabled: true,
+                label_text: '{%value:date y}',
+              },
+            },
+          })
+        );
+      }
+
+      function makeChartData(data) {
+        // Main line series
+        var series = [
+          {
+            points: data.map(function (entry) {
+              return { x: entry.date, y: entry.value };
+            }),
+          },
+        ];
+
+        // Trendline data
+        var trendData = pointsToTrendLine(series[0].points, 5);
+
+        // trendlineSeries
+        series.push({
+          name: 'Trend Line',
+          type: 'line',
+          color: 'red',
+          defaultPoint_marker_visible: false,
+          mouseTracking_enabled: false,
+          points: trendData.trendline,
+        });
+
+        // trendlinePredictionSeries
+        series.push({
+          name: 'Trend Line Prediction',
+          type: 'line',
+          color: 'red',
+          line_dashStyle: 'ShortDash',
+          defaultPoint_marker_visible: false,
+          mouseTracking_enabled: false,
+          points: trendData.prediction,
+        });
+
+        return {
+          series: series,
+          annotations: [
+            {
+              id: 'trendline',
+              position: 'inside top left',
+              padding: 20,
+              label: {
+                text: trendData.equation,
+                style_fontSize: 14,
+              },
+            },
+          ],
+        };
+      }
+
+      /**
+       * Reusable time based trendline function
+       * @param points
+       * @param predictionYears
+       * @returns {{trendlineLabel: string, trendlinePoints: ({x: *, y: *})[], trendlinePredictionPoints: [{x: *, y: *}, {x: number, y}]}}
+       */
+      function pointsToTrendLine(points, predictionYears) {
+        //Trend line calculations
+        var trendlinePoints = JSC.sortBy(points, 'x'),
+          day = 1000 * 3600 * 24;
+
+        var startDate = trendlinePoints[0].x;
+        trendlinePoints = trendlinePoints.map(function (point) {
+          return {
+            x: Math.round((point.x - startDate) / day),
+            y: point.y,
+          };
+        });
+
+        var sumx = JSC.sum(trendlinePoints, 'x'),
+          sumy = JSC.sum(trendlinePoints, 'y'),
+          sumxx = JSC.sum(trendlinePoints, function (v) {
+            return Math.pow(v.x, 2);
+          }),
+          sumyy = JSC.sum(trendlinePoints, function (v) {
+            return Math.pow(v.y, 2);
+          }),
+          sumxy = JSC.sum(trendlinePoints, function (v) {
+            return v.x * v.y;
+          }),
+          b = (trendlinePoints.length * sumxy - sumx * sumy) / (trendlinePoints.length * sumxx - Math.pow(sumx, 2)),
+          a = sumy / trendlinePoints.length - (sumx * b) / trendlinePoints.length,
+          r2 =
+            (trendlinePoints.length * sumxy - sumx * sumy) /
+            Math.sqrt(
+              (trendlinePoints.length * sumxx - Math.pow(sumx, 2)) *
+                (trendlinePoints.length * sumyy - Math.pow(sumy, 2))
+            );
+        //Make trend line points
+        trendlinePoints.forEach(function (item, i) {
+          item.y = a + b * item.x;
+        });
+
+        trendlinePoints = [
+          { x: points[0].x, y: trendlinePoints[0].y },
+          { x: last(points).x, y: last(trendlinePoints).y },
+        ];
+
+        //Make trend line prediction points
+        var lastPoint = last(points),
+          lastPointDate = new Date(lastPoint.x),
+          predictionDate = lastPointDate.setFullYear(lastPointDate.getFullYear() + predictionYears),
+          trendlinePredictionPoints = [
+            { x: lastPoint.x, y: last(trendlinePoints).y },
+            { x: predictionDate, y: a + b * Math.round((predictionDate - startDate) / day) },
+          ];
+
+        return {
+          trendline: trendlinePoints,
+          prediction: trendlinePredictionPoints,
+          equation:
+            'y = ' +
+            JSC.formatNumber(a, 'n4') +
+            getSign(b) +
+            JSC.formatNumber(Math.abs(b), 'n4') +
+            'x<br>R<sup>2</sup> = ' +
+            JSC.formatNumber(r2, 'n4'),
+        };
+
+        function getSign(number) {
+          return Math.sign(number) === 1 ? ' + ' : ' - ';
+        }
+        function last(array) {
+          return array[array.length - 1];
+        }
+      }
+    </script>
+  </body>
+</html>
