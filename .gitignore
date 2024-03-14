@@ -1,4 +1,8 @@
 /target
 data/agrisensei.db
+Cargo.lock
+.vscode\launch.json
+.vscode\settings.json
+
 
 Cargo.lock

@@ -6,6 +6,7 @@ pub use crate::database::*;
 pub use crate::components::*;
 use crate::sensor::SensorType;
 use crate::user_profile::UserProfile;
+use crate::Device;
 pub use http::response;
 pub use http::StatusCode;
 pub use regex::Regex;
@@ -44,6 +45,20 @@ pub use crate::comps::{sensor::Sensor, components::Patterns};
 // Location: /user/<user_id>/            <- uri path where user should be redirected too; 
 //                                          need to added htmx path to get.rs match cases
 
+// POST /new/user/<user_id>/measurements/ HTTP/1.1
+// {
+//   "device_id": 1,
+//   "sensors": [
+//     {
+//       "sensor_id": 1,
+//       "value": 2.0
+//     },
+//     {
+//       "sensor_id": 1,
+//       "value": 3.0
+//     }
+//   ]
+// }
 
 
 pub struct PostMessage{}
@@ -55,7 +70,7 @@ impl Message for PostMessage{
         
         let uri_path = req.uri().path();
         let json_data = PostMessage::parse_body(req.body())?;
-        let uri_capture = Regex::new(Patterns::USER_OPTIONS)
+        let uri_capture = Regex::new(Patterns::GET_USERID)
             .unwrap()
             .captures(uri_path)
             .ok_or(MessageError("URI does not match Regex pattern"))?;
@@ -68,6 +83,7 @@ impl Message for PostMessage{
             (Some(id), Some(opt)) => match opt.as_str(){
                 "sensor" => PostMessage::new_sensor(id.as_str().parse()?, json_data),
                 "data" => PostMessage::add_packet(id.as_str().parse()?, json_data),
+                "measurements" => PostMessage::add_measurements(id.as_str().parse()?, json_data),
                     _ => PostMessage::error_response(MessageError("Invalid User Options {sensor, data}"))
             },
             (_, _) => PostMessage::error_response(MessageError("Modifying Server Components have not been implemented yet"))
@@ -118,5 +134,17 @@ impl PostMessage{
         let packet: DataPacket = serde_json::from_value(Value::Object(json_data))?;
         packet.push_packet()?;
         PostMessage::response(r"pages\test_pages\added_packet_confirm.html", &format!(r"/user/{user_id}/"))
+    }
+
+    pub fn add_measurements(user_id: u64, mut json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
+        println!("Adding Measurements...");
+        let mut with_usersid: serde_json::Map<String, Value> = json!({
+            TableColumnNames::USER_ID: user_id
+        }).as_object().unwrap().clone();
+
+        with_usersid.extend(json_data);
+        let measure: Device = serde_json::from_value(Value::Object(with_usersid)).unwrap();
+        measure.push_device(user_id);
+        PostMessage::response(r"pages\test_pages\measurement_confirm.html", "/measurement_wip/")
     }
 }

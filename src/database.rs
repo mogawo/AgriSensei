@@ -12,7 +12,7 @@ use chrono::prelude::*;
 pub use rusqlite::{named_params, params, Connection};
 pub use rusqlite::Error as SQLError;
 
-pub use crate::comps::{user_profile, sensor, data_packet};
+pub use crate::comps::{user_profile, sensor, data_packet, device};
 
 
 
@@ -54,6 +54,12 @@ impl TableColumnNames{
     pub const USERS: &'static str = r"users";
     pub const USER_ID: &'static str = r"user_id";
     pub const USER_NAME: &'static str = r"user_name";
+
+    //Device Table
+    pub const DEVICE_TABLE: &'static str = r"devices";
+    pub const DEVICE_ID: &'static str = r"device_id";
+    pub const VALUE: &'static str = r"value";
+    // pub const SENSOR_ID: &'static str = r"sensor_id"; as foreign key
     
     //Sensor Table
     pub const SENSORS: &'static str = r"sensors";
@@ -120,7 +126,9 @@ impl<'d> Database{
               );",
               users    = Col::USERS,
               userID   = Col::USER_ID,
-              userName = Col::USER_NAME, );
+              userName = Col::USER_NAME, 
+            );
+
               
         let sensor_table = format!("CREATE TABLE IF NOT EXISTS [{sensors}](
             [{sensorID}] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -149,7 +157,7 @@ impl<'d> Database{
             sampleAmount    = Col::SAMPLE_AMOUNT,
             sensors         = Col::SENSORS,
             sensorID        = Col::SENSOR_ID);
-              
+
         let data_table = format!("CREATE TABLE IF NOT EXISTS [{dataTable}](
             [{dateTime}] TEXT NOT NULL,
             [{dataPoint}] INTEGER NOT NULL
@@ -158,11 +166,27 @@ impl<'d> Database{
         dateTime  = Col::DATE_TIME,
         dataPoint = Col::DATA_POINT);
 
+        let device_table = format!("CREATE TABLE IF NOT EXISTS [{devices}](
+            [{userID}] INTEGER NOT NULL,
+            [{deviceID}] INTEGER NOT NULL,
+            [{sensorID}] INTEGER NOT NULL,
+            [{value}] FLOAT NOT NULL,
+            FOREIGN KEY ({userID}) REFERENCES {usersForeign} ({userID})
+          );",
+          devices      = Col::DEVICE_TABLE,
+          usersForeign = Col::USERS,
+          userID       = Col::USER_ID,
+          deviceID     = Col::DEVICE_ID,
+          sensorID     = Col::SENSOR_ID,
+          value        = Col::VALUE
+        );
+
         let conn = Database::connect();
         conn.execute(&users_table, ()).unwrap();
         conn.execute(&sensor_table, ()).unwrap();
         conn.execute(&packet_table, ()).unwrap();
         conn.execute(&data_table, ()).unwrap();
+        conn.execute(&device_table, ()).unwrap();
     }
     //userId auto increments in sqlite
     pub fn new_user(name: &str) -> Option<u64>{
@@ -234,5 +258,25 @@ impl<'d> Database{
             }
         }
         rows_added
+    }
+
+    pub fn add_device_measurements(device: &device::Device){
+        // print!("{:#?}", device);
+        let conn = Database::connect();
+        let device_insert = format!("INSERT INTO {deviceTable}({userID}, {deviceID}, {sensorID}, {value}) VALUES (?1, ?2, ?3, ?4)", 
+            deviceTable = Col::DEVICE_TABLE,
+            userID      = Col::USER_ID,
+            deviceID    = Col::DEVICE_ID,
+            sensorID    = Col::SENSOR_ID,
+            value       = Col::VALUE
+        );
+
+        for sen in &device.sensors{
+            match conn.execute(&device_insert, params![device.user_id, device.device_id, sen.sensor_id, sen.value]){
+                Ok(0) => {println!("Same Device{} was Inputed, measurement was not stored", device.device_id); },
+                Ok(_) => {println!("Device{} was added for Sensor{}", device.device_id, sen.sensor_id)},
+                Err(e) => panic!("\n[Add Device Measurement Device Insert] Bad SQL Insert\n{e}\n"),
+            };
+        }
     }
 }
