@@ -58,14 +58,27 @@ impl Message for GetMessage{
                 let profile = serde_json::to_vec(&profile).unwrap();
                 GetMessage::response_data(profile)
             } else {
+                print!("{}", uri_path);
                 match uri_path
                 {
-                    "/" => GetMessage::response(r"pages\main_page\index.html"),
-                    "/script.js" => GetMessage::response(r"pages\main_page\script.js"),
-                    "/style.css" => GetMessage::response(r"pages\main_page\style.css"),
-                    "/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
-                    "/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
-                    _ => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))
+                    r"/pages/main_page/index.html" => GetMessage::response(r"pages\main_page\index.html"),
+                    r"/pages/main_page/index.html/ws" => GetMessage::response(r"pages\main_page\index.html"),
+                    r"/pages/main_page/script.js" => GetMessage::response(r"pages\main_page\script.js"),
+                    r"/pages/main_page/script.js/ws" => GetMessage::response(r"pages\main_page\script.js"),
+                    r"/pages/main_page/style.css" => GetMessage::response(r"pages\main_page\style.css"),
+                    r"/pages/main_page/style.css/ws" => GetMessage::response(r"pages\main_page\style.css"),
+                    r"/pages/login/index.html" => GetMessage::response(r"pages\login\index.html"),
+                    r"/pages/login/index.html/ws" => GetMessage::response(r"pages\login\index.html"),
+                    r"pages/login/script.js" => GetMessage::response(r"pages\login\script.js"),
+                    r"pages/login/script.js/ws" => GetMessage::response(r"pages\login\script.js"),
+                    r"pages/login/style.css" => GetMessage::response(r"pages\login\style.css"),
+                    r"pages/login/style.css/ws" => GetMessage::response(r"pages\login\style.css"),
+                    r"/pages/main_page/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
+                    r"/pages/main_page/images/pencil.png" => GetMessage::response(r"pages\main_page\images\pencil.png"),
+                    r"/pages/main_page/images/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
+                    r"/pages/main_page/jscharting/JSC/jscharting.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\jscharting.js"),
+                    r"/pages/main_page/jscharting/JSC/modules/debug.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\modules\debug.js"),
+                    _                       => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))
                 }
             }
     }

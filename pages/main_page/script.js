@@ -8,11 +8,8 @@ var loggedInUser = localStorage.getItem('loggedInUser') || 'Username';
 
 function setUser(username)
 {
-    console.log("ACCESSED");
     loggedInUser = username;
 }
-
-console.log(loggedInUser);
 
 usernameDisplay.classList.add('username');
 usernameDisplay.innerHTML = `
@@ -21,7 +18,7 @@ usernameDisplay.innerHTML = `
 sensorDisplay.appendChild(usernameDisplay);
 
 function getData() {
-    const apiUrl = '../../user/1';
+    const apiUrl = '../../user/1/';
 
     fetch(apiUrl)
         .then(response => {
@@ -406,7 +403,6 @@ function handleDetailsTab(sensorData)
     let timeHistoryArray = JSON.parse(sensorData.dataset.timeHistory); 
     for (let i = humidityHistoryArray.length-1; i >= 0; i--)
     {
-        console.log(i);
         var newHistory = document.createElement('div');
         newHistory.classList.add('humidityList');
         newHistory.innerHTML = `

@@ -14,7 +14,7 @@ const ASSEMBLE_VEC_CAPACITY: usize = 1 << 10;
 pub  fn handle_connection(mut stream: TcpStream) -> Result<(), ServerError<'static>> {
     let mut buf_reader = BufReader::new(&mut stream);
     
-    let mut headers = [httparse::EMPTY_HEADER; 16];
+    let mut headers = [httparse::EMPTY_HEADER; 32];
     let mut req: httparse::Request<'_, '_> = httparse::Request::new(&mut headers);
 
     let req_buffer = buf_reader.fill_buf().unwrap();
@@ -90,7 +90,7 @@ impl Assemble for Response<Vec<u8>>{
 
  fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError<'static>>
 {
-    println!("{:#?}", req);
+    // println!("{:#?}", req);
     match req.method()
     {
         &Method::GET => GetMessage::process_request(req),
