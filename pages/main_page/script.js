@@ -4,10 +4,12 @@ const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
 const usernameDisplay = document.createElement('div');
 
+var loggedInUser;
+localStorage.getItem('loggedInUser', loggedInUser);
 
-function main()
+function main(id)
 {
-    const apiUrl = '../../user/1/';
+    var apiUrl = '../../user/' + String(id) + '/';
 
     fetch(apiUrl)
     .then(response => {
@@ -45,10 +47,10 @@ function displayUser(username) {
 
 let itemIdCounter = 1;
 
-addItemButton.addEventListener('click', () => {
-    const newSensor = createSensorElement();
-    itemsContainer.appendChild(newSensor);
-});
+// addItemButton.addEventListener('click', () => {
+//     const newSensor = createSensorElement();
+//     itemsContainer.appendChild(newSensor);
+// });
 // addSensorButton.addEventListener('click', () => {
 //     const newSensor = createSensorElement();
 //     itemsContainer.appendChild(newSensor);
@@ -67,8 +69,6 @@ function createSensorElement(sensorInfo) {
         handleSummaryTab(newSensor);
     };
 
-    console.log(sensorInfo);
-    console.log(sensorInfo['sensor_id']);
     newSensor.dataset.itemId = sensorInfo['sensor_id'];
     itemIdCounter++;
     newSensor.dataset.batteryLevel = 100; // Change to take level from API
@@ -87,9 +87,6 @@ function createSensorElement(sensorInfo) {
     newSensor.dataset.humidityHistory = JSON.stringify(humidityArray);
     newSensor.dataset.batteryHistory = JSON.stringify(batteryArray);
     newSensor.dataset.timeHistory = JSON.stringify(timeArray);
-    console.log(newSensor.dataset.humidityHistory);
-    console.log(newSensor.dataset.batteryHistory);
-    console.log(newSensor.dataset.timeHistory);
     // Read from the list by doing
     // let humidityHistoryArray = JSON.parse(newSensor.dataset.humidityHistory); to create a new array
     // Store to the list by doing
@@ -450,5 +447,4 @@ window.onclick = function(event) {
     }
 }
 
-
-main();
+main(1);
