@@ -1,55 +1,61 @@
 const addItemButton = document.getElementById('addItemButton');
-const addSensorButton = document.getElementById('addNewSensor');
+// const addSensorButton = document.getElementById('addNewSensor');
 const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
 const usernameDisplay = document.createElement('div');
 
-var loggedInUser = localStorage.getItem('loggedInUser') || 'Username';
 
-function setUser(username)
+function main()
 {
-    loggedInUser = username;
-}
-
-usernameDisplay.classList.add('username');
-usernameDisplay.innerHTML = `
-    <p>Logged in with username: ${loggedInUser}<p>
-`;
-sensorDisplay.appendChild(usernameDisplay);
-
-function getData() {
     const apiUrl = '../../user/1/';
 
     fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        let userId = data['user_id'];
+        let user = data['username'];
+        let array = data['sensors'];
+        
+        displayUser(user);
+        for (let i = 0; i < array.length; i++)
+        {
+            const newSensor = createSensorElement(array[i]);
+            itemsContainer.appendChild(newSensor);
+        }
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
-getData();
+function displayUser(username) {
+    usernameDisplay.classList.add('username');
+    usernameDisplay.innerHTML = `
+        <p>Logged in with username: ${username}<p>
+    `;
+    sensorDisplay.appendChild(usernameDisplay);
+}
 
-let itemIdCounter = 0;
+
+let itemIdCounter = 1;
 
 addItemButton.addEventListener('click', () => {
     const newSensor = createSensorElement();
     itemsContainer.appendChild(newSensor);
 });
-addSensorButton.addEventListener('click', () => {
-    const newSensor = createSensorElement();
-    itemsContainer.appendChild(newSensor);
-    sensorDisplay
-});
+// addSensorButton.addEventListener('click', () => {
+//     const newSensor = createSensorElement();
+//     itemsContainer.appendChild(newSensor);
+//     sensorDisplay
+// });
 
-function createSensorElement() {
+function createSensorElement(sensorInfo) {
     const newSensor = document.createElement('div');
     newSensor.classList.add('sensor');
     newSensor.onclick = function ()
@@ -60,22 +66,34 @@ function createSensorElement() {
         showSensorInfo(newSensor);
         handleSummaryTab(newSensor);
     };
-    newSensor.dataset.itemId = itemIdCounter++;
+
+    console.log(sensorInfo);
+    console.log(sensorInfo['sensor_id']);
+    newSensor.dataset.itemId = sensorInfo['sensor_id'];
+    itemIdCounter++;
     newSensor.dataset.batteryLevel = 100; // Change to take level from API
-    newSensor.dataset.humidity = 84;
-    newSensor.dataset.recentTime = 1640; // Implement a time conversion function
     newSensor.dataset.description = "Add Description";
     newSensor.dataset.name = "Sensor " + newSensor.dataset.itemId;
-    let array = [85, 82, 81, 82, 84, 84];
-    newSensor.dataset.humidityHistory = JSON.stringify(array);
-    let array2 = [100, 100, 100, 100, 100, 100];
-    newSensor.dataset.batteryHistory = JSON.stringify(array2);
+    let packets = sensorInfo['packets'];
+    let humidityArray = [];
+    let timeArray = [];
+    let batteryArray = [100];
+    for (let i = 0; i < packets.length; i++)
+    {
+        humidityArray.push(packets[i]['amount'] * 10);
+        timeArray.push(timeConversion(packets[i]['date_time']));
+    }
+    // let array = [85, 82, 81, 82, 84, 84];
+    newSensor.dataset.humidityHistory = JSON.stringify(humidityArray);
+    newSensor.dataset.batteryHistory = JSON.stringify(batteryArray);
+    newSensor.dataset.timeHistory = JSON.stringify(timeArray);
+    console.log(newSensor.dataset.humidityHistory);
+    console.log(newSensor.dataset.batteryHistory);
+    console.log(newSensor.dataset.timeHistory);
     // Read from the list by doing
     // let humidityHistoryArray = JSON.parse(newSensor.dataset.humidityHistory); to create a new array
     // Store to the list by doing
     // newSensor.dataset.humidityHistory = JSON.stringify(humidityHistoryArray); to convert the array to a string
-    let timeArray = [1600, 1610, 1620, 1630, 1640, 1650];
-    newSensor.dataset.timeHistory = JSON.stringify(timeArray);
 
     newSensor.innerHTML = `
             <div class="sensorName">
@@ -150,7 +168,7 @@ function createSensorElement() {
 }
 
 function timeConversion(time) { // TODO
-    return;
+    return time.split('T')[1].split('.')[0];
 }
 
 function showSensorInfo(sensorData) {
@@ -431,3 +449,6 @@ window.onclick = function(event) {
         }
     }
 }
+
+
+main();

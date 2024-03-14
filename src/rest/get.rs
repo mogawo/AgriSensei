@@ -53,14 +53,10 @@ impl Message for GetMessage{
             .and_then(|cap|cap
             .name("user_id"))
             .and_then(|mat| mat.as_str().parse::<u64>().ok()){
-                println!("1");
                 let profile = UserProfile::pull_user(user_id).unwrap()
                     .include(&Query::All)
                     .within(&Query::All);
-                println!("2");
-
                 let profile = serde_json::to_vec(&profile).unwrap();
-                println!("3");
                 GetMessage::response_data(profile)
             } else {
                 match uri_path
