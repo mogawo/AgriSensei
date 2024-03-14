@@ -1,5 +1,5 @@
 use std::borrow::BorrowMut;
-use crate::comps::{components::*, sensor::*};
+use crate::{comps::{components::*, sensor::*}, Device};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserProfile{
@@ -44,6 +44,8 @@ impl UserProfile{
             })
         })
     }
+
+    
 }
 
 impl Display for UserProfile{

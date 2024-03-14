@@ -18,18 +18,19 @@ impl Device{
     pub fn push_device(&self, user_id: u64){
         Database::add_device_measurements(&self);
     }
-    pub fn pull_device(user_id: u64, device_id: u64) -> Result<Device, rusqlite::Error>{
+    pub fn pull_device(user_id: u64, device_id: u64) -> Result<Self, rusqlite::Error>{
         let conn = Database::connect();
-        let (table, devID) = 
-            (TableColumnNames::DEVICE_TABLE, TableColumnNames::DEVICE_ID);
+        let (table, userID) = 
+            (TableColumnNames::DEVICE_TABLE, TableColumnNames::USER_ID);
         let mut statement = conn.prepare(&format!(
             "SELECT * 
             FROM {table} 
-            WHERE {table}.{devID} = (?1)
+            WHERE {table}.{userID} = (?1)
             ")).unwrap();
         
-        let mut dev = Device{user_id: user_id, device_id: device_id, sensors: Vec::new()};
-        let measures_iter = statement.query_map(params![device_id], |row|{
+            let mut dev = Device{user_id: user_id, device_id: device_id, sensors: Vec::new()};
+        let measures_iter = statement.query_map(params![user_id], |row|{
+            
             Ok(Measurements{
                 sensor_id: row.get(1)?,
                 value: row.get(2)?

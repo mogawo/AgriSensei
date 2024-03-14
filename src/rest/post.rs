@@ -70,7 +70,7 @@ impl Message for PostMessage{
         
         let uri_path = req.uri().path();
         let json_data = PostMessage::parse_body(req.body())?;
-        let uri_capture = Regex::new(Patterns::USER_OPTIONS)
+        let uri_capture = Regex::new(Patterns::GET_USERID)
             .unwrap()
             .captures(uri_path)
             .ok_or(MessageError("URI does not match Regex pattern"))?;

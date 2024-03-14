@@ -110,8 +110,8 @@ pub fn add_packet(packet: &DataPacket) -> Option<chrono::DateTime<Utc>>{
 // Pulls all information from a profile with given
 // user_id. This function can return Option::None which
 // means that the user does not exist within the Database
-pub fn pull_user_profile(user_id: u64) -> Option<UserProfile>{
-    Some(UserProfile::pull_user(user_id)?.include(&Query::All).within(&Query::All))
+pub fn pull_user_profile(user_id: u64) -> UserProfile{
+    UserProfile::pull_user(user_id).unwrap().include(&Query::All).within(&Query::All)
 }
 
 pub fn add_device_measurements(device: &Device){
