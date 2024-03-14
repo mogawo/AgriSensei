@@ -90,7 +90,7 @@ impl Assemble for Response<Vec<u8>>{
 
  fn handle_response(req: http::Request<String>) -> Result<http::Response<Vec<u8>>, ServerError<'static>>
 {
-    println!("{:#?}", req.uri());
+    // println!("{:#?}", req.uri());
     match req.method()
     {
         &Method::GET => GetMessage::process_request(req),

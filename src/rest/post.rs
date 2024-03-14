@@ -143,7 +143,6 @@ impl PostMessage{
         }).as_object().unwrap().clone();
 
         with_usersid.extend(json_data);
-        println!("{:#?}", with_usersid);
         let measure: Device = serde_json::from_value(Value::Object(with_usersid)).unwrap();
         measure.push_device(user_id);
         PostMessage::response(r"pages\test_pages\measurement_confirm.html", "/measurement_wip/")
