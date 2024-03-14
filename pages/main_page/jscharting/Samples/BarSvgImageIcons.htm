@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SVG Images Bar Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div style="height: 650px;">
+      <div id="chartDiv" style="max-width: 640px; height: 900px; margin: 0px auto;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Bar chart with offset SVG image point markers.
+Learn how to:
+
+  - Use SVG images to represent bars on a chart.
+*/
+      // JS
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'horizontal column solid',
+        title_label: {
+          text: 'Greenhouse gas emissions per kilogram of food product',
+          style_fontSize: 16,
+        },
+        annotations: [
+          {
+            label_text: 'Icons by <a href="https://www.svgrepo.com">svgrepo.com</a>',
+            asHTML: true,
+            position: 'bottom left',
+          },
+        ],
+        legend_visible: false,
+        yAxis: { scale_range: { padding: 0.1, min: 0 }, orientation: 'opposite' },
+        xAxis: {
+          defaultTick_label_width: 100,
+          crosshair: {
+            enabled: true,
+            gridLine_visible: false,
+            outline_width: 0,
+            label_style_fontWeight: 'bold',
+          },
+        },
+        defaultSeries_palette: ['#CFD8DC'],
+        defaultPoint: {
+          outline_width: 0,
+          tooltip: '<b>%yValue kg</b>',
+          marker: { visible: true, size: 22, offset: '18,0' },
+        },
+        defaultTooltip_label_text: '%points',
+        series: makeSeries(getData()),
+      });
+
+      function makeSeries(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return {
+                name: item.type,
+                y: item.value,
+                marker_type: 'url(' + 'images/svgrepo/' + item.icon + '.svg)',
+                //label_text:'<img src=images/svgrepo/'+item.icon+'.svg width=28 height=28>'
+              };
+            }),
+          },
+        ];
+      }
+
+      function getData() {
+        return [
+          { type: 'Beef (beef herd)', value: 99.48, icon: 'cow' },
+          { type: 'Dark Chocolate', value: 46.65, icon: 'chocolatebar' },
+          { type: 'Lamb & Mutton', value: 39.72, icon: 'sheep' },
+          { type: 'Beef (dairy herd)', value: 33.3, icon: 'cow' },
+          { type: 'Coffee', value: 28.53, icon: 'coffee' },
+          { type: 'Prawns (farmed)', value: 26.87, icon: 'shrimp' },
+          { type: 'Cheese', value: 23.88, icon: 'cheese' },
+          { type: 'Fish (farmed)', value: 13.63, icon: 'blowfish' },
+          { type: 'Pig Meat', value: 12.31, icon: 'pigside' },
+          { type: 'Poultry Meat', value: 9.87, icon: 'rooster' },
+          { type: 'Eggs', value: 4.67, icon: 'eggs' },
+          { type: 'Rice', value: 4.45, icon: 'cookedrice' },
+          { type: 'Milk', value: 3.15, icon: 'milk' },
+          { type: 'Tomatoes', value: 2.09, icon: 'tomato' },
+          { type: 'Maize', value: 1.7, icon: 'corn' },
+          { type: 'Wheat & Rye', value: 1.57, icon: 'wheat' },
+          { type: 'Peas', value: 0.98, icon: 'peas' },
+          { type: 'Bananas', value: 0.86, icon: 'banana' },
+          { type: 'Potatoes', value: 0.46, icon: 'potatoes' },
+          { type: 'Nuts', value: 0.43, icon: 'peanuts' },
+        ];
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multivariate Tile Map Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #chartWrapper {
+        margin: 0px auto;
+        max-width: 800px;
+        display: flex;
+        justify-content: space-around;
+        // flex-wrap:wrap;
+      }
+      #legendDiv {
+        margin-left: 15px;
+        margin-top: 33px;
+        display: flex;
+        flex-wrap: wrap;
+        height: 140px;
+        width: 140px;
+        font-size: 12px;
+        font-family: tahoma, geneva, sans-serif;
+      }
+      #category2 {
+        margin-left: -60px;
+        margin-top: 50px;
+        transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        padding-left: 10px;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartWrapper">
+      <div id="chartDiv" style="max-width: 700px; height: 480px;"></div>
+      <div id="legendDiv">
+        <div id="category1" style="width: 100%; margin-left: 15px; margin-bottom: -5px;"></div>
+        <div id="category2" style="width: 120px; height: 20px;"></div>
+        <div id="legendIcons" style="width: 120px; margin-left: 15px; margin-top: -60px;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+A multivariate tile map chart of US states.
+Learn how to:
+
+  - Create a tile map chart of US states.
+*/
+      // JS
+      var chart;
+      var palette = ['#cbbed0', '#bc7b8e', '#af394d', '#89a1c8', '#806a8a', '#76314b', '#4885c0', '#425686', '#3e2848'];
+
+      JSC.fetch('./resources/tile-map-data.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var tileMapData = JSC.csv2Json(text);
+          tileMapData = tileMapData.filter(function (item) {
+            return item.state !== 'District of Columbia';
+          });
+          JSC.fetch('./resources/laborForceUs.csv')
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text) {
+              var employmentData = JSC.csv2Json(text, {
+                coerce: function (d, i) {
+                  return {
+                    state: d.state,
+                    year: +d.year,
+                    employment_rate: (parseInt(d.employed) * 100) / parseInt(d.labor_force),
+                  };
+                },
+              });
+              employmentData = employmentData.filter(function (item) {
+                return item.year === 2019 && item.state !== 'District of Columbia' && item.state !== 'Total';
+              });
+              JSC.fetch('./resources/us-well-being-index-2019.csv')
+                .then(function (response) {
+                  return response.text();
+                })
+                .then(function (text) {
+                  var wbiData = JSC.csv2Json(text);
+                  var data = tileMapData.map(function (item, i) {
+                    return JSC.merge({}, item, employmentData[i], wbiData[i]);
+                  });
+                  chart = renderChart(data);
+                  createLegendHTML(palette, 'Employment rate', 'Well-being index');
+                });
+            });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(tileMapData, employmentData) {
+        return JSC.chart('chartDiv', {
+          type: 'heatmap solid',
+          title: {
+            position: 'center',
+            label: {
+              text: 'How much does the well-being index depend on the employment rate in the United States?',
+              style_fontSize: 16,
+            },
+          },
+          yAxis: { visible: false, scale_invert: true },
+          xAxis: { visible: false },
+          palette: {
+            pointValue: '{%zValue:n1}%',
+            colors: ['#6ef2f0', '#00d2fa', '#00aeff', '#0084ff', '#4c4bdf'],
+            colorBar_axis_defaultTick_label_text: '%value%',
+          },
+          legend: {
+            visible: false,
+            position: 'bottom',
+            template: '%icon %name',
+          },
+          defaultPoint: {
+            tooltip: '<b>%state</b><br>Employment Rate: <b>%zValue %</b><br>Well-being index: <b>%wbi/100</b>',
+            label: {
+              text: '<b>%code</b>',
+              placement: 'inside',
+              autoHide: false,
+              align: 'center',
+              verticalAlign: 'middle',
+            },
+            marker: {
+              size: 50,
+              type: 'square',
+              outline_width: 0,
+            },
+          },
+          series: makeUSTileMap(tileMapData, employmentData),
+        });
+      }
+
+      function makeUSTileMap(data) {
+        return [
+          {
+            points: data.map(function (item) {
+              return {
+                x: item.col,
+                y: item.row,
+                z: item.employment_rate,
+                color: palette[getPaletteColor(item.employment_rate, item.wbi, data)],
+                attributes: {
+                  wbi: item.wbi,
+                  code: item.code,
+                  state: item.state,
+                },
+              };
+            }),
+          },
+        ];
+      }
+      function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+        return Math.round(toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart));
+      }
+      function getPaletteColor(value1, value2, data) {
+        var c1 = { min: JSC.min(data, 'employment_rate'), max: JSC.max(data, 'employment_rate') };
+        var c2 = { min: JSC.min(data, 'wbi'), max: JSC.max(data, 'wbi') };
+        //category1 >
+        //0 1 2 category2
+        //3 4 5     v
+        //6 7 8
+        var numbers = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+        ];
+        return numbers[mapValue(0, 2, c2.min, c2.max, value2)][mapValue(0, 2, c1.min, c1.max, value1)];
+      }
+
+      function createLegendHTML(palette, category1, category2) {
+        document.getElementById('category1').innerHTML = category1 + ' &#8594;';
+        document.getElementById('category2').innerHTML = '&#8592; ' + category2;
+        JSC.label(
+          'legendIcons',
+          addIcon(palette[0]) +
+            addIcon(palette[1]) +
+            addIcon(palette[2]) +
+            '<br>' +
+            addIcon(palette[3]) +
+            addIcon(palette[4]) +
+            addIcon(palette[5]) +
+            '<br>' +
+            addIcon(palette[6]) +
+            addIcon(palette[7]) +
+            addIcon(palette[8])
+        );
+        function addIcon(color) {
+          return '<icon name=material/av/stop size=40 color=' + color + '>';
+        }
+      }
+    </script>
+  </body>
+</html>

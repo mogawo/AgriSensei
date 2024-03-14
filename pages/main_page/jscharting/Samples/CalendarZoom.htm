@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Zoomable Calendar Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Demonstrates zooming calendar chart.
+Learn how to:
+
+  - Zoom calendar charts.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        type: 'calendar week30min solid',
+        title: {
+          margin_bottom: 40,
+          label_text: 'Activity steps taken every 30 minutes',
+        },
+        animation_duration: 1000,
+        legend: {
+          position: 'right',
+          template: '%icon %name',
+          customEntries: [{ icon: { outline_color: '#8D6E63', color: 'none' }, name: 'Lunch time' }],
+        },
+        chartArea_clipContent: true,
+        yAxis_scale_interval: 1,
+        defaultSeries: {
+          legendEntry_visible: false,
+          shape_innerPadding: 0.05,
+        },
+        highlights: [
+          {
+            pattern: { hour: 14, weekday: [1, 2, 3, 4, 5] },
+            outline_color: '#8D6E63',
+          },
+        ],
+        palette: {
+          colors: ['#ffebe0', '#ffcdb2', '#ffb4a2', '#e5989b', '#b5838d', '#6d6875'],
+        },
+        toolbar_items: {
+          toggle: {
+            type: 'toggle',
+            margin: [-64, 0],
+            position: 'inside top left',
+            value: false,
+            label_text: 'Zoom to working hours',
+            events_change: function (val) {
+              // Each cell in the calendar chart starts and ends at .5 with intervals of 1.
+              // For example a numeric range of a cell can be [.5, 1.5]
+              if (val) {
+                chart.axes('y').zoom(0.5, 5.5);
+                chart.axes('x').zoom(19.5, 38.5);
+              } else {
+                chart.axes('y').zoom(-0.5, 6.5);
+                chart.axes('x').zoom(-0.5, 47.5);
+              }
+            },
+          },
+        },
+        defaultPoint: {
+          tooltip: '{%date:date g}<br><b>%zValue steps</b>',
+          outline_width: 0,
+        },
+        data: './resources/step-data-by-minute.csv',
+      });
+    </script>
+  </body>
+</html>

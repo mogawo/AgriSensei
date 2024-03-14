@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Grouped Vertical Layout Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 820px; height: 545px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with vertical leaf layout colored by groups.
+Learn how to:
+
+  - Group nodes by color based on point attributes.
+*/
+      // JS
+      var paletteVP = ['#039BE5', '#00ACC1', '#00897B', '#43A047', '#7CB342', '#C0CA33'];
+      var palette = ['white', 'white', '#4FC3F7', '#4DD0E1', '#4DB6AC', '#81C784', '#AED581', '#DCE775'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          outline_width: 0,
+          color: 'white',
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          leafPointLayout: 'vertical',
+          annotation: {
+            label_text: '<b>%position</b><br>%name',
+            syncWidth: 'all',
+            syncHeight: 'level',
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          {
+            name: 'Brendon Headley',
+            id: 'p',
+            attributes: { position: 'President' },
+            label_style_fontSize: 14,
+          },
+          {
+            name: 'Carl Cotterill',
+            id: 'vpf',
+            parent: 'p',
+            attributes: { position: 'VP Finance', role: 'VP' },
+          },
+          {
+            name: 'Allyn Williams',
+            id: 'vpf_am1',
+            parent: 'vpf',
+            attributes: { position: 'Accounting Manager' },
+          },
+          {
+            name: 'Dayna Radclyffe',
+            id: 'vpf_am2',
+            parent: 'vpf',
+            attributes: { position: 'Accounting Manager' },
+          },
+          {
+            name: 'Harding Hershey',
+            id: 'vpt',
+            parent: 'p',
+            attributes: { position: 'VP Technology', role: 'VP' },
+          },
+          {
+            name: 'Jayceon Cartwright',
+            id: 'vpt_ed1',
+            parent: 'vpt',
+            attributes: { position: 'Engineering Director' },
+          },
+          {
+            name: 'Marion Page',
+            id: 'vpt_ed2',
+            parent: 'vpt',
+            attributes: { position: 'Engineering Director' },
+          },
+          {
+            name: 'Bennett Virgo',
+            id: 'vpt_ed3',
+            parent: 'vpt',
+            attributes: { position: 'Engineering Director' },
+          },
+          {
+            name: 'Jaxson Michaelson',
+            id: 'vpt_ed4',
+            parent: 'vpt',
+            attributes: { position: 'Engineering Director' },
+          },
+          {
+            name: 'Boyd Watson',
+            id: 'vpt_ed5',
+            parent: 'vpt',
+            attributes: { position: 'Engineering Director' },
+          },
+          {
+            name: 'Blaire Butcher',
+            id: 'vpo',
+            parent: 'p',
+            attributes: { position: 'VP Operations', role: 'VP' },
+          },
+          {
+            name: 'Glory Ellisson',
+            id: 'vpo_fm1',
+            parent: 'vpo',
+            attributes: { position: 'Facilities Manager' },
+          },
+          {
+            name: 'Claire Lee',
+            id: 'vpm',
+            parent: 'p',
+            attributes: { position: 'VP Marketing', role: 'VP' },
+          },
+          {
+            name: 'Waylon Francis',
+            id: 'vpm_mm1',
+            parent: 'vpm',
+            attributes: { position: 'Marketing Manager' },
+          },
+          {
+            name: 'Daly Allard',
+            id: 'vpp',
+            parent: 'p',
+            attributes: { position: 'VP Product', role: 'VP' },
+          },
+          {
+            name: 'Cailyn Tupper',
+            id: 'vpp_pm1',
+            parent: 'vpp',
+            attributes: { position: 'Product Manager' },
+          },
+          {
+            name: 'Weldon Martel',
+            id: 'vpp_pm2',
+            parent: 'vpp',
+            attributes: { position: 'Product Manager' },
+          },
+          {
+            name: 'Carmen Britton',
+            id: 'vpp_pm3',
+            parent: 'vpp',
+            attributes: { position: 'Product Manager' },
+          },
+          {
+            name: 'Caitlyn Fuller',
+            id: 'vphr',
+            parent: 'p',
+            attributes: { position: 'VP Human Resources', role: 'VP' },
+          },
+          {
+            name: 'Kade Davis',
+            id: 'vphr_hrm1',
+            parent: 'vphr',
+            attributes: { position: 'HR Manager' },
+          },
+          {
+            name: 'Manley Derby',
+            id: 'vphr_hrm2',
+            parent: 'vphr',
+            attributes: { position: 'HR Manager' },
+          },
+        ];
+
+        // Group points by parent
+        var pointsParent = JSC.nest().key('parent').entries(points);
+
+        // Apply a color from palette to each group of points
+        pointsParent.forEach(function (group, i) {
+          group.values.forEach(function (point, j) {
+            if (point.attributes.role === 'VP') {
+              JSC.merge(point, {
+                annotation_width: 117,
+                color: paletteVP[i],
+              });
+            }
+            if (point.attributes.role !== 'VP') {
+              JSC.merge(point, { color: palette[i] });
+            }
+          });
+        });
+        return points;
+      }
+    </script>
+  </body>
+</html>

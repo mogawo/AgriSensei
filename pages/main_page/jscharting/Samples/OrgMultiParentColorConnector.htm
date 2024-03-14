@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multiple Parent Org Chart Styled Colored Boxes and Connectors | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 600px; height: 460px;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple parent organizational chart with per node colors and color synchronized connector lines with custom corner radius settings.
+Learn how to:
+
+  - Style different point connectors in organizational charts.
+*/
+      // JS
+      var palette = [
+        '#A0F8AE',
+        '#6ECE89',
+        '#42A467',
+        '#1A7B48',
+        '#eeeeee',
+        '#B3E5FC',
+        '#4FC3F7',
+        '#03A9F4',
+        '#0288D1',
+        '#01579B',
+      ];
+
+      var points = [
+        { name: 'Tyrique Kent', id: 'd1', attributes: { role: 'Director' } },
+        { name: 'Robin Mill', id: 'd2', attributes: { role: 'Director' } },
+        { name: 'Bushra Barnett', id: 'd3', attributes: { role: 'Director' } },
+        { name: 'Kay Atkins', id: 'd4', attributes: { role: 'Director' } },
+        {
+          name: 'Linzi Cassidy',
+          id: 'ceo',
+          parent: [{ id: 'd1' }, { id: 'd2' }, { id: 'd3' }, { id: 'd4' }],
+          attributes: { role: 'CEO' },
+        },
+        { name: 'Samara Munoz', id: 'm1', parent: 'ceo', attributes: { role: 'Manager' } },
+        { name: 'Alya Roberts', id: 'm2', parent: 'ceo', attributes: { role: 'Manager' } },
+        { name: 'Glyn Dawe', id: 'm3', parent: 'ceo', attributes: { role: 'Manager' } },
+        { name: 'Chad Read', id: 'm4', parent: 'ceo', attributes: { role: 'Manager' } },
+        { name: 'Kyan Fuentes', id: 'm5', parent: 'ceo', attributes: { role: 'Manager' } },
+      ];
+
+      /**
+       * Iterate points to apply palette colors.
+       */
+      points.forEach(function (point, i) {
+        point.color = palette[i];
+        if (point.id === 'ceo') {
+          point.parent.forEach(function (connector, j) {
+            connector.line_color = palette[j];
+          });
+        }
+        if (point.parent === 'ceo') {
+          point.connectorLine_color = palette[i];
+        }
+      });
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+
+        /*These options will apply to all annotations including point nodes and breadcrumbs.*/
+        defaultAnnotation: {
+          padding: [5, 10],
+          margin: [50, 0],
+          radius: 15,
+        },
+
+        defaultTooltip_enabled: false,
+        defaultSeries: {
+          mouseTracking: false,
+          color: 'white',
+          defaultPoint: {
+            outline_width: 0,
+            connectorLine: { radius: 140, width: 2 },
+            label: {
+              text: '<b>%name</b><br><span style="font-size:10px;">%role</span>',
+              maxWidth: 50,
+            },
+          },
+        },
+
+        series: [{ points: points }],
+      });
+    </script>
+  </body>
+</html>

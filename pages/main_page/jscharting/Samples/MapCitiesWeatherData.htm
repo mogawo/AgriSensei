@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>World Major Cities Weather | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="mapDiv" style="max-width: 940px; height: 500px; margin: 0px auto;"></div>
+    <div id="chartDiv" style="max-width: 940px; height: 180px; margin: 20px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Real-time weather forecast for all major cities in the world.
+Learn how to:
+
+  - Load cities dynamically.
+*/
+      // JS
+      var map, chart, mapData;
+      var palette = ['#b4ddba', '#42A5F5', '#1565C0'];
+
+      //WMO Weather interpretation codes (WW) with icons
+      var weatherIcon = {
+        '0': 'clear-day',
+        '1': 'cloudy-day',
+        '2': 'cloudy-day',
+        '3': 'cloudy',
+
+        '45': 'fog-day',
+        '48': 'fog',
+
+        '51': 'light-rain-day',
+        '53': 'light-rain',
+        '55': 'light-rain',
+
+        '56': 'sleet-day',
+        '57': 'sleet',
+
+        '61': 'rain-day',
+        '63': 'rain',
+        '65': 'rain',
+
+        '66': 'sleet-day',
+        '67': 'sleet',
+
+        '71': 'snow-day',
+        '73': 'snow',
+        '75': 'snow',
+
+        '77': 'snow',
+
+        '80': 'rainfall-day',
+        '81': 'rainfall',
+        '82': 'rainfall',
+
+        '85': 'blizzard',
+        '86': 'blizzard',
+
+        '95': 'thunderstorm',
+
+        '96': 'thunderstorm',
+        '99': 'thunderstorm',
+      };
+      var selectedCountry;
+
+      JSC.fetch('./resources/world-cities-min.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          mapData = JSC.csv2Json(text);
+          map = renderMap();
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderMap() {
+        return JSC.chart('mapDiv', {
+          debug: true,
+          type: 'map solid',
+          title_label_text:
+            'Weather Forecast<br>' +
+            '<span style="font-size:12px">Click a country to load cities, then click a city point to load weather data</span>',
+          legend_visible: false,
+          events_pointSelectionChanged: selectionChanged,
+          defaultSeries: { pointSelection: true },
+          defaultPoint_color: palette[0],
+          series: [{ map: 'americas' }, { map: 'europe' }, { map: 'asia' }, { map: 'oceania' }, { map: 'africa' }],
+          defaultAnnotation: { asHTML: true, margin: 2 },
+          annotations: [
+            {
+              label_text:
+                'Source: <a href="https://simplemaps.com/data/world-cities">https://simplemaps.com/data/world-cities</a>',
+              position: 'bottom left',
+            },
+          ],
+          toolbar_items: {
+            resetZoom_visible: false,
+            export_visible: false,
+            Clear: {
+              type: 'option',
+              visible: false,
+              margin: 5,
+              label_text: 'Reset Zoom',
+              boxVisible: true,
+              events_click: function () {
+                //Enable mouse tracking on all country points.
+                map.series().points().options({ selected: false, mouseTracking: true });
+
+                selectedCountry &&
+                  map
+                    .series()
+                    .points(function (p) {
+                      return p.name === selectedCountry;
+                    })
+                    .options({ mouseTracking: true }, false);
+
+                map.series(5).remove(false);
+                map.zoom(1, { animation: false });
+                map.uiItems('Clear').options({ visible: false });
+                if (chart) {
+                  chart.dispose();
+                }
+                selectedCountry = '';
+              },
+            },
+          },
+        });
+        function selectionChanged(items) {
+          if (items.length !== 0) {
+            var point = items[0];
+            var c = point.chart;
+            var countryCode = point.tokenValue('%countrycode');
+            var countryName = point.tokenValue('%name');
+            var seriesId = countryName + 'cities';
+
+            // Revert a previously selected point's mouse tracking.
+            selectedCountry &&
+              map
+                .series()
+                .points(function (p) {
+                  return p.name === selectedCountry;
+                })
+                .options({ mouseTracking: true }, false);
+
+            selectedCountry = countryName;
+
+            var countryData = mapData.filter(function (v) {
+              return v.iso2 === countryCode;
+            });
+            // Show cities with a population above average if the number of cities is more than 1000
+            if (countryData.length >= 1000) {
+              var averagePopulation = JSC.mean(countryData, 'population');
+              countryData = countryData.filter(function (v) {
+                return v.population >= averagePopulation;
+              });
+            }
+            var citiesSeries = {
+              type: 'bubble',
+              id: seriesId,
+              pointSelection: false,
+              size: [10, 30],
+              defaultPoint: {
+                opacity: 0.2,
+                outline: { width: 1, color: 'lighten' },
+              },
+              points: countryData.map(function (item) {
+                return {
+                  name: item.city,
+                  x: item.lng,
+                  y: item.lat,
+                  z: item.population,
+                  attributes_country: countryName,
+                  events_click: cityClick,
+                  opacity: item.capital === 'primary' ? 1 : 0.8,
+                  color: item.capital === 'primary' ? palette[2] : palette[1],
+                  tooltip:
+                    item.capital === 'primary'
+                      ? '%name (Capital)<br>Population: <b>%zValue</b>'
+                      : '%name<br>Population: <b>%zValue</b>',
+                };
+              }),
+            };
+            c.uiItems('Clear').options({ visible: true });
+
+            c.series.splice(5, c.series(5) ? 1 : 0, [citiesSeries], {
+              then: function () {
+                // Zoom to the cities map
+                this.series(seriesId).zoomTo();
+              },
+            });
+
+            map
+              .series()
+              .points(function (p) {
+                return p.name === selectedCountry;
+              })
+              .options({ mouseTracking: false }, false);
+
+            // // Zoom to the cities map
+            // c.series(seriesId).zoomTo();
+            if (chart) {
+              chart.dispose();
+            }
+          }
+        }
+
+        function cityClick() {
+          var p = this;
+          p.series.points().options({ outline: { width: 1, color: 'lighten' } }, false);
+
+          p.options({ outline: { width: 3, color: 'darkenMore' } });
+
+          var chartTitle = p.tokenValue('%country') + ' - ' + p.name + ': 12-hours Forecast';
+          var link =
+            'https://api.open-meteo.com/v1/forecast?latitude=' +
+            p.y +
+            '&longitude=' +
+            p.x +
+            '&timezone=auto&hourly=temperature_2m,weathercode&temperature_unit=fahrenheit';
+          JSC.fetch(link)
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text) {
+              var chartData = JSON.parse(text);
+
+              if (chart) {
+                chart.dispose();
+              }
+              chart = renderChart(chartTitle, chartData);
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        }
+      }
+
+      function renderChart(title, data) {
+        var now = new Date().getHours();
+        var tickLabels = generateTickLabels(data);
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'spline',
+          title_label_text: title,
+          legend_visible: false,
+          palette: [palette[1]],
+          yAxis: {
+            visible: false,
+            alternateGridFill: 'none',
+          },
+          xAxis: {
+            scale: {
+              interval: { multiplier: 1, unit: 'hour' },
+            },
+            orientation: 'top',
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+              label_text: tickLabelText,
+            },
+          },
+          defaultAnnotation: { asHTML: true, margin: 2 },
+          annotations: [
+            {
+              label_text: 'Source: <a href="https://open-meteo.com/">https://open-meteo.com/</a>',
+              position: 'bottom left',
+            },
+          ],
+          defaultTooltip_label_text: '%points',
+          defaultSeries_mouseTracking_enabled: false,
+          defaultPoint: {
+            label: { text: '%yValue°F' },
+            marker_size: 8,
+          },
+
+          series: makeChartSeries(data),
+        });
+        function tickLabelText(v) {
+          return tickLabels[new Date(v)];
+        }
+        function generateTickLabels(data) {
+          var ticks = {};
+          for (var i = now; i <= now + 11; i++) {
+            ticks[new Date(data.hourly.time[i])] =
+              JSC.formatDate(new Date(data.hourly.time[i]), 'h') +
+              ' ' +
+              JSC.formatDate(new Date(data.hourly.time[i]), 'tt') +
+              '<br><img src=images/weather-icons/' +
+              weatherIcon[data.hourly.weathercode[i]] +
+              '.svg width=34 height=34>';
+          }
+          return ticks;
+        }
+        function makeChartSeries(data) {
+          var points = [];
+          for (var i = now; i <= now + 11; i++) {
+            points.push({
+              x: new Date(data.hourly.time[i]),
+              y: data.hourly.temperature_2m[i],
+            });
+          }
+          return [{ points: points }];
+        }
+      }
+    </script>
+  </body>
+</html>

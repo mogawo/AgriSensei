@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Uncertainty Projections Line Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A line projection making up the average of many projection lines.
+Learn how to:
+
+  - Make a line chart with uncertainty projections.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/unemployment-rate-forecast.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text, {
+            coerce: function (d, i) {
+              return {
+                date: d.date,
+                organization: d.organization,
+                forecast: +d.forecast,
+                actual: +d.actual,
+              };
+            },
+          });
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        var nestDate = JSC.nest().key('date');
+        var series1 = [
+          {
+            name: 'Historical',
+            color: 'slateblue',
+            opacity: 1,
+            states_mute_enabled: false,
+            line_width: 3,
+            points: nestDate
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return { x: values.date, y: values.actual };
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.actual !== 0;
+                })
+              ),
+          },
+          {
+            name: 'Avg. forecast',
+            color: 'slateblue',
+            opacity: 1,
+            line: { width: 3, dashStyle: 'ShortDash' },
+            points: nestDate
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                return {
+                  x: values.date,
+                  y: JSC.mean(val, 'forecast'),
+                };
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.forecast !== 0;
+                })
+              ),
+          },
+        ];
+        series1[1].points.unshift(series1[0].points[series1[0].points.length - 1]);
+        var series2 = JSC.nest()
+          .key('organization')
+          .key('date')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return { x: values.date, y: values.forecast };
+          })
+          .series(
+            data.filter(function (x) {
+              return x.forecast !== 0;
+            })
+          );
+
+        var series = series2.concat(series1);
+        return JSC.chart('chartDiv', {
+          animation_duration: 0,
+          title_label_text: 'US Unemployment Rate Forecast',
+          palette: ['#e0e0e0'],
+          defaultPoint: {
+            marker_visible: false,
+            hoverAction: ' highlightSeries',
+            tooltip: '<b>%seriesName</b><br>%xValue {%yValue:n1}%',
+          },
+          legend_visible: false,
+          yAxis: {
+            alternateGridFill: 'none',
+            defaultTick_label_text: '%value%',
+          },
+          xAxis: [
+            {
+              scale_type: 'time',
+              markers: [{ value: '6/1/2019', color: '#e0e0e0' }],
+            },
+            {
+              defaultTick: {
+                rangeMode: 'measure',
+                enabled: false,
+              },
+              orientation: 'opposite',
+              customTicks: [
+                { value: ['6/1/2019', '12/1/2022'], label_text: ' Projection ', color: 'none' },
+                { value: ['6/1/2016', '6/1/2019'], label_text: ' Historical ', color: 'none' },
+              ],
+            },
+          ],
+          defaultSeries: {
+            type: 'line',
+            opacity: 0.4,
+            // Reduce flickering by disabling additional line hover state.
+            states_hover_enabled: false,
+          },
+          series: series,
+        });
+      }
+    </script>
+  </body>
+</html>

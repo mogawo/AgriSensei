@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Column Bar Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 400px;"></div>
+      <div id="chartDiv2" class="chartDiv" style="max-width: 400px; height: 300px;"></div>
+      <div id="chartDiv3" class="chartDiv" style="max-width: 600px; height: 200px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Stacked column and bar chart usage in dashboard widgets.
+Learn how to:
+
+  - Use bar and column charts in widgets.
+*/
+      // JS
+
+      var chart1, chart2, chart3;
+      /* Default Widget Options */
+      var columnWidgetDefaults = {
+        orientation: 'vertical',
+        title: 'Column',
+        series: [
+          {
+            name: 'Points',
+            points: [
+              { name: 'Point1', x: 1, y: 1 },
+              { name: 'Point2', x: 2, y: 2 },
+              { name: 'Point3', x: 3, y: 5 },
+              { name: 'Point4', x: 4, y: 3 },
+              { name: 'Point5', x: 5, y: 4 },
+              { name: 'Point6', x: 6, y: 2 },
+            ],
+          },
+        ],
+        palette: 'default',
+        stacked: false,
+        timeScale: false,
+        crosshair: false,
+        legend: false,
+      };
+      /* WIDGET DEFINITION */
+
+      /* Widget Constructor */
+      function ColumnWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, columnWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              title: {
+                margin_bottom: 15,
+                label_style: { fontWeight: 'bold', fontSize: 16 },
+              },
+              defaultAxis: {
+                alternateGridFill: 'none',
+                defaultTick: {
+                  gridLine_color: '#EEEEEE',
+                  line_color: '#EEEEEE',
+                  label_color: '#9E9E9E',
+                },
+              },
+              xAxis: {
+                defaultTick_gridLine_visible: false,
+                crosshair: {
+                  outline_width: 0,
+                  corners: 'square',
+                  gridLine_visible: false,
+                  label_color: '#90A4AE',
+                },
+                alternateGridFill: 'none',
+              },
+              defaultTooltip: {
+                fill: '#263238',
+                shadow: false,
+                outline_width: 0,
+                opacity: 0.9,
+                padding: 10,
+                radius: 4,
+                label_color: 'white',
+              },
+              defaultPoint: {
+                outline_width: 0,
+                opacity: 0.8,
+                tooltip:
+                  '<span style="align:center;"><span style="color:%color;font-size:18px; margin:5px 0;text-stroke: #CFD8DC;"><b>%yValue</b></span><br>%seriesName</span>',
+                marker: {
+                  type: 'circle',
+                  opacity: 0,
+                  size: 10,
+                },
+                focusGlow: { color: '%color', width: 2 },
+              },
+              legend: {
+                template: '%icon,%name',
+                position: 'bottom',
+              },
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      ColumnWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.orientation) {
+          result.type = (options.orientation || '') + ' column solid';
+        }
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.series) {
+          result.series = options.series;
+        }
+        if (options.palette) {
+          result.palette = options.palette;
+        }
+
+        result.legend_visible = options.legend || false;
+        result.xAxis_crosshair_enabled = options.crosshair || false;
+        result.yAxis_scale_type = options.stacked ? 'stacked' : 'auto';
+
+        result.xAxis_scale_type = options.timeScale ? 'time' : 'auto';
+        result.xAxis_formatString = options.timeScale ? 'MMM dd' : 'n';
+
+        return result;
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      ColumnWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      chart1 = new ColumnWidget('chartDiv1', {
+        orientation: 'vertical',
+        title: 'Purchases',
+        series: [
+          {
+            name: 'Apples',
+            points: [
+              ['01/01/2022', 29.9],
+              ['01/02/2022', 97.5],
+              ['01/03/2022', 110.4],
+              ['01/04/2022', 129.2],
+              ['01/05/2022', 144.0],
+              ['01/06/2022', 176.0],
+              ['01/07/2022', 124.0],
+              ['01/08/2022', 106.0],
+            ],
+          },
+          {
+            name: 'Oranges',
+            points: [
+              ['01/01/2022', 19.9],
+              ['01/02/2022', 47.5],
+              ['01/03/2022', 10.4],
+              ['01/04/2022', 39.2],
+              ['01/05/2022', 44.0],
+              ['01/06/2022', 116.0],
+              ['01/07/2022', 134.0],
+              ['01/08/2022', 36.0],
+            ],
+          },
+        ],
+        palette: 8,
+        stacked: true,
+        timeScale: true,
+        crosshair: true,
+        legend: true,
+      });
+      chart2 = new ColumnWidget('chartDiv2', {
+        orientation: 'horizontal',
+        title: 'Purchases',
+        series: [
+          {
+            name: 'Apples',
+            points: [
+              ['01/01/2022', 29.9],
+              ['01/02/2022', 97.5],
+              ['01/03/2022', 110.4],
+              ['01/04/2022', 129.2],
+              ['01/05/2022', 144.0],
+              ['01/06/2022', 176.0],
+              ['01/07/2022', 124.0],
+              ['01/08/2022', 106.0],
+            ],
+          },
+        ],
+        palette: 6,
+        stacked: false,
+        timeScale: true,
+        crosshair: false,
+        legend: false,
+      });
+
+      chart3 = new ColumnWidget('chartDiv3', {});
+    </script>
+  </body>
+</html>

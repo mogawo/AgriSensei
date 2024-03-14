@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Data Hierarchy Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 400px;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart showing positional hierarchy with orientation customization.
+Learn how to:
+
+  - Make customize organizational charts.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+
+        /*These options will apply to all annotations including point nodes and breadcrumbs.*/
+        defaultAnnotation: {
+          padding: [5, 10],
+          margin: 10,
+          height: 41,
+        },
+
+        defaultSeries: {
+          color: '#e0ffcc',
+          mouseTracking: false,
+          defaultPoint: {
+            label_maxWidth: 70,
+            /* Default line styling for connector lines */
+            connectorLine: {
+              /* No radius on first angle, then 5px on the second angle. */
+              radius: [0, 5],
+              color: '#316012',
+              width: 1,
+              caps: { end: { type: 'arrow', size: 6 } },
+            },
+          },
+        },
+        series: [
+          {
+            points: [
+              { x: 'CEO', id: 'CEO' },
+              { x: 'Head of Marketing', id: 'HM', parent: 'CEO' },
+              { x: 'Head of Finance', id: 'HF', parent: 'CEO' },
+              { x: 'Head of HR', id: 'HHR', parent: 'CEO' },
+
+              { x: 'Senior Manager', id: 'HM SM', parent: 'HM' },
+              { x: 'Executive', id: 'HM E', parent: 'HM SM' },
+              { x: 'Assistant', id: 'HM A', parent: 'HM SM' },
+
+              { x: 'Senior Manager', id: 'HF SM', parent: 'HF' },
+              { x: 'Executive', id: 'HF E', parent: 'HF SM' },
+              { x: 'Assistant 1', id: 'HF A 1', parent: 'HF SM' },
+              { x: 'Assistant 2', id: 'HF A 2', parent: 'HF SM' },
+
+              { x: 'Senior Manager', id: 'HHR SM', parent: 'HHR' },
+              { x: 'Executive', id: 'HHR E', parent: 'HHR SM' },
+              { x: 'Assistant', id: 'HHR A', parent: 'HHR SM' },
+            ],
+          },
+        ],
+
+        toolbar: {
+          defaultItem: {
+            margin: 5,
+            events_click: orientChart,
+          },
+          items: {
+            Left_icon: 'system/default/zoom/arrow-left',
+            Right_icon: 'system/default/zoom/arrow-right',
+            Down_icon: 'system/default/zoom/arrow-down',
+            Up_icon: 'system/default/zoom/arrow-up',
+          },
+        },
+      });
+
+      function orientChart(direction) {
+        chart.options({ type: 'organizational ' + direction });
+      }
+    </script>
+  </body>
+</html>

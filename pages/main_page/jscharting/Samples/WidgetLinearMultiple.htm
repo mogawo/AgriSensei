@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multiple Value Linear Gauge Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      #widgetsWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        align-content: space-between;
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .widgetsCol {
+        flex-direction: column;
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        align-content: space-between;
+      }
+      .chartDiv {
+        margin: 8px;
+        padding: 15px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div class="widgetsCol">
+        <div id="chartDiv1" class="chartDiv" style="max-width: 260px; height: 370px;"></div>
+        <div id="chartDiv4" class="chartDiv" style="max-width: 260px; height: 300px;"></div>
+      </div>
+      <div class="widgetsCol">
+        <div id="chartDiv2" class="chartDiv" style="max-width: 260px; height: 666px;"></div>
+      </div>
+      <div class="widgetsCol">
+        <div id="chartDiv3" class="chartDiv" style="max-width: 260px; height: 666px;"></div>
+      </div>
+      <div class="widgetsCol">
+        <div id="chartDiv5" class="chartDiv" style="max-width: 260px; height: 430px;"></div>
+        <div id="chartDiv6" class="chartDiv" style="max-width: 260px; height: 240px;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Linear gauge widgets with multiple values.
+Learn how to:
+
+  - Use Linear widgets with multiple values.
+*/
+      // JS
+      var chart1 = new JSCWidgets.Linear('chartDiv1', {
+        title: 'Employee progress',
+        label: ['Rebekah Davies', 'Dominica Lynton', 'Madisyn House', 'Judd Trengove', 'Anthony Lamb'],
+        value: [1, 0.9563, 0.74235, 1, 0.6337],
+        icon: ['material/action/done', '', '', 'material/action/done', ''],
+        max: 1,
+        valueFormat: 'p',
+        color: ['#00ACC1', '#80DEEA', '#80DEEA', '#00ACC1', '#80DEEA'],
+        labelScaling: 0.8,
+      });
+
+      var chart2 = new JSCWidgets.Linear('chartDiv2', {
+        title: 'Nombre de pas par jour',
+        label: 'weekdays',
+        value: [8072, 10326, 9427, 9489, 11877, 9074, 11115, 12395],
+
+        target: 10000,
+        targetColor: 'black',
+        targetText: 'Cible: {%value:a}',
+        cultureName: 'fr',
+        color: ['#616161', '#66BB6A', '#616161', '#616161', '#66BB6A', '#616161', '#66BB6A', '#66BB6A'],
+      });
+      var chart3 = new JSCWidgets.Linear('chartDiv3', {
+        title: 'Прогноз Продажів 2023',
+        label: 'months',
+        value: [35980, 21477, 27636, 39494, 45635, 21218, 43557, 22389, 36565, 27050, 31414, 32289],
+        cultureName: 'uk-UK',
+        color: '#29B6F6',
+        valueFormat: 'c2',
+        labelScaling: 0.8,
+      });
+
+      var chart4 = new JSCWidgets.Linear('chartDiv4', {
+        title: 'Would you recommend our restaurant to your family and friends?',
+        label: ['Yes', 'No', "Don't know"],
+        value: [0.76, 0.17, 0.07],
+        max: 1,
+        color: '#26A69A',
+        valueFormat: 'p0',
+      });
+
+      var chart5 = new JSCWidgets.Linear('chartDiv5', {
+        title: 'The website has user friendly interface',
+        label: ['Strongly agree', 'Agree', 'Neutral', 'Disagree', 'Strongly disagree'],
+        value: [0.28, 0.37, 0.15, 0.12, 0.08],
+        icon: [
+          'material/social/sentiment-very-satisfied',
+          'material/social/sentiment-satisfied',
+          'material/social/sentiment-neutral',
+          'material/social/sentiment-dissatisfied',
+          'material/social/sentiment-very-dissatisfied',
+        ],
+        color: ['#49a446', '#aab836', '#fca219', '#f3751e', '#da2024'],
+        valueFormat: 'p0',
+      });
+
+      var chart6 = new JSCWidgets.Linear('chartDiv6', {
+        title: 'KPI Dashboard',
+        label: ['Users', 'Sessions', 'Average session duration'],
+        value: [2547, 6431, 435],
+        icon: ['material/social/people', 'material/image/timelapse', 'material/device/access-time'],
+        color: '#3F51B5',
+        max: [6000, 10000, 600],
+        valueText: ['%value people', '%value', '%value s'],
+        labelScaling: 0.75,
+      });
+    </script>
+  </body>
+</html>

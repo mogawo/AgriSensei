@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Real-time Line Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 300px; height: 180px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Dynamically update chart data and labels on a timer.
+Learn how to:
+
+  - Add time data points to the chart in realtime.
+*/
+      // JS
+      var arrowIcon = '';
+      var date = new Date().getTime();
+      var points = [];
+      var INTERVAL_ID = null;
+
+      for (var i = 0; i < 20; i++) {
+        points.push({ y: randomNumber(500, 1000), x: new Date(date) });
+        date = date + 24 * 3600000 * 1;
+      }
+
+      var chart;
+
+      JSC.chart(
+        'chartDiv',
+        {
+          type: 'area spline',
+          animation_duration: 600,
+          defaultSeries: {
+            shape_opacity: 0.3,
+            mouseTracking_enabled: false,
+          },
+          legend_visible: false,
+          xAxis_visible: false,
+          yAxis: {
+            visible: false,
+            scale_range: [500, 1000],
+            formatString: 'c0',
+          },
+          margin_top: 30,
+          defaultAnnotation: { offset: '0,-35' },
+          annotations: [
+            { id: 'value', position: 'top left', label_text: '', label_style: { fontSize: 32, fontWeight: 'bold' } },
+            { id: 'icon', position: 'top left', label_text: '' },
+            { id: 'difference', position: 'top left', label_text: '', label_style_fontSize: 20 },
+            { id: 'name', position: 'inside left top', label_text: 'Sales', label_style_fontSize: 20 },
+          ],
+          series: [
+            {
+              shape_opacity: 0.3,
+              mouseTracking_enabled: false,
+              color: '#039BE5',
+              defaultPoint_marker_visible: false,
+              points: points,
+            },
+          ],
+          toolbar: {
+            items: {
+              Stop: {
+                position: 'inside right top',
+                type: 'option',
+                icon_name: 'system/default/pause',
+                offset: '0,-50',
+                boxVisible: true,
+                label_text: 'Pause',
+                events_change: playPause,
+                states_select: {
+                  label_text: 'Play',
+                  icon_name: 'system/default/play',
+                },
+              },
+            },
+          },
+        },
+        function (c) {
+          chart = c;
+          updateLabels();
+          startUpdate();
+        }
+      );
+
+      function playPause(val) {
+        if (val === true) {
+          clearInterval(INTERVAL_ID);
+        } else {
+          startUpdate();
+        }
+      }
+      function addDataPoint() {
+        chart.series(0).points.add({ y: randomNumber(500, 1000), x: new Date(date) }, { shift: true });
+        date = date + 24 * 3600000 * 1;
+        updateLabels();
+      }
+
+      function startUpdate() {
+        INTERVAL_ID = setInterval(function () {
+          addDataPoint();
+        }, 1000);
+      }
+
+      function updateLabels() {
+        var series = chart.series(0);
+        var pointY = series.points(19).options('y');
+        var prevPointY = series.points(18).options('y');
+        chart.annotations('value').options({ label_text: series.points(19).replaceTokens('%value') });
+        chart.annotations('difference').options({ label_text: getDifference() });
+        chart.annotations('icon').options({ label_text: getIcon() });
+
+        function getDifference() {
+          var val = (pointY / prevPointY - 1) * 100;
+          return val > 0
+            ? '<span style="color:#43a047">' + JSC.formatNumber(Math.abs(val), 'n2') + '%</span>'
+            : '<span style="color:#ef5350">' + JSC.formatNumber(Math.abs(val), 'n2') + '%</span>';
+        }
+        function getIcon() {
+          if (pointY > prevPointY) {
+            arrowIcon = '<icon name=material/navigation/arrow-drop-up size=16 fill=#43a047>';
+          } else {
+            arrowIcon = '<icon name=material/navigation/arrow-drop-down size=16 fill=#ef5350>';
+          }
+          return arrowIcon;
+        }
+      }
+
+      function randomNumber(min, max) {
+        return Math.floor(min + Math.random() * (max + 1 - min));
+      }
+    </script>
+  </body>
+</html>

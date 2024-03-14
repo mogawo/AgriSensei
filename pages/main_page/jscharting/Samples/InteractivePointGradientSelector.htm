@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dynamic Point Gradient Styling | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 500px) {
+        .chartDiv {
+          width: 100% !important;
+        }
+      }
+      .chartDiv {
+        width: 50%;
+        height: 240px;
+      }
+      #chartWrapper {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartWrapper">
+      <textarea readonly id="txtArea" style="flex: 1; background: #f3f3f3;"></textarea>
+      <input id="copyBtn" type="button" value="Copy Fill" style="flex: 0 0 60px; margin-left: 10px;" />
+      <div id="chartDiv1" style="width: 100%; height: 280px;"></div>
+      <div id="chartDiv2" style="width: 100%; height: 180px;"></div>
+      <div id="chartDiv3" style="width: 100%; height: 180px;"></div>
+      <div id="chartDiv4" class="chartDiv"></div>
+      <div id="chartDiv5" class="chartDiv"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Demonstrates dynamic gradient applied to different chart types.
+Learn how to:
+
+  - Style area fills with dynamic gradients.
+  - Style data points with dynamic gradients fills.
+*/
+      // JS
+      var chart1, chart2, chart3, chart4, chart5;
+      var gradientPalettes = [
+        ['#0061ff', '#60efff'],
+        ['#ff930f', '#fff95b'],
+        ['#696eff', '#f8acff'],
+        ['#42047e', '#07f49e'],
+        ['#f5e6ad', '#f13c77'],
+        ['#8de9d5', '#32c4c0'],
+      ];
+      var fillStylesObj = objectFromArray(gradientPalettes);
+      var currentColors = fillStylesObj[iconFromPalette(gradientPalettes[0])];
+      var currentAngle = 90;
+      var currentFill = currentColors.concat(currentAngle);
+
+      JSC.ready(document).then(function () {
+        updateTextArea();
+        document.getElementById('copyBtn').addEventListener('click', copyCode);
+
+        var config = {
+          defaultPoint: {
+            outline_width: 0,
+            fill: currentFill,
+            label: {
+              text: '%code<br/>{%yValue/1000000:N0}M',
+              align: 'center',
+            },
+          },
+          legend_visible: false,
+        };
+
+        chart1 = JSC.chart('chartDiv1', {
+          type: 'area spline',
+          legend_visible: false,
+          yAxis: {
+            visible: false,
+            scale_range: { min: 0, padding: 0.8 },
+          },
+          xAxis_defaultTick_gridLine_visible: false,
+          defaultPoint_marker_visible: false,
+          defaultSeries: {
+            line_width: 0,
+            shape_fill: currentFill,
+          },
+          series: [
+            {
+              name: 'US Population Change',
+              points: [
+                { x: 1961, y: 1.657730037 },
+                { x: 1962, y: 1.537997358 },
+                { x: 1963, y: 1.439164762 },
+                { x: 1964, y: 1.389046055 },
+                { x: 1965, y: 1.250171646 },
+                { x: 1966, y: 1.154893191 },
+                { x: 1967, y: 1.088881207 },
+                { x: 1968, y: 0.9984610436 },
+                { x: 1969, y: 0.9772428119 },
+                { x: 1970, y: 1.165002667 },
+                { x: 1971, y: 1.264333692 },
+                { x: 1972, y: 1.070522752 },
+                { x: 1973, y: 0.9544767286 },
+                { x: 1974, y: 0.9136601961 },
+                { x: 1975, y: 0.9859860673 },
+                { x: 1976, y: 0.950220049 },
+                { x: 1977, y: 1.005771996 },
+                { x: 1978, y: 1.05957308 },
+                { x: 1979, y: 1.103576565 },
+                { x: 1980, y: 0.9595899228 },
+                { x: 1981, y: 0.9814154373 },
+                { x: 1982, y: 0.9533175662 },
+                { x: 1983, y: 0.9143785134 },
+                { x: 1984, y: 0.8658173363 },
+                { x: 1985, y: 0.8861290409 },
+                { x: 1986, y: 0.9241641571 },
+                { x: 1987, y: 0.893829201 },
+                { x: 1988, y: 0.9079990402 },
+                { x: 1989, y: 0.9444055554 },
+                { x: 1990, y: 1.12965052 },
+                { x: 1991, y: 1.336260741 },
+                { x: 1992, y: 1.386885692 },
+                { x: 1993, y: 1.31868 },
+                { x: 1994, y: 1.226296089 },
+                { x: 1995, y: 1.190787091 },
+                { x: 1996, y: 1.16341162 },
+                { x: 1997, y: 1.203960297 },
+                { x: 1998, y: 1.165714526 },
+                { x: 1999, y: 1.148340047 },
+                { x: 2000, y: 1.112768997 },
+                { x: 2001, y: 0.9897413822 },
+                { x: 2002, y: 0.9277974857 },
+                { x: 2003, y: 0.8594817128 },
+                { x: 2004, y: 0.9254839689 },
+                { x: 2005, y: 0.9217131672 },
+                { x: 2006, y: 0.9642539171 },
+                { x: 2007, y: 0.9510552428 },
+                { x: 2008, y: 0.9458652873 },
+                { x: 2009, y: 0.8766512988 },
+                { x: 2010, y: 0.8296166747 },
+                { x: 2011, y: 0.7267867048 },
+                { x: 2012, y: 0.7335999413 },
+                { x: 2013, y: 0.6928602766 },
+                { x: 2014, y: 0.7333615199 },
+                { x: 2015, y: 0.7362173088 },
+                { x: 2016, y: 0.7246760675 },
+                { x: 2017, y: 0.6326439951 },
+                { x: 2018, y: 0.5264353956 },
+                { x: 2019, y: 0.455381286 },
+                { x: 2020, y: 0.3509110633 },
+              ],
+            },
+          ],
+          toolbar: {
+            items: {
+              label0: {
+                label_text: 'Gradient:',
+                position: 'inside top right',
+                boxVisible: false,
+                offset: '0,-6',
+              },
+              'gradient enabled': {
+                label: ' ',
+                position: 'inside top right',
+                value: true,
+                type: 'toggle',
+                offset: '0,-6',
+                margin: 0,
+                events_change: function (val) {
+                  if (val) {
+                    currentFill = currentColors.concat(currentAngle);
+                    updateCharts();
+                    updateTextArea();
+                  } else {
+                    currentFill = 'currentColor';
+                    updateCharts();
+                    updateTextArea();
+                  }
+                },
+              },
+              label1: {
+                label_text: 'Choose point fill style:',
+                position: 'inside top left',
+                boxVisible: false,
+              },
+              fill: {
+                type: 'select',
+                position: 'inside top left',
+                items: Object.keys(fillStylesObj).join(','),
+                events_change: function (val) {
+                  currentColors = fillStylesObj[val];
+                  currentFill = currentColors.concat(currentAngle);
+                  updateCharts();
+                  chart1.uiItems('gradient enabled').options({ value: true });
+                  updateTextArea();
+                },
+              },
+              label2: {
+                label_text: 'Choose point fill angle:',
+                position: 'inside top left',
+                boxVisible: false,
+              },
+              angle: {
+                type: 'range',
+                position: 'inside top left',
+                value: currentAngle,
+                min: 0,
+                max: 360,
+                width: 180,
+                margin_left: 10,
+                /* Debounce 10ms to prevent UI locking */
+                debounce: 10,
+                events_change: function (val) {
+                  currentAngle = parseInt(val);
+                  currentFill = currentColors.concat(currentAngle);
+                  updateCharts({ animation: { duration: 0 } });
+                  chart1.uiItems('gradient enabled').options({ value: true });
+                  updateTextArea();
+                },
+              },
+            },
+          },
+        });
+
+        chart2 = JSC.chart(
+          'chartDiv2',
+          JSC.merge(
+            {
+              debug: true,
+              type: 'treemap solid',
+              series: [
+                {
+                  name: 'Countries',
+                  points: [
+                    {
+                      name: 'China',
+                      y: 1439323776,
+                      attributes: { code: 'CHN' },
+                    },
+                    {
+                      name: 'India',
+                      y: 1380004385,
+                      attributes: { code: 'IND' },
+                    },
+                    {
+                      name: 'United States',
+                      y: 331002651,
+                      attributes: { code: 'USA' },
+                    },
+                    {
+                      name: 'Indonesia',
+                      y: 273523615,
+                      attributes: { code: 'IDN' },
+                    },
+                    {
+                      name: 'Pakistan',
+                      y: 220892340,
+                      attributes: { code: 'PAK' },
+                    },
+                    {
+                      name: 'Brazil',
+                      y: 212559417,
+                      attributes: { code: 'BRA' },
+                    },
+                    {
+                      name: 'Nigeria',
+                      y: 206139589,
+                      attributes: { code: 'NGA' },
+                    },
+                    {
+                      name: 'Bangladesh',
+                      y: 164689383,
+                      attributes: { code: 'BGD' },
+                    },
+                    {
+                      name: 'Russia',
+                      y: 145934462,
+                      attributes: { code: 'RUS' },
+                    },
+                    {
+                      name: 'Mexico',
+                      y: 128932753,
+                      attributes: { code: 'MEX' },
+                    },
+                  ],
+                },
+              ],
+            },
+            config
+          )
+        );
+
+        chart3 = JSC.chart('chartDiv3', {
+          debug: true,
+          type: 'horizontal column solid',
+          zAxis_scale_type: 'stacked',
+          yAxis_scale_type: 'time',
+          xAxis_visible: false,
+          legend_visible: false,
+          defaultPoint: {
+            outline_width: 0,
+            fill: currentFill,
+            label_text: '%name',
+            tooltip: '<b>%name</b> <br/>%low - %high<br/>{days(%high-%low)} days',
+            radius: 30,
+          },
+          series: [
+            {
+              palette: 'default',
+              name: 'one',
+              points: [
+                {
+                  name: 'Preparations',
+                  y: ['1/1/2022', '3/15/2022'],
+                },
+                {
+                  name: 'Execution',
+                  y: ['3/15/2022', '4/20/2022'],
+                },
+                {
+                  name: 'Cleanup',
+                  y: ['4/10/2022', '5/12/2022'],
+                },
+                {
+                  name: 'Presentation',
+                  y: ['6/1/2022', '7/15/2022'],
+                },
+              ],
+            },
+          ],
+        });
+
+        chart4 = JSC.chart(
+          'chartDiv4',
+          JSC.merge(
+            {
+              debug: true,
+              type: 'column solid',
+              yAxis_visible: false,
+              series: [
+                {
+                  name: 'Top Country Populations',
+                  points: [
+                    { name: 'US', y: 331002651, attributes: { code: 'USA' } },
+                    { name: 'Brazil', y: 212559417, attributes: { code: 'BRA' } },
+                    { name: 'Russia', y: 145934462, attributes: { code: 'RUS' } },
+                    { name: 'Mexico', y: 128932753, attributes: { code: 'MEX' } },
+                    { name: 'UK', y: 67886011, attributes: { code: 'GBR' } },
+                  ],
+                },
+              ],
+            },
+            config
+          )
+        );
+
+        chart5 = JSC.chart(
+          'chartDiv5',
+          JSC.merge(
+            {
+              debug: true,
+              type: 'pie solid',
+              series: [
+                {
+                  name: 'Top Countries',
+                  defaultPoint_color: 'gray',
+                  points: [
+                    { name: 'US', y: 331002651, attributes: { code: 'USA' } },
+                    { name: 'Brazil', y: 212559417, attributes: { code: 'USA' } },
+                    { name: 'Mexico', y: 128932753, attributes: { code: 'MEX' } },
+                    { name: 'UK', y: 67886011, attributes: { code: 'GBR' } },
+                  ],
+                },
+              ],
+            },
+            config
+          )
+        );
+      });
+
+      function updateCharts(updateOptions) {
+        chart1.options({ defaultSeries_shape_fill: currentFill }, updateOptions);
+        chart2.options({ defaultPoint_fill: currentFill }, updateOptions);
+        chart3.options({ defaultPoint_fill: currentFill }, updateOptions);
+        chart4.options({ defaultPoint_fill: currentFill }, updateOptions);
+        chart5.options({ defaultPoint_fill: currentFill }, updateOptions);
+      }
+
+      function copyCode() {
+        var textArea = document.getElementById('txtArea');
+        textArea.select();
+        document.execCommand('copy');
+        document.getElementById('copyBtn').focus();
+      }
+      function updateTextArea() {
+        var fillStr = JSON.stringify(currentFill);
+        var textArea = document.getElementById('txtArea');
+        textArea.value = fillStr;
+      }
+
+      function objectFromArray(array) {
+        var obj = {};
+        array.forEach(function (palette, i) {
+          obj[iconFromPalette(palette)] = palette;
+        });
+        return obj;
+      }
+      function iconFromPalette(palette) {
+        var paletteIcons = '';
+        palette.forEach(function (color, i) {
+          paletteIcons += '<icon name=system/default/square size=14 fill=' + color + '>';
+        });
+        return paletteIcons;
+      }
+    </script>
+  </body>
+</html>

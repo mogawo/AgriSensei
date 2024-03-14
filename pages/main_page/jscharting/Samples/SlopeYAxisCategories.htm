@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dual Category Scale Slope Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 320px; height: 500px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Slope chart with two category scales using first and last point axis ticks on two Y axes.
+Learn how to:
+
+  - Create a slope chart using axis.category to define the sort order.
+*/
+      // JS
+      var palette = ['#4CAF50', '#FF5722', '#BDBDBD'];
+      var data = [
+        { country: 'China', '1990': 2480, '2020': 10670 },
+        { country: 'United States', '1990': 5110, '2020': 4710 },
+        { country: 'India', '1990': 578.52, '2020': 2440 },
+        { country: 'Russia', '1990': 2530, '2020': 1580 },
+        { country: 'Japan', '1990': 1160, '2020': 1030 },
+        { country: 'Germany', '1990': 1050, '2020': 644.31 },
+        { country: 'Canada', '1990': 458.01, '2020': 535.82 },
+        { country: 'Iran', '1990': 209.94, '2020': 745.04 },
+        { country: 'South Korea', '1990': 250.47, '2020': 597.61 },
+        { country: 'Indonesia', '1990': 150.28, '2020': 589.5 },
+        { country: 'Saudi Arabia', '1990': 208.5, '2020': 625.51 },
+        { country: 'Brazil', '1990': 218.66, '2020': 467.38 },
+        { country: 'Mexico', '1990': 317.04, '2020': 356.97 },
+        { country: 'Australia', '1990': 279.36, '2020': 391.89 },
+        { country: 'South Africa', '1990': 312.97, '2020': 451.96 },
+        { country: 'Turkey', '1990': 151.51, '2020': 392.79 },
+        { country: 'United Kingdom', '1990': 600.34, '2020': 329.58 },
+        { country: 'Italy', '1990': 439.55, '2020': 303.82 },
+        { country: 'France', '1990': 393, '2020': 276.63 },
+        { country: 'Poland', '1990': 376.81, '2020': 299.59 },
+      ];
+      var leftCategories = JSC.sortBy(data, '1990')
+          .reverse()
+          .map(function (v) {
+            return v.country;
+          }),
+        rightCategories = JSC.sortBy(data, '2020')
+          .reverse()
+          .map(function (v) {
+            return v.country;
+          });
+
+      var chart1 = JSC.Chart('chartDiv1', {
+        annotations: [
+          {
+            label_text: 'Annual CO₂ Emissions by Country',
+            label_style_fontSize: 14,
+            position: 'top',
+            margin_bottom: 6,
+          },
+        ],
+        chartArea_clipContent: false,
+        legend_visible: false,
+        defaultAxis_defaultTick: {
+          gridLine_visible: false,
+          line_visible: false,
+        },
+        xAxis: {
+          defaultTick: { enabled: false, padding: -5 },
+          orientation: 'opposite',
+        },
+        yAxis: [
+          {
+            id: 'y1',
+            categories: leftCategories,
+            scale: {
+              range: [-0.5, leftCategories.length - 0.5],
+              invert: true,
+            },
+          },
+          {
+            id: 'y2',
+            categories: rightCategories,
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+            },
+            scale: {
+              range: [-0.5, rightCategories.length - 0.5],
+              invert: true,
+            },
+            orientation: 'opposite',
+          },
+        ],
+        defaultSeries: {
+          color: '#5988ef',
+          /* First and last points have y axis ticks, which enables highlighting on tick hover. */
+          firstPoint_yAxisTick: {
+            /* Make it use the point color. */
+            label_color: '%color',
+          },
+          lastPoint_yAxisTick: { axisId: 'y2', label_color: '%color' },
+          defaultPoint: {
+            marker: {
+              type: 'circle',
+              outline_width: 0,
+            },
+            /* Makes a tick appear on the x axis at the point position. (the 1990 and 2000 ticks at the top) */
+            xAxisTick: {},
+            hoverAction: 'highlightSeries',
+            tooltip: 'CO₂ emissions in %country, %xValue<br><b>%zValue Mt</b>',
+          },
+        },
+        series: getSeries(data),
+      });
+
+      function getSeries(data) {
+        return data.map(function (v) {
+          var country = v.country,
+            leftI = leftCategories.indexOf(country),
+            rightI = rightCategories.indexOf(country);
+          return {
+            color: leftI < rightI ? palette[0] : leftI > rightI ? palette[1] : palette[2],
+            points: [
+              { x: 1990, y: leftI, z: v[1990], attributes_country: country },
+              { x: 2000, y: rightI, z: v[2020], attributes_country: country },
+            ],
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

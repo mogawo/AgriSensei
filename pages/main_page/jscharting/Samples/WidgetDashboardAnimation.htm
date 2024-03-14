@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animated Gauge Live Data Dashboard | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+    <script type="text/javascript" src="../jsc/jscharting-widgets.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../jsc/resources/widgets.css" />
+    <style>
+      @media (max-width: 360px) {
+        .chartDiv {
+          width: 100% !important;
+        }
+      }
+      #dashWrapper {
+        font-family: tahoma, geneva, sans-serif;
+        max-width: 460px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-end;
+        margin: 0px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dashWrapper">
+      <div class="chartDiv" id="gaugeDiv1" style="width: 50%; height: 250px;"></div>
+      <div class="chartDiv" id="columnsDiv1" style="width: 50%; height: 160px; padding-bottom: 10px;"></div>
+      <div class="chartDiv" id="gaugeDiv2" style="width: 50%; height: 210px;"></div>
+      <div class="chartDiv" id="columnsDiv2" style="width: 50%; height: 160px; padding-bottom: 10px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Animated Circular and Linear widgets that demonstrate automatic text animation with live data updates.
+Learn how to:
+
+  - Use Circular and Linear widgets with dynamic data.
+*/
+      // JS
+      var INTERVAL_ID,
+        animationDuration = 1520,
+        updateInterval = 1800;
+
+      var palette = ['#1565C0', '#ECEFF1'];
+      var widgetConfig = {
+        color: palette[0],
+        barWidth: 10,
+        barBackgroundColor: palette[1],
+        barRounded: false,
+        chartOptions: {
+          defaultPoint_radius: 0,
+          animation_duration: animationDuration,
+        },
+      };
+      var button = {
+        toolbar_items: {
+          Stop: {
+            type: 'option',
+            icon_name: 'system/default/pause',
+            position: 'top left',
+            margin: 10,
+            boxVisible: true,
+            label_text: 'Pause',
+            events_change: playPause,
+            states_select: {
+              icon_name: 'system/default/play',
+              label_text: 'Play',
+            },
+          },
+        },
+      };
+
+      var circularWidget1 = new JSCWidgets.Circular(
+        'gaugeDiv1',
+        JSC.merge(
+          {
+            title: 'CPU',
+            label: 'Load',
+            value: 6,
+            max: 100,
+            valueText: '%value%',
+          },
+          widgetConfig,
+          { chartOptions: button }
+        )
+      );
+      var circularWidget2 = new JSCWidgets.Circular(
+        'gaugeDiv2',
+        JSC.merge(
+          {
+            title: 'GPU',
+            label: 'Load',
+            value: 8,
+            max: 100,
+            valueText: '%value%',
+          },
+          widgetConfig
+        )
+      );
+      var linearWidget1 = new JSCWidgets.Linear(
+        'columnsDiv1',
+        JSC.merge(
+          {
+            label: ['Temperature', 'Clock', 'Fan'],
+            value: [45, 4500, 1000],
+            max: [100, 5000, 1500],
+            valueText: ['%value °С', '%value MHz', '%value RPM'],
+          },
+          widgetConfig
+        )
+      );
+      var linearWidget2 = new JSCWidgets.Linear(
+        'columnsDiv2',
+        JSC.merge(
+          {
+            label: ['Temperature', 'Clock', 'Fan'],
+            value: [45, 1000, 900],
+            max: [100, 5000, 1500],
+            valueText: ['%value °С', '%value MHz', '%value RPM'],
+          },
+          widgetConfig
+        ),
+        function () {
+          playPause();
+        }
+      );
+
+      function playPause(val) {
+        if (val) {
+          clearInterval(INTERVAL_ID);
+        } else {
+          INTERVAL_ID = setInterval(function () {
+            circularWidget1.options({ value: randomNumber(4, 30) });
+            circularWidget2.options({ value: randomNumber(4, 30) });
+            linearWidget1.options({
+              value: [randomNumber(40, 50), randomNumber(4500, 4800), randomNumber(1000, 1200)],
+            });
+            linearWidget2.options({ value: [randomNumber(40, 50), randomNumber(1000, 1300), randomNumber(900, 1200)] });
+          }, updateInterval);
+        }
+      }
+
+      function randomNumber(min, max) {
+        let rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
+      }
+    </script>
+  </body>
+</html>

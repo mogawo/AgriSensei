@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animated Interactive Dashboard | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 640px) {
+        #companiesToolbarDiv,
+        #yearsToolbarDiv,
+        #gaugeDiv {
+          width: 100% !important;
+        }
+        #columnsDiv {
+          width: 70% !important;
+        }
+      }
+      @media (max-width: 480px) {
+        #columnsDiv {
+          width: 100% !important;
+        }
+      }
+      #dashWrapper {
+        font-family: tahoma, geneva, sans-serif;
+        max-width: 800px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dashWrapper">
+      <div id="companiesToolbarDiv" style="width: 50%; height: 40px;"></div>
+      <div id="yearsToolbarDiv" style="width: 50%; height: 40px;"></div>
+      <div id="gaugeDiv" style="width: 50%; height: 460px;"></div>
+      <div id="columnsDiv" style="width: 50%; height: 460px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Interactive modern dashboard with smooth animated chart value labels, bars and gauges.
+Learn how to:
+
+  - Use UiItems events for interactivity and dynamic chart updates.
+*/
+      // JS
+      var gaugeChart, barChart, data;
+      var company = 'apple',
+        year = 2020,
+        role1 = 'overall',
+        role2 = 'overall';
+      var palette = ['#344966', '#B4CDED', '#0D1821'],
+        animationDuration = 700;
+      // [normal text, selected text]
+      var textColors = ['#9E9E9E', '#616161'];
+
+      JSC.fetch('./resources/companies-diversity.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          data = JSC.csv2Json(text);
+          var filteredData = filterData(role1);
+          gaugeChart = renderGauge(filteredData);
+          barChart = renderBars(filteredData);
+
+          renderCompanyUIItems();
+          renderYearUIItems();
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      /*
+       * Data and event handlers
+       * */
+
+      function changeCompany(val) {
+        company = val.toLowerCase();
+        updateCharts();
+      }
+
+      function changeYear(val) {
+        year = +val;
+        updateCharts();
+      }
+
+      function changeRole1(val) {
+        role1 = val.toLowerCase();
+        updateGaugeChart();
+      }
+
+      function changeRole2(val) {
+        role2 = val.toLowerCase();
+        updateBarChart();
+      }
+
+      function updateCharts() {
+        updateGaugeChart();
+        updateBarChart();
+      }
+
+      function updateGaugeChart() {
+        var filteredData = filterData(role1);
+        gaugeChart.series().options({ points: makeGaugeSeries(filteredData)[0].points });
+        gaugeChart.annotations('employees').options({ label_text: gaugeAnnotationText(filteredData) });
+      }
+
+      function updateBarChart() {
+        var filteredData = filterData(role2);
+        barChart.series().options({ points: makeColumnsSeries(filteredData)[0].points });
+      }
+
+      function filterData(role) {
+        return data.filter(function (item) {
+          return item.company === company && item.year === +year && item.role === role;
+        });
+      }
+
+      /*
+       * Gauge Chart Functions
+       * */
+
+      function renderGauge(filteredData) {
+        return JSC.chart('gaugeDiv', {
+          legend_visible: false,
+          animation_duration: animationDuration,
+          xAxis_spacingPercentage: 0.78,
+          yAxis: { visible: false, scale_range: [0, 100] },
+          annotations: [
+            {
+              id: 'employees',
+              label: {
+                text: gaugeAnnotationText(filteredData),
+                align: 'center',
+                color: palette[2],
+              },
+              position: 'top',
+            },
+          ],
+          defaultPoint_outline: { color: 'white', width: 5 },
+          defaultSeries: {
+            palette: palette,
+            type: 'gauge column solid',
+            shape: {
+              padding: -20,
+              label: { text: makeGaugeLabelText, verticalAlign: 'middle', align: 'center' },
+            },
+            angle: { start: -90, sweep: 360 },
+          },
+          series: makeGaugeSeries(filteredData),
+          toolbar_items: {
+            roleButtons: generateTabsConfig(
+              changeRole1,
+              ['Overall', 'Tech', 'Non-tech', 'Leadership'],
+              capitalize(role1),
+              'bottom'
+            ),
+          },
+        });
+
+        function makeGaugeLabelText() {
+          var labeldata = filterData(role1)[0];
+          return (
+            styleText(palette[0], labeldata.men, 'Men') +
+            '<br><br>' +
+            styleText(palette[1], labeldata.women, 'Women') +
+            '<br><br>' +
+            styleText(palette[2], labeldata.other, 'Nonbinary')
+          );
+
+          function styleText(color, value, name) {
+            return (
+              '<span style="color:' +
+              color +
+              '; font-size:30px">' +
+              value +
+              '%</span><br><span style="color:' +
+              textColors[1] +
+              ';">' +
+              name +
+              '</span>'
+            );
+          }
+        }
+      }
+
+      function gaugeAnnotationText(data) {
+        return (
+          '<span style="font-size:24px">Employees</span><br>' +
+          '<span style="font-size:30px;">' +
+          JSC.formatNumber(data[0].employees_number, 'n0') +
+          '</span>'
+        );
+      }
+
+      function makeGaugeSeries(data) {
+        var gaugeData = data[0];
+        return [
+          {
+            points: [
+              { id: 'Men', x: 'gender', name: 'Men', y: [0, gaugeData.men] },
+              { id: 'Women', x: 'gender', name: 'Women', y: [gaugeData.men, gaugeData.men + gaugeData.women] },
+              {
+                id: 'Nonbinary / Nonconforming',
+                x: 'gender',
+                name: 'Nonbinary / Nonconforming',
+                y: [gaugeData.men + gaugeData.women, gaugeData.men + gaugeData.women + gaugeData.other],
+              },
+            ],
+          },
+        ];
+      }
+
+      /*
+       * Bar Chart Functions
+       * */
+
+      function renderBars(filteredData) {
+        return JSC.chart('columnsDiv', {
+          type: 'horizontal column solid',
+          animation_duration: animationDuration,
+          legend_visible: false,
+          yAxis: {
+            visible: false,
+            scale_range: { padding: 0.3, min: 0 },
+          },
+          defaultSeries_mouseTracking_enabled: false,
+          palette: palette,
+          xAxis: {
+            defaultTick: {
+              line_visible: false,
+              label_color: textColors[1],
+            },
+            spacingPercentage: 0.87,
+          },
+          defaultPoint: {
+            label: {
+              text: '%value%',
+              style_fontSize: '20px',
+              color: palette[0],
+            },
+            outline_width: 0,
+          },
+          series: makeColumnsSeries(filteredData),
+          toolbar_items: {
+            roleButtons: generateTabsConfig(
+              changeRole2,
+              ['Overall', 'Tech', 'Non-tech', 'Leadership'],
+              capitalize(role2),
+              'bottom'
+            ),
+          },
+        });
+      }
+
+      function makeColumnsSeries(data) {
+        var columnData = data[0];
+        return [
+          {
+            points: [
+              { id: 'Asian', name: 'Asian', y: columnData.asian },
+              { id: 'Black', name: 'Black', y: columnData.black },
+              { id: 'Hispanic', name: 'Hispanic', y: columnData.hispanic },
+              { id: 'Indigenous', name: 'Indigenous', y: columnData.indigenous },
+              { id: 'Multiracial', name: 'Multiracial', y: columnData.multiracial },
+              { id: 'White', name: 'White', y: columnData.white },
+            ],
+          },
+        ];
+      }
+
+      /*
+       * Helpers to make UI Item menus.
+       * */
+
+      function renderCompanyUIItems() {
+        return JSC.chart('companiesToolbarDiv', {
+          box_fill: 'none',
+          toolbar_items: {
+            companyButtons: generateTabsConfig(
+              changeCompany,
+              ['Apple', 'Google', 'Facebook', 'Microsoft'],
+              capitalize(company),
+              'top'
+            ),
+          },
+        });
+      }
+
+      function renderYearUIItems() {
+        return JSC.chart('yearsToolbarDiv', {
+          box_fill: 'none',
+          toolbar_items: {
+            years: generateTabsConfig(changeYear, ['2017', '2018', '2019', '2020'], year + '', 'top'),
+          },
+        });
+      }
+
+      function generateTabsConfig(event, elements, value, position) {
+        var els = {};
+        elements.forEach(function (item) {
+          els[item] = { label_text: item };
+        });
+        return {
+          label_text: '',
+          position: position,
+          itemsBox: { layout: 'horizontal', visible: true },
+          defaultItem: {
+            type: 'radio',
+            padding: [5, 5, 5, -16],
+            label_style: { fontSize: 14, color: textColors[0], fontWeight: 'normal' },
+            icon_visible: false,
+            states_select_label_style: { color: textColors[1], fontWeight: 'bold' },
+          },
+          events: { change: event },
+          value: value,
+          items: els,
+        };
+      }
+
+      function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+    </script>
+  </body>
+</html>

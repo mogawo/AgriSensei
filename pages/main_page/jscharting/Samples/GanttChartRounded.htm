@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Chart Rounded | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 940px; min-width: 330px; height: 450px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Gantt chart with full rounded bars and column complete value without a hatch pattern.
+Learn how to:
+
+  - Style column complete values.
+*/
+      // JS
+
+      // Helper functions to create axisTick label template with two columns of text describing each task.
+      var columnWidths = [150, 30];
+      var span = function (val, width) {
+        return '<span style="width:' + width + 'px;">' + val + '</span>';
+      };
+      var mapLabels = function (labels) {
+        return labels
+          .map(function (v, i) {
+            return span(v, columnWidths[i]);
+          })
+          .join('');
+      };
+
+      var tickTemplate = mapLabels(['%name', '{days(%high-%low):n0}d']);
+      // tickTemplate -> '<span style="width:150px;">%name</span><span style="width:30px;">{days(%high-%low):n0}d</span>';
+
+      // Raw data
+      var data = [
+        { stage: 'Pre Production', substage: 'Pre Production', dates: ['1/1/2022', '4/15/2022'], complete: 0.7 },
+        { stage: 'Pre Production', substage: 'Scenario and script writing', dates: ['1/1/2022', '2/18/2022'] },
+        {
+          stage: 'Pre Production',
+          substage: 'Actors characteristic internalization',
+          dates: ['2/18/2022', '3/10/2022'],
+        },
+        { stage: 'Pre Production', substage: 'Production scheduling and budgeting', dates: ['3/10/2022', '3/30/2022'] },
+        {
+          stage: 'Pre Production',
+          substage: 'Shooting locations surveys and permitting',
+          dates: ['3/30/2022', '4/15/2022'],
+        },
+        { stage: 'Production', substage: 'Production', dates: ['4/15/2022', '7/8/2022'], complete: 0.05 },
+        { stage: 'Production', substage: 'Shooting location setting', dates: ['4/15/2022', '5/5/2022'] },
+        { stage: 'Production', substage: 'Directing (actors, cameras, lighting)', dates: ['5/5/2022', '7/8/2022'] },
+        { stage: 'Production', substage: 'Motion picture recording', dates: ['5/5/2022', '7/8/2022'] },
+        { stage: 'Post Production', substage: 'Post Prodaction', dates: ['7/8/2022', '9/28/2022'], complete: 0 },
+        { stage: 'Post Production', substage: 'Editing', dates: ['7/8/2022', '8/31/2022'] },
+        { stage: 'Post Production', substage: 'Music arrangement', dates: ['8/31/2022', '9/15/2022'] },
+        { stage: 'Post Production', substage: 'Rendering', dates: ['9/15/2022', '9/28/2022'] },
+      ];
+
+      // Process data into series.
+      // Creates a series for each 'stage' and a point for each 'substage'
+      var series = JSC.nest()
+        .key('stage')
+        .key('substage')
+        .pointRollup(function (key, val) {
+          var values = val[0];
+          return {
+            name: values.substage,
+            y: values.dates,
+            complete_y: values.complete,
+          };
+        })
+        .series(data);
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+
+        // Gantt type setup
+        type: 'horizontal column',
+        zAxis_scale_type: 'stacked',
+
+        title_label_text: 'Film Production from %min to %max',
+
+        palette: 'fiveColor3',
+
+        // Y Axis settings
+        yAxis: {
+          scale_type: 'time',
+          crosshair_enabled: true,
+        },
+
+        legend: {
+          position: 'inside right top',
+          template: '%icon %name',
+        },
+
+        defaultSeries: {
+          // Settings for the first point of each series.
+          firstPoint: {
+            xAxisTick: { fill: '#E0E0E0', padding: 5, label: { text: tickTemplate, style: { fontWeight: 'bold' } } },
+            outline: { color: 'darkenMore', width: 2 },
+            complete: {
+              fill: 'rgba(255,255,255,.4)',
+              hatch: { style: 'none' },
+            },
+            label: { text: '%complete' },
+          },
+          // Settings for all points
+          defaultPoint: {
+            // Large radius to ensure bars are rounded.
+            radius: 100,
+            outline_width: 0,
+            label: { placement: 'inside', align: 'left' },
+            xAxisTick_label_text: tickTemplate,
+            tooltip: '<b>%name</b> <br/>%low - %high<br/>{days(%high-%low)} days',
+          },
+        },
+
+        series: series,
+      });
+    </script>
+  </body>
+</html>

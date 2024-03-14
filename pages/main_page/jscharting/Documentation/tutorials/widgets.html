@@ -1,0 +1,533 @@
+<h2>Introduction</h2>
+<p><img src="tutorials/images/widgets/logo.svg" alt="image" /></p>
+<p>
+	Widgets are designed to generate smart, simple data visualizations that enhance readability and
+	reduce visual clutter. The simplified flat API promotes compatibility with front-end frameworks
+	and reduces the learning curve. JSCharting widgets conform to your website&#39;s CSS styles and
+	can be styled using specific CSS classes or by editing the example CSS file.
+</p>
+<p>Features</p>
+<ul>
+	<li>Circular widget - A progress style circular KPI widget.</li>
+	<li>Linear widget - A progress style linear KPI widget.</li>
+	<li>Bar-Column widget - To compare multiple values.</li>
+	<li>Simplified API</li>
+	<li>Intelligently simplified visuals</li>
+	<li>CSS support for label styling</li>
+	<li>Dark mode compatible</li>
+</ul>
+<!--<h2 id="table-of-content">Table of content</h2>
+<ol>
+	<li><a href="#build">Build</a></li>
+	<li><a href="#install">Install</a></li>
+	<li><a href="#first-widget-chart">First Widget Chart</a></li>
+	<li><a href="#basic-functionality">Basic Functionality</a></li>
+	<li><a href="#labels-shortcuts">Label Shortcuts</a></li>
+	<li><a href="#bar-and-column-styling">Bar and Column Styling</a></li>
+	<li><a href="#barcolumn-widget">BarColumn Widget</a></li>
+	<li><a href="#linear-and-circular-widgets">Linear and Circular Widgets</a></li>
+	<li><a href="#update-the-widget">Update the Widget</a></li>
+	<li><a href="#formatting&#45;&#45;internationalization">Formatting &amp; Internationalization</a></li>
+	<li><a href="#css-styling">CSS Styling</a></li>
+</ol>-->
+<!--
+<h2 id="build">Build</h2>
+<h3 id="building-the-library">Building the library</h3>
+<p>If you want to modify the source code you can rebuild it as follows.</p>
+<span class="output">npm install</span>
+<p>To build the dist/jscharting-widgets.js library file and typings run:  </p>
+<span class="output">npm run bundle</span>
+<p>To build the html documentation in the docs/ folder run:</p>
+<span class="output">npm run docs</span>-->
+
+<h2>Install</h2>
+<h3>Using CDN</h3>
+<p>
+	Visit the <a href="https://code.jscharting.com/">CDN index</a> for a list of available releases.
+	Include JSCharting and the widget library in your HTML page.
+</p>
+
+<span class="htmlText">
+	&#x3C;script src=&#x22;https://code.jscharting.com/latest/jscharting.js&#x22;&#x3E;&#x3C;/script&#x3E;
+	&#x3C;script src=&#x22;https://code.jscharting.com/latest/jscharting-widgets.js&#x22;&#x3E;&#x3C;/script&#x3E;
+</span>
+
+<!--
+<h3>Using npm</h3>
+<span class="output">npm install &#45;&#45;save-dev jscharting-widgets</span>
+<span class="codeText">import * as JSCWidgets from 'jscharting-widgets';</span>
+<p>
+	See <a href="https://docs.npmjs.com/getting-started">npm documentation</a> to get started with
+	npm.
+</p>
+
+-->
+
+
+<h3>Using with downloadable bundle</h3>
+<span class="htmlText">
+	&#x3C;script src=&#x22;jsc/jscharting.js&#x22;&#x3E;&#x3C;/script&#x3E;
+
+	&#x3C;script src=&#x22;jsc/jscharting-widgets.js&#x22;&#x3E;&#x3C;/script&#x3E;
+</span>
+
+
+
+
+<h3>Download</h3>
+<p>
+	The latest release is included with the JSCharting bundle and can be
+	<a href="https://jscharting.com/download/">downloaded here</a>.
+</p>
+<h2>First Widget Chart</h2>
+
+<p>First add an HTML div element for the widget to render in.</p>
+
+<span class="htmlText">
+		&#x3C;div id=&#x22;widgetDiv&#x22; style=&#x22;width: 100%; height: 400px;&#x22;&#x3E;&#x3C;/div&#x3E;
+</span>
+
+<p>Instantiate the widget visual.</p>
+
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', {
+	value: [1, 2, 3],
+	label: ['A', 'B', 'C']
+	});
+</span>
+
+
+<p><span class="docsNote">
+The widget visual will conform to the div container size. However, a height must be set for the parent div.
+</span></p>
+<p><img src="tutorials/images/widgets/column-first-widget.png" alt="image" /></p>
+<h3>Basic functionality</h3>
+<p>
+	All widgets use the <code>value</code> and <code>label</code> option to define data for a visual
+	as seen in the example above. A 3rd option used with Circular and Linear types is the
+	<code>icon</code> option which assigns an icon to each value. These options can be set with arrays
+	of values or just a single value. Here&#39;s an example with single values and the Circular type.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Circular('widgetDiv', { icon: 'linear/basic/chronometer', value:
+	500, label: 'Milliseconds', max: 1000 });
+</span>
+
+<p><img src="tutorials/images/widgets/circular-icon-single.PNG" alt="image" /></p>
+<p>The same example using the Linear type.</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { icon: 'linear/basic/chronometer', value: 500,
+	label: 'Milliseconds', max: 1000 });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-icon-single.PNG" alt="image" /></p>
+<p>
+	Visit the
+	<a href="https://jscharting.com/examples/chart-features/styling/icons-browser/">icon browser</a>
+	to choose from a large set of icons built into the package. Simply click the icon to copy to
+	clipboard and paste it into your code to use with the <code>icon</code> option.
+</p>
+<p>
+	You can also specify raster and svg image file paths, or a custom SVG vector path to use with the
+	<code>icon</code> option.
+</p>
+<p>
+	The BarColumn type is useful for comparing multiple values such as values for days of the week or
+	months. The Circular and Linear widgets are useful for comparing a value to the specified minimum
+	and maximum, similar to a progress bar. If multiple values are used and no maximum is specified, a
+	maximum value will automatically be set to include all values.
+</p>
+<p>Multiple values without a max setting.</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', {
+	value: [1, 2, 3],
+	label: ['A', 'B', 'C']
+	});
+</span>
+
+<p><img src="tutorials/images/widgets/linear-multi-no-max.png" alt="image" /></p>
+<p>
+	However, with single values, the chart will automatically choose a max value near the actual value
+	and lack meaning. In this case, it is recommended to supply a max value that indicates how close
+	to the goal value the bar is.
+</p>
+<p>An example with <code>max</code> values on a Linear widget.</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { value: .5, icon:
+	'linear/basic/battery-charge', label: 'Battery Charge', min: 0, max: 1, valueFormat: 'p' });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-max.png" alt="image" /></p>
+<p>And with the Circular widget.</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Circular('widgetDiv', { value: .5, icon:
+	'linear/basic/battery-charge', label: 'Battery Charge', min: 0, max: 1, valueFormat: 'p' });
+</span>
+
+<p><img src="tutorials/images/widgets/circular-max.png" alt="image" /></p>
+<p>
+	A different <code>min</code> and <code>max</code> setting can be used for each value. For example:
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { value: [7563, 3.24, .76], label: ['Steps',
+	'Miles', '% of goal'], max: [10000, 5, 1] });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-multi-max.PNG" alt="image" /></p>
+<p>
+	Use the <code>color</code> option to set the same color for all values or an array of colors to
+	set them individually.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { color: ['#a8273a', '#229a48', '#324fad'],
+	value: [7563, 3.24, .76], label: ['Steps', 'Miles', '% of goal'], max: [10000, 5, 1] });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-multi-color.PNG" alt="image" /></p>
+<h3>Label Shortcuts</h3>
+<p>
+	You can use shortcut values with the <code>label</code> option including <code>weekdays</code>,
+	<code>months</code>, and <code>quarters</code>. Here&#39;s an example:
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', {
+	value: [1, 2, 3],
+	label: 'weekdays'
+	});
+</span>
+
+<p>Creates labels <code>Mon</code>, <code>Tue</code>, and <code>Wed</code>.</p>
+<p>
+	Use the <code>labelStart</code> option to control the first label with a number offset or specific
+	date. For example:
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { value: [1, 2, 3], label: 'weekdays',
+	labelStart: 1 });
+</span>
+
+<p>
+	Offsets the start by 1, generating the labels: <code>Tue</code>, <code>Wed</code>, and
+	<code>Thu</code>.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { value: [1, 2, 3], label: 'weekdays',
+	labelStart: '1/5/2023' });
+</span>
+
+<p>Starts labeling on this day with <code>Thu</code>, <code>Fri</code>, and <code>Sat</code>.</p>
+<p>
+	NOTE: Weekdays and month names can be written out in any language by setting the
+	<code>cultureName</code> property.
+</p>
+<p>
+	Another way you can use these options is to automatically generate dates that increment by a day
+	or month and format them as needed. Use this to avoid having to pass a specific date for every
+	data point when you know values increment sequentially. For this to work you must set
+	<code>weekdays</code> or <code>months</code> label setting and a labelStart date value. The
+	example above creates a day label for each value starting on <code>1/5/2023</code>. Adding a date
+	format string to this example allows formatting incrementing dates without passing a list of
+	specific dates.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { value: [1, 2, 3, 4, 5], label: 'weekdays',
+	labelStart: '1/5/2023', timeLabelFormat: 'd' });
+</span>
+
+<p>
+	Generates labels: <code>1/5/2023</code>, <code>1/6/2023</code>, <code>1/7/2023</code>,
+	<code>1/8/2023</code>, and <code>1/9/2023</code>. Whereas using months in this case:
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { value: [1, 2, 3, 4, 5], label: 'months',
+	labelStart: '1/5/2023', timeLabelFormat: 'd' });
+</span>
+
+<p>
+	Generates labels: <code>1/5/2023</code>, <code>2/5/2023</code>, <code>3/5/2023</code>,
+	<code>4/5/2023</code>, and <code>5/5/2023</code>.
+</p>
+<h3>Widget Visual Bar Styling</h3>
+<p>
+	Each of the 3 widget types visualize data using bars or columns. The styling of these bars can be
+	controlled by setting these common widget options.
+</p>
+<p><img src="tutorials/images/widgets/bar-parts-diagram.png" alt="Bar parts diagram" /></p>
+<ul>
+	<li><code>barWidth</code> - Pixel width of bar or column data point. Automatic by default.</li>
+	<li>
+		<code>barBackgroundWidth</code> - Pixel width of the background path the bar fills as the value
+		approaches the maximum. By default, the width matches the bar width.
+	</li>
+	<li>
+		<code>barBackgroundColor</code> - Color of the background path the bar fill as the values
+		approaches the maximum.
+	</li>
+	<li><code>barRounded</code> - Set <code>false</code> to disable rounded bars.</li>
+</ul>
+<p>An example with Circular widget type.</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Circular('widgetDiv', { label: 'Walking', value: 9843, prevValue:
+	8654, valueText: '%value steps', max: 10000, barWidth: 5, barRounded: false, color: '#673AB7' });
+</span>
+
+<p><img src="tutorials/images/widgets/circular-bar-styling.PNG" alt="image" /></p>
+<p>The same example but with Linear widget type.</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { label: 'Walking', value: 9843, prevValue:
+	8654, valueText: '%value steps', max: 10000, barWidth: 5, barRounded: false, color: '#673AB7' });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-bar-styling.PNG" alt="image" /></p>
+<h2>BarColumn Widget</h2>
+<p>
+	The unique options available with the BarColumn widget are <code>yAxis</code> and
+	<code>horizontal</code>.
+</p>
+<p>
+	Set <code>yAxis</code> to true to draw a Y axis in this widget. This will remove the labels from
+	each column and enable tooltips showing values when hovering columns with the mouse and tap on
+	mobile. When not set, each column shows a value and the Y axis is hidden.
+</p>
+<p>Use the <code>horizontal</code> option to draw the columns horizontally as bars.</p>
+<p>This example demonstrates both options:</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { value: [29.9, 97.5, 110.4, 129.2, 144,
+	176, 124, 106], label:['01/01/2022', '01/02/2022', '01/03/2022', '01/04/2022', '01/05/2022',
+	'01/06/2022', '01/07/2022', '01/08/2022'], timeLabelFormat: 'MMM dd', horizontal: true, yAxis:
+	true });
+</span>
+
+<p><img src="tutorials/images/widgets/bar-yaxis-horizontal.png" alt="image" /></p>
+<h2>Linear and Circular Widgets</h2>
+<p>The Linear and Circular widgets share a number of features described below.</p>
+<p>
+	You can specify <code>prevValue</code> to show the value change from the current value. The
+	difference is shown below the value. Specifying undefined for any of the items in the array will
+	skip the feature for that item. For example:
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', {
+	color: ['#a8273a', '#229a48', '#324fad'],
+	value: [7563, 3.24, .76], prevValue: [11231, 4.3, undefined],
+	label: ['Steps', 'Miles', '% of goal'],
+	valueFormat: ['n', 'n2', 'p'], max: [10000, 5, 1] });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-prev-values.png" alt="image" /></p>
+<p>
+	The value, label, and icon labels can be positioned or aligned to any side around the visual.
+	Three options are available to control the positioning.
+</p>
+<ul>
+	<li><code>valuePosition</code> - Positions the value label.</li>
+	<li><code>labelPosition</code> - Positions the label.</li>
+	<li><code>iconPosition</code> - Positions the icon.</li>
+</ul>
+<p>
+	You can set both vertical and horizontal positions with these options. Supported positions include
+	“top”, “bottom”, “left”, “right” and all combinations such as “top left”, “bottom right” etc. The
+	Circular widget also support <code>center</code> which places the label inside the circle.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Circular('widgetDiv', { label: 'Users', value: 20345, icon:
+	'material/social/people', max: 30000, color: '#E65100', labelPosition: 'top left',
+	iconPosition:'bottom right' });
+</span>
+
+<p><img src="tutorials/images/widgets/circular-label-positions.png" alt="image" /></p>
+<p>
+	The Circular widget also supports a <code>sweep</code> option. This option sets the angular sweep,
+	in degrees, the bar moves along. By default, the value is 360 meaning the bar completes a full
+	circle to reach the max value. Setting a different sweep also changes the start and end position
+	of the bar. This example sets a sweep of 270 degrees:
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Circular('widgetDiv', { icon: 'linear/music/volume-up', value: .7,
+	label: 'Volume', max: 1, valueFormat: 'p', sweep:270 });
+</span>
+
+<p><img src="tutorials/images/widgets/circular-sweep.png" alt="image" /></p>
+<h3>Update the Widget</h3>
+<p>You can modify widget options using the widget <code>options()</code> method.</p>
+<span class="codeText">
+	widget1.options({value: [4, 3, 2]});
+</span>
+
+<p>
+	This automatically attempts to animate the value change. You can also modify the update behavior
+	with animation options, including a callback when the animation completes.
+</p>
+<span class="codeText">
+	widget1.options({value: [4, 3, 2]}, { animation: { duration: 1000, easing: 'easeInBack' }, then:
+	function () { console.log('Widget update animation complete'); } });
+</span>
+
+<p>
+	Get the value of any option by passing a string option name to the <code>options()</code> method
+	with:
+</p>
+<span class="codeText">
+	widget1.options('values'); // -> [4,3,2]
+</span>
+
+<h2>Formatting &amp; Internationalization</h2>
+<p>
+	To control the numeric and time value formats, use the <code>cultureName</code>,
+	<code>valueFormat</code> and <code>timeLabelFormat</code> widget options.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { cultureName: 'en-US', valueFormat: 'n1',
+	value: [1, 2, 3], label: ['A', 'B', 'C'] });
+</span>
+
+<p>Formats the numbers as <code>1.0</code>, <code>2.0</code>, and <code>3.0</code></p>
+<p>
+	You can format each value independently by using an array with the
+	<code>valueFormat</code> option.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { color: ['#a8273a', '#229a48', '#324fad'],
+	value: [7563, 3.24, .76], label: ['Steps', 'Miles', '% of goal'], valueFormat: ['n', 'n2', 'p'],
+	max: [10000, 5, 1] });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-multi-format.PNG" alt="image" /></p>
+<p>
+	Additionally, use the <code>valueText</code> option to fully control the value text string.
+	Include the <code>%value</code> string token in place of the actual value in this template string.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.Linear('widgetDiv', { color: ['#a8273a', '#229a48', '#324fad'],
+	value: [7563, 3.24, .76], valueText: ['%value Steps', '%value Miles', '%value Complete'],
+	valueFormat: ['n', 'n2', 'p'], max: [10000, 5, 1] });
+</span>
+
+<p><img src="tutorials/images/widgets/linear-multi-value-text.PNG" alt="image" /></p>
+<p>The available text templates you can modify include:</p>
+<ul>
+	<li><code>valueText</code> - default value: <code>%value</code></li>
+	<li><code>iconText</code> - default value: <code>%icon</code></li>
+	<li><code>labelText</code> - default value: <code>%name</code></li>
+</ul>
+<p>
+	All the tokens like <code>%value</code> work in all labels and can be repurposed as needed. You
+	can also use the <code>%min</code> and <code>%max</code> tokens which will be replaced by the
+	actual min and max values you specify. They will not work if min and max are not provided. For
+	example, using this strings creates a label like <code>50 50%</code>
+</p>
+<p><code>&#39;%value {%value/%max*100}%&#39;</code> //-&gt; &#39;50 50%&#39;</p>
+<p>
+	Visit the
+	<a href="https://jscharting.com/tutorials/js-chart-labels/expressions-calculations/"
+		>Label Expressions Tutorial</a
+	>
+	for more information and examples.
+</p>
+<p>
+	Use string dates with the <code>label</code> option and <code>timeLabelFormat</code> to modify
+	their formatting or display them with different culture formats automatically. Setting the
+	<code>timeLabelFormat</code> option indicates label values should be treated as dates.
+</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { cultureName: 'en-US', valueFormat: 'n1',
+	value: [1, 2, 3], label: ['1/2/20', '1/3/20', '1/4/20'], timeLabelFormat: 'M/d' });
+</span>
+
+<p>This labels the 3 bars as <code>1/2</code>, <code>1/3</code>, and <code>1/4</code>.</p>
+<p>To show labels with culture specific formatting:</p>
+<span class="codeText">
+	const widget1 = new JSCWidgets.BarColumn('widgetDiv', { cultureName: 'pl-PL', valueFormat: 'n1',
+	value: [1, 2, 3], label:['1/2/20', '1/3/20', '1/4/20'], timeLabelFormat: 'd' });
+</span>
+
+<p>Results in <code>2.01.2020</code>, <code>3.01.2020</code>, and <code>4.01.2020</code>.</p>
+<p>
+	Possible format options are described in these articles. Standard formatting options
+	<a
+		href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings"
+		>Standard Number</a
+	>
+	e.g. &#39;c&#39; for currency, n2 for number with two decimal places.
+	<a
+		href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings"
+		>Standard Date</a
+	>
+	formats.
+</p>
+<p>
+	For more control you can create a custom date and number format as described in
+	<a
+		href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings"
+		>Custom Date</a
+	>
+	and
+	<a
+		href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings"
+		>Custom Number</a
+	>
+	articles.
+</p>
+<h2>CSS styling</h2>
+<p>
+	You can use CSS to control text styles in widgets. Use combinations of the following classes to
+	style specific widget text. An example CSS file is included in the widgets package and example
+	project.
+</p>
+<p>The main class <code>jsc-widget</code></p>
+<h3>For specific types</h3>
+<p>CSS classes for specific widget types.</p>
+<ul>
+	<li><code>linear</code></li>
+	<li><code>circular</code></li>
+	<li><code>bar-column</code></li>
+</ul>
+<h3>Classes for specific widget labels</h3>
+<ul>
+	<li><code>title</code></li>
+	<li><code>value</code></li>
+	<li><code>icon</code></li>
+	<li><code>label</code></li>
+	<li><code>target</code></li>
+	<li>
+		<code>axis-ticks</code> - used with BarColumn type when
+		<code>options.yAxis=true;</code> Otherwise the X axis labels use <code>label</code> class.
+	</li>
+	<li><code>tooltip</code> - used with BarColumn when <code>options.yAxis=true;</code></li>
+</ul>
+<p>Supported CSS variables</p>
+<ul>
+	<li><code>font-family</code> - Font family.</li>
+	<li><code>font-weight</code> - Font weight</li>
+	<li>
+		<code>font-size</code> - Requires a widget.refresh() call if relative sizes are used and related
+		items change size.
+	</li>
+	<li><code>color</code> - Text color</li>
+	<li><code>font-style</code> - Text style.</li>
+	<li>
+		<code>text-decoration</code> - Only the basic decoration type is supported. Different colors,
+		thickness or style are not supported.
+	</li>
+	<li><code>cursor</code> - Mouse cursor on hover.</li>
+	<li><code>text-align</code> - Supported for widget title only.</li>
+</ul>
+<p>Example:</p>
+<span class="codeText">
+.jsc-widget { color: #95a0a6 }
+.jsc-widget .icon { font-size: 40px; }
+.jsc-widget .circular .icon	{ font-size: 50px; }
+</span>
+
+<p>
+	Widgets check CSS settings after rendering the chart to make sure they have not changed during
+	rendering. If changed, the widget will reload automatically with updated styling settings. If the
+	widget CSS styles are modified during runtime, you must call widget.refresh() to apply updated
+	styles. You can use a callback in the widget constructor that returns <code>false</code> to
+	prevents the second CSS style check.
+</p>
+<p>
+	Some text, such as value on linear and circular widgets, takes on the color of the data point. If
+	the CSS <code>value</code> class has a color variable that is different from the inherited color,
+	then it will override it. Otherwise, the color is ignored and the point color is used.
+</p>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Linear Bar Gauge Gantt Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 760px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Gantt chart created using linear bar gauge chart type.
+Learn how to:
+
+  - Use a linear bar gauge to create a gantt chart visual.
+*/
+      // JS
+      var weekN = 0;
+      var palette = ['#FF8360', '#E2D965', '#7DCE82', '#3CDBD3'];
+      var data = [
+        { week: 1, task: 'Initial Research on Protocols', date: ['01/30/2022', '02/01/2022'] },
+        { week: 1, task: 'Investigate Suitable Communication Protocol', date: ['02/01/2022', '02/02/2022'] },
+        { week: 1, task: 'GUI Design', date: ['02/02/2022', '02/04/2022'] },
+        { week: 1, task: 'Coding Phase 1', date: ['02/04/2022', '02/05/2022'] },
+        { week: 1, task: 'Debug & Testing 1', date: ['02/05/2022', '02/06/2022'] },
+
+        { week: 2, task: 'Study Java Socket API', date: ['02/06/2022', '02/07/2022'] },
+        { week: 2, task: 'Design Client GUI - Register', date: ['02/07/2022', '02/09/2022'] },
+        { week: 2, task: 'Coding Phase 2', date: ['02/09/2022', '02/12/2022'] },
+        { week: 2, task: 'Debug & Testing 2', date: ['02/12/2022', '02/13/2022'] },
+
+        { week: 3, task: 'Design GUI', date: ['02/13/2022', '02/16/2022'] },
+        { week: 3, task: 'Design Custom Shapes', date: ['02/16/2022', '02/17/2022'] },
+        { week: 3, task: 'Coding Phase 3', date: ['02/17/2022', '02/19/2022'] },
+        { week: 3, task: 'Debug & Testing 3', date: ['02/19/2022', '02/20/2022'] },
+
+        { week: 4, task: 'Design Client & Server', date: ['02/20/2022', '02/22/2022'] },
+        { week: 4, task: 'Design Synchronisation Mechanisms', date: ['02/22/2022', '02/23/2022'] },
+        { week: 4, task: 'Coding Phase 4', date: ['02/23/2022', '02/26/2022'] },
+        { week: 4, task: 'Debug & Testing 4', date: ['02/26/2022', '02/27/2022'] },
+      ];
+
+      var series = JSC.nest()
+        .key('week')
+        .key('task')
+        .pointRollup(function (key, vals) {
+          var lastDate = new Date(vals[0].date[1]);
+          return {
+            y: [vals[0].date[0], lastDate.setDate(lastDate.getDate() - 1)],
+            x: key,
+          };
+        })
+        .series(data);
+
+      var chart = JSC.chart('chartDiv1', {
+        type: 'gauge linear horizontal ',
+        defaultSeries_type: 'column roundCaps',
+        legend_visible: false,
+        palette: palette,
+        box: {
+          radius: 10,
+          fill: '#ECEFF1',
+          padding: [-30, -70],
+        },
+        yAxis: {
+          defaultTick: { enabled: false },
+          scale: { type: 'time', range_padding: 0 },
+          line_visible: false,
+          orientation: 'top',
+          customTicks: [
+            {
+              value_pattern: 'week',
+              label: {
+                text: function (t) {
+                  weekN++;
+                  return '<span style="color:' + palette[weekN - 1] + '">WEEK ' + weekN + '</span>';
+                },
+                style_fontWeight: 'bold',
+              },
+            },
+          ],
+        },
+        xAxis: {
+          spacingPercentage: 0.3,
+          defaultTick: {
+            gridLine: { color: 'white' },
+            padding: 20,
+            label: {},
+          },
+        },
+        defaultSeries: {
+          defaultPoint: {
+            tooltip: function (p) {
+              var days = p.replaceTokens('{days(%high-%low)+1}');
+              return '<b>%name</b> <br/>%low - %high<br/>Duration: ' + days + ' working ' + (days > 1 ? 'days' : 'day');
+            },
+          },
+        },
+        series: series,
+      });
+    </script>
+  </body>
+</html>

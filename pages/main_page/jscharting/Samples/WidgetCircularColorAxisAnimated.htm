@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular ColorAxis Animated Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #widgetsWrapper {
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .chartDiv {
+        background: white;
+        box-sizing: content-box;
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="chartDiv" class="chartDiv" style="max-width: 240px; height: 200px;"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Animated widget using a colorized axis line with point value color sync.
+Learn how to:
+
+  - Create a dynamic auto updated dashboard widget.
+*/
+      // JS
+      var INTERVAL_ID,
+        animationDuration = 1000,
+        updateInterval = 1500;
+      var palette = ['#8b0000', '#ff0000', '#ffa500', '#fefe20', '#00e700', '#00008b', '#4b0082', '#ee82ee'];
+
+      var chart = generateGaugeChartWidget('chartDiv', {
+        type: 'horizontal',
+        title: 'Total Earnings',
+        value: 60560,
+        maxValue: 80000,
+        formatValue: 'c0',
+        color: 'black',
+        /* Show percent in the center of gauge */
+        showPercent: true,
+        icon: 'linear/ecommerce/money',
+      });
+
+      function generateGaugeChartWidget(chartDiv, options) {
+        return JSC.chart(
+          chartDiv,
+          {
+            debug: true,
+            type: 'gauge',
+            animation_duration: animationDuration,
+            legend_visible: false,
+            palette: {
+              pointValue: '{%yValue/' + options.maxValue + '}',
+              colors: ['#8b0000', '#ff0000', '#ffa500', '#fefe20', '#00e700', '#00008b', '#4b0082', '#ee82ee'],
+            },
+            annotations: [
+              {
+                label_text:
+                  '<span style="color:' +
+                  options.color +
+                  ';font-size:28px; font-weight:bold;">%sum</span><br>' +
+                  '<span style="font-size:14px; color:#9E9E9E;">' +
+                  options.title +
+                  '</span>',
+                width: 130,
+                position: options.type === 'vertical' ? 'top left' : 'right',
+              },
+            ],
+            yAxis: {
+              defaultTick_label_visible: false,
+              line: {
+                color: 'smartPalette',
+                breaks_gap: 0.02,
+                width: 2,
+              },
+              formatString: options.formatValue,
+              scale: {
+                range: [0, options.maxValue],
+                interval: Math.round(options.maxValue / 50),
+              },
+            },
+            xAxis: {
+              spacingPercentage: 0.3,
+              defaultTick_gridLine_visible: false,
+            },
+            defaultSeries: {
+              type: 'column roundcaps',
+              angle: { sweep: 300, orientation: -90 },
+              mouseTracking_enabled: false,
+              defaultPoint: {
+                tooltip: '<b>%seriesName</b> %yValue% of Goal',
+                altColor: 'currentColor',
+                outline_width: 0,
+              },
+              shape: {
+                innerSize: '78%',
+                padding: 1,
+                size: '100%',
+                label: [
+                  {
+                    text:
+                      (options.icon
+                        ? '<icon name=%icon size=' + (options.showPercent ? 20 : 40) + ' fill=%fill><br> '
+                        : '') +
+                      (options.showPercent
+                        ? '<span style="color:' +
+                          options.color +
+                          ';font-size:20px;font-weight:bold">{Math.round(%value*100/' +
+                          options.maxValue +
+                          '):n0}%</span>'
+                        : ''),
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    width: 55,
+                  },
+                ],
+              },
+            },
+            series: [
+              {
+                name: options.title,
+                attributes: {
+                  icon: options.icon,
+                  fill: options.color,
+                },
+                points: [{ id: 'gauge', y: options.value }],
+              },
+            ],
+            toolbar_items: {
+              Stop: {
+                type: 'option',
+                position: 'top left',
+                icon_name: 'system/default/pause',
+                margin: 10,
+                boxVisible: true,
+                label_text: 'Pause',
+                events: { change: playPause },
+                states_select: {
+                  icon_name: 'system/default/play',
+                  label_text: 'Play',
+                },
+              },
+            },
+          },
+          function () {
+            playPause();
+          }
+        );
+      }
+
+      /**
+       * Updates the chart with a random value.
+       * @param chrt
+       */
+      function updateChart(chrt) {
+        chrt = chart || chrt;
+        var series = chrt.series(0),
+          rValue = Math.round(Math.random() * 80000);
+        series.points(0).options({ y: rValue });
+      }
+
+      function playPause(val) {
+        if (val) {
+          clearInterval(INTERVAL_ID);
+        } else {
+          INTERVAL_ID = setInterval(function () {
+            updateChart(chart);
+          }, updateInterval);
+        }
+      }
+
+      function labelText(value) {
+        var fgg = value >= 70 ? 'Great!' : value >= 30 ? 'Good' : 'Fair';
+        return value + '%<br/><span style="fontSize: 32px">' + fgg + '</span>';
+      }
+    </script>
+  </body>
+</html>

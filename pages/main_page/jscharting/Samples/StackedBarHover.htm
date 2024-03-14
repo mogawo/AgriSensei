@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Full Stacked Bar Hover Action | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Horizontal full stacked bars with hover highlighting.
+Learn how to:
+
+  - Use point hover highlighting.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/employed-persons-by-occupation.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        var series = JSC.nest().key('age').key('occupation').rollup('persons').series(data);
+        series.reverse();
+        return JSC.chart('chartDiv', {
+          type: 'horizontal column',
+          title_label_text: 'Employed persons by occupation and age in US',
+          palette: ['#cf597e', '#e88471', '#eeb479', '#e9e29c', '#9ccb86', '#39b185', '#009392'],
+          legend: {
+            template: '%icon,%name',
+            position: 'bottom left',
+            reversed: true,
+          },
+          yAxis: {
+            defaultTick: { label_text: '%value%', line_length: 0 },
+            scale_type: 'stackedFull',
+          },
+          defaultPoint: {
+            hoverAction: 'highlightPoint',
+            tooltip: 'Ages %seriesName <br>{%yValue:n0} (%percentOfGroup%)',
+          },
+          series: series,
+        });
+      }
+    </script>
+  </body>
+</html>

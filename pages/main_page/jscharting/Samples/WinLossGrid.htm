@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Win Loss Datagrid | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/datagrid.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .jscGrid .dataTable thead th {
+        background-color: #eeeeee;
+        color: #424242;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+      }
+      .jscGrid .dataTable tr {
+        background-color: white !important;
+      }
+      .jscGrid .dataTable td {
+        vertical-align: middle;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <p style="font-family: Helvetica; text-align: center;">Winter Olympic Games Top Nations: 1924 - 2018</p>
+    <div id="gridDiv" style="width: 420px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Points created for specific map features.
+Learn how to:
+
+  - Create a datagrid with winloss charts.
+*/
+      // JS
+      var winterOlympicGamesData = [
+        { nation: 'Norway', years: [1924, 1928, 1936, 1948, 1952, 1968, 2002, 2018] },
+        { nation: 'Soviet Union', years: [1956, 1960, 1964, 1972, 1976, 1980, 1988] },
+        { nation: 'Germany', years: [1992, 1998, 2006] },
+        { nation: 'Russia', years: [1994, 2014] },
+        { nation: 'East Germany', years: [1984] },
+        { nation: 'Canada', years: [2010] },
+        { nation: 'Sweden', years: [1948] },
+        { nation: 'Unated States', years: [1932] },
+      ];
+      makeWinLossChartData(winterOlympicGamesData);
+
+      var grid = new JSC.Grid('gridDiv', {
+        data: winterOlympicGamesData,
+        className: 'dataTable',
+        columns: [
+          { header: 'Nation', value: '%nation', align: 'left' },
+          {
+            header: 'Win/Loss',
+            value: '<chart column data=%chartData width=280 colors=#66BB6A,#EF5350>',
+            align: 'left',
+          },
+          { header: 'Wins', value: '%wins', align: 'right' },
+        ],
+      });
+
+      function makeWinLossChartData(data) {
+        var allYears = [];
+        data.forEach(function (item) {
+          item.years.forEach(function (yr) {
+            allYears.indexOf(yr) === -1 && allYears.push(yr);
+          });
+        });
+        allYears = JSC.sortBy(allYears);
+
+        data.forEach(function (item, i) {
+          var chartData = Array(allYears.length).fill(-1);
+          item.years.forEach(function (itemy, i) {
+            chartData[allYears.indexOf(itemy)] = 1;
+          });
+          item.chartData = chartData.join(',');
+          item.wins = item.years.length;
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dynamic City Data Map | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #mobilityLabels {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .label {
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mobilityChartWrapper" style="max-width: 740px; margin: 0px auto;">
+      <div id="chartDiv" style="width: 100%; height: 400px;"></div>
+      <div id="mobilityLabels" style="width: 100%;">
+        <div id="labelsTitle" style="width: 100%; height: 30px;"></div>
+        <div id="iosLabel0" style="width: 100%; height: 20px;"></div>
+        <div id="iosLabel1" class="label"></div>
+        <div id="iosLabel2" class="label"></div>
+        <div id="iosLabel3" class="label"></div>
+        <div id="androidLabel0" style="width: 100%; height: 20px;"></div>
+        <div id="androidLabel1" class="label"></div>
+        <div id="androidLabel2" class="label"></div>
+        <div id="androidLabel3" class="label"></div>
+        <div id="androidLabel4" class="label"></div>
+        <div id="androidLabel5" class="label"></div>
+        <div id="androidLabel6" class="label"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Dynamically load city data when a country is clicked.
+Learn how to:
+
+  - Add map data points in real-time.
+  - Interact with map click events.
+*/
+      // JS
+      var chart;
+      var mapDataIndex, data, countriesData;
+
+      var palette = ['#e0e0e0', '#9ED1FA', '#3DA3F5', '#0A70C2', '#08599b'];
+      var iosColor = '#00a2f2',
+        androidColor = '#33a854';
+      var icons = [
+        'material/maps/directions-car',
+        'material/maps/directions-walk',
+        'material/maps/directions-transit',
+        'material/maps/store-mall-directory',
+        'material/maps/local-grocery-store',
+        'material/maps/terrain',
+        'material/maps/directions-transit',
+        'material/action/work',
+        'material/action/home',
+      ];
+
+      JSC.fetch('resources/mapDataIndex_mobility.json.txt').then(function (response) {
+        response.json().then(function (json) {
+          mapDataIndex = json;
+          JSC.fetch('./resources/covid19-mobility-data-071621.csv')
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text) {
+              data = JSC.csv2Json(text);
+              countriesData = JSC.nest().key('country').key('subRegion').entries(data);
+              chart = renderMap(makeMapPoints());
+            });
+        });
+      });
+
+      /*
+       * Map Functions
+       * */
+      function renderMap(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'map solid',
+          title_label_text: makeTitle('World'),
+          annotations: [
+            {
+              label: {
+                text: 'Click a country to load states/provinces.',
+                style_fontSize: 14,
+              },
+              outline_width: 0,
+              margin: 5,
+              corners: 'square',
+              position: 'inside top left',
+            },
+          ],
+          legend: {
+            position: 'bottom',
+            template: '%icon,%name',
+            customEntries: [
+              { name: 'no data', icon_color: palette[0] },
+              { name: 'no states/provinces data', icon_color: palette[1] },
+              { name: 'full data', icon_color: palette[2] },
+              { name: 'states/provinces data', icon_color: palette[3] },
+            ],
+          },
+          events_pointSelectionChanged: selectionChanged,
+          defaultSeries: {
+            legendEntry_visible: false,
+            pointSelection: true,
+          },
+          defaultPoint: {
+            focusGlow: false,
+            states: {
+              hover: { fill: 'currentColor', outline_width: 2 },
+              select: { enabled: true, fill: 'lighten', outline_width: 3 },
+            },
+          },
+          series: series,
+          toolbar_items: {
+            resetZoom_visible: false,
+            export_visible: false,
+            Clear: {
+              type: 'option',
+              visible: false,
+              margin: 5,
+              boxVisible: true,
+              events_click: function () {
+                clearLabels();
+                chart.series(5).remove();
+                chart.zoom(1, { animation: false });
+                chart.series().points().options({ selected: false });
+                chart.uiItems('Clear').options({ visible: false });
+                chart.options({ title_label_text: makeTitle('World') });
+              },
+            },
+          },
+        });
+      }
+      function makeMapPoints() {
+        var continents = ['oceania', 'americas', 'asia', 'europe', 'africa'];
+        var series = [];
+        continents.forEach(function (item, i) {
+          series.push({
+            map: item,
+            color: palette[0],
+            points: [],
+          });
+        });
+        for (var key in mapDataIndex) {
+          var countryData = getPlaceData(key);
+          var result = {
+            map: key,
+            tooltip: '<b>%name</b>',
+            attributes: makeAttributes(countryData),
+          };
+          result.attributes_regions = countryData !== undefined ? countryData.regions : 0;
+          var continent = mapDataIndex[key].continent.toLowerCase();
+          continent = continent === 'north america' || continent === 'south america' ? 'americas' : continent;
+          var continentSeriesIndex = series
+            .map(function (item) {
+              return item.map;
+            })
+            .indexOf(continent);
+
+          if (countryData !== undefined) {
+            if (countryData.regions === 1) {
+              result.color = palette[1];
+              result.tooltip = 'Click to see data for <b>%name</b>';
+            } else {
+              result.color = palette[2];
+              result.tooltip = 'Click to see data and load <b>%name</b> states/provinces';
+            }
+          } else {
+            result.cursor = 'default';
+            result.events_click = function () {
+              return false;
+            };
+          }
+          series[continentSeriesIndex].points.push(result);
+        }
+
+        return series;
+      }
+
+      function makeAttributes(data) {
+        return {
+          Driving: getAttribute('Driving'),
+          Walking: getAttribute('Walking'),
+          ITransit: getAttribute('Transit'),
+          Retail: getAttribute('Retail'),
+          GroceryAndPharmacy: getAttribute('Grocery and pharmacy'),
+          Parks: getAttribute('Parks'),
+          TransitStations: getAttribute('Transit stations'),
+          Workplaces: getAttribute('Workplaces'),
+          Residential: getAttribute('Residential'),
+        };
+
+        function getAttribute(name) {
+          if (data) {
+            var values = data.values[0];
+            return values[name] === null || values[name] === '' ? 'no data' : values[name];
+          } else return 'no data';
+        }
+      }
+
+      function makeTitle(country) {
+        return 'COVID-19 Mobility Trends: <b>' + country + '</b>';
+      }
+
+      function selectionChanged(item) {
+        if (item.length !== 0) {
+          var point = item[0];
+          var id = point.tokenValue('%mapCode');
+          var regions = point.replaceTokens('%regions');
+          if (id.length === 2) {
+            if (regions > 1) {
+              point.chart.options({ title_label_text: makeTitle(point.replaceTokens('%name')) });
+              var series = {
+                map: id,
+                defaultPoint: {
+                  legendEntry_visible: false,
+                  tooltip: 'Click to see data for <b>%name</b> (%seriesName)',
+                },
+                color: palette[0],
+                points: makeCountryPoints(id),
+              };
+              if (chart.series(5)) {
+                chart.series.splice(5, 1, [series]);
+              } else {
+                chart.series.add(series);
+              }
+              chart.uiItems('Clear').options({ visible: true });
+              // Zoom to the specified point.
+              point.zoomTo({ animation: false });
+            }
+            createLabels(point);
+          } else {
+            createLabels(point);
+          }
+        } else {
+          chart.options({ title_label_text: makeTitle('World') });
+          clearLabels();
+        }
+      }
+
+      // Generate province points for selected country
+      function makeCountryPoints(id) {
+        var provinces = mapDataIndex[id].provinces;
+        return Object.keys(provinces).map(function (key) {
+          var provinceData = getPlaceData(id, provinces[key].name);
+          var result = {
+            map: key,
+            attributes: makeAttributes(provinceData),
+            color: provinceData !== undefined ? palette[3] : undefined,
+            outline_color: provinceData !== undefined ? palette[4] : undefined,
+          };
+          if (provinceData === undefined) {
+            result.events_click = function () {
+              return false;
+            };
+            result.cursor = 'default';
+            result.tooltip = '<b>%name</b> (%seriesName)';
+          }
+          return result;
+        });
+      }
+
+      // Get mobility data for whole country or province
+      function getPlaceData(countryID, province) {
+        var countryData = countriesData.find(function (x) {
+          return x.key === mapDataIndex[countryID].name;
+        });
+        var placeData =
+          countryData !== undefined
+            ? countryData.values.find(function (x) {
+                return province ? x.values[0].subRegion === province : x.values[0].subRegion === 'Total';
+              })
+            : undefined;
+        if (placeData) placeData.regions = countryData.values.length;
+
+        return placeData;
+      }
+
+      /*
+       * JSC Labels Functions
+       * */
+      function createLabels(p) {
+        JSC.label(
+          'labelsTitle',
+          '<span style="font-size:16px; font-weight:bold">' +
+            (p.tokenValue('%mapLevel') === 'country'
+              ? p.replaceTokens('%name')
+              : p.replaceTokens('%seriesName - %name')) +
+            '</span>'
+        );
+
+        JSC.label('iosLabel0', '<span>Apple Mobility trends:</span>');
+        JSC.label('iosLabel1', makeCategoriesString('Driving', '%Driving', icons[0]));
+        JSC.label('iosLabel2', makeCategoriesString('Walking', '%Walking', icons[1]));
+        JSC.label('iosLabel3', makeCategoriesString('Transit', '%ITransit', icons[2]));
+
+        JSC.label('androidLabel0', '<span>Google Mobility trends:</span>');
+        JSC.label('androidLabel1', makeCategoriesString('Retail and recreation', '%Retail', icons[3]));
+        JSC.label('androidLabel2', makeCategoriesString('Grocery and pharmacy', '%GroceryAndPharmacy', icons[4]));
+        JSC.label('androidLabel3', makeCategoriesString('Parks', '%Parks', icons[5]));
+        JSC.label('androidLabel4', makeCategoriesString('Transit stations', '%TransitStations', icons[6]));
+        JSC.label('androidLabel5', makeCategoriesString('Workplaces', '%Workplaces', icons[7]));
+        JSC.label('androidLabel6', makeCategoriesString('Residential', '%Residential', icons[8]));
+
+        function makeCategoriesString(name, token, icon) {
+          if (name === 'Driving' || name === 'Walking' || name === 'Transit') {
+            return getString(iosColor);
+          } else {
+            return getString(androidColor);
+          }
+
+          function getString(color) {
+            return (
+              '<span>' +
+              name +
+              ' </span><br>' +
+              '<icon name=' +
+              icon +
+              ' color=' +
+              color +
+              ' verticalAlign=middle margin_right=5 margin_top=5 size=30>' +
+              '<span style="width:80px;font-size:14px"><b>' +
+              (p.tokenValue(token) === 'no data'
+                ? '<span style="color:#BDBDBD">' + p.tokenValue(token) + '</span>'
+                : formatNumber(token) + '%') +
+              '</b></span>'
+            );
+          }
+          function formatNumber(token) {
+            var sign = Math.sign(p.tokenValue(token)) === -1 ? '-' : Math.sign(p.tokenValue(token)) === 1 ? '+' : '';
+            return sign + p.replaceTokens('{Math.abs(' + token + ')}');
+          }
+        }
+      }
+
+      function clearLabels() {
+        JSC.label('labelsTitle', '');
+
+        JSC.label('iosLabel0', '');
+        JSC.label('iosLabel1', '');
+        JSC.label('iosLabel2', '');
+        JSC.label('iosLabel3', '');
+
+        JSC.label('androidLabel0', '');
+        JSC.label('androidLabel1', '');
+        JSC.label('androidLabel2', '');
+        JSC.label('androidLabel3', '');
+        JSC.label('androidLabel4', '');
+        JSC.label('androidLabel5', '');
+        JSC.label('androidLabel6', '');
+      }
+
+      // Generate small csv for https://raw.githubusercontent.com/ActiveConclusion/COVID19_mobility/master/summary_reports/summary_report_regions.csv
+      function generateCsv(data) {
+        var lastUpdateApple = data.reverse().find(function (x) {
+          return x.driving !== '';
+        }).date;
+        var lastUpdateGoogle = data.find(function (x) {
+          return x.residential !== '';
+        }).date;
+        var resultData = [];
+        var countriesData = JSC.nest()
+          .key('country')
+          .key('region')
+          .pointRollup(function (key, val) {
+            var values = val.find(function (x) {
+              return x.date === lastUpdateApple;
+            });
+            values = values === undefined ? val[val.length - 1] : values;
+            var values2 = val.find(function (x) {
+              return x.date === lastUpdateGoogle;
+            });
+            values2 = values2 === undefined ? val[val.length - 1] : values2;
+            return {
+              country: values.country,
+              subRegion: values.region,
+              Driving: values.driving,
+              Walking: values.walking,
+              Transit: values.transit,
+              Retail: values2['retail and recreation'],
+              'Grocery and pharmacy': values2['grocery and pharmacy'],
+              Parks: values2.parks,
+              'Transit stations': values2['transit stations'],
+              Workplaces: values2.workplaces,
+              Residential: values2.residential,
+            };
+          })
+          .series(data);
+        countriesData.forEach(function (item) {
+          resultData = resultData.concat(item.points);
+        });
+        return JSC.json2Csv(resultData.reverse());
+      }
+    </script>
+  </body>
+</html>

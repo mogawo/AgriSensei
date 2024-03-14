@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Leaf Point Details Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 920px; height: 520px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with leaf points used to show details about the parent node.
+Learn how to:
+
+  - Use leaf organizational points to show parent node details.
+*/
+      // JS
+      var data = [
+        { role: 'General Manager', id: 'gm', name: 'Cathlene Anthill' },
+        {
+          role: 'Production Manager',
+          id: 'pm',
+          parent: 'gm',
+          name: 'Bald Hammarberg',
+          Email: 'bhammarberg0@e-re.de',
+          Phone: '+62 (511) 825-1476',
+          Address: '96 Hagan Parkway',
+        },
+        {
+          role: 'Finance Manager',
+          id: 'fm',
+          parent: 'gm',
+          name: 'Durante Cousans',
+          Email: 'dcousans1@state.tx.us',
+          Phone: '+56 (106) 916-4160',
+          Address: '74137 Northridge Street',
+        },
+        {
+          role: 'Marketing Manager',
+          id: 'mm',
+          parent: 'gm',
+          name: 'Toddy Brettell',
+          Email: 'tbrettell2@pcworld.com',
+          Phone: '+55 (106) 749-9140',
+          Address: '96998 Quincy Parkway',
+        },
+        {
+          role: 'Sales Manager',
+          id: 'sm',
+          parent: 'gm',
+          name: 'Bing Walder',
+          Email: 'bwalder3@cornell.edu',
+          Phone: '+33 (535) 843-1032',
+          Address: '53153 Aberg Pass',
+        },
+      ];
+
+      var points = [];
+      data.forEach(function (item, i) {
+        points.push({
+          name: item.name,
+          id: item.id,
+          parent: item.parent,
+          attributes_role: item.role,
+          label_text: '<b>%name</b><br>%role',
+        });
+        for (var key in item) {
+          if (key !== 'name' && key !== 'id' && key !== 'parent' && key !== 'role') {
+            points.push({
+              name: '- ' + key + ': ' + item[key],
+              id: item.id + '_' + item[key],
+              parent: item.id,
+            });
+          }
+        }
+      });
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          defaultLeafPoint: {
+            label_align: 'left',
+            connectorLine_visible: false,
+          },
+        },
+        defaultPoint: {
+          outline_width: 0,
+          leafPointLayout: 'vertical',
+          color: 'white',
+          connectorLine: {
+            width: 1,
+            color: '#bdbdbd',
+            radius: 0,
+          },
+          annotation: {
+            label_autoWrap: false,
+            margin: [4, -90, 4, 4],
+          },
+        },
+        series: [{ points: points }],
+      });
+    </script>
+  </body>
+</html>

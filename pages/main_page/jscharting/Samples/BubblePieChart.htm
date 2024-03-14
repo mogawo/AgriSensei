@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Scatter Pie Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 700px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A scatter chart with pie microcharts inside point labels.
+Learn how to:
+
+  - Make a scatter chart with pie microcharts.
+*/
+      // JS
+      var chart;
+      var palette = ['#00838F', '#81C784'];
+      JSC.fetch('./resources/top-10-countries-by-population.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          type: 'marker',
+          title_label: {
+            style_fontSize: 16,
+            text:
+              'Correlation between life expectancy, fertility rate, and population<br>' +
+              '<span style="font-size:13px">Percent of ' +
+              wrapInColor('Urban', palette[0]) +
+              ' and ' +
+              wrapInColor('Rural', palette[1]) +
+              ' population</span>',
+          },
+          legend_visible: false,
+          palette: ['#BDBDBD'],
+          xAxis_label_text: 'Life Expectancy',
+          zAxis_label_text: 'Population',
+          yAxis: {
+            alternateGridFill: false,
+            label_text: 'Fertility Rate',
+          },
+          defaultAxis_scale_range_padding: 0.1,
+          defaultSeries: {
+            legendEntry_visible: false,
+            size: [20, 60],
+          },
+          defaultTooltip: { shadow: false, fill: 'white' },
+          defaultPoint: {
+            label: {
+              autoHide: false,
+              //Centers the label
+              placement: 'inside',
+              style_fontSize: '11px',
+            },
+          },
+          series: makeSeries(data),
+          toolbar_visible: false,
+        });
+      }
+
+      function wrapInColor(text, color) {
+        return "<b><span style='fontSize:15px;color:" + color + "'>" + text + '</span></b>';
+      }
+
+      function makeSeries(data) {
+        var minPopulation = JSC.min(data, 'population');
+        var maxPopulation = JSC.max(data, 'population');
+        return [
+          {
+            points: data.map(function (item) {
+              var pieSize = mapValue(20, 80, minPopulation - 1, maxPopulation + 1, item.population);
+              return {
+                x: +item.life_expectancy,
+                y: item.fertility_rate,
+                z: item.population,
+                name: item.country,
+                marker: {
+                  type: 'circle',
+                  size: pieSize,
+                  outline: { width: 0 },
+                  // fill: 'white'
+                },
+                label_text:
+                  '<absolute><chart pie data=' +
+                  item.population_urban +
+                  ',' +
+                  item.population_rural +
+                  '' +
+                  ' margin_left=' +
+                  -pieSize / 2 +
+                  ' margin_top=' +
+                  -Math.round(pieSize) +
+                  ' size=' +
+                  pieSize +
+                  ' verticalAlign=middle colors=,' +
+                  palette.join(',') +
+                  '><span style="width:0px; margin:' +
+                  Math.round(pieSize + 15) +
+                  'px 0px 0px -11px; color:#424242;"><b>' +
+                  item.code +
+                  '</b></span></absolute>',
+                tooltip: makeTooltip(item),
+              };
+            }),
+          },
+        ];
+      }
+      function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+        return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+      }
+      function makeTooltip(values) {
+        return (
+          '<b>%name</b><br>' +
+          'Population: <b>%zValue</b><br>' +
+          'Fertility rate: <b>%yValue</b><br>' +
+          'Life expectancy: <b>%xValue years</b><hr>' +
+          '<span style="width:36px">Urban:</span>' +
+          '<chart bar margin=4 verticalAlign=top size=60x14 data=' +
+          values.population_urban +
+          ' max=100 color=' +
+          palette[0] +
+          ' verticalAlign=middle>' +
+          '<b>' +
+          values.population_urban +
+          '%</b> (' +
+          JSC.formatNumber((values.population / 100) * values.population_urban, 'n0') +
+          ' people)<br>' +
+          '<span style="width:36px">Rural:</span>' +
+          '<chart bar margin=4 verticalAlign=top size=60x14 data=' +
+          values.population_rural +
+          ' max=100 color=' +
+          palette[1] +
+          ' verticalAlign=middle>' +
+          '<b>' +
+          values.population_rural +
+          '%</b> (' +
+          JSC.formatNumber((values.population / 100) * values.population_rural, 'n0') +
+          ' people)'
+        );
+      }
+    </script>
+  </body>
+</html>

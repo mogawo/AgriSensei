@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Overlapping Column Clusters Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Overlapping column clusters using an additional x axis.
+Learn how to:
+
+  - Use additional x axes to overlap column clusters.
+*/
+      // JS
+
+      var data = [
+        { date: 'Q1 2020', model: 'Model S/X', production: 15390, deliveries: 12230 },
+        { date: 'Q2 2020', model: 'Model S/X', production: 6326, deliveries: 10614 },
+        { date: 'Q3 2020', model: 'Model S/X', production: 16992, deliveries: 15275 },
+        { date: 'Q4 2020', model: 'Model S/X', production: 16097, deliveries: 18966 },
+        { date: 'Q1 2020', model: 'Model 3/Y', production: 87282, deliveries: 76266 },
+        { date: 'Q2 2020', model: 'Model 3/Y', production: 75946, deliveries: 80277 },
+        { date: 'Q3 2020', model: 'Model 3/Y', production: 128044, deliveries: 124318 },
+        { date: 'Q4 2020', model: 'Model 3/Y', production: 163660, deliveries: 161701 },
+      ];
+      var deliveredColor = '#222222';
+      var chart = renderChart(makeSeries(data));
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          title_label_text: 'Tesla 2020 Vehicle Production & Deliveries',
+          debug: true,
+          type: 'column solid',
+          legend: {
+            template: '%icon %name',
+            position: 'inside left top',
+            // Disable hiding series on legend entry click
+            defaultEntry: {
+              events_click: function () {
+                return false;
+              },
+              style_fontSize: '12px',
+              cursor: 'default',
+            },
+            customEntries: [
+              {
+                name: 'Deliveries',
+                value: JSC.formatNumber(JSC.sum(data, 'deliveries')),
+                icon: {
+                  color: deliveredColor,
+                  fill: 'none',
+                  hatch: { style: 'light-upward-diagonal', color: deliveredColor },
+                  outline: { color: deliveredColor },
+                },
+              },
+            ],
+          },
+          palette: ['#cb0303', '#818181'],
+          // The overlapping bar clusters are achieved by using two x axes and binding series that overlap to the second x axis.
+          xAxis: [{ id: 'x1' }, { id: 'x2', visible: false }],
+          // When all columns show a value, the y axis is redundant.
+          yAxis_visible: false,
+          defaultPoint: {
+            tooltip:
+              '%xValue <b>%seriesName</b><br>Production: <b>%yValue</b><br>Deliveries: <b>%deliveries ({%deliveries/%yValue:p1})</b>',
+            label: {
+              visible: true,
+              placement: 'outside',
+              verticalAlign: 'top',
+            },
+          },
+          series: series,
+        });
+      }
+      function makeSeries(data) {
+        var seriesProduction = JSC.nest()
+          .key('model')
+          .key('date')
+          .pointRollup(function (key, val) {
+            // pointRollup function is used to include deliveries attribute for tooltip.
+            var values = val[0];
+            return {
+              x: values.date,
+              y: values.production,
+              attributes_deliveries: values.deliveries,
+            };
+          })
+          .series(data);
+
+        // Modify each production series with updated name and x axis to bind to.
+        seriesProduction.forEach(function (s, i) {
+          JSC.merge(s, { name: s.name + ' Produced', xAxis: 'x1' });
+        });
+
+        var seriesDelivered = JSC.nest().key('model').key('date').rollup('deliveries').series(data);
+
+        // Modify each delivered series binding them to x2 x axis and additional settings.
+        seriesDelivered.forEach(function (s, i) {
+          JSC.merge(s, {
+            xAxis: 'x2',
+            legendEntry_visible: false,
+            mouseTracking_enabled: false,
+            defaultPoint: {
+              color: deliveredColor,
+              fill: 'none',
+              outline: { color: 'currentColor' },
+              hatch: { style: 'light-upward-diagonal', color: deliveredColor },
+              label: {
+                verticalAlign: 'bottom',
+                color: 'darken',
+                placement: 'inside',
+                autoHide: false,
+              },
+            },
+          });
+        });
+
+        return seriesProduction.concat(seriesDelivered);
+      }
+    </script>
+  </body>
+</html>

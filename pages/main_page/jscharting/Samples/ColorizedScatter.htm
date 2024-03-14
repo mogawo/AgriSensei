@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Colorized Scatter Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 700px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Scatter chart with smartPalette axis line.
+Learn how to:
+
+  - Draw a scatter chart.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/running-event-results.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        var series = [
+          {
+            points: data.map(function (item) {
+              return {
+                x: new Date(item.birth_date).getFullYear(),
+                y: new Date('Wed, 05 Feb 2020 ' + item.official_time).getTime(),
+              };
+            }),
+          },
+        ];
+
+        return JSC.chart('chartDiv', {
+          type: 'marker',
+          title_label_text: 'Running Events Results',
+          legend: { visible: false },
+          defaultPoint: {
+            tooltip: '%xAxisLabel: <b>%xValue</b><br>%yAxisLabel: <b>{%yValue:date HH:mm:ss}</b>',
+            opacity: 0.5,
+            marker: { type: 'circle', outline_width: 0 },
+          },
+          palette: {
+            pointValue: function (p) {
+              return p.options('y');
+            },
+            colors: [
+              '#3e26a8',
+              '#4538d7',
+              '#484ff2',
+              '#4367fd',
+              '#2f80fa',
+              '#2797eb',
+              '#1caadf',
+              '#00b9c7',
+              '#29c3aa',
+              '#48cb86',
+              '#81cc59',
+              '#bbc42f',
+              '#eaba30',
+              '#fec735',
+              '#f5e128',
+              '#f9fb15',
+            ],
+          },
+          yAxis: {
+            label_text: 'Official time',
+            alternateGridFill: 'none',
+            scale: {
+              range: [new Date('Wed, 05 Feb 2020 00:20:00').getTime(), new Date('Wed, 05 Feb 2020 01:40:00').getTime()],
+              interval:
+                new Date('Wed, 05 Feb 2020 00:40:00').getTime() - new Date('Wed, 05 Feb 2020 00:20:00').getTime(),
+            },
+            defaultTick: { label_text: '{%value:date HH:mm:ss}' },
+            line: {
+              width: 10,
+              color: 'smartPalette',
+              breaks_gap: 0.01,
+            },
+            crosshair: { enabled: true },
+          },
+          xAxis: { label_text: "Participants' year of birth" },
+          series: series,
+          toolbar_visible: false,
+        });
+      }
+    </script>
+  </body>
+</html>

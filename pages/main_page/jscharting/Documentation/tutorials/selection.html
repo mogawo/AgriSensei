@@ -1,0 +1,305 @@
+<h2>Selection</h2>
+<p>
+	Data point selection and data series selection provides an easy, visually intuitive way to select
+	data. Enabling users to click a chart rather than selecting items from a multi-select dropdown, or
+	depending on a hidden right-click context menu, provides a rich interactive experience. The
+	selection API is designed with extensive flexibility and ease of use, so you can come up with your
+	own creative ways to select data points or series.
+</p>
+<p>
+	You can read or set either <a href="Types.series.selected">series.selected</a> or
+	<a href="Types.point.selected">point.selected</a> properties through the
+	<a href="iObject.point.options()">options()</a>
+	function in order to customize the behavior and interface with selected data points or series.
+</p>
+<p>Some example uses for data selection:</p>
+<ul class="simpleKvpList">
+	<li>
+		<em><a href="Samples.MasterDetail"></a></em>
+		<section>
+			You can use selection to interact with individual data points to create a master detail chart.
+			For example, select a single month from column data points for Jan-Dec. A second chart linked
+			to this selection can show the daily data for the selected month.
+		</section>
+	</li>
+	<li>
+		<em><a href="Samples.CalendarDetails"></a></em>
+		<section>
+			Select multiple points to compare them in detail.
+		</section>
+	</li>
+	<li>
+		<em><a href="Samples.mapPointSelection"></a></em>
+		<section>
+			Another scenario is a map of US states allowing users to select one or multiple state points.
+			Once selected, you can show detailed information about these states.
+		</section>
+	</li>
+	<li>
+		<em><a href="Samples.seriesSelectionSync"></a></em>
+		<section>
+			Pair a dropdown with chart selection to offer a dual selection UI. In effect muting all series
+			except the selected one.
+		</section>
+	</li>
+	<li>
+
+		<em><a href="Samples.pointSelectionLimit"></a></em>
+		<section>
+			Limit selection to two items that are then compared in another view.
+		</section>
+	</li>
+</ul>
+
+<h2>Selection Modes</h2>
+<p>
+	You can set the series.pointSelection property to specify the selection mode using these options:
+</p>
+
+<ul class="simpleKvpList">
+	<li>
+		<em>true or 'auto'</em>
+		<section>
+			Selects a single data point when clicked. Ctrl-click (command-click on a Mac) a data point to
+			select more than one. When legend entries with checkboxes are enabled, click or tap the
+			entries to select multiple items. This allows mobile users a way to select a single point by
+			tapping it, or multiple points by tapping entries.
+		</section>
+	</li>
+	<li>
+		<em>'single'</em>
+		<section>
+			Selects only one point at a time. The ctrl modifier will not allow multiple items to be
+			selected and legend entry checkboxes will be represented by radio buttons.
+		</section>
+	</li>
+	<li>
+		<em>'multiple'</em>
+		<section>
+			Allows selecting multiple points. Click or tap points and legend entry checkboxes to select
+			and clear them. Each point must be cleared individually if needed. However, a clear all option
+			can be added to the chart with the code listed below.
+		</section>
+	</li>
+	<li>
+		<em>{max: (number)} </em>
+		<section>
+			Limit the number of selected items. The selected items will not exceed the specified count.
+			They will be added and removed as first-in, first-out.
+		</section>
+	</li>
+</ul>
+
+<h3>Clear all button</h3>
+
+<span class="codeText">
+	{ toolbar_items:{ 'Clear All':{ position:'inside top left', events_click: function(){
+	// Clear all points
+	this.chart.series().points().options({selected:false});
+	// Or clear all series and points
+	this.chart .series().options({ selected: false }) .points().options({ selected: false }); } } }
+</span>
+
+<h3>Related Properties</h3>
+
+<ul class="simpleKvpList">
+	<li>
+		<em><a href="Types.point.states.select.enabled">point.states.select.enabled</a></em>
+		<section>
+			The chart will avoid calculating state styles for the select state to improve performance
+			based on other properties. You can prevent or force the select state styles to be generated
+			for points using this property.
+		</section>
+	</li>
+	<li>
+		<em><a href="Types.series.mouseTracking.enabled">series.mouseTracking.enabled</a></em>
+		<section>
+			Specifies whether the series will respond to any mouse events or touch events.
+		</section>
+	</li>
+	<li>
+		<em></em>
+		<section></section>
+	</li>
+</ul>
+
+<h2>Selection events</h2>
+
+<p>
+	In order to respond to chart selection changes, these two event properties are most practical to
+	use.
+</p>
+
+<ul class="simpleKvpList">
+	<li>
+		<em><a href="Types.chart.events.pointSelectionChanged">chart.events.pointSelectionChanged</a></em>
+		<section>Is triggered when point selection changes.</section>
+	</li>
+	<li>
+		<em><a href="Types.chart.events.seriesSelectionChanged">chart.events.seriesSelectionChanged</a></em>
+		<section>Is triggered when series selection changes.</section>
+	</li>
+</ul>
+
+<p>
+	An array of points or series is passed to the event handler as an argument. There is a slight
+	delay when these events occur in order to make sure all items that are selecting or clearing
+	selection can finish and so this event does not get triggered multiple times needlessly.
+</p>
+
+<span class="codeText">
+	JSC.Chart('divId',{
+	events:{
+		pointSelectionChanged:function(points){ console.log(points.map(p=>p.name)); }
+	}
+	});
+</span>
+
+<h2>Selection Styling</h2>
+
+<p>
+	Use the <a href="Types.point.states.select">point.states.select</a> or
+	<a href="Types.series.states.select">series.states.select</a> properties to specify styling to use when points are
+	selected.
+</p>
+
+<p></p>
+<p></p>
+
+<span class="codeText">
+	JSC.Chart('divId',{
+	defaultSeries:{
+		states_select:{
+			// Selected line series will be thicker
+			line_width:3
+		},
+		defaultPoint:{
+			states_select:{
+				// Selected point visuals will have a width of 4px
+				outline_width: 4
+			}
+		}
+	}
+
+	});
+</span>
+
+<h2>Selection Legend Checkboxes</h2>
+<p>
+	While tooltips show additional information when hovering data points, you can add point data
+	labels to the legend as well. Enable legend entry checkboxes and series point selection to
+	automatically manage data point selection with legend entry checkboxes and clicking on points.
+</p>
+
+<p>Example:</p>
+<span class="codeText">
+	{ defaultSeries:{ palette:'default', pointSelection:'multiple'},
+	defaultPoint_legendEntry_checkbox_enabled:true, }
+</span>
+
+<p>
+	The default series legend entry behavior is to toggle visibility and checkboxes will reflect
+	visibility. You can modify this functionality so that checkboxes represent data series selection.
+</p>
+
+<p>
+	See sample <a href="Samples.seriesSelectionCheckbox"></a>
+
+</p>
+
+<h3>Related properties</h3>
+<ul class="simpleKvpList">
+	<li>
+		<em><a href="Types.series.palette"></a></em>
+		<section>
+			Series with a palette setting like 'default' or (num) will use a unique color for each point
+			and thereby add a legend entry for each point to the legend in place of the series legend
+			entry.
+		</section>
+	</li>
+	<li>
+		<em><a href="Types.legendEntry.checkbox.enabled"></a></em>
+		<section>Enable checkboxes for legend entries.</section>
+	</li>
+</ul>
+<p>This example uses checkboxes to select points and includes a check/clear all checkbox in the
+	legend using a custom legend entry.</p>
+
+<p class="codepen" data-height="330" data-theme-id="35044" data-default-tab="js,result" data-slug-hash="NWjaPXM" data-editable="true" data-user="jsblog" style="height: 330px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/jsblog/pen/NWjaPXM">
+  Docs v3 - Legend Checkbox All</a> by Arthur Puszynski (<a href="https://codepen.io/jsblog">@jsblog</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<!--<p>For more information on using checkboxes, see the checkbox tutorial.<span class="todo">
+		link to tutorial
+	</span></p>-->
+
+<h2>Series vs Point states</h2>
+<p>
+	Both series and points can have mute and selection states, however, series level select states
+	can't be visualized with most series types because they lack a series level visual. For example,
+	area and line series have series level visuals: the line and area fill. They can also have point
+	level visuals: point markers. On the other hand, a marker series has the point visuals but no
+	line. In these cases, selecting a series can apply the select state to all points in order to
+	visualize it. The select state can be used with series whether it can be seen or not.
+</p>
+<p>
+	Selected series and selected points are separate states. A series that is selected does not mean
+	all the points within the series are selected. Series.pointSelection options provide a UI for
+	users to select points, however, series level selection can be managed within chart options with
+	relatively simple code.
+</p>
+<p>
+	This example lets you click a column to select a series and all of its points or to clear the
+	selection. All points are selected to visually show the series is selected.
+</p>
+<span class="codeText">
+	JSC.Chart('divId', {
+	defaultPoint_events_click:function(){
+	var point = this,
+		series = point.series,
+		isSelected = !series.options('selected');
+
+	series.options({selected: isSelected});
+
+	}
+	});
+</span>
+<p>
+	Sync point select states with parent series select state. This code iterates over each data point
+	and sets the point selected property based on its parent series selected value.
+</p>
+<span class="codeText">
+chart.series().points().each(p=>p.options({selected:p.series.options('selected')});
+</span>
+
+<h2>Programmatic Handling</h2>
+<p>
+	You can easily detect which series or points are selected and to set the selected states manually.
+</p>
+
+<h3>Set select states</h3>
+<p>These code snippets apply a selected state programmatically.</p>
+
+<span class="codeText">
+	// Select all points of the first series
+	var points = chart.series(0).points().options({selected:true});
+	// Select first point of first series
+	var point = Chart.series(0).points(0).options({selected:true});
+</span>
+<span class="docsNote">
+	When you set a state option through the point or series options() function and apply only the one
+	state property, the internal data flow is very efficient even with many points.
+</span>
+<h3>Get and set select states</h3>
+<p>Getting a list of points or series that are selected can be done with code such as:</p>
+
+<span class="codeText">
+	// Get a collection of all selected series
+	chart.series(s=>s.options('selected'));
+	// Get a collection of all selected points.
+	chart.series().points(p=>p.options('selected'));
+</span>
+

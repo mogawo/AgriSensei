@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>US State Counties Choropleth Map | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/maps.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 940px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Use external topoJSON and data files to generate a US counties choropleth map.
+Learn how to:
+
+  - Create a data driven US counties map.
+*/
+      // JS
+      var chart;
+      var countiesData;
+      var states = [];
+
+      JSC.fetch('./resources/us-personal-income-by-county.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          // counties data
+          countiesData = JSC.csv2Json(text, {
+            coerce: function (d, i) {
+              return {
+                county: d.county,
+                /* county code must be a string for cases like '001' */
+                county_code: d.county_code + '',
+                state: d.state,
+                personal_income_2020: d.personal_income_2020,
+                percent_change_2020: d.percent_change_2020,
+              };
+            },
+          });
+          countiesData.forEach(function (a) {
+            if (states.indexOf(a.state) === -1) {
+              states.push(a.state);
+            }
+          });
+          var alabamaData = countiesData.filter(function (v) {
+            return v.state === 'Alabama';
+          });
+          chart = renderChart(makeSeries(alabamaData));
+        });
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'map solid',
+          mapping_referenceLayers: 'resources/us-albers-counties.json.txt',
+          title_label: {
+            text: 'US Personal Income 2020 by Counties',
+            style_fontSize: 16,
+          },
+          legend_position: 'right',
+          palette: {
+            pointValue: function (point) {
+              return point.options('z');
+            },
+            colors: ['#ffffe5', '#fff7bc', '#fee391', '#fec44f', '#ec7014', '#cc4c02', '#993404', '#662506'],
+            colorBar: { width: 16, axis_formatString: 'c0' },
+          },
+          defaultPoint: {
+            tooltip: '%name <b>{%zValue:c0}</b>',
+            states: {
+              hover: { fill: 'currentColor' },
+              select: { enabled: true, fill: 'currentColor', outline: { color: 'black', width: 3 } },
+            },
+          },
+          series: series,
+          toolbar_items: {
+            resetZoom_visible: false,
+            zoom_visible: false,
+            export_visible: false,
+            label: {
+              label_text: 'Choose state:',
+              position: 'inside top left',
+              boxVisible: false,
+            },
+            countryList: {
+              type: 'select',
+
+              position: 'inside top left',
+              items: states.join(','),
+              events_change: selectState,
+            },
+          },
+        });
+      }
+
+      function selectState(val) {
+        var countiesSeries = countiesData.filter(function (v) {
+          return v.state === val;
+        });
+        countiesSeries = makeSeries(countiesSeries);
+        chart.series().remove(false);
+        chart.series.add(countiesSeries[0]);
+      }
+
+      function makeSeries(data) {
+        var series = [
+          {
+            points: data.map(function (item) {
+              return {
+                map: 'us-albers-counties.' + item.state + '.' + item.county_code,
+                z: parseFloat(item.personal_income_2020),
+              };
+            }),
+          },
+        ];
+        return series;
+      }
+    </script>
+  </body>
+</html>

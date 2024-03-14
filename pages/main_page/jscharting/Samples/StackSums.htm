@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Stacked Column Marker Combination Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Stacked bars with sums.
+Learn how to:
+
+  - Summarize stacked columns.
+*/
+      // JS
+      var chart = JSC.chart(
+        'chartDiv',
+        {
+          debug: true,
+          defaultSeries_type: 'column',
+          yAxis_scale_type: 'stacked',
+          title_label_text: 'Acme Tool Sales',
+          yAxis: { label_text: 'Units Sold' },
+          xAxis: {
+            label_text: 'Quarter',
+            categories: ['Q1', 'Q2', 'Q3', 'Q4'],
+          },
+          series: [
+            {
+              name: 'Saw',
+              id: 's1',
+              points: [230, 240, 267, 238],
+            },
+            { name: 'Hammer', points: [325, 367, 382, 371] },
+            { name: 'Grinder', points: [285, 292, 267, 218] },
+            { name: 'Drill', points: [185, 192, 198, 248] },
+          ],
+        },
+        function (c) {
+          c.series.add(getSumSeries(c));
+        }
+      );
+
+      function getSumSeries(c) {
+        var cat,
+          sum,
+          result = {
+            name: 'Sum',
+            type: 'marker',
+            defaultPoint_label_visible: true,
+            defaultPoint_marker: { size: 20 },
+            points: [],
+          };
+        //Get categories of the x axis.
+        var cats = c.axes('x').getCategories();
+        for (var i = 0, iLen = cats.length; i < iLen; i++) {
+          cat = cats[i];
+          sum = 0;
+          c.series()
+            .points({ name: cat })
+            .each(function (p) {
+              sum += p.options('y');
+            });
+          result.points.push({ x: cat, y: sum });
+        }
+        return result;
+      }
+    </script>
+  </body>
+</html>

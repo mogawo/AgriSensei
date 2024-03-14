@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Chart Stages | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; min-width: 330px; height: 340px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Gantt chart with thin bars and dependency lines.
+Learn how to:
+
+  - Color points and create legend entries dynamically.
+*/
+      // JS
+      var names = [],
+        colors = [];
+      var chart = JSC.chart(
+        'chartDiv',
+        {
+          debug: true,
+          type: 'horizontal column solid',
+          legend: {
+            template: '%icon %name',
+            position: 'bottom',
+          },
+
+          xAxis: {
+            scale_invert: true,
+            defaultTick_gridLine_visible: false,
+            spacingPercentage: 0.8,
+          },
+          yAxis_visible: false,
+          defaultSeries: {
+            defaultPoint_color: '#6199ff',
+            legendEntry_visible: false,
+            line: {
+              width: 1,
+              caps_end_type: 'none',
+              color: '#6199ff',
+            },
+          },
+          defaultPoint: {
+            tooltip: tooltipFormatter,
+            legendEntry_visible: false,
+          },
+          series: [
+            {
+              points: [
+                { name: 'Deep Sleep', y: [11.63, 11.88], id: 'd1', parent: 's1' },
+                { name: 'Sleep', y: [11.32, 11.63], id: 's1' },
+                { name: 'Sleep', y: [11.88, 13.3], id: 's2', parent: 'd1' },
+                { name: 'Awake', y: [13.3, 13.48], id: 'a1', parent: 's2' },
+                { name: 'Sleep', y: [13.48, 14.82], id: 's3', parent: 'a1' },
+                { name: 'Deep Sleep', y: [14.82, 15.27], id: 'd2', parent: 's3' },
+                { name: 'Sleep', y: [15.27, 15.72], id: 's4', parent: 'd2' },
+                { name: 'Deep Sleep', y: [15.72, 16.52], id: 'd3', parent: 's4' },
+                { name: 'Sleep', y: [16.52, 16.85], id: 's5', parent: 'd3' },
+                { name: 'Deep Sleep', y: [16.85, 16.98], id: 'd4', parent: 's5' },
+                { name: 'Sleep', y: [16.98, 17.28], id: 's6', parent: 'd4' },
+                { name: 'Deep Sleep', y: [17.28, 18.15], id: 'd5', parent: 's6' },
+                { name: 'Sleep', y: [18.15, 18.67], id: 's7', parent: 'd5' },
+              ],
+            },
+          ],
+        },
+        function (c) {
+          /*Assign colors based on point names.*/
+          c.series().points({ name: 'Awake' }).options({ color: '#aac7fe' }, false);
+          c.series().points({ name: 'Deep Sleep' }).options({ color: '#355fb5' });
+
+          //Dynamically generate data for custom legend entries
+          c.series()
+            .points()
+            .each(function (p) {
+              var name = p.name;
+              var color = p.options('color');
+              names.indexOf(name) === -1 && names.push(name);
+              colors.indexOf(color) === -1 && colors.push(color);
+            });
+
+          var customEntries = [];
+          for (var i = 0; i < names.length; i++) {
+            customEntries.push({
+              name: names[i],
+              icon: {
+                fill: colors[i],
+                outline_color: colors[i],
+              },
+              icon_width: 15,
+              style_fontSize: 15,
+            });
+          }
+          c.legends(0).options({ customEntries: customEntries });
+        }
+      );
+
+      function tooltipFormatter(point) {
+        var twoDigit = function (v) {
+          return ('0' + v).slice(-2);
+        };
+        var formatHour = function (v) {
+          var ampm = v <= 12 ? 'PM' : 'AM',
+            hour = Math.floor(v) % 12,
+            min = Math.floor((v % 1) * 60);
+          return (hour || 12) + ':' + twoDigit(min) + ampm;
+        };
+        return '<b>%name ' + '<br/>' + formatHour(point.y[0]) + ' - ' + formatHour(point.y[1]);
+      }
+    </script>
+  </body>
+</html>

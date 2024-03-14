@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Area Line Highlight Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 500px; height: 240px;"></div>
+
+    <script type="text/javascript">
+      /*
+Area chart widget highlighting day on hover using a translucent crosshair.
+Learn how to:
+
+  - Use axis crosshairs to highlight a date range of an area chart.
+*/
+      // JS
+      var chart1 = generateBigChartWidget('chartDiv1', {
+        title: 'Sessions',
+        series: [
+          {
+            name: 'Purchases',
+            points: [
+              ['1/1/2022', 29.9],
+              ['2/1/2022', 97.5],
+              ['3/1/2022', 110.4],
+              ['4/1/2022', 129.2],
+              ['5/1/2022', 144.0],
+              ['6/1/2022', 176.0],
+            ],
+          },
+        ],
+        palette: 6,
+      });
+
+      function generateBigChartWidget(chartDiv, options) {
+        return JSC.chart(chartDiv, {
+          type: 'area spline',
+          palette: options.palette,
+          title_label: {
+            text: options.title,
+            style: { fontWeight: 'bold', fontSize: 16 },
+            color: '#37474F',
+            margin_bottom: 16,
+          },
+          legend: {
+            visible: false,
+            template: '%icon %name',
+            position: 'bottom',
+          },
+          defaultAxis: {
+            alternateGridFill: 'none',
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+              label_color: '#CFD8DC',
+            },
+          },
+          xAxis: {
+            crosshair: {
+              enabled: true,
+              outline_width: 0,
+              onTop: true,
+              gridLine: {
+                width: 'column',
+                color: 'white',
+                opacity: 0.6,
+              },
+              label_color: '#90A4AE',
+            },
+          },
+          defaultTooltip: {
+            fill: '#263238',
+            shadow: false,
+            outline_width: 0,
+            opacity: 0.95,
+            padding: 10,
+            radius: 4,
+            label: {
+              color: 'white',
+              text:
+                options.series.length > 1
+                  ? '<span style="align:center;">%xValue<br><br>%points</span>'
+                  : '<span style="align:center;">%xValue<br>%points</span>',
+            },
+          },
+          defaultSeries: { shape_opacity: 0.2, line_width: 4 },
+          defaultPoint: {
+            outline_width: 0,
+            opacity: 0.6,
+            tooltip:
+              '<span style="color:%color;font-size:16px; margin:5px 0;align:center;"><b>%yValue</b></span><br>%seriesName<br>',
+            marker_visible: false,
+            focusGlow: false,
+          },
+          series: options.series,
+        });
+      }
+    </script>
+  </body>
+</html>

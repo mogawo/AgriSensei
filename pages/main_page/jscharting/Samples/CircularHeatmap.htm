@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Circular Heatmap | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 760px; height: 700px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A circular heatmap chart using gauge with columns.
+Learn how to:
+
+  - Create a circular heatmap chart.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/canberra-rainfall-amount-data.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          // A circular gauge
+          type: 'gauge column',
+          margin_right: 15,
+          title: {
+            position: 'center',
+            label: {
+              text: '20 years of daily precipitation in Canberra',
+              style_fontSize: '20px',
+            },
+          },
+          palette: {
+            pointValue: function (p) {
+              return p.options('z');
+            },
+            colors: ['#9AEAFF', '#2765FF'],
+          },
+          legend_position: 'right',
+          defaultSeries: {
+            legendEntry_visible: false,
+            shape_innerSize: '20%',
+            angle: { start: -90, sweep: 360 },
+            defaultPoint: {
+              tooltip: '{%date:date y} <b>%zValue mm</b>',
+              outline_width: 0,
+            },
+          },
+          xAxis: {
+            onTop: true,
+            defaultTick: {
+              label: {
+                style: { fontSize: 10, color: 'white' },
+              },
+            },
+            //Make columns touch
+            spacingPercentage: 0,
+            scale_interval: 2,
+          },
+          yAxis: {
+            defaultTick: {
+              label_text: function (val) {
+                return val !== 0 ? JSC.formatDate(val + '/1/2020', 'MMM') : '';
+              },
+              padding: 10,
+            },
+            scale: { range: [0, 12], interval: 1 },
+          },
+          toolbar_visible: false,
+          series: makeSeries(data),
+        });
+      }
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key({ key: 'date', pattern: 'month' })
+          .pointRollup(function (key, val) {
+            return {
+              x: key.getFullYear(),
+              y: [key.getMonth(), key.getMonth() + 1],
+              z: JSC.sum(val, 'rainfall_amount'),
+              attributes_date: key,
+            };
+          })
+          .series(
+            data.filter(function (x) {
+              return x.rainfall_amount > 0;
+            })
+          );
+      }
+    </script>
+  </body>
+</html>

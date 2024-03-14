@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Icon Gradient Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 930px; height: 520px;"></div>
+
+    <script type="text/javascript">
+      /*
+An organizational chart using point specific icons on circular gradient fills.
+Learn how to:
+
+  - Draw organizational nodes as circular icons.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+
+        /* These options will apply to all annotations including point nodes and breadcrumbs. */
+        defaultAnnotation: { padding: [5, 5], margin: [10, 10] },
+
+        defaultSeries: {
+          color: 'none',
+          mouseTracking: false,
+          defaultPoint: {
+            //Default line styling for connector lines
+            connectorLine: {
+              color: '#afafaf',
+              width: 1,
+              caps: { end: { type: 'arrow', size: 5 } },
+            },
+            label: {
+              text: '<icon name=%icon fill=#42A5F5,darkenMore size=40 margin=3 outerShape=circle padding=8><br>%name',
+              maxWidth: 90,
+              verticalAlign: 'top',
+            },
+            /* Updated dynamically when changing orientation. */
+            annotation: { syncHeight: true },
+          },
+        },
+        series: [
+          {
+            points: [
+              { x: 'Board of Directors', id: 'BD', attributes_icon: 'material/social/people' },
+              { x: 'Chief Executive Officer', id: 'CEO', parent: 'BD', attributes_icon: 'material/social/person' },
+              { x: 'Clerk of the Board', id: 'CB', parent: 'CEO', attributes_icon: 'material/social/person' },
+              {
+                x: 'San Diego Trolley',
+                id: 'SD Trolley',
+                parent: 'CEO',
+                attributes_icon: 'material/maps/directions-railway',
+              },
+              {
+                x: 'San Diego Transit',
+                id: 'SD Transit',
+                parent: 'CEO',
+                attributes_icon: 'material/maps/directions-bus',
+              },
+              { x: 'Administrative Department', id: 'AD', parent: 'CEO', attributes_icon: 'linear/basic/gear' },
+
+              { x: 'Capital Projects', id: 'CP', parent: 'AD', attributes_icon: 'material/notification/event-note' },
+              { x: 'Finance', id: 'finance', parent: 'AD', attributes_icon: 'material/action/donut-large' },
+              { x: 'Goverment Affairs', id: 'GA', parent: 'AD', attributes_icon: 'material/action/account-balance' },
+              { x: 'Human Resources', id: 'HR', parent: 'AD', attributes_icon: 'material/action/supervisor-account' },
+              { x: 'Information Technology', id: 'IT', parent: 'AD', attributes_icon: 'material/hardware/computer' },
+              { x: 'Legal', id: 'legal', parent: 'AD', attributes_icon: 'material/action/account-balance' },
+              { x: 'Marketing', id: 'marketing', parent: 'AD', attributes_icon: 'material/action/record-voice-over' },
+              { x: 'Planning', id: 'planning', parent: 'AD', attributes_icon: 'material/hardware/developer-board' },
+              { x: 'Scheduling', id: 'scheduling', parent: 'AD', attributes_icon: 'material/action/query-builder' },
+              { x: 'Security', id: 'security', parent: 'AD', attributes_icon: 'material/hardware/security' },
+            ],
+          },
+        ],
+
+        toolbar: {
+          defaultItem: {
+            margin: 5,
+            events_click: orientChart,
+          },
+          items: {
+            left_icon: 'system/default/zoom/arrow-left',
+            right_icon: 'system/default/zoom/arrow-right',
+            down_icon: 'system/default/zoom/arrow-down',
+            up_icon: 'system/default/zoom/arrow-up',
+          },
+        },
+      });
+
+      function orientChart(direction) {
+        var isVertical = /up|down/.test(direction);
+        chart.options({
+          type: 'organizational ' + direction,
+          defaultPoint_annotation_syncWidth: !isVertical,
+          defaultPoint_annotation_syncHeight: isVertical,
+        });
+      }
+    </script>
+  </body>
+</html>

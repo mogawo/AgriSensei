@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Level Select Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 740px; height: 400px;"></div>
+
+    <script type="text/javascript">
+      /*
+Select, deselect and highlight on hover different levels within an organizational chart.
+Learn how to:
+
+  - Use muted state to highlight hovered level.
+  - Use selected state to highlight clicked level.
+*/
+      // JS
+      var palette = JSC.getPalette(0);
+      var highlightColor = '#FF5722';
+      var chart = JSC.chart(
+        'chartDiv1',
+        {
+          debug: true,
+          type: 'organizational',
+          defaultTooltip_enabled: false,
+          /*These options will apply to all annotations including point nodes and breadcrumbs.*/
+          defaultAnnotation: { padding: [5, 10], margin: [5, 10] },
+          annotations: [
+            {
+              position: 'bottom',
+              label_text: 'Click a name to select or deselect employees at a given level.',
+            },
+          ],
+          defaultSeries_color: '#FAFAFA',
+          defaultPoint: {
+            outline_width: 0,
+            connectorLine: { color: 'gray', width: 2 },
+            focusGlow: false,
+            states: {
+              mute: { opacity: 1, outline_width: 1 },
+              select: { enabled: true, outline_width: 2 },
+              hover_outline_width: 2,
+            },
+            events: {
+              click: pointClick,
+              mouseOver: pointMouseOver,
+              mouseOut: pointMouseOut,
+            },
+          },
+          series: [
+            {
+              points: [
+                { x: 'Eliott Nieves', id: 'president', attributes_role: 'CEO' },
+                { x: 'Harvey-Lee Travis', id: 'vPresident1', parent: 'president', attributes_role: 'Vice President' },
+                { x: 'Gethin Morley', id: 'vPresident2', parent: 'president', attributes_role: 'Vice President' },
+                { x: 'Sonnie Kim', id: 'vPresident3', parent: 'president', attributes_role: 'Vice President' },
+                { x: 'Dante Curtis', id: 'manager1', parent: 'vPresident1', attributes_role: 'Manager' },
+                { x: 'Honey Mullen', id: 'manager2', parent: 'vPresident1', attributes_role: 'Manager' },
+                { x: 'Steffan Taylor', id: 'manager3', parent: 'vPresident2', attributes_role: 'Manager' },
+                { x: 'Charlton Hester', id: 'manager4', parent: 'vPresident2', attributes_role: 'Manager' },
+                { x: 'Ishmael Orr', id: 'manager5', parent: 'vPresident2', attributes_role: 'Manager' },
+                { x: 'Dua Frost', id: 'manager6', parent: 'manager5', attributes_role: 'Manager' },
+                { x: 'Salahuddin Eastwood', id: 'manager7', parent: 'manager5', attributes_role: 'Manager' },
+                { x: 'Nicole Tapia', id: 'employee1', parent: 'manager6', attributes_role: 'Employee' },
+                { x: 'Arisha Hinton', id: 'employee2', parent: 'manager6', attributes_role: 'Employee' },
+                { x: 'Martha Morley', id: 'employee3', parent: 'manager6', attributes_role: 'Employee' },
+                { x: 'Cathy Mcpherson', id: 'employee4', parent: 'manager6', attributes_role: 'Employee' },
+                { x: 'Kiara Johns', id: 'manager8', parent: 'vPresident3', attributes_role: 'Manager' },
+                { x: 'Grant Cash', id: 'manager9', parent: 'vPresident3', attributes_role: 'Manager' },
+                { x: 'Juanita Cottrell', id: 'employee5', parent: 'manager8', attributes_role: 'Employee' },
+                { x: 'Allana Frey', id: 'employee6', parent: 'manager8', attributes_role: 'Employee' },
+              ],
+            },
+          ],
+        },
+        function (c) {
+          c.series()
+            .points()
+            .each(function (p) {
+              /**
+               * Improve performance by setting second argument (updateOptions) to false and prevent chart
+               * redraw on every point options update.
+               */
+              p.options({ outline_color: palette[p.y] }, false);
+            });
+          /**
+           * 	Update the chart fully and only once.
+           */
+          c.redraw();
+        }
+      );
+
+      var selectedLevel = null;
+
+      function pointClick() {
+        var point = this,
+          chart = point.chart;
+
+        reset(chart);
+
+        // Click again to unselect level.
+        if (selectedLevel === point.y) {
+          selectedLevel = null;
+          return;
+        }
+
+        selectedLevel = point.y;
+
+        chart
+          .series()
+          .points(function (p) {
+            return p.y === point.y;
+          })
+          .options({ selected: true });
+      }
+
+      function pointMouseOver() {
+        var point = this,
+          chart = point.chart;
+
+        // Highlight all points at this level using the muted state
+        chart
+          .series()
+          .points(function (p) {
+            return p.y === point.y;
+          })
+          .options({ muted: true });
+      }
+
+      function pointMouseOut() {
+        var point = this,
+          chart = this.chart;
+        // Highlight all points at this level
+        chart.series().points().options({ muted: false });
+        return false;
+      }
+
+      function reset(c) {
+        // reset selected and muted styling
+        c.series().points().options({ selected: false, muted: false });
+      }
+    </script>
+  </body>
+</html>

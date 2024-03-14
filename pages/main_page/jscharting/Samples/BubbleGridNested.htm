@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Nested Bubble Grid Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 640px; height: 890px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A bubble grid chart with microchart ticks.
+Learn how to:
+
+  - Draw a nested bubble grid chart.
+*/
+      // JS
+      var chart;
+      var mainColor = '#80DEEA';
+      var palette = JSC.colorToPalette(mainColor, { lightness: 0.5 }, 6, 0).reverse();
+      var textColor = '#73c7d2';
+      JSC.fetch('./resources/canberra-rainfall-amount-data.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          type: 'bubble solid',
+          title_label: {
+            text: '20 years of daily precipitation in Canberra',
+            style_fontSize: 20,
+            color: '#66b1bb',
+            margin: { left: 29, bottom: 20 },
+          },
+          defaultAxis_defaultTick: {
+            line_visible: false,
+            gridLine_visible: false,
+          },
+          yAxis: [
+            {
+              id: 'mainY',
+              scale: {
+                range: [1999.5, 2020.5],
+                interval: 1,
+              },
+              alternateGridFill: 'none',
+              defaultTick_label: {
+                text: function (val) {
+                  return val;
+                },
+                offset: '16,0',
+                color: textColor,
+              },
+            },
+            {
+              id: 'y2',
+              scale_syncWith: 'mainY',
+              orientation: 'opposite',
+              label: {
+                text: 'Rainfall Amount per year (mm)',
+                color: textColor,
+              },
+              defaultTick_label: {
+                text: function (val) {
+                  return makeyTicks(val, data);
+                },
+                offset: '-16,0',
+              },
+            },
+          ],
+          xAxis: [
+            {
+              id: 'mainX',
+              scale_interval: 1,
+              orientation: 'opposite',
+              defaultTick_label: {
+                text: function (val) {
+                  return val > -1 && val < 12 ? JSC.formatDate(val + 1 + '/1/2020', 'MMM') : '';
+                },
+                color: textColor,
+                padding: 8,
+              },
+            },
+            {
+              id: 'x2',
+              scale_syncWith: 'mainX',
+              label: {
+                text: 'Average Rainfall Amount per month (mm)',
+                color: textColor,
+              },
+              defaultTick_label: {
+                padding: 8,
+                text: function (val) {
+                  return makexTicks(val, data);
+                },
+              },
+            },
+          ],
+          palette: [mainColor],
+          legend: {
+            template: '%icon %name',
+            position: 'inside top left',
+            margin: [-64, 29],
+            customEntries: [
+              {
+                icon: {
+                  size: 16,
+                  opacity: 0.3,
+                  outline_color: palette[5],
+                  color: mainColor,
+                  name: 'system/default/circle',
+                },
+                style: {
+                  color: textColor,
+                  fontSize: 14,
+                },
+                name: '- daily precipitation in mm',
+              },
+            ],
+          },
+          defaultSeries: {
+            size_max: 44,
+            legendEntry_visible: false,
+          },
+          defaultPoint: {
+            focusGlow: false,
+            opacity: 0.3,
+            tooltip:
+              'Precipitation in {%date:date M}, {%date:date yyyy}: <b>%zValue mm</b><br>Daily precipitation in {%date:date y}<br>%micro',
+          },
+          toolbar_visible: false,
+          series: makeSeries(data),
+        });
+      }
+
+      function makeSeries(data) {
+        var dataByMonthCache = {};
+        data.forEach(function (item) {
+          var hash = hashifyDate(item.date);
+          var cache = (dataByMonthCache[hash] = dataByMonthCache[hash] || []);
+          cache.push(item);
+        });
+        return [
+          {
+            points: data
+              .filter(function (x) {
+                return x.rainfall_amount > 0;
+              })
+              .map(function (item) {
+                var date = item.date;
+                return {
+                  x: new Date(parseInt(date)).getMonth(),
+                  y: new Date(parseInt(date)).getFullYear(),
+                  z: item.rainfall_amount,
+                  attributes: {
+                    date: date,
+                    micro:
+                      '<chart type=column color=' +
+                      mainColor +
+                      ' margin=5 size=200x30 data=' +
+                      microchartData(
+                        dataByMonthCache[hashifyDate(parseInt(date))],
+                        new Date(parseInt(date)).getMonth(),
+                        new Date(parseInt(date)).getFullYear()
+                      ) +
+                      '>',
+                  },
+                };
+              }),
+          },
+        ];
+
+        function hashifyDate(date) {
+          var dt = new Date(date);
+          return dt.getMonth() + '/' + dt.getFullYear();
+        }
+      }
+
+      // Generate rainfall data for tooltip microcharts.
+      function microchartData(data, month, year) {
+        var microArr = makeMonthArr(month, year);
+        var micro = data.map(function (item) {
+          return {
+            day: new Date(parseInt(item.date)).getDate(),
+            amount: item.rainfall_amount,
+          };
+        });
+        micro.forEach(function (item, i) {
+          microArr[item.day - 1] = item.amount;
+        });
+        return microArr.join(',');
+
+        // Generate a zero filled array for each day of the month
+        function makeMonthArr(month, year) {
+          var arrLength = new Date(year, month, 0).getDate();
+          return Array.apply(null, Array(arrLength)).map(Number.prototype.valueOf, 0);
+        }
+      }
+
+      function makeyTicks(val, data) {
+        var amount = JSC.nest()
+          .key({ key: 'date', pattern: 'year' })
+          .pointRollup(function (key, val) {
+            return { z: JSC.sum(val, 'rainfall_amount') };
+          })
+          .points(
+            data.filter(function (x) {
+              return new Date(x.date).getFullYear() === val;
+            })
+          );
+        return (
+          '<chart type=bar data=' +
+          amount[0].z +
+          ' max=1100 color=' +
+          palette[Math.round(mapValue(0, 5, 0, 1100, amount[0].z))] +
+          ' size=50x16 tooltip=' +
+          JSC.formatNumber(amount[0].z, 'n1') +
+          '>'
+        );
+      }
+
+      function makexTicks(val, data) {
+        var amount = JSC.nest()
+          .key({ key: 'date', pattern: 'year' })
+          .pointRollup(function (key, val) {
+            return { z: JSC.sum(val, 'rainfall_amount') };
+          })
+          .points(
+            data.filter(function (x) {
+              return new Date(x.date).getMonth() === val;
+            })
+          );
+        amount = JSC.sum(amount, 'z') / amount.length;
+        if (amount !== 0)
+          return (
+            '<chart type=bar data=' +
+            amount +
+            ' max=80 color=' +
+            palette[Math.round(mapValue(0, 5, 0, 80, amount))] +
+            ' size=50x16 rotate=90 tooltip=' +
+            JSC.formatNumber(amount, 'n1') +
+            '>'
+          );
+      }
+
+      function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+        return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+      }
+    </script>
+  </body>
+</html>

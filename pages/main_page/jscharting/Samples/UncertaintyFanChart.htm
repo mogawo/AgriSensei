@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Uncertainty Fan Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+An uncertainty fan chart.
+Learn how to:
+
+  - Create a fan chart.
+*/
+      // JS
+      var chart;
+      var palette = ['#9FA8DA', '#7986CB', '#5C6BC0', '#3F51B5'];
+      JSC.fetch('./resources/inflation-rate-forecast-us.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(makeSeries(data));
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series) {
+        return JSC.chart('chartDiv', {
+          title_label_text: 'PCE Inflation Rate Forecast',
+          palette: palette,
+          defaultSeries_fill: ['darkenMore', 'currentColor', 'lightenMore', 0],
+          defaultPoint: {
+            marker_visible: false,
+            focusGlow: false,
+            tooltip: '%icon %seriesName: <b>[%yStart% - %yValue%]</b>',
+          },
+          legend_visible: false,
+          yAxis: {
+            alternateGridFill: 'none',
+            defaultTick_label_text: '%value%',
+          },
+          xAxis: {
+            scale_type: 'time',
+            formatString: 'yyyy',
+            crosshair_enabled: true,
+            markers: [{ value: ['1/1/2019', '1/1/2023'], opacity: 0.3 }],
+            customTicks: [{ value: ['1/1/2019', '1/1/2023'], label_text: ' Projection ' }],
+          },
+          series: series,
+        });
+      }
+
+      function makeSeries(data) {
+        var dataNest = JSC.nest().key('year');
+        return [
+          {
+            type: 'area spline',
+            name: 'Projection 1',
+            line_width: 0,
+            points: dataNest
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                var result = {
+                  x: '1/1/' + key,
+                  y: [+values.min3, +values.max3],
+                };
+                if (values.year < 2020) result.tooltip = '';
+                return result;
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.year >= 2018;
+                })
+              ),
+          },
+          {
+            type: 'area spline',
+            name: 'Projection 2',
+            line_width: 0,
+            points: dataNest
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                var result = {
+                  x: '1/1/' + key,
+                  y: [+values.min2, +values.max2],
+                };
+                if (values.year < 2020) result.tooltip = '';
+                return result;
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.year >= 2018;
+                })
+              ),
+          },
+          {
+            type: 'area spline',
+            name: 'Projection 3',
+            line_width: 0,
+            points: dataNest
+              .pointRollup(function (key, val) {
+                var values = val[0];
+                var result = {
+                  x: '1/1/' + key,
+                  y: [+values.min1, +values.max1],
+                };
+                if (values.year < 2020) result.tooltip = '';
+                return result;
+              })
+              .points(
+                data.filter(function (x) {
+                  return x.year >= 2018;
+                })
+              ),
+          },
+          {
+            type: 'spline',
+            name: 'Rate',
+            points: data.map(function (item) {
+              var result = {
+                x: '1/1/' + item.year,
+                y: item.value,
+                name: 'Actual Rate',
+                tooltip: '%icon %name: <b>%yValue%</b>',
+              };
+              if (item.year > 2019) result.name = 'Median of Projections';
+              return result;
+            }),
+          },
+        ];
+      }
+    </script>
+  </body>
+</html>

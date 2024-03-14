@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Radar Chord Diagram | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 500px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A simple chord diagram without line curves using a radar chart type.
+Learn how to:
+
+  - Draw a chord diagram.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'radar line',
+        yAxis: { visible: false, scale_range: [0, 5] },
+        xAxis: {
+          line_visible: false,
+          defaultTick: {
+            line_visible: false,
+            gridLine_visible: false,
+          },
+          categories: [
+            'Fortran',
+            'Cobol',
+            'LISP',
+            'Basic',
+            'Algol 60',
+            'PL/1',
+            'C',
+            'Algol 68',
+            'Pascal',
+            'Simula',
+            'Smalltalk',
+            'Dylan',
+            'Scheme',
+            'ML',
+            'C++',
+            'Perl',
+            'Modula 3',
+            'Ada',
+            'Prolog',
+            'Java',
+            'C#',
+            'Python',
+            'Ruby',
+          ],
+        },
+        legend_visible: false,
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          line: { color: '#424242' },
+        },
+        defaultPoint: { marker_visible: false },
+        series: [
+          {
+            points: [
+              ['Fortran', 5],
+              ['Basic', 5],
+            ],
+          },
+          {
+            points: [
+              ['Fortran', 5],
+              ['Algol 60', 5],
+            ],
+          },
+          {
+            points: [
+              ['Fortran', 5],
+              ['PL/1', 5],
+            ],
+          },
+          {
+            points: [
+              ['Cobol', 5],
+              ['PL/1', 5],
+            ],
+          },
+          {
+            points: [
+              ['LISP', 5],
+              ['Smalltalk', 5],
+            ],
+          },
+          {
+            points: [
+              ['LISP', 5],
+              ['Dylan', 5],
+            ],
+          },
+          {
+            points: [
+              ['LISP', 5],
+              ['Scheme', 5],
+            ],
+          },
+          {
+            points: [
+              ['LISP', 5],
+              ['ML', 5],
+            ],
+          },
+          {
+            points: [
+              ['Algol 60', 5],
+              ['C', 5],
+            ],
+          },
+          {
+            points: [
+              ['Algol 60', 5],
+              ['Algol 68', 5],
+            ],
+          },
+          {
+            points: [
+              ['Algol 60', 5],
+              ['Pascal', 5],
+            ],
+          },
+          {
+            points: [
+              ['Algol 60', 5],
+              ['Simula', 5],
+            ],
+          },
+          {
+            points: [
+              ['Algol 60', 5],
+              ['PL/1', 5],
+            ],
+          },
+          {
+            points: [
+              ['C', 5],
+              ['C++', 5],
+            ],
+          },
+          {
+            points: [
+              ['C', 5],
+              ['Perl', 5],
+            ],
+          },
+          {
+            points: [
+              ['Pascal', 5],
+              ['Modula 3', 5],
+            ],
+          },
+          {
+            points: [
+              ['Pascal', 5],
+              ['Ada', 5],
+            ],
+          },
+          {
+            points: [
+              ['Simula', 5],
+              ['C++', 5],
+            ],
+          },
+          {
+            points: [
+              ['Simula', 5],
+              ['Ada', 5],
+            ],
+          },
+          {
+            points: [
+              ['Simula', 5],
+              ['Smalltalk', 5],
+            ],
+          },
+          {
+            points: [
+              ['C++', 5],
+              ['C#', 5],
+            ],
+          },
+          {
+            points: [
+              ['C++', 5],
+              ['Java', 5],
+            ],
+          },
+          {
+            points: [
+              ['Perl', 5],
+              ['Python', 5],
+            ],
+          },
+          {
+            points: [
+              ['Modula 3', 5],
+              ['Python', 5],
+            ],
+          },
+          {
+            points: [
+              ['Ada', 5],
+              ['Ruby', 5],
+            ],
+          },
+          {
+            points: [
+              ['Smalltalk', 5],
+              ['Python', 5],
+            ],
+          },
+          {
+            points: [
+              ['Dylan', 5],
+              ['Ruby', 5],
+            ],
+          },
+          {
+            points: [
+              ['Java', 5],
+              ['C#', 5],
+            ],
+          },
+          {
+            points: [
+              ['Java', 5],
+              ['Python', 5],
+            ],
+          },
+          {
+            points: [
+              ['Python', 5],
+              ['Ruby', 5],
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

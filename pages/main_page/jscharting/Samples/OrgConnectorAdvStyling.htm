@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Connector Line Advanced Styling Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 850px; height: 420px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Specifies connector line and point styling by role with a minimal modern design.
+Learn how to:
+
+  - Use dynamic gradients to style node fill.
+*/
+      // JS
+      var palette = ['white', '#FFBF46', '#8ACB88', '#648381'];
+      var points = [
+        { x: 'Eliott Nieves', id: 'president', attributes_role: 'CEO' },
+        { x: 'Harvey-Lee Travis', id: 'vPresident1', parent: 'president', attributes_role: 'Vice President' },
+        { x: 'Gethin Morley', id: 'vPresident2', parent: 'president', attributes_role: 'Vice President' },
+        { x: 'Sonnie Kim', id: 'vPresident3', parent: 'president', attributes_role: 'Vice President' },
+        { x: 'Dante Curtis', id: 'manager1', parent: 'vPresident1', attributes_role: 'Manager' },
+        { x: 'Honey Mullen', id: 'manager2', parent: 'vPresident1', attributes_role: 'Manager' },
+        { x: 'Steffan Taylor', id: 'manager3', parent: 'vPresident2', attributes_role: 'Manager' },
+        { x: 'Charlton Hester', id: 'manager4', parent: 'vPresident2', attributes_role: 'Manager' },
+        { x: 'Ishmael Orr', id: 'manager5', parent: 'vPresident2', attributes_role: 'Manager' },
+        { x: 'Dua Frost', id: 'manager6', parent: 'manager5', attributes_role: 'Manager' },
+        { x: 'Salahuddin Eastwood', id: 'manager7', parent: 'manager5', attributes_role: 'Manager' },
+        { x: 'Nicole Tapia', id: 'employee1', parent: 'manager6', attributes_role: 'Employee' },
+        { x: 'Arisha Hinton', id: 'employee2', parent: 'manager6', attributes_role: 'Employee' },
+        { x: 'Martha Morley', id: 'employee3', parent: 'manager6', attributes_role: 'Employee' },
+        { x: 'Cathy Mcpherson', id: 'employee4', parent: 'manager6', attributes_role: 'Employee' },
+        { x: 'Kiara Johns', id: 'manager8', parent: 'vPresident3', attributes_role: 'Manager' },
+        { x: 'Grant Cash', id: 'manager9', parent: 'vPresident3', attributes_role: 'Manager' },
+        { x: 'Juanita Cottrell', id: 'employee5', parent: 'manager8', attributes_role: 'Employee' },
+        { x: 'Allana Frey', id: 'employee6', parent: 'manager8', attributes_role: 'Employee' },
+      ];
+
+      // Group points by unique roles
+      var pointsByRoles = JSC.nest().key('attributes_role').entries(points);
+
+      // Apply a color from palette to each group of points
+      pointsByRoles.forEach(function (group, i) {
+        group.values.forEach(function (point) {
+          point.color = point.connectorLine_color = palette[i];
+        });
+      });
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries: {
+          mouseTracking: false,
+          color: 'white',
+          defaultPoint: {
+            /* Default line styling for connector lines */
+            connectorLine: { width: 1.8, radius: 0 },
+            fill: {
+              /* Gradient to replicate a colored line on top of the node */
+              stops: [
+                [0, 'currentColor'],
+                [0.05, 'currentColor'],
+                [0.05, 'white'],
+                [1, 'white'],
+              ],
+              angle: 90,
+            },
+            label: {
+              text: '<b>%role</b><br><span style="font-size:10px">%name</span>',
+              autoWrap: false,
+              color: 'black',
+            },
+            outline_width: 0,
+            annotation: {
+              padding: 5,
+              margin: 10,
+              corners: 'square',
+            },
+          },
+        },
+        series: [{ points: points }],
+        defaultTooltip_enabled: false,
+      });
+    </script>
+  </body>
+</html>

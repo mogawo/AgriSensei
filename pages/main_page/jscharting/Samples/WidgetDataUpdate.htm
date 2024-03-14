@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Data Update Widget | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 240px;"></div>
+
+    <script type="text/javascript">
+      /*
+Update widget data and draw point markers even if overlapping axis.
+Learn how to:
+
+  - Update widget data and prevent chart marker clipping by axis labels.
+*/
+      // JS
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var daysWidgetDefaults = { title: 'Data', data: [1, 2, 5, 3, 4, 2] };
+
+      /* Widget Constructor */
+      function DaysWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, daysWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              type: 'line',
+              animation_duration: 500,
+              chartArea_clipContent: false,
+              legend_visible: false,
+              xAxis_categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              yAxis_visible: false,
+              defaultSeries: {
+                defaultPoint: {
+                  label_style_fontSize: '17px',
+                  marker_visible: false,
+                },
+                firstPoint: { label_text: '%yValue', marker_visible: true },
+                lastPoint: { label_text: '%yValue', marker_visible: true },
+              },
+              toolbar_items: {
+                updateButton: {
+                  type: 'button',
+                  label_text: 'Update Widget',
+                  margin_top: 10,
+                  position: 'bottom left',
+                  events_click: updateWidget,
+                },
+              },
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      DaysWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.title) {
+          result.title_label_text = options.title;
+        }
+        if (options.data) {
+          /* By assigning IDs to each data point, you can ensure the same points animate to new values. */
+          result.series = [
+            {
+              points: options.data.map(function (v, i) {
+                return { id: i + '', y: v };
+              }),
+            },
+          ];
+        }
+        return result;
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      DaysWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      /* USING THE WIDGET */
+
+      var myWidget = new DaysWidget('chartDiv1', {});
+
+      /* Test updating */
+      function updateWidget() {
+        myWidget.options({ data: [randInt(), randInt(), 3, 4, randInt(), randInt()] });
+        function randInt(max) {
+          max = max || 10;
+          return parseInt(Math.random() * max);
+        }
+      }
+    </script>
+  </body>
+</html>

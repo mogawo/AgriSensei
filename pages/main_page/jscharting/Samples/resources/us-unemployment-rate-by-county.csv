@@ -1,0 +1,3144 @@
+county,county_code,state,rate
+Autauga,001,Alabama,4.9
+Blount,009,Alabama,4.1
+Chambers,017,Alabama,6.8
+Chilton,021,Alabama,5
+Colbert,033,Alabama,6.6
+Dale,045,Alabama,4.9
+Elmore,051,Alabama,4.9
+Hale,065,Alabama,9.4
+Lawrence,079,Alabama,4.9
+Limestone,083,Alabama,4.3
+Monroe,099,Alabama,8.2
+Pickens,107,Alabama,6.5
+Talladega,121,Alabama,7
+Van Buren,141,Arkansas,7.1
+White,145,Arkansas,6.2
+Amador,005,California,9.1
+Glenn,021,California,8.9
+Lake,033,California,9.6
+Mariposa,043,California,10.9
+Napa,055,California,8.7
+Shasta,089,California,8.7
+Stanislaus,099,California,10.7
+Yuba,115,California,10.5
+Alamosa,003,Colorado,6.4
+Boulder,013,Colorado,6.2
+Broomfield,014,Colorado,6.6
+Crowley,025,Colorado,5.4
+Denver,031,Colorado,8.2
+Douglas,035,Colorado,5.8
+Gilpin,047,Colorado,11.3
+Marion,083,Florida,7
+Monroe,087,Florida,7.9
+Orange,095,Florida,10.6
+St. Lucie,111,Florida,7.8
+Sumter,119,Florida,7.9
+Union,125,Florida,4.7
+Appling,001,Georgia,4.7
+Barrow,013,Georgia,5.1
+Bryan,029,Georgia,5.3
+Candler,043,Georgia,4.4
+Chattooga,055,Georgia,8.4
+Clarke,059,Georgia,6.4
+Colquitt,071,Georgia,4.5
+Crawford,079,Georgia,5
+Dodge,091,Georgia,6
+Emanuel,107,Georgia,7.1
+Fayette,113,Georgia,5.4
+Gilmer,123,Georgia,4.7
+Hinsdale,053,Colorado,4.2
+Jackson,057,Colorado,4.3
+Jefferson,059,Colorado,7.1
+Lincoln,073,Colorado,4.5
+Montezuma,083,Colorado,7.1
+Phillips,095,Colorado,2.7
+Rio Grande,105,Colorado,7.1
+San Juan,111,Colorado,6.7
+Weld,123,Colorado,7
+Windham,015,Connecticut,7.8
+Alachua,001,Florida,5.4
+Calhoun,013,Florida,5.2
+Columbia,023,Florida,5.8
+Gadsden,039,Florida,6.8
+Highlands,055,Florida,7.7
+Holmes,059,Florida,5.5
+Leon,073,Florida,5.8
+Cochise,003,Arizona,7
+Maricopa,013,Arizona,7.4
+Arkansas,001,Arkansas,4
+Boone,009,Arkansas,5.3
+Clark,019,Arkansas,5.9
+Conway,029,Arkansas,6
+Drew,043,Arkansas,6.9
+Garland,051,Arkansas,8
+Howard,061,Arkansas,5
+Johnson,071,Arkansas,6.3
+Lonoke,085,Arkansas,5.5
+Montgomery,097,Arkansas,6.8
+Newton,101,Arkansas,5
+Poinsett,111,Arkansas,5.5
+St. Francis,123,Arkansas,7.9
+Searcy,129,Arkansas,6.4
+Wheeler,309,Georgia,7.2
+Whitfield,313,Georgia,7.3
+Wilkinson,319,Georgia,5.4
+Boise,015,Idaho,8
+Boundary,021,Idaho,6.2
+Gem,045,Idaho,5.9
+Jefferson,051,Idaho,3.4
+Latah,057,Idaho,4.7
+Minidoka,067,Idaho,3.8
+Teton,081,Idaho,5.7
+Bond,005,Illinois,6.8
+Brown,009,Illinois,3.8
+Champaign,019,Illinois,6.4
+Coles,029,Illinois,7.4
+Cumberland,035,Illinois,5.7
+Effingham,049,Illinois,6.6
+Franklin,055,Illinois,10.5
+Hamilton,065,Illinois,6.7
+Gibson,051,Indiana,6.2
+Hancock,059,Indiana,5.6
+Huntington,069,Indiana,6.6
+Jennings,079,Indiana,7.6
+Kosciusko,085,Indiana,6.1
+Madison,095,Indiana,7.9
+Monroe,105,Indiana,5.5
+Ohio,115,Indiana,7.4
+Pike,125,Indiana,5.9
+Pulaski,131,Indiana,6.1
+Rush,139,Indiana,6.3
+Sullivan,153,Indiana,7
+Warrick,173,Indiana,5.4
+Wells,179,Indiana,5.7
+Whitley,183,Indiana,5.9
+Audubon,009,Iowa,3.4
+Bremer,017,Iowa,3.9
+Buena Vista,021,Iowa,3.7
+Cedar,031,Iowa,4.4
+Clarke,039,Iowa,5.4
+Henry,073,Illinois,7.8
+Jackson,077,Illinois,7.7
+Jasper,079,Illinois,6
+Kane,089,Illinois,9.1
+Lee,103,Illinois,6.8
+Logan,107,Illinois,6.7
+Marion,121,Illinois,9.3
+Menard,129,Illinois,6.4
+Moultrie,139,Illinois,5
+Perry,145,Illinois,9.4
+Putnam,155,Illinois,8.3
+Schuyler,169,Illinois,6.2
+Stark,175,Illinois,7.3
+Tazewell,179,Illinois,8.1
+Washington,189,Illinois,5.3
+Woodford,203,Illinois,6.1
+Blackford,009,Indiana,8
+Boone,011,Indiana,4.3
+Clay,021,Indiana,6.6
+DeKalb,033,Indiana,6.9
+Glascock,125,Georgia,4.1
+Gordon,129,Georgia,5.5
+Grady,131,Georgia,4.4
+Hall,139,Georgia,4.7
+Jackson,157,Georgia,4.4
+Jones,169,Georgia,4.6
+Laurens,175,Georgia,6.7
+Lumpkin,187,Georgia,4.8
+Marion,197,Georgia,5.1
+Miller,201,Georgia,4
+Newton,217,Georgia,7.1
+Peach,225,Georgia,6.2
+Polk,233,Georgia,6
+Randolph,243,Georgia,5.9
+Seminole,253,Georgia,5
+Taliaferro,265,Georgia,7.2
+Tift,277,Georgia,5.1
+Troup,285,Georgia,7.3
+Upson,293,Georgia,6.6
+Washington,303,Georgia,6.4
+Clay,027,Kansas,4.5
+Cloud,029,Kansas,4.1
+Decatur,039,Kansas,3.7
+Elk,049,Kansas,4.8
+Graham,065,Kansas,4.6
+Hamilton,075,Kansas,1.7
+Jackson,085,Kansas,5.4
+Kingman,095,Kansas,5.2
+Lincoln,105,Kansas,2.9
+Marion,115,Kansas,4.1
+Morris,127,Kansas,3.9
+Ness,135,Kansas,3.4
+Pawnee,145,Kansas,3.8
+Reno,155,Kansas,5.5
+Rooks,163,Kansas,4
+Sedgwick,173,Kansas,8.7
+Stafford,185,Kansas,3.7
+Trego,195,Kansas,3.5
+Wichita,203,Kansas,2.1
+Wilson,205,Kansas,7.8
+Ohio,183,Kentucky,7.2
+Owen,187,Kentucky,6.4
+Owsley,189,Kentucky,7.4
+Pulaski,199,Kentucky,7.3
+Scott,209,Kentucky,6.3
+Todd,219,Kentucky,4.8
+Washington,229,Kentucky,6.2
+Acadia,001,Louisiana,7.3
+Bienville,013,Louisiana,7.7
+East Baton Rouge,033,Louisiana,7.8
+Jefferson Davis,053,Louisiana,7.5
+Ouachita,073,Louisiana,7.4
+Pointe Coupee,077,Louisiana,7.8
+St. Charles,089,Louisiana,7.8
+Tangipahoa,105,Louisiana,9.5
+Vernon,115,Louisiana,7.1
+Allen,003,Kentucky,5.5
+Barren,009,Kentucky,7.5
+Bourbon,017,Kentucky,5.9
+Breathitt,025,Kentucky,10.2
+Butler,031,Kentucky,6.9
+Carter,043,Kentucky,9.6
+Clinton,053,Kentucky,5.1
+Elliott,063,Kentucky,10.1
+Gallatin,077,Kentucky,6
+Green,087,Kentucky,5.4
+Hart,099,Kentucky,6.4
+Henry,103,Kentucky,5.7
+Johnson,115,Kentucky,8.7
+Knox,121,Kentucky,8.2
+Lincoln,137,Kentucky,7.9
+Lyon,143,Kentucky,5.3
+Madison,151,Kentucky,6
+Marshall,157,Kentucky,6.1
+Metcalfe,169,Kentucky,7.8
+Morgan,175,Kentucky,6.9
+Clinton,045,Iowa,6.7
+Crawford,047,Iowa,5.2
+Delaware,055,Iowa,4
+Emmet,063,Iowa,5
+Floyd,067,Iowa,6
+Hamilton,079,Iowa,4.4
+Henry,087,Iowa,5.3
+Iowa,095,Iowa,4.4
+Jones,105,Iowa,5.7
+Linn,113,Iowa,6.4
+Madison,121,Iowa,5.7
+Marion,125,Iowa,4.2
+Montgomery,137,Iowa,4.7
+O'Brien,141,Iowa,3.4
+Pocahontas,151,Iowa,3.5
+Sac,161,Iowa,3.5
+Story,169,Iowa,3.6
+Union,175,Iowa,5.9
+Warren,181,Iowa,4.6
+Worth,195,Iowa,5.4
+Atchison,005,Kansas,6.9
+Butler,015,Kansas,6.5
+Lac qui Parle,073,Minnesota,4.7
+Lyon,083,Minnesota,4.5
+McLeod,085,Minnesota,5.7
+Meeker,093,Minnesota,5.2
+Nicollet,103,Minnesota,4.8
+Pennington,113,Minnesota,6.2
+Pope,121,Minnesota,4.5
+Redwood,127,Minnesota,5.5
+Steele,147,Minnesota,5.5
+Todd,153,Minnesota,5.3
+Waseca,161,Minnesota,6.2
+Alcorn,003,Mississippi,6.2
+Calhoun,013,Mississippi,8.1
+Chickasaw,017,Mississippi,10.9
+Copiah,029,Mississippi,8.3
+Franklin,037,Mississippi,8.3
+Hinds,049,Mississippi,9.3
+Jasper,061,Mississippi,8.9
+Jefferson Davis,065,Mississippi,9.6
+Lauderdale,075,Mississippi,7.5
+West Baton Rouge,121,Louisiana,7.2
+Winn,127,Louisiana,7.1
+Hancock,009,Maine,5.7
+Washington,029,Maine,6.2
+Allegany,001,Maryland,7.8
+Anne Arundel,003,Maryland,5.8
+Calvert,009,Maryland,5.2
+Charles,017,Maryland,6.7
+Dorchester,019,Maryland,6.7
+Kent,029,Maryland,6.6
+Queen Anne's,035,Maryland,5.5
+St. Mary's,037,Maryland,4.8
+Somerset,039,Maryland,8.3
+Talbot,041,Maryland,6
+Franklin,011,Massachusetts,7.4
+Antrim,009,Michigan,9.7
+Barry,015,Michigan,7.4
+Branch,023,Michigan,8.1
+Clare,035,Michigan,11.5
+Clinton,037,Michigan,6.6
+Eaton,045,Michigan,7.7
+Gratiot,057,Michigan,8
+Houghton,061,Michigan,7.2
+Isabella,073,Michigan,8.4
+Kalamazoo,077,Michigan,7.2
+Keweenaw,083,Michigan,8.9
+Lake,085,Michigan,10.8
+Lenawee,091,Michigan,9
+Mackinac,097,Michigan,13.4
+Marquette,103,Michigan,8.3
+Mecosta,107,Michigan,9.1
+Midland,111,Michigan,7.5
+Montcalm,117,Michigan,9.1
+Newaygo,123,Michigan,8.7
+Osceola,133,Michigan,8.3
+Roscommon,143,Michigan,12.1
+Shiawassee,155,Michigan,9.2
+Washtenaw,161,Michigan,6.4
+Wexford,165,Michigan,10.2
+Benton,009,Minnesota,6.6
+Carver,019,Minnesota,5.2
+Clearwater,029,Minnesota,9.4
+Dodge,039,Minnesota,5.4
+Grant,051,Minnesota,5.3
+Hubbard,057,Minnesota,7.1
+Kandiyohi,067,Minnesota,4.8
+Jasper,097,Missouri,5.7
+Knox,103,Missouri,4
+Lawrence,109,Missouri,6.1
+Livingston,117,Missouri,3.8
+Miller,131,Missouri,6.2
+Monroe,137,Missouri,5.9
+Osage,151,Missouri,3.6
+Pettis,159,Missouri,6.8
+Pulaski,169,Missouri,5.6
+Reynolds,179,Missouri,5.7
+Saline,195,Missouri,4.5
+Shelby,205,Missouri,4.5
+Sullivan,211,Missouri,4.3
+Washington,221,Missouri,7.2
+Wright,229,Missouri,7
+Cascade,013,Montana,5.9
+Golden Valley,037,Montana,4.7
+Jefferson,043,Montana,5.1
+Merrick,121,Nebraska,4
+Nance,125,Nebraska,3.2
+Perkins,135,Nebraska,1.8
+Phelps,137,Nebraska,3
+Richardson,147,Nebraska,3.2
+Seward,159,Nebraska,4.1
+Sherman,163,Nebraska,3.2
+Thomas,171,Nebraska,4
+Wheeler,183,Nebraska,1.8
+Esmeralda,009,Nevada,5.2
+Mineral,021,Nevada,5.6
+White Pine,033,Nevada,4.2
+Camden,007,New Jersey,10.1
+Gloucester,015,New Jersey,9.3
+Passaic,031,New Jersey,12.6
+Bernalillo,001,New Mexico,8.1
+Cibola,006,New Mexico,9.2
+Liberty,051,Montana,2.8
+Meagher,059,Montana,4.7
+Petroleum,069,Montana,3.4
+Silver Bow,093,Montana,6.6
+Teton,099,Montana,4.4
+Wheatland,107,Montana,7.3
+Antelope,003,Nebraska,2.3
+Blaine,009,Nebraska,3.5
+Butler,023,Nebraska,3.4
+Clay,035,Nebraska,3.2
+Colfax,037,Nebraska,2.9
+Dawson,047,Nebraska,3.4
+Dodge,053,Nebraska,3.5
+Frontier,063,Nebraska,2.9
+Gosper,073,Nebraska,2.6
+Hayes,085,Nebraska,2.2
+Howard,093,Nebraska,4.4
+Johnson,097,Nebraska,3.9
+McPherson,117,Nebraska,2.7
+Leake,079,Mississippi,7.9
+Leflore,083,Mississippi,10.7
+Monroe,095,Mississippi,8.9
+Neshoba,099,Mississippi,9.3
+Noxubee,103,Mississippi,11
+Pontotoc,115,Mississippi,7.8
+Prentiss,117,Mississippi,7
+Simpson,127,Mississippi,6.8
+Tippah,139,Mississippi,7
+Washington,151,Mississippi,11
+Adair,001,Missouri,5.1
+Barry,009,Missouri,6.5
+Buchanan,021,Missouri,4.9
+Carroll,033,Missouri,6
+Christian,043,Missouri,4.9
+Cooper,053,Missouri,5.6
+Dent,065,Missouri,4.8
+Gentry,075,Missouri,3.4
+Hickory,085,Missouri,5.1
+Alamance,001,North Carolina,7.2
+Alleghany,005,North Carolina,7.3
+Bladen,017,North Carolina,7.2
+Buncombe,021,North Carolina,8.3
+Caldwell,027,North Carolina,7.9
+Dare,055,North Carolina,9.8
+Davidson,057,North Carolina,7.1
+Forsyth,067,North Carolina,7.4
+Guilford,081,North Carolina,8.6
+Hertford,091,North Carolina,7
+Jones,103,North Carolina,5.8
+Martin,117,North Carolina,6.9
+Nash,127,North Carolina,8.4
+Pender,141,North Carolina,6.6
+Randolph,151,North Carolina,7.4
+Scotland,165,North Carolina,12
+Stanly,167,North Carolina,6.3
+Geauga,055,Ohio,6.7
+Hancock,063,Ohio,6.8
+Hardin,065,Ohio,8.1
+Holmes,075,Ohio,3.9
+Licking,089,Ohio,6.5
+Madison,097,Ohio,5.9
+Miami,109,Ohio,7
+Noble,121,Ohio,9.6
+Pike,131,Ohio,9.4
+Sandusky,143,Ohio,8.1
+Seneca,147,Ohio,8.1
+Union,159,Ohio,5.8
+Wayne,169,Ohio,5.9
+Wood,173,Ohio,7.1
+Beckham,009,Oklahoma,7.5
+Carter,019,Oklahoma,7
+Comanche,031,Oklahoma,6.7
+Dewey,043,Oklahoma,4.8
+Grant,053,Oklahoma,3.3
+Vance,181,North Carolina,10.1
+Wayne,191,North Carolina,6.5
+Yadkin,197,North Carolina,7.1
+Billings,007,North Dakota,3.7
+Cavalier,019,North Dakota,3.5
+Foster,031,North Dakota,3.5
+Grand Forks,035,North Dakota,4.6
+LaMoure,045,North Dakota,2.6
+Mountrail,061,North Dakota,5.1
+Ransom,073,North Dakota,4.1
+Rolette,079,North Dakota,13.4
+Steele,091,North Dakota,3
+Wells,103,North Dakota,4.4
+Allen,003,Ohio,8.5
+Brown,015,Ohio,8.2
+Clinton,027,Ohio,8.3
+Defiance,039,Ohio,8.2
+Fayette,047,Ohio,7.4
+Eddy,015,New Mexico,6.9
+Lincoln,027,New Mexico,8.8
+Los Alamos,028,New Mexico,3.7
+San Juan,045,New Mexico,10
+Socorro,053,New Mexico,7.1
+Allegany,003,New York,8.1
+Columbia,021,New York,6.2
+Genesee,037,New York,7.4
+Herkimer,043,New York,8.2
+Montgomery,057,New York,8.8
+Ontario,069,New York,7.3
+Rensselaer,083,New York,7
+Schoharie,095,New York,7.1
+Tompkins,109,New York,6.2
+Wyoming,121,New York,7.5
+Yates,123,New York,6.5
+Blair,013,Pennsylvania,8.7
+Bradford,015,Pennsylvania,7.5
+Cambria,021,Pennsylvania,9.5
+Clarion,031,Pennsylvania,8.2
+Elk,047,Pennsylvania,12.3
+Indiana,063,Pennsylvania,9.1
+Lackawanna,069,Pennsylvania,9.6
+Mifflin,087,Pennsylvania,8.4
+Montour,093,Pennsylvania,6.1
+Potter,105,Pennsylvania,9.3
+Sullivan,113,Pennsylvania,8.5
+Warren,123,Pennsylvania,8.1
+Allendale,005,South Carolina,9.4
+Bamberg,009,South Carolina,9
+Clarendon,027,South Carolina,6.8
+Fairfield,039,South Carolina,7.9
+Benton,005,Tennessee,8.2
+Bledsoe,007,Tennessee,8.6
+Campbell,013,Tennessee,7.6
+Clay,027,Tennessee,8.1
+Coffee,031,Tennessee,7.8
+Dyer,045,Tennessee,8
+Grainger,057,Tennessee,7.2
+Hardeman,069,Tennessee,8.2
+Hickman,081,Tennessee,5.8
+Knox,093,Tennessee,5.9
+Loudon,105,Tennessee,6.4
+Marshall,117,Tennessee,9.1
+Morgan,129,Tennessee,6.5
+Polk,139,Tennessee,6.9
+Scott,151,Tennessee,8.6
+Union,173,Tennessee,6.9
+Washington,179,Tennessee,6.4
+Hampton,049,South Carolina,5
+Jasper,053,South Carolina,5.1
+Orangeburg,075,South Carolina,9
+Saluda,081,South Carolina,4.3
+Aurora,003,South Dakota,3.2
+Bennett,007,South Dakota,5
+Buffalo,017,South Dakota,8
+Codington,029,South Dakota,4.9
+Davison,035,South Dakota,4.2
+Douglas,043,South Dakota,3
+Haakon,055,South Dakota,2.5
+Hanson,061,South Dakota,5.2
+McCook,087,South Dakota,3.7
+Mellette,095,South Dakota,6.2
+Pennington,103,South Dakota,5.3
+Sanborn,111,South Dakota,4.1
+Turner,125,South Dakota,3.9
+Ziebach,137,South Dakota,4.8
+Harper,059,Oklahoma,3.3
+Hughes,063,Oklahoma,7.5
+Kingfisher,073,Oklahoma,4.3
+Lincoln,081,Oklahoma,5.6
+McClain,087,Oklahoma,5.5
+Mayes,097,Oklahoma,5
+Oklahoma,109,Oklahoma,6.4
+Pontotoc,123,Oklahoma,5.2
+Pushmataha,127,Oklahoma,6.7
+Washington,147,Oklahoma,5.9
+Woodward,153,Oklahoma,6.7
+Deschutes,017,Oregon,7.9
+Jefferson,031,Oregon,8.2
+Lake,037,Oregon,5.6
+Polk,053,Oregon,6.6
+Wheeler,069,Oregon,4.3
+Armstrong,005,Pennsylvania,9.8
+Ochiltree,357,Texas,5.8
+Oldham,359,Texas,3.9
+Parker,367,Texas,5.9
+Rains,379,Texas,4.7
+Randall,381,Texas,4.5
+Roberts,393,Texas,4.6
+Rockwall,397,Texas,6
+San Saba,411,Texas,5.2
+Somervell,425,Texas,6.5
+Stephens,429,Texas,6.1
+Stonewall,433,Texas,5
+Terry,445,Texas,7.3
+Titus,449,Texas,6.7
+Upshur,459,Texas,7.7
+Uvalde,463,Texas,6.4
+Ward,475,Texas,9.4
+Williamson,491,Texas,5.9
+Wise,497,Texas,6.5
+Zavala,507,Texas,14.1
+Davis,011,Utah,4.1
+White,185,Tennessee,7.1
+Wilson,189,Tennessee,6.3
+Archer,009,Texas,5.3
+Armstrong,011,Texas,4.3
+Bastrop,021,Texas,6
+Blanco,031,Texas,3.8
+Brooks,047,Texas,10.7
+Burnet,053,Texas,4.7
+Camp,063,Texas,7.4
+Castro,069,Texas,3.6
+Cochran,079,Texas,7.1
+Concho,095,Texas,4.5
+Coryell,099,Texas,6.6
+Crane,103,Texas,13.6
+Dawson,115,Texas,8.7
+DeWitt,123,Texas,6
+Dimmit,127,Texas,6.4
+Edwards,137,Texas,3.5
+Fayette,149,Texas,4.7
+Franklin,159,Texas,5.3
+Garza,169,Texas,6.8
+Gonzales,177,Texas,5.4
+Gray,179,Texas,8.1
+Grimes,185,Texas,8
+Hall,191,Texas,5.8
+Hansford,195,Texas,3.5
+Hill,217,Texas,6.3
+Howard,227,Texas,8.1
+Hutchinson,233,Texas,7.2
+Jim Hogg,247,Texas,9.5
+Johnson,251,Texas,6.5
+Kent,263,Texas,3.9
+Kerr,265,Texas,5.9
+Knox,275,Texas,5.6
+La Salle,283,Texas,6.8
+Live Oak,297,Texas,7.5
+Lubbock,303,Texas,5.7
+McLennan,309,Texas,6.2
+Mason,319,Texas,5.6
+Midland,329,Texas,8.1
+Montgomery,339,Texas,7.5
+Navarro,349,Texas,6.2
+Nolan,353,Texas,5.3
+Montgomery,121,Virginia,4.8
+Nelson,125,Virginia,5.6
+Patrick,141,Virginia,6.9
+Powhatan,145,Virginia,4.8
+Pulaski,155,Virginia,7.9
+Rappahannock,157,Virginia,4.5
+Smyth,173,Virginia,6.4
+Warren,187,Virginia,5.8
+Wythe,197,Virginia,7.7
+Alexandria,510,Virginia,0
+Buena Vista,530,Virginia,0
+Charlottesville,540,Virginia,0
+Emporia,595,Virginia,0
+Harrisonburg,660,Virginia,0
+Hopewell,670,Virginia,0
+Richmond,760,Virginia,4.9
+Salem,775,Virginia,0
+Waynesboro,820,Virginia,0
+Columbia,013,Washington,7.3
+Franklin,021,Washington,9
+Door,029,Wisconsin,6.8
+Dunn,033,Wisconsin,5.5
+Fond du Lac,039,Wisconsin,5.9
+Green,045,Wisconsin,4.8
+La Crosse,063,Wisconsin,5.4
+Lincoln,069,Wisconsin,5.9
+Marathon,073,Wisconsin,5
+Monroe,081,Wisconsin,5.5
+Polk,095,Wisconsin,7.2
+Richland,103,Wisconsin,5.1
+Shawano,115,Wisconsin,6.4
+Washburn,129,Wisconsin,6.9
+Wood,141,Wisconsin,6.7
+Natrona,025,Wyoming,7.8
+Platte,031,Wyoming,5
+Sheridan,033,Wyoming,4.9
+Weston,045,Wyoming,3.9
+Lewis,041,Washington,9.4
+Mason,045,Washington,9.8
+Stevens,065,Washington,9.4
+Barbour,001,West Virginia,8.3
+Braxton,007,West Virginia,10.4
+Calhoun,013,West Virginia,16.1
+Gilmer,021,West Virginia,10.1
+Kanawha,039,West Virginia,8.9
+Marion,049,West Virginia,8.7
+Monongalia,061,West Virginia,6.3
+Putnam,079,West Virginia,7.4
+Summers,089,West Virginia,7.8
+Webster,101,West Virginia,9.4
+Ashland,003,Wisconsin,8.5
+Barron,005,Wisconsin,6.1
+Bayfield,007,Wisconsin,9.3
+Chippewa,017,Wisconsin,6.2
+Dane,025,Wisconsin,4.8
+Morgan,029,Utah,3.3
+Piute,031,Utah,6.3
+Salt Lake,035,Utah,5.1
+Wasatch,051,Utah,6.4
+Caledonia,005,Vermont,5.8
+Orleans,019,Vermont,7.9
+Amelia,007,Virginia,5.8
+Bath,017,Virginia,9.9
+Buckingham,029,Virginia,7.4
+Clarke,043,Virginia,4.5
+Culpeper,047,Virginia,5
+Floyd,063,Virginia,5.1
+Goochland,075,Virginia,4.9
+King William,101,Virginia,5.4
+Lunenburg,111,Virginia,5.3
+Madison,113,Virginia,3.8
+Choctaw,023,Alabama,6.7
+Clarke,025,Alabama,9
+Cleburne,029,Alabama,4.6
+Coffee,031,Alabama,4.4
+Coosa,037,Alabama,5.5
+Dallas,047,Alabama,10.7
+Etowah,055,Alabama,7.7
+Franklin,059,Alabama,4.4
+Geneva,061,Alabama,4.1
+Henry,067,Alabama,4.8
+Jackson,071,Alabama,5.3
+Lee,081,Alabama,5.2
+Lowndes,085,Alabama,13.3
+Macon,087,Alabama,9.6
+Madison,089,Alabama,4.6
+Washington,143,Arkansas,4.6
+Woodruff,147,Arkansas,5.8
+Alpine,003,California,11.2
+Butte,007,California,9.2
+Marion,093,Alabama,5.1
+Marshall,095,Alabama,4.2
+Mobile,097,Alabama,7.9
+Montgomery,101,Alabama,7.8
+Shelby,117,Alabama,3.9
+Sumter,119,Alabama,7
+Tuscaloosa,125,Alabama,6.6
+Wilcox,131,Alabama,14.7
+Bibb,007,Alabama,6.6
+Bullock,011,Alabama,5.5
+Calhoun,015,Alabama,7.1
+Mendocino,045,California,8.9
+Modoc,049,California,8.5
+Mono,051,California,11.8
+Nevada,057,California,8
+Orange,059,California,8.8
+Riverside,065,California,9.9
+San Benito,069,California,9.9
+San Diego,073,California,9.2
+San Francisco,075,California,7.8
+Yolo,113,California,7.5
+Adams,001,Colorado,8
+Archuleta,007,Colorado,7.6
+Baca,009,Colorado,2.3
+Chaffee,015,Colorado,6.3
+Cheyenne,017,Colorado,2.4
+Conejos,021,Colorado,5.6
+Costilla,023,Colorado,7.2
+Delta,029,Colorado,6.6
+Eagle,037,Colorado,9.5
+Fremont,043,Colorado,7.7
+San Mateo,081,California,6.9
+Santa Barbara,083,California,8
+Santa Cruz,087,California,9.5
+Solano,095,California,9.5
+Sutter,101,California,11
+Tehama,103,California,8.8
+Tuolumne,109,California,10.4
+Calaveras,009,California,7.6
+Contra Costa,013,California,8.9
+Del Norte,015,California,9.5
+Heard,149,Georgia,6.5
+Franklin,059,Kansas,5.4
+Imperial,025,California,22.5
+Kern,029,California,12.5
+Kings,031,California,11.6
+Madera,039,California,10.8
+Cobb,067,Georgia,5.9
+Coffee,069,Georgia,5.8
+Columbia,073,Georgia,4.2
+Coweta,077,Georgia,6.2
+Crisp,081,Georgia,7.9
+Decatur,087,Georgia,4.8
+Dooly,093,Georgia,7.7
+Dougherty,095,Georgia,8.6
+Echols,101,Georgia,3.9
+Effingham,103,Georgia,5
+Evans,109,Georgia,5.1
+Floyd,115,Georgia,6.3
+Franklin,119,Georgia,5.9
+Kiowa,061,Colorado,2.3
+Kit Carson,063,Colorado,2.8
+Larimer,069,Colorado,6.3
+Nassau,089,Florida,5.7
+Okaloosa,091,Florida,5.5
+Osceola,097,Florida,13.5
+Palm Beach,099,Florida,7.6
+Pasco,101,Florida,7.2
+Putnam,107,Florida,7.9
+St. Johns,109,Florida,5.3
+Santa Rosa,113,Florida,5.2
+Sarasota,115,Florida,6.8
+Seminole,117,Florida,7.2
+Volusia,127,Florida,7.6
+Walton,131,Florida,5.9
+Atkinson,003,Georgia,3.9
+Bacon,005,Georgia,4.9
+Baldwin,009,Georgia,6.9
+Bartow,015,Georgia,6.2
+Bleckley,023,Georgia,6.5
+Brantley,025,Georgia,5.4
+Bulloch,031,Georgia,6.5
+Calhoun,037,Georgia,5.1
+Charlton,049,Georgia,3.8
+Chattahoochee,053,Georgia,6.2
+Cherokee,057,Georgia,4.9
+Clayton,063,Georgia,10.3
+Tolland,013,Connecticut,6.2
+Sussex,005,Delaware,7.5
+District of Columbia,001,District of Columbia,8
+Baker,003,Florida,4.9
+Bay,005,Florida,6.1
+Broward,011,Florida,8.8
+Charlotte,015,Florida,7.3
+Lee,071,Florida,7.3
+Madison,079,Florida,6
+Manatee,081,Florida,6.8
+Montrose,085,Colorado,6.6
+Citrus,017,Florida,8.4
+Dixie,029,Florida,5.5
+Duval,031,Florida,6.7
+Gilchrist,041,Florida,4.9
+Glades,043,Florida,5.6
+Gulf,045,Florida,5.9
+Hardee,049,Florida,6.5
+Hendry,051,Florida,8.1
+Hernando,053,Florida,8.1
+Indian River,061,Florida,7.4
+Jackson,063,Florida,5.4
+Lake,069,Florida,8.9
+Logan,075,Colorado,4.7
+Mesa,077,Colorado,7.5
+Moffat,081,Colorado,6
+Morgan,087,Colorado,5.4
+Ouray,091,Colorado,8.1
+Pitkin,097,Colorado,10.5
+Rio Blanco,103,Colorado,5.4
+Saguache,109,Colorado,7
+Teller,119,Colorado,7.5
+Washington,121,Colorado,3.1
+Yuma,125,Colorado,2.8
+Hartford,003,Connecticut,8.1
+Middlesex,007,Connecticut,6.5
+Carroll,015,Arkansas,5.7
+Chicot,017,Arkansas,10.3
+Cleveland,025,Arkansas,6.1
+Columbia,027,Arkansas,6.8
+Crawford,033,Arkansas,5.4
+Faulkner,045,Arkansas,5.4
+Franklin,047,Arkansas,5.6
+Grant,053,Arkansas,5.2
+Hot Spring,059,Arkansas,5.8
+Jackson,067,Arkansas,7.1
+Lafayette,073,Arkansas,7.6
+Little River,081,Arkansas,6.4
+Logan,083,Arkansas,6.6
+Madison,087,Arkansas,3.9
+Ada,001,Idaho,5.4
+Adams,003,Idaho,9.3
+Benewah,009,Idaho,7.5
+Bonner,017,Idaho,7.5
+Bonneville,019,Idaho,4
+Marion,089,Arkansas,6.4
+Miller,091,Arkansas,6.9
+Mississippi,093,Arkansas,9
+Nevada,099,Arkansas,5.9
+Ouachita,103,Arkansas,6
+Polk,113,Arkansas,6.6
+Pope,115,Arkansas,5.9
+Randolph,121,Arkansas,5.9
+Sevier,133,Arkansas,5.8
+Stone,137,Arkansas,7.1
+Wilkes,317,Georgia,6.7
+Worth,321,Georgia,5.4
+Coconino,005,Arizona,9.7
+Graham,009,Arizona,6.3
+Greenlee,011,Arizona,5.5
+La Paz,012,Arizona,7.1
+Navajo,017,Arizona,10.1
+Pinal,021,Arizona,7.5
+Santa Cruz,023,Arizona,11.4
+Yuma,027,Arizona,17.1
+Ashley,003,Arkansas,9.3
+Calhoun,013,Arkansas,5.2
+Oneida,071,Idaho,4.2
+Power,077,Idaho,4.1
+Shoshone,079,Idaho,9.1
+Twin Falls,083,Idaho,5.3
+Alexander,003,Illinois,9.8
+Boone,007,Illinois,11.2
+Bureau,011,Illinois,7.6
+Carroll,015,Illinois,7.2
+Clark,023,Illinois,7.9
+Crawford,033,Illinois,7
+DeKalb,037,Illinois,8.2
+Douglas,041,Illinois,5.6
+DuPage,043,Illinois,7.9
+Orange,117,Indiana,11.1
+Parke,121,Indiana,5.5
+Porter,127,Indiana,8.1
+Randolph,135,Indiana,6.6
+Ripley,137,Indiana,6.4
+St. Joseph,141,Indiana,8.4
+Starke,149,Indiana,8
+Steuben,151,Indiana,6.2
+Tipton,159,Indiana,6.1
+Union,161,Indiana,5.5
+Vigo,167,Indiana,7.9
+Wabash,169,Indiana,6.1
+Washington,175,Indiana,6.9
+White,181,Indiana,5
+Adair,001,Iowa,4
+Edwards,047,Illinois,8.2
+Fayette,051,Illinois,7.5
+Ford,053,Illinois,6.4
+Fulton,057,Illinois,8.6
+Grundy,063,Illinois,8.8
+Greene,055,Indiana,6.2
+Hamilton,057,Indiana,4.7
+Henry,065,Indiana,6.6
+Howard,067,Indiana,10.9
+Jackson,071,Indiana,7.2
+Jefferson,077,Indiana,7.4
+LaGrange,087,Indiana,6.4
+LaPorte,091,Indiana,9.5
+Marion,097,Indiana,7.9
+Martin,101,Indiana,4.2
+Miami,103,Indiana,8.2
+Morgan,109,Indiana,5.4
+Butte,023,Idaho,3.6
+Camas,025,Idaho,4.8
+Caribou,029,Idaho,3.6
+Clark,033,Idaho,4
+Franklin,041,Idaho,3.6
+Fremont,043,Idaho,3.6
+Gooding,047,Idaho,3.8
+Jerome,053,Idaho,4
+Kootenai,055,Idaho,6.9
+Lewis,061,Idaho,7.7
+Madison,065,Idaho,2.7
+Nez Perce,069,Idaho,4.9
+Benton,007,Indiana,5.2
+Brown,013,Indiana,6.7
+Carroll,015,Indiana,6
+Clark,019,Indiana,7.2
+Crawford,025,Indiana,7.1
+Decatur,031,Indiana,7.5
+Delaware,035,Indiana,7.3
+Fountain,045,Indiana,6.5
+Habersham,137,Georgia,5.4
+Hancock,141,Georgia,8.8
+Hart,147,Georgia,5.4
+Irwin,155,Georgia,5.5
+Jasper,159,Georgia,4.9
+Jenkins,165,Georgia,6.3
+Lamar,171,Georgia,6.3
+Lanier,173,Georgia,5.2
+Johnson,091,Kansas,5.1
+Kiowa,097,Kansas,3.3
+Labette,099,Kansas,5.6
+Leavenworth,103,Kansas,5.8
+Logan,109,Kansas,2.5
+McPherson,113,Kansas,3.5
+Meade,119,Kansas,2.8
+Montgomery,125,Kansas,7.3
+Nemaha,131,Kansas,3
+Osborne,141,Kansas,2.9
+Ottawa,143,Kansas,4.3
+Republic,157,Kansas,3.3
+Rush,165,Kansas,4.6
+Russell,167,Kansas,4.2
+Scott,171,Kansas,2.5
+Shawnee,177,Kansas,5.9
+Lafourche,057,Louisiana,6.5
+Lincoln,061,Louisiana,6.3
+Livingston,063,Louisiana,6.4
+Natchitoches,069,Louisiana,6.8
+Plaquemines,075,Louisiana,7
+Rapides,079,Louisiana,6.2
+Red River,081,Louisiana,6.2
+Sabine,085,Louisiana,5.5
+Jefferson,111,Kentucky,6.8
+Jessamine,113,Kentucky,5.6
+Larue,123,Kentucky,7.2
+Lee,129,Kentucky,7
+Lewis,135,Kentucky,9.5
+Livingston,139,Kentucky,7.5
+McCracken,145,Kentucky,7.2
+Magoffin,153,Kentucky,16.1
+Martin,159,Kentucky,11.6
+Mercer,167,Kentucky,7.3
+Monroe,171,Kentucky,5.4
+Montgomery,173,Kentucky,8
+Nelson,179,Kentucky,6.9
+Decatur,053,Iowa,3.8
+Allen,003,Indiana,7.7
+Lincoln,181,Georgia,5.4
+Dubuque,061,Iowa,5.9
+Franklin,069,Iowa,3.8
+Grundy,075,Iowa,4.4
+Guthrie,077,Iowa,5
+Howard,089,Iowa,4.5
+Ida,093,Iowa,3.6
+Jefferson,101,Iowa,5.7
+Johnson,103,Iowa,4.8
+Keokuk,107,Iowa,4.9
+Lee,111,Iowa,6.5
+Marshall,127,Iowa,7.1
+Mills,129,Iowa,3.9
+Monroe,135,Iowa,5.2
+Muscatine,139,Iowa,6
+Page,145,Iowa,5
+Sherman,181,Kansas,3.4
+Polk,153,Iowa,6
+Pottawattamie,155,Iowa,5.2
+Ringgold,159,Iowa,3.9
+Scott,163,Iowa,6.8
+Tama,171,Iowa,5.1
+Van Buren,177,Iowa,4.6
+Washington,183,Iowa,4.1
+Winnebago,189,Iowa,6.4
+Woodbury,193,Iowa,5.3
+Anderson,003,Kansas,4.1
+Barton,009,Kansas,4.6
+Chase,017,Kansas,5.5
+Chautauqua,019,Kansas,6.1
+Morgan,211,Georgia,5.4
+Lincoln,081,Minnesota,4.4
+Marshall,089,Minnesota,6.5
+Martin,091,Minnesota,5.2
+Mille Lacs,095,Minnesota,8.4
+Morrison,097,Minnesota,6.8
+Mower,099,Minnesota,5
+Nobles,105,Minnesota,4.2
+Olmsted,109,Minnesota,5.4
+Otter Tail,111,Minnesota,5.4
+Pine,115,Minnesota,8.6
+Pipestone,117,Minnesota,4
+Polk,119,Minnesota,5.6
+Renville,129,Minnesota,5.5
+Rock,133,Minnesota,3
+Dickinson,059,Iowa,5.1
+Sherburne,141,Minnesota,6.1
+Stearns,145,Minnesota,5.7
+Stevens,149,Minnesota,3.3
+Wabasha,157,Minnesota,5.3
+Washington,163,Minnesota,5.6
+Wright,171,Minnesota,5.5
+Amite,005,Mississippi,8.4
+Benton,009,Mississippi,8.3
+Bolivar,011,Mississippi,8.7
+Carroll,015,Mississippi,7.7
+Claiborne,021,Mississippi,14.4
+Covington,031,Mississippi,6.9
+George,039,Mississippi,9.1
+Plymouth,149,Iowa,3.6
+Hancock,045,Mississippi,8.5
+Holmes,051,Mississippi,16.2
+Humphreys,053,Mississippi,14.7
+Jackson,059,Mississippi,9.5
+Jones,067,Mississippi,7.1
+Lamar,073,Mississippi,6
+Franklin,007,Maine,6.1
+Muscogee,215,Georgia,7.8
+Quitman,239,Georgia,6.5
+Lake of the Woods,077,Minnesota,6.1
+Darlington,031,South Carolina,6.5
+Dorchester,035,South Carolina,5.8
+Edgefield,037,South Carolina,5.1
+Bradley,011,Tennessee,6.6
+Carroll,017,Tennessee,7.4
+Cheatham,021,Tennessee,5.6
+Claiborne,025,Tennessee,7
+Crockett,033,Tennessee,5.9
+Cumberland,035,Tennessee,7.7
+DeKalb,041,Tennessee,9.1
+Fayette,047,Tennessee,6.4
+Fentress,049,Tennessee,6.5
+Greene,059,Tennessee,8.3
+Grundy,061,Tennessee,9.8
+St. Louis,137,Minnesota,7.2
+Lincoln,015,Maine,5.3
+Piscataquis,021,Maine,5.5
+Sagadahoc,023,Maine,4.7
+York,031,Maine,5.4
+Greene,041,Mississippi,9.7
+Rock,149,Nebraska,2.1
+Saline,151,Nebraska,3.6
+Saunders,155,Nebraska,3.7
+Sheridan,161,Nebraska,2.4
+Thayer,169,Nebraska,2.7
+Thurston,173,Nebraska,5.2
+Webster,181,Nebraska,3.8
+Douglas,005,Nevada,8.6
+Elko,007,Nevada,5.7
+Humboldt,013,Nevada,4.9
+Lincoln,017,Nevada,5.1
+Nye,023,Nevada,9.7
+Kennebec,011,Maine,5
+Meigs,105,Ohio,9.6
+Mercer,107,Ohio,5.4
+Morrow,117,Ohio,7.1
+Muskingum,119,Ohio,7.8
+Paulding,125,Ohio,7.5
+Pickaway,129,Ohio,6.8
+Portage,133,Ohio,7.3
+Preble,135,Ohio,6.7
+Richland,139,Ohio,9
+Ross,141,Ohio,8
+Shelby,149,Ohio,7.7
+Stark,151,Ohio,8.1
+Tuscarawas,157,Ohio,7.6
+Van Wert,161,Ohio,7
+Hamilton,065,Tennessee,7.1
+Hancock,067,Tennessee,8.4
+Hardin,071,Tennessee,7.1
+Henderson,077,Tennessee,8
+Houston,083,Tennessee,8.2
+Jackson,087,Tennessee,8
+Lake,095,Tennessee,8.8
+Lewis,101,Tennessee,7.5
+McMinn,107,Tennessee,7.8
+McNairy,109,Tennessee,8.7
+Macon,111,Tennessee,6.5
+Maury,119,Tennessee,8.1
+Montgomery,125,Tennessee,7.6
+Perry,135,Tennessee,9.5
+Pickett,137,Tennessee,6.1
+Caroline,011,Maryland,5.5
+Carroll,013,Maryland,5.1
+Frederick,021,Maryland,5.9
+Garrett,023,Maryland,6.6
+Montgomery,031,Maryland,6.3
+Prince George's,033,Maryland,8.2
+Washington,043,Maryland,6.7
+Washoe,031,Nevada,7.8
+Carson City,510,Nevada,8.2
+Carroll,003,New Hampshire,7.7
+Grafton,009,New Hampshire,5.8
+Rockingham,015,New Hampshire,7.1
+Sullivan,019,New Hampshire,5.4
+Bergen,003,New Jersey,9.6
+Cape May,009,New Jersey,13.8
+Essex,013,New Jersey,11.7
+Washington,167,Ohio,8.6
+Williams,171,Ohio,7.8
+Wyandot,175,Ohio,7
+Alfalfa,003,Oklahoma,3.6
+Blaine,011,Oklahoma,5.9
+Bryan,013,Oklahoma,5.1
+Canadian,017,Oklahoma,6
+Cimarron,025,Oklahoma,2
+Coal,029,Oklahoma,6.6
+Craig,035,Oklahoma,5.4
+Custer,039,Oklahoma,5.4
+Ellis,045,Oklahoma,4.5
+Garvin,049,Oklahoma,6.2
+Greer,055,Oklahoma,7.4
+Wilkes,193,North Carolina,6.8
+Putnam,141,Tennessee,6.6
+Briscoe,045,Texas,4.8
+Brown,049,Texas,6.5
+Caldwell,055,Texas,6.3
+Cameron,061,Texas,10.2
+Carson,065,Texas,4.2
+Cass,067,Texas,7.9
+Cherokee,073,Texas,7.9
+Clay,077,Texas,5.5
+Coke,081,Texas,5.5
+Collin,085,Texas,6.3
+Collingsworth,087,Texas,4.3
+Comal,091,Texas,6.2
+Worcester,047,Maryland,11.2
+Dukes,007,Massachusetts,9.2
+Hampden,013,Massachusetts,10.4
+Hampshire,015,Massachusetts,7.2
+Middlesex,017,Massachusetts,7.3
+Hudson,017,New Jersey,10.6
+Hunterdon,019,New Jersey,7.2
+Mercer,021,New Jersey,7.4
+Ocean,029,New Jersey,9.5
+Salem,033,New Jersey,9.5
+Somerset,035,New Jersey,7.8
+Warren,041,New Jersey,8.5
+Colfax,007,New Mexico,7.1
+McCone,055,Montana,2.9
+Madison,057,Montana,5.1
+Wilson,195,North Carolina,8.9
+Yancey,199,North Carolina,6.6
+Benson,005,North Dakota,6.8
+Bottineau,009,North Dakota,5.4
+Cass,017,North Dakota,4.4
+Eddy,027,North Dakota,4.7
+Emmons,029,North Dakota,5
+Grant,037,North Dakota,2.8
+Griggs,039,North Dakota,3.1
+Kidder,043,North Dakota,5.1
+Logan,047,North Dakota,3.2
+McKenzie,053,North Dakota,7.6
+Morton,059,North Dakota,5.1
+Nelson,063,North Dakota,4.5
+Anderson,001,Tennessee,6.7
+Bedford,003,Tennessee,7.9
+Jackson,065,Oklahoma,4.1
+Kay,071,Oklahoma,6.7
+Logan,083,Oklahoma,5.1
+Love,085,Oklahoma,4.2
+McIntosh,091,Oklahoma,8.4
+Murray,099,Oklahoma,6.2
+Muskogee,101,Oklahoma,6
+Okfuskee,107,Oklahoma,6.6
+Okmulgee,111,Oklahoma,7.2
+Pawnee,117,Oklahoma,6.5
+Payne,119,Oklahoma,5.3
+Pottawatomie,125,Oklahoma,6.1
+Norfolk,021,Massachusetts,8.3
+Plymouth,023,Massachusetts,9.5
+Alger,003,Michigan,10.7
+Allegan,005,Michigan,7.3
+Alpena,007,Michigan,7.7
+Missoula,063,Montana,6.3
+Musselshell,065,Montana,6.1
+Phillips,071,Montana,4.9
+Powell,077,Montana,4.6
+Richland,083,Montana,6.4
+Rosebud,087,Montana,5.7
+Sheridan,091,Montana,4.8
+Sweet Grass,097,Montana,3.6
+Toole,101,Montana,5
+Oliver,065,North Dakota,5.2
+Pembina,067,North Dakota,5.8
+Ramsey,071,North Dakota,4.5
+Renville,075,North Dakota,4.9
+Sargent,081,North Dakota,4.4
+Stark,089,North Dakota,7.1
+Stutsman,093,North Dakota,3.5
+Traill,097,North Dakota,3.6
+Ward,101,North Dakota,6
+Adams,001,Ohio,9.2
+Ashland,005,Ohio,6.5
+Auglaize,011,Ohio,6.9
+Belmont,013,Ohio,10.1
+Butler,017,Ohio,7.2
+Carroll,019,Ohio,8.8
+Allegheny,003,Pennsylvania,9
+Beaver,007,Pennsylvania,10.3
+Orange,361,Texas,10.5
+Parmer,369,Texas,2.6
+Reagan,383,Texas,9.7
+Real,385,Texas,6.7
+Red River,387,Texas,6.4
+Robertson,395,Texas,6.4
+Runnels,399,Texas,4.9
+Sabine,403,Texas,10.8
+Scurry,415,Texas,8.2
+Shackelford,417,Texas,5.3
+Shelby,419,Texas,6.8
+Smith,423,Texas,6.8
+Starr,427,Texas,17.3
+Sterling,431,Texas,6.4
+Bay,017,Michigan,9.2
+Benzie,019,Michigan,9.4
+Berrien,021,Michigan,8.6
+Cass,027,Michigan,8.8
+Cheboygan,031,Michigan,14.6
+Chippewa,033,Michigan,8.9
+Wibaux,109,Montana,5.1
+Banner,007,Nebraska,2.6
+Boone,011,Nebraska,2.5
+Box Butte,013,Nebraska,4.8
+Buffalo,019,Nebraska,4
+Cass,025,Nebraska,4.3
+Chase,029,Nebraska,1.8
+Cheyenne,033,Nebraska,4.4
+Cuming,039,Nebraska,2.5
+Dawes,045,Nebraska,2.8
+Dixon,051,Nebraska,3.2
+Dundy,057,Nebraska,2.2
+Garfield,071,Nebraska,2
+Grant,075,Nebraska,2
+Clark,023,Ohio,8.1
+Clermont,025,Ohio,6.9
+Columbiana,029,Ohio,9.4
+Crawford,033,Ohio,9.4
+Darke,037,Ohio,6.7
+Delaware,041,Ohio,5.3
+Erie,043,Ohio,10.5
+Franklin,049,Ohio,7.4
+Guadalupe,019,New Mexico,6.7
+Harding,021,New Mexico,4.3
+Lea,025,New Mexico,11
+Mora,033,New Mexico,8
+Rio Arriba,039,New Mexico,8.1
+Rhea,143,Tennessee,9.8
+Robertson,147,Tennessee,6.1
+Rutherford,149,Tennessee,6.9
+Sevier,155,Tennessee,9.6
+Stewart,161,Tennessee,6.6
+Tipton,167,Tennessee,6.9
+Van Buren,175,Tennessee,8.7
+Warren,177,Tennessee,8.9
+Kershaw,055,South Carolina,5.3
+Lee,061,South Carolina,7.6
+McCormick,065,South Carolina,6.7
+Newberry,071,South Carolina,4.8
+Oconee,073,South Carolina,5.4
+Delta,041,Michigan,8.7
+Dickinson,043,Michigan,7
+Emmet,047,Michigan,10.5
+Gladwin,051,Michigan,9.7
+Ingham,065,Michigan,7.5
+Iosco,069,Michigan,10.5
+Mercer,131,Illinois,8
+McIntosh,191,Georgia,5.7
+Hall,079,Nebraska,5.8
+Hamilton,081,Nebraska,3.7
+Harlan,083,Nebraska,2.9
+Hitchcock,087,Nebraska,3.5
+Kearney,099,Nebraska,3.2
+Keith,101,Nebraska,3.2
+Kimball,105,Nebraska,3.5
+Lancaster,109,Nebraska,4.2
+Loup,115,Nebraska,2.9
+Madison,119,Nebraska,3.9
+Marion,091,Mississippi,7.1
+Montgomery,097,Mississippi,8
+Newton,101,Mississippi,7.9
+Pearl River,109,Mississippi,7.3
+Quitman,119,Mississippi,10.9
+Rankin,121,Mississippi,5.3
+Smith,129,Mississippi,5.8
+Roosevelt,041,New Mexico,6.2
+Sandoval,043,New Mexico,8.6
+Santa Fe,049,New Mexico,8.3
+Torrance,057,New Mexico,9.5
+Valencia,061,New Mexico,8.2
+Broome,007,New York,8.7
+Cayuga,011,New York,7.9
+Chautauqua,013,New York,8.9
+Clinton,019,New York,8
+Dutchess,027,New York,7.7
+Franklin,033,New York,8.2
+Fulton,035,New York,8.6
+Greene,039,New York,8.3
+Rogers,131,Oklahoma,5.8
+Sequoyah,135,Oklahoma,6.8
+Stephens,137,Oklahoma,7.7
+Tulsa,143,Oklahoma,6.6
+Wagoner,145,Oklahoma,5.8
+Washita,149,Oklahoma,6.7
+Benton,003,Oregon,5.6
+Clackamas,005,Oregon,7.2
+Coos,011,Oregon,8.6
+Crook,013,Oregon,8.8
+Gilliam,021,Oregon,6.1
+Hood River,027,Oregon,6.3
+Jackson,075,Michigan,9
+Kalkaska,079,Michigan,11.1
+Kent,081,Michigan,7.6
+Lapeer,087,Michigan,12.5
+Livingston,093,Michigan,8.8
+Luce,095,Michigan,8.6
+Macomb,099,Michigan,12
+Manistee,101,Michigan,10.8
+Monroe,115,Michigan,8.9
+Tate,137,Mississippi,7.7
+Tishomingo,141,Mississippi,6.5
+Tunica,143,Mississippi,14.9
+Wayne,153,Mississippi,8.7
+Webster,155,Mississippi,7.4
+Wilkinson,157,Mississippi,13.4
+Yazoo,163,Mississippi,9.7
+Audrain,007,Missouri,5.9
+Bollinger,017,Missouri,5.6
+Butler,023,Missouri,6.3
+Camden,029,Missouri,7
+Carter,035,Missouri,6.5
+Chariton,041,Missouri,4
+Clark,045,Missouri,6
+Hamilton,041,New York,7.9
+Jefferson,045,New York,8.7
+Livingston,051,New York,7.1
+Monroe,055,New York,8.6
+Nassau,059,New York,8.4
+Niagara,063,New York,10.4
+Orange,071,New York,8.4
+Orleans,073,New York,8.4
+Oswego,075,New York,8.9
+Sutton,435,Texas,9.8
+Swisher,437,Texas,5.2
+Taylor,441,Texas,5.5
+Throckmorton,447,Texas,4.9
+Tom Green,451,Texas,6.3
+Travis,453,Texas,6.3
+Tyler,457,Texas,9.9
+Van Zandt,467,Texas,6.1
+Victoria,469,Texas,8.3
+Washington,477,Texas,5.6
+Wheeler,483,Texas,6
+Wichita,485,Texas,6.7
+Willacy,489,Texas,12
+Wood,499,Texas,6.6
+Beaver,001,Utah,4
+Carbon,007,Utah,5.2
+Iron,071,Michigan,8.1
+Oakland,125,Michigan,9.3
+Ontonagon,131,Michigan,10.3
+Oscoda,135,Michigan,11.9
+Saginaw,145,Michigan,9.9
+St. Clair,147,Michigan,12
+Tuscola,157,Michigan,10.1
+Clay,047,Missouri,6.1
+Cole,051,Missouri,4.4
+Crawford,055,Missouri,6.4
+Dade,057,Missouri,4.4
+Daviess,061,Missouri,4.2
+Douglas,067,Missouri,7.7
+Gasconade,073,Missouri,5.8
+Greene,077,Missouri,5.3
+Grundy,079,Missouri,4.6
+Holt,087,Missouri,3.4
+Avery,011,North Carolina,6.3
+Beaufort,013,North Carolina,6.3
+Brunswick,019,North Carolina,8.8
+Cabarrus,025,North Carolina,7
+Paulding,223,Georgia,5.4
+Queens,081,New York,12.5
+Rockland,087,New York,8.1
+St. Lawrence,089,New York,8.2
+Schenectady,093,New York,8.1
+Seneca,099,New York,8.2
+Suffolk,103,New York,8.5
+Tioga,107,New York,7.8
+Wayne,117,New York,7.4
+Bucks,017,Pennsylvania,8.3
+Cameron,023,Pennsylvania,12.6
+Richland,079,South Carolina,5.8
+Spartanburg,083,South Carolina,6.6
+Sumter,085,South Carolina,6.8
+Williamsburg,089,South Carolina,8.1
+Beadle,005,South Dakota,3.9
+Brookings,011,South Dakota,4.4
+Butte,019,South Dakota,5.4
+Charles Mix,023,South Dakota,6.3
+Custer,033,South Dakota,6
+Deuel,039,South Dakota,5.4
+Dewey,041,South Dakota,7.7
+Edmunds,045,South Dakota,2.9
+Grant,051,South Dakota,4
+Hand,059,South Dakota,2.7
+Van Buren,159,Michigan,8.3
+Wayne,163,Michigan,13.8
+Aitkin,001,Minnesota,8.1
+Anoka,003,Minnesota,6.3
+Big Stone,011,Minnesota,4.7
+Carlton,017,Minnesota,7.2
+Chisago,025,Minnesota,6.6
+Crow Wing,035,Minnesota,7.2
+Dakota,037,Minnesota,6.2
+Douglas,041,Minnesota,4.8
+Faribault,043,Minnesota,6.2
+Fillmore,045,Minnesota,5
+Hennepin,053,Minnesota,6.6
+Isanti,059,Minnesota,6.8
+Catawba,035,North Carolina,8
+Chatham,037,North Carolina,5.4
+Cherokee,039,North Carolina,7.9
+Chowan,041,North Carolina,6.1
+Columbus,047,North Carolina,8.2
+Davie,059,North Carolina,6.8
+Duplin,061,North Carolina,5.6
+Edgecombe,065,North Carolina,10.6
+Franklin,069,North Carolina,6.8
+Gaston,071,North Carolina,8
+Graham,075,North Carolina,9.9
+Granville,077,North Carolina,5.9
+Halifax,083,North Carolina,9.2
+Haywood,087,North Carolina,7.5
+Centre,027,Pennsylvania,5.8
+Chester,029,Pennsylvania,6.4
+Clearfield,033,Pennsylvania,9.2
+Crawford,039,Pennsylvania,8.9
+Delaware,045,Pennsylvania,9.1
+Erie,049,Pennsylvania,9.8
+Fayette,051,Pennsylvania,11.7
+Franklin,055,Pennsylvania,7.6
+Huntingdon,061,Pennsylvania,10.4
+Juniata,067,Pennsylvania,7.2
+Lawrence,073,Pennsylvania,10.3
+Luzerne,079,Pennsylvania,10.9
+Jackson,029,Oregon,7.8
+Josephine,033,Oregon,7.9
+Lane,039,Oregon,7.9
+Linn,043,Oregon,7.8
+Morrow,049,Oregon,5.2
+Multnomah,051,Oregon,8.6
+Umatilla,059,Oregon,6.8
+Wasco,065,Oregon,7.1
+Yamhill,071,Oregon,6.8
+Jackson,063,Minnesota,4.8
+Kanabec,065,Minnesota,8
+Kittson,069,Minnesota,4.6
+Laclede,105,Missouri,8.3
+Lewis,111,Missouri,4.9
+McDonald,119,Missouri,5
+Maries,125,Missouri,4.8
+Mercer,129,Missouri,3.6
+Montgomery,139,Missouri,5
+Morgan,141,Missouri,6.3
+Nodaway,147,Missouri,4.6
+Ozark,153,Missouri,7.2
+Perry,157,Missouri,5.7
+Phelps,161,Missouri,4.8
+Polk,167,Missouri,4.7
+Hyde,095,North Carolina,10.2
+Jackson,099,North Carolina,7.6
+Lee,105,North Carolina,8
+McDowell,111,North Carolina,7
+Madison,115,North Carolina,6.9
+Mitchell,121,North Carolina,7.8
+New Hanover,129,North Carolina,7.3
+Orange,135,North Carolina,5.4
+Pasquotank,139,North Carolina,7.3
+Perquimans,143,North Carolina,6.7
+Pitt,147,North Carolina,6.8
+Richmond,153,North Carolina,9.2
+Mercer,085,Pennsylvania,9.7
+Monroe,089,Pennsylvania,11.5
+Northampton,095,Pennsylvania,9
+Philadelphia,101,Pennsylvania,12.4
+Snyder,109,Pennsylvania,7.6
+Somerset,111,Pennsylvania,9.5
+Susquehanna,115,Pennsylvania,7.3
+Union,119,Pennsylvania,6.8
+Venango,121,Pennsylvania,8.9
+Washington,125,Pennsylvania,9.4
+York,133,Pennsylvania,8
+Daggett,009,Utah,4.5
+Duchesne,013,Utah,7.7
+Grand,019,Utah,9.5
+Juab,023,Utah,2.9
+Anderson,001,Texas,5.6
+Atascosa,013,Texas,8.4
+Austin,015,Texas,6.6
+Bailey,017,Texas,4.8
+Baylor,023,Texas,3.5
+Bee,025,Texas,9.8
+Bexar,029,Texas,7.5
+Borden,033,Texas,3.3
+Bosque,035,Texas,5.5
+Brazoria,039,Texas,8.6
+Putnam,171,Missouri,4.4
+Randolph,175,Missouri,5.9
+Ray,177,Missouri,6.9
+Ripley,181,Missouri,7.9
+Ste. Genevieve,186,Missouri,4.9
+St. Francois,187,Missouri,7
+Schuyler,197,Missouri,5.7
+Shannon,203,Missouri,7.3
+Stoddard,207,Missouri,6
+Taney,213,Missouri,12.9
+Warren,219,Missouri,5.8
+Webster,225,Missouri,5.3
+St. Louis,510,Missouri,6.3
+Big Horn,003,Montana,7.3
+Rowan,159,North Carolina,7.9
+Sampson,163,North Carolina,5.8
+Stokes,169,North Carolina,6.4
+Transylvania,175,North Carolina,6.1
+Hamilton,061,Ohio,7.8
+Highland,071,Ohio,8.7
+Huron,077,Ohio,9.5
+Jefferson,081,Ohio,10.1
+Lawrence,087,Ohio,8.5
+Lorain,093,Ohio,9.9
+Mahoning,099,Ohio,10.2
+Marion,101,Ohio,7.6
+Bristol,001,Rhode Island,7.6
+Kent,003,Rhode Island,8.7
+Newport,005,Rhode Island,8.2
+Abbeville,001,South Carolina,6.6
+Aiken,003,South Carolina,5
+Anderson,007,South Carolina,5.9
+Calhoun,017,South Carolina,6.1
+Chester,023,South Carolina,8.9
+Chesterfield,025,South Carolina,6.1
+Harding,063,South Dakota,3.6
+Hughes,065,South Dakota,3.4
+Hyde,069,South Dakota,3.1
+Jones,075,South Dakota,3.7
+Lake,079,South Dakota,3.8
+Lyman,085,South Dakota,5.7
+Meade,093,South Dakota,4.9
+Miner,097,South Dakota,4.8
+Moody,101,South Dakota,5.3
+Shannon,113,South Dakota,10.1
+Spink,115,South Dakota,4.1
+Stanley,117,South Dakota,3.9
+Todd,121,South Dakota,6.4
+Union,127,South Dakota,5.1
+Blaine,005,Montana,4.8
+Carbon,009,Montana,6
+Chouteau,015,Montana,3.9
+Daniels,019,Montana,2.8
+Deer Lodge,023,Montana,5.1
+Flathead,029,Montana,7.8
+Glacier,035,Montana,9.8
+Hill,041,Montana,5
+Nuckolls,129,Nebraska,2.7
+Pawnee,133,Nebraska,2.8
+Platte,141,Nebraska,3.7
+Appanoose,007,Iowa,5.3
+Benton,011,Iowa,5
+Boone,015,Iowa,4.1
+Buchanan,019,Iowa,4.6
+Butler,023,Iowa,4.7
+Carroll,027,Iowa,4
+Cerro Gordo,033,Iowa,5.2
+Jefferson,081,Illinois,10.1
+Kankakee,091,Illinois,8.8
+Kendall,093,Illinois,8.4
+LaSalle,099,Illinois,9.4
+Lawrence,101,Illinois,8.7
+Livingston,105,Illinois,6.7
+McDonough,109,Illinois,7.1
+McHenry,111,Illinois,8.3
+Macoupin,117,Illinois,6.9
+Mason,125,Illinois,8
+Massac,127,Illinois,10
+Lowndes,185,Georgia,6
+McDuffie,189,Georgia,7.8
+Madison,195,Georgia,5.2
+Meriwether,199,Georgia,8.6
+Mitchell,205,Georgia,6.5
+Montgomery,209,Georgia,5.4
+Murray,213,Georgia,7.6
+Oglethorpe,221,Georgia,4.8
+Pierce,229,Georgia,4.5
+Pike,231,Georgia,5
+Pulaski,235,Georgia,4.5
+Rabun,241,Georgia,5.3
+Rockdale,247,Georgia,7.6
+Spalding,255,Georgia,7.6
+Stephens,257,Georgia,6.4
+Tattnall,267,Georgia,4.3
+Taylor,269,Georgia,6.7
+Smith,183,Kansas,2.7
+Stanton,187,Kansas,2.4
+Stevens,189,Kansas,2.9
+Wabaunsee,197,Kansas,4.2
+Woodson,207,Kansas,5.9
+Pendleton,191,Kentucky,5.2
+Perry,193,Kentucky,8.9
+Robertson,201,Kentucky,6.1
+Rowan,205,Kentucky,7.5
+Russell,207,Kentucky,8.2
+Taylor,217,Kentucky,6
+Trigg,221,Kentucky,6.9
+Wayne,231,Kentucky,6.5
+Webster,233,Kentucky,6.4
+Wolfe,237,Kentucky,7.7
+Woodford,239,Kentucky,5
+Ascension,005,Louisiana,6.7
+St. Helena,091,Louisiana,11.5
+St. James,093,Louisiana,9.7
+St. Landry,097,Louisiana,8.7
+St. Martin,099,Louisiana,8.1
+St. Tammany,103,Louisiana,6.8
+Vermilion,113,Louisiana,7.4
+Washington,117,Louisiana,8.2
+Bath,011,Kentucky,8.3
+Bell,013,Kentucky,7.8
+Boone,015,Kentucky,5.4
+Breckinridge,027,Kentucky,7.3
+Bullitt,029,Kentucky,6.4
+Monroe,133,Illinois,5.6
+Morgan,137,Illinois,6.9
+Ogle,141,Illinois,8.1
+Peoria,143,Illinois,10.4
+Piatt,147,Illinois,5.4
+Pulaski,153,Illinois,11.7
+Richland,159,Illinois,6.8
+Saline,165,Illinois,9.7
+Sangamon,167,Illinois,8.2
+Stephenson,177,Illinois,7.3
+Vermilion,183,Illinois,8.8
+Wayne,191,Illinois,8.3
+Whiteside,195,Illinois,8
+Will,197,Illinois,9.5
+Adams,001,Indiana,5.6
+Thomas,275,Georgia,6.2
+Toombs,279,Georgia,6.6
+Towns,281,Georgia,6.7
+Twiggs,289,Georgia,7.4
+Walker,295,Georgia,4.9
+Warren,301,Georgia,6.8
+Cowley,035,Kansas,6.5
+Dickinson,041,Kansas,4.9
+Edwards,047,Kansas,3
+Ellis,051,Kansas,3.5
+Ellsworth,053,Kansas,3.3
+Ford,057,Kansas,3.4
+Gove,063,Kansas,2.9
+Greenwood,073,Kansas,5.2
+Harper,077,Kansas,4.4
+Harvey,079,Kansas,5.3
+Jefferson,087,Kansas,4.9
+Beauregard,011,Louisiana,6.7
+Bossier,015,Louisiana,6.4
+Caddo,017,Louisiana,9
+Cameron,023,Louisiana,5.7
+De Soto,031,Louisiana,7.3
+East Carroll,035,Louisiana,11.7
+Franklin,041,Louisiana,8.1
+Grant,043,Louisiana,6.5
+Jackson,049,Louisiana,5.3
+Jefferson,051,Louisiana,9.3
+Lafayette,055,Louisiana,7.1
+Calloway,035,Kentucky,6.2
+Carlisle,039,Kentucky,4.7
+Carroll,041,Kentucky,5.9
+Casey,045,Kentucky,6.2
+Cumberland,057,Kentucky,4.9
+Estill,065,Kentucky,7.5
+Fayette,067,Kentucky,5.7
+Floyd,071,Kentucky,9.2
+Garrard,079,Kentucky,6.3
+Graves,083,Kentucky,5.9
+Grayson,085,Kentucky,7.8
+Hancock,091,Kentucky,6.1
+Harrison,097,Kentucky,6.1
+Henderson,101,Kentucky,6.1
+Hopkins,107,Kentucky,7.4
+Kimble,267,Texas,5.1
+Kinney,271,Texas,6
+Lamar,277,Texas,6.5
+Lampasas,281,Texas,5.4
+Lavaca,285,Texas,5.2
+Lee,287,Texas,4.9
+Liberty,291,Texas,10.6
+Limestone,293,Texas,7.1
+Lipscomb,295,Texas,4.2
+Loving,301,Texas,1.7
+Lynn,305,Texas,5.4
+McCulloch,307,Texas,7.5
+Martin,317,Texas,6.1
+Maverick,323,Texas,15
+Menard,327,Texas,5.2
+Milam,331,Texas,7.1
+Mills,333,Texas,4.1
+Suffolk,800,Virginia,0
+Virginia Beach,810,Virginia,0
+Winchester,840,Virginia,0
+Adams,001,Washington,7.3
+Asotin,003,Washington,5.2
+Benton,005,Washington,8.2
+Cowlitz,015,Washington,9.3
+Douglas,017,Washington,8.5
+Ferry,019,Washington,11.5
+Garfield,023,Washington,8.4
+Grant,025,Washington,8.8
+Fairfax,600,Virginia,5.8
+Racine,101,Wisconsin,7.3
+Rusk,107,Wisconsin,6.6
+Sauk,111,Wisconsin,7.5
+Sawyer,113,Wisconsin,7.9
+Taylor,119,Wisconsin,4.9
+Vernon,123,Wisconsin,5.2
+Vilas,125,Wisconsin,7.2
+Waukesha,133,Wisconsin,5.6
+Winnebago,139,Wisconsin,5.4
+Big Horn,003,Wyoming,5
+Converse,009,Wyoming,6
+Hot Springs,017,Wyoming,5
+Johnson,019,Wyoming,5.5
+Grant,023,West Virginia,6.5
+Greenbrier,025,West Virginia,8.1
+Hampshire,027,West Virginia,5.5
+Harrison,033,West Virginia,7.9
+Jefferson,037,West Virginia,5.9
+Logan,045,West Virginia,12.2
+Marshall,051,West Virginia,9.9
+Mason,053,West Virginia,8.5
+Mingo,059,West Virginia,14.3
+Morgan,065,West Virginia,6
+Ohio,069,West Virginia,8.4
+Pocahontas,075,West Virginia,9.3
+Moore,341,Texas,3.8
+Randolph,083,West Virginia,9.2
+Roane,087,West Virginia,12.4
+Taylor,091,West Virginia,7.4
+Tucker,093,West Virginia,8.5
+Upshur,097,West Virginia,9.6
+Wayne,099,West Virginia,8.4
+Wetzel,103,West Virginia,9.8
+Wirt,105,West Virginia,10.7
+Wood,107,West Virginia,8.8
+Buffalo,011,Wisconsin,7.4
+Burnett,013,Wisconsin,9.1
+Clark,019,Wisconsin,4.5
+Columbia,021,Wisconsin,5.9
+Crawford,023,Wisconsin,7.3
+Island,029,Washington,8.3
+Sanpete,039,Utah,3.7
+Summit,043,Utah,7.2
+Tooele,045,Utah,4.8
+Utah,049,Utah,3.7
+Weber,057,Utah,4.8
+Bennington,003,Vermont,6.6
+Chittenden,007,Vermont,4.8
+Franklin,011,Vermont,5.3
+Lamoille,015,Vermont,7.8
+Rutland,021,Vermont,6.9
+Lincoln,023,Wyoming,5
+Alleghany,005,Virginia,6.5
+Appomattox,011,Virginia,5.8
+Arlington,013,Virginia,4.5
+Augusta,015,Virginia,4.6
+Bedford,019,Virginia,5.1
+Brunswick,025,Virginia,8
+Campbell,031,Virginia,5.9
+Caroline,033,Virginia,6.7
+Charles City,036,Virginia,6.5
+Craig,045,Virginia,5.1
+Cumberland,049,Virginia,6.1
+Dickenson,051,Virginia,8
+Raleigh,081,West Virginia,8.9
+Fauquier,061,Virginia,4.7
+Franklin,067,Virginia,5.5
+Frederick,069,Virginia,4.6
+Gloucester,073,Virginia,5.4
+Greensville,081,Virginia,6.8
+Hanover,085,Virginia,4.8
+Highland,091,Virginia,3.7
+James City,095,Virginia,6.9
+Lancaster,103,Virginia,7.2
+San Juan,037,Utah,10.2
+Middlesex,119,Virginia,5.1
+Windham,025,Vermont,6.3
+Kittitas,037,Washington,9
+Klickitat,039,Washington,8.2
+Skamania,059,Washington,9.2
+Whitman,075,Washington,5.9
+Doddridge,017,West Virginia,6.3
+Hancock,029,West Virginia,10
+Lincoln,043,West Virginia,10
+Mercer,055,West Virginia,9.4
+Pleasants,073,West Virginia,11.1
+Ritchie,085,West Virginia,8.4
+Tyler,095,West Virginia,10.3
+Essex,057,Virginia,7
+Mathews,115,Virginia,4.9
+St. John the Baptist,095,Louisiana,11.2
+Union,111,Louisiana,7.1
+Adair,001,Kentucky,7.2
+Anderson,005,Kentucky,6.1
+Ballard,007,Kentucky,6.6
+Boyd,019,Kentucky,8.3
+Campbell,037,Kentucky,5.6
+Clark,049,Kentucky,6.6
+Edmonson,061,Kentucky,7.7
+Fleming,069,Kentucky,7.3
+Grant,081,Kentucky,7.1
+Hardin,093,Kentucky,7.1
+Jackson,109,Kentucky,8.7
+Laurel,125,Kentucky,6.9
+Leslie,131,Kentucky,10.8
+Creek,037,Oklahoma,6.5
+Garfield,047,Oklahoma,5.5
+Wake,183,North Carolina,6.4
+Washington,187,North Carolina,8.2
+Barnes,003,North Dakota,3.9
+Burke,013,North Dakota,5.3
+Dunn,025,North Dakota,4.6
+Hettinger,041,North Dakota,4
+McLean,055,North Dakota,4.5
+Pierce,069,North Dakota,4.3
+Slope,087,North Dakota,3.1
+Towner,095,North Dakota,2.8
+Athens,009,Ohio,7.3
+Champaign,021,Ohio,7.1
+Wyoming,109,West Virginia,10.5
+Calumet,015,Wisconsin,4.7
+Dodge,027,Wisconsin,5.3
+Millard,027,Utah,3.2
+Rich,033,Utah,3.4
+Sevier,041,Utah,4.2
+Wayne,055,Utah,7.6
+Grand Isle,013,Vermont,5.9
+Albemarle,003,Virginia,5.4
+Amherst,009,Virginia,5.6
+Botetourt,023,Virginia,4.5
+Carroll,035,Virginia,8.2
+Dinwiddie,053,Virginia,6.4
+Fluvanna,065,Virginia,5.3
+Baldwin,003,Alabama,5.6
+Clay,027,Alabama,4
+Crenshaw,041,Alabama,5.7
+Fayette,057,Alabama,5
+Jefferson,073,Alabama,6.2
+Marengo,091,Alabama,6.2
+Morgan,103,Alabama,4.5
+St. Clair,115,Alabama,4.9
+Washington,129,Alabama,8
+McCreary,147,Kentucky,7.3
+Menifee,165,Kentucky,8.9
+Nicholas,181,Kentucky,6.8
+Clay,041,Iowa,4.5
+Clayton,043,Iowa,5.7
+Dallas,049,Iowa,3.6
+Des Moines,057,Iowa,7.5
+Greene,073,Iowa,4.2
+Hancock,081,Iowa,4.7
+Humboldt,091,Iowa,4.2
+Jasper,099,Iowa,5.3
+Louisa,115,Iowa,5
+Mitchell,131,Iowa,3.4
+Palo Alto,147,Iowa,4.6
+Poweshiek,157,Iowa,4.9
+Shelby,165,Iowa,3.6
+Wapello,179,Iowa,6
+Webster,187,Iowa,5.2
+Wright,197,Iowa,4
+Coshocton,031,Ohio,8.9
+Fairfield,045,Ohio,6.6
+Dona Ana,013,New Mexico,8.3
+Grant,017,New Mexico,9
+Quay,037,New Mexico,7.4
+Union,059,New Mexico,5.1
+Chenango,017,New York,6.9
+Essex,031,New York,8.1
+Lewis,049,New York,7.7
+Oneida,065,New York,8.1
+Otsego,077,New York,7.2
+Greene,079,Virginia,5.2
+Wakulla,129,Florida,4.5
+Banks,011,Georgia,4.3
+Berrien,019,Georgia,5.8
+Brooks,027,Georgia,5.2
+Burke,033,Georgia,7.2
+Camden,039,Georgia,4.7
+Chatham,051,Georgia,7.6
+Clay,061,Georgia,12.4
+Yell,149,Arkansas,5.1
+Colusa,011,California,16
+Inyo,027,California,7.8
+Merced,047,California,12.2
+Plumas,063,California,10.7
+San Joaquin,077,California,11.3
+Sierra,091,California,8
+Tulare,107,California,13.2
+Bent,011,Colorado,4.4
+Clear Creek,019,Colorado,8.5
+Custer,027,Colorado,5
+Brown,013,Kansas,4.5
+Cheyenne,023,Kansas,2.2
+Koochiching,071,Minnesota,7.4
+Le Sueur,079,Minnesota,6.8
+Mahnomen,087,Minnesota,13
+Murray,101,Minnesota,5.1
+Norman,107,Minnesota,6.3
+Red Lake,125,Minnesota,6.4
+Rice,131,Minnesota,5.2
+Sibley,143,Minnesota,5.5
+Wadena,159,Minnesota,7.6
+Winona,169,Minnesota,4.9
+Attala,007,Mississippi,8.3
+Clarke,023,Mississippi,8.4
+Forrest,035,Mississippi,8
+Grenada,043,Mississippi,7.2
+Saratoga,091,New York,6.7
+Steuben,101,New York,8.2
+Warren,113,New York,8.4
+Berks,011,Pennsylvania,9.5
+Butler,019,Pennsylvania,7.9
+Carbon,025,Pennsylvania,9.8
+Columbia,037,Pennsylvania,8.1
+Forest,053,Pennsylvania,10.6
+Fulton,057,Pennsylvania,11.5
+Lebanon,075,Pennsylvania,7.9
+Lycoming,081,Pennsylvania,8.8
+Perry,099,Pennsylvania,6.8
+Tioga,117,Pennsylvania,9
+Wyoming,131,Pennsylvania,8.4
+Barbour,005,Alabama,7
+Butler,013,Alabama,8.8
+Cherokee,019,Alabama,4.6
+Marin,041,California,6.7
+Monterey,053,California,10.8
+Placer,061,California,7.3
+El Paso,041,Colorado,7.3
+Grand,049,Colorado,8.4
+Martin,085,Florida,6.1
+Okeechobee,093,Florida,5.4
+Polk,105,Florida,9
+Suwannee,121,Florida,5.6
+Washington,133,Florida,5.8
+Baker,007,Georgia,6
+Bibb,021,Georgia,7.5
+Butts,035,Georgia,6.2
+Catoosa,047,Georgia,4.3
+Clinch,065,Georgia,4
+Cook,075,Georgia,4.7
+Itawamba,057,Mississippi,7
+Kemper,069,Mississippi,9.6
+Webster,119,Louisiana,7.9
+West Feliciana,125,Louisiana,5.4
+Oxford,017,Maine,6.7
+Cecil,015,Maryland,5.9
+Howard,027,Maryland,5.2
+Barnstable,001,Massachusetts,10.2
+Berkshire,003,Massachusetts,9.1
+Worcester,027,Massachusetts,8.8
+Calhoun,025,Michigan,9.7
+Crawford,039,Michigan,10.4
+Genesee,049,Michigan,11.2
+Providence,007,Rhode Island,10.2
+Cherokee,021,South Carolina,8.1
+Dillon,033,South Carolina,6.1
+Greenville,045,South Carolina,5.7
+Blount,009,Tennessee,6.4
+Carter,019,Tennessee,7
+Davidson,037,Tennessee,8
+Franklin,051,Tennessee,7.9
+Hamblen,063,Tennessee,7.1
+Haywood,075,Tennessee,8.9
+Humphreys,085,Tennessee,6.4
+Lawrence,099,Tennessee,7.8
+Madison,113,Tennessee,7.5
+Moore,127,Tennessee,5.4
+Fresno,019,California,11.3
+Humboldt,023,California,8.4
+Lassen,035,California,7.1
+Los Angeles,037,California,12.8
+Dawson,085,Georgia,4.7
+Early,099,Georgia,5.8
+Forsyth,117,Georgia,4.6
+Gunnison,051,Colorado,6.6
+Huerfano,055,Colorado,9.4
+Lake,065,Colorado,8.2
+Mineral,079,Colorado,5.8
+Otero,089,Colorado,6.2
+Pueblo,101,Colorado,8.2
+Summit,117,Colorado,9.8
+Litchfield,005,Connecticut,6.9
+Bradford,007,Florida,5.9
+Clay,019,Florida,5.4
+DeSoto,027,Florida,5.2
+Flagler,035,Florida,7.6
+Hillsdale,059,Michigan,9.1
+Huron,063,Michigan,8.5
+Missaukee,113,Michigan,9.1
+Montmorency,119,Michigan,13.1
+Ogemaw,129,Michigan,10.9
+Otsego,137,Michigan,10.3
+St. Joseph,149,Michigan,9.1
+Becker,005,Minnesota,6.2
+Blue Earth,013,Minnesota,5.4
+Chippewa,023,Minnesota,5.1
+Cottonwood,033,Minnesota,4.6
+Freeborn,047,Minnesota,5.6
+Itasca,061,Minnesota,8.4
+Jackson,095,Missouri,7.1
+Overton,133,Tennessee,6.3
+Roane,145,Tennessee,6.6
+Smith,159,Tennessee,6
+Sumner,165,Tennessee,6.5
+Greenwood,047,South Carolina,6.4
+Horry,051,South Carolina,8.6
+Laurens,059,South Carolina,6.9
+Marlboro,069,South Carolina,9.8
+Union,087,South Carolina,9
+Brule,015,South Dakota,4.4
+Clark,025,South Dakota,3.9
+Day,037,South Dakota,5.7
+Faulk,049,South Dakota,3.5
+Hamlin,057,South Dakota,3.5
+Hutchinson,067,South Dakota,3.8
+Kingsbury,077,South Dakota,3.7
+King and Queen,097,Virginia,5.1
+Louisa,109,Virginia,5.2
+Conecuh,035,Alabama,7.3
+Covington,039,Alabama,4.9
+DeKalb,049,Alabama,4.5
+Escambia,053,Alabama,6
+Greene,063,Alabama,10.9
+Houston,069,Alabama,5.4
+Lamar,075,Alabama,4.9
+Lauderdale,077,Alabama,5.5
+Hamilton,047,Florida,7.6
+Lafayette,067,Florida,4.2
+Liberty,077,Florida,4.8
+Apache,001,Arizona,12.8
+Gila,007,Arizona,7.7
+Pima,019,Arizona,7.7
+Bradley,011,Arkansas,5.8
+Cleburne,023,Arkansas,7.6
+Cross,037,Arkansas,6.1
+Dallas,039,Arkansas,5.3
+Greene,055,Arkansas,6
+Izard,065,Arkansas,8.4
+Lincoln,079,Arkansas,6
+Jefferson,099,Missouri,6.1
+Linn,115,Missouri,6.1
+Macon,121,Missouri,4.8
+Moniteau,135,Missouri,4.2
+Newton,145,Missouri,5.8
+Pike,163,Missouri,5.5
+Ralls,173,Missouri,4.5
+St. Clair,185,Missouri,6.1
+Scott,201,Missouri,5.3
+Texas,215,Missouri,5.8
+Wayne,223,Missouri,6.1
+Broadwater,007,Montana,6.3
+Dawson,021,Montana,5.6
+Gallatin,031,Montana,5
+Marshall,091,South Dakota,4.8
+Potter,107,South Dakota,3.2
+Sully,119,South Dakota,2.8
+Walworth,129,South Dakota,6.1
+Harmon,057,Oklahoma,3.5
+Haskell,061,Oklahoma,7.8
+Johnston,069,Oklahoma,7.7
+Kiowa,075,Oklahoma,5
+Major,093,Oklahoma,4.7
+Noble,103,Oklahoma,4.1
+Ottawa,115,Oklahoma,5.7
+Seminole,133,Oklahoma,7.4
+Tillman,141,Oklahoma,6.3
+Columbia,009,Oregon,7.9
+Sacramento,067,California,9.3
+San Bernardino,071,California,9.4
+Ventura,111,California,8.6
+Arapahoe,005,Colorado,7.9
+Pike,109,Arkansas,5.9
+Prairie,117,Arkansas,5.3
+Sharp,135,Arkansas,7.1
+Webster,307,Georgia,5.7
+White,311,Georgia,4.4
+Wilcox,315,Georgia,5.7
+Bannock,005,Idaho,4.9
+Canyon,027,Idaho,5.9
+Elmore,039,Idaho,4.8
+Lincoln,063,Idaho,5.8
+Payette,075,Idaho,5.3
+Adams,001,Illinois,6.3
+Cass,017,Illinois,6.7
+Lake,047,Montana,6.2
+Morrill,123,Nebraska,3.6
+Nemaha,127,Nebraska,3.6
+Polk,143,Nebraska,3
+Sarpy,153,Nebraska,4.1
+Stanton,167,Nebraska,3.4
+Wayne,179,Nebraska,2.8
+York,185,Nebraska,3.4
+Eureka,011,Nevada,3.5
+Pershing,027,Nevada,4.9
+Cheshire,005,New Hampshire,6.1
+Strafford,017,New Hampshire,6.3
+Morris,027,New Jersey,7.8
+Sussex,037,New Jersey,9.4
+Grant,023,Oregon,8.3
+Marion,047,Oregon,6.9
+Union,061,Oregon,7.8
+Bedford,009,Pennsylvania,9.1
+Nueces,355,Texas,9
+Palo Pinto,363,Texas,7
+Polk,373,Texas,8.7
+Reeves,389,Texas,7.1
+San Augustine,405,Texas,9.6
+Schleicher,413,Texas,6.9
+Sherman,421,Texas,3.1
+Tarrant,439,Texas,7.3
+Trinity,455,Texas,8.1
+Walker,471,Texas,7.2
+Dade,083,Georgia,4.1
+DeKalb,089,Georgia,8
+Douglas,097,Georgia,7.4
+Elbert,105,Georgia,6.9
+Fannin,111,Georgia,4.7
+Fulton,121,Georgia,8
+La Plata,067,Colorado,6.8
+Las Animas,071,Colorado,7.4
+Monroe,095,Arkansas,6.7
+Clay,025,Illinois,9.4
+De Witt,039,Illinois,6.5
+Edgar,045,Illinois,6.6
+Greene,061,Illinois,6.5
+Hardin,069,Illinois,9.2
+Fulton,049,Indiana,6.6
+Grant,053,Indiana,6.3
+Hendricks,063,Indiana,5
+Jay,075,Indiana,6.6
+Lawrence,093,Indiana,6.9
+Marshall,099,Indiana,6.4
+Noble,113,Indiana,8.4
+Owen,119,Indiana,6.3
+Putnam,133,Indiana,6.2
+Shelby,145,Indiana,7.1
+Tippecanoe,157,Indiana,6.3
+De Baca,011,New Mexico,4.9
+Lewis and Clark,049,Montana,5
+Lincoln,053,Montana,10.1
+Powder River,075,Montana,3.1
+Roosevelt,085,Montana,6
+Adams,001,Nebraska,4
+Arthur,005,Nebraska,5.2
+Brown,017,Nebraska,2.7
+Cedar,027,Nebraska,2.7
+Custer,041,Nebraska,2.7
+Fillmore,059,Nebraska,2.8
+Garden,069,Nebraska,3.5
+Greeley,077,Nebraska,2.9
+Holt,089,Nebraska,2.4
+Wharton,481,Texas,6.8
+Wilson,493,Texas,5.7
+Young,503,Texas,5.3
+Cache,005,Utah,2.9
+Garfield,017,Utah,10.2
+Weakley,183,Tennessee,5.8
+Williamson,187,Tennessee,4.8
+Andrews,003,Texas,8.2
+Bandera,019,Texas,5.8
+Bell,027,Texas,7
+Brazos,041,Texas,5.3
+Callahan,059,Texas,5.4
+Childress,075,Texas,3.7
+Coleman,083,Texas,7.4
+Colorado,089,Texas,5.6
+Alameda,001,California,8.8
+Perry,105,Alabama,10.9
+Randolph,111,Alabama,4.7
+Russell,113,Alabama,5.1
+Tallapoosa,123,Alabama,6.9
+Vermillion,165,Indiana,7.5
+Adams,003,Iowa,3.8
+Black Hawk,013,Iowa,6.2
+Calhoun,025,Iowa,4.1
+Cherokee,035,Iowa,3.8
+Henderson,071,Illinois,6.9
+Iroquois,075,Illinois,6.2
+Johnson,087,Illinois,8.9
+Knox,095,Illinois,8.6
+McLean,113,Illinois,6.8
+Marshall,123,Illinois,7.4
+Montgomery,135,Illinois,8.7
+Pope,151,Illinois,7.9
+St. Clair,163,Illinois,9
+Warren,187,Illinois,6.2
+Williamson,199,Illinois,8.7
+Knox,107,Nebraska,3
+Lawrence,077,Mississippi,8.7
+Lee,081,Mississippi,8.1
+Lincoln,085,Mississippi,7.3
+Lowndes,087,Mississippi,8.3
+Panola,107,Mississippi,9.8
+Scott,123,Mississippi,5.8
+Sunflower,133,Mississippi,11.2
+Union,145,Mississippi,7.1
+Winston,159,Mississippi,8.7
+Andrew,003,Missouri,4
+Benton,015,Missouri,7.3
+Callaway,027,Missouri,4.5
+Cedar,039,Missouri,4.5
+Clinton,049,Missouri,5.9
+Dallas,059,Missouri,5.9
+Franklin,071,Missouri,6.2
+Crosby,107,Texas,5.2
+Delta,119,Texas,5.5
+Duval,131,Texas,12.1
+Erath,143,Texas,5.7
+Floyd,153,Texas,6.2
+Frio,163,Texas,5.7
+Gillespie,171,Texas,4.8
+Glasscock,173,Texas,3.6
+Goliad,175,Texas,7.7
+Gregg,183,Texas,8.3
+Guadalupe,187,Texas,6.1
+Hartley,205,Texas,2.1
+Hays,209,Texas,6.3
+Hockley,219,Texas,7.9
+Hunt,231,Texas,6.5
+Jasper,241,Texas,11.2
+Karnes,255,Texas,6.3
+King,269,Texas,1.7
+Lamb,279,Texas,5.2
+Leon,289,Texas,7.8
+Dolores,033,Colorado,6.9
+Elbert,039,Colorado,4.7
+Garfield,045,Colorado,6.8
+San Luis Obispo,079,California,7.7
+Siskiyou,093,California,9.7
+Sonoma,097,California,7.9
+Trinity,105,California,8
+El Dorado,017,California,8.3
+Bartholomew,005,Indiana,6.5
+Cass,017,Indiana,6.8
+Daviess,027,Indiana,3.8
+Fayette,041,Indiana,9.9
+Floyd,043,Indiana,6.5
+Glynn,127,Georgia,6.8
+Greene,133,Georgia,5.9
+Haralson,143,Georgia,5.9
+Houston,153,Georgia,5.2
+Jefferson,163,Georgia,6.7
+Long,183,Georgia,4.4
+Macon,193,Georgia,6.7
+Monroe,207,Georgia,5.1
+Oconee,219,Georgia,3.8
+Pickens,227,Georgia,4.8
+Putnam,237,Georgia,6.6
+Schley,249,Georgia,4.3
+Henry,083,Missouri,5.9
+Iron,093,Missouri,7
+Alexander,003,North Carolina,7.4
+Anson,007,North Carolina,7.7
+Ashe,009,North Carolina,6.2
+Caswell,033,North Carolina,7.8
+Cleveland,045,North Carolina,7.8
+Durham,063,North Carolina,6.5
+Gates,073,North Carolina,5.7
+Harnett,085,North Carolina,7.5
+Iredell,097,North Carolina,7.3
+Lincoln,109,North Carolina,6.6
+Montgomery,123,North Carolina,6.7
+Onslow,133,North Carolina,7.2
+Person,145,North Carolina,7.4
+Llano,299,Texas,5.7
+Madison,313,Texas,7.2
+Medina,325,Texas,6.3
+Mitchell,335,Texas,7.9
+Morris,343,Texas,11.4
+New Kent,127,Virginia,4.6
+Northumberland,133,Virginia,6.3
+Russell,167,Virginia,6.6
+Stafford,179,Virginia,5.7
+Bedford,515,Virginia,5.1
+Danville,590,Virginia,0
+Franklin,620,Virginia,5.5
+Lynchburg,680,Virginia,0
+Norton,720,Virginia,0
+Portsmouth,740,Virginia,0
+Williamsburg,830,Virginia,0
+Miami-Dade,086,Florida,8
+Pinellas,103,Florida,7
+Taylor,123,Florida,6.2
+Stewart,259,Georgia,5.7
+Telfair,271,Georgia,9.9
+Treutlen,283,Georgia,6
+Walton,297,Georgia,5.4
+Clark,025,Kansas,2
+Coffey,031,Kansas,5.2
+Comanche,033,Kansas,3.5
+Douglas,045,Kansas,6.1
+Finney,055,Kansas,3.5
+Gray,069,Kansas,2.2
+Haskell,081,Kansas,2.4
+Kearny,093,Kansas,2.7
+Lane,101,Kansas,2.9
+Lyon,111,Kansas,4.8
+Mitchell,123,Kansas,2.7
+Neosho,133,Kansas,6.4
+Osage,139,Kansas,5.1
+Pratt,151,Kansas,3.6
+Rice,159,Kansas,4.2
+Saline,169,Kansas,5.5
+Rockingham,157,North Carolina,8.4
+Swain,173,North Carolina,8.5
+Union,179,North Carolina,6
+Guernsey,059,Ohio,8.7
+Henry,069,Ohio,8.1
+Knox,083,Ohio,6.2
+Logan,091,Ohio,8.3
+Medina,103,Ohio,7.6
+Morgan,115,Ohio,9.3
+Perry,127,Ohio,8.4
+Putnam,137,Ohio,5.6
+Summit,153,Ohio,8.2
+Warren,165,Ohio,6.4
+Atoka,005,Oklahoma,7
+Caddo,015,Oklahoma,5.9
+Cleveland,027,Oklahoma,5.6
+Clark,011,Washington,8.5
+Kitsap,035,Washington,7.7
+Jackson,053,Wisconsin,9.3
+Langlade,067,Wisconsin,6.5
+Menominee,078,Wisconsin,15.3
+Outagamie,087,Wisconsin,5.5
+Price,099,Wisconsin,6.8
+St. Croix,109,Wisconsin,7.1
+Trempealeau,121,Wisconsin,7
+Waupaca,135,Wisconsin,5.5
+Campbell,005,Wyoming,6.9
+Goshen,015,Wyoming,4.3
+Uinta,041,Wyoming,6.3
+Walker,127,Alabama,5.8
+Winston,133,Alabama,4.7
+Sheridan,179,Kansas,2.3
+Sumner,191,Kansas,8.1
+Wyandotte,209,Kansas,7.8
+Oldham,185,Kentucky,4.8
+Powell,197,Kentucky,7.3
+Rockcastle,203,Kentucky,7.1
+Spencer,215,Kentucky,5.8
+Warren,227,Kentucky,6.6
+Whitley,235,Kentucky,7.1
+Assumption,007,Louisiana,10.1
+Caldwell,021,Louisiana,7.3
+Catahoula,025,Louisiana,7.1
+Iberville,047,Louisiana,9.8
+La Salle,059,Louisiana,6.8
+Morehouse,067,Louisiana,9.8
+Richland,083,Louisiana,7.6
+Cottle,101,Texas,4.9
+Crockett,105,Texas,8.9
+Culberson,109,Texas,6.5
+Dallam,111,Texas,2.8
+Dallas,113,Texas,7.7
+Denton,121,Texas,6.5
+Dickens,125,Texas,6.3
+Eastland,133,Texas,6.7
+Ellis,139,Texas,6
+Falls,145,Texas,6
+Fannin,147,Texas,4.7
+Fisher,151,Texas,4.5
+Fort Bend,157,Texas,7.7
+Grayson,181,Texas,5.9
+Hale,189,Texas,6.8
+Hamilton,193,Texas,4.5
+Motley,345,Texas,4.6
+Nacogdoches,347,Texas,6.6
+Newton,351,Texas,11
+Nottoway,135,Virginia,5.1
+Orange,137,Virginia,5.6
+Page,139,Virginia,7.3
+Pittsylvania,143,Virginia,6.5
+Prince William,153,Virginia,6.5
+Rockbridge,163,Virginia,5.5
+Scott,169,Virginia,5.3
+Shenandoah,171,Virginia,5.3
+Surry,181,Virginia,5.7
+Sussex,183,Virginia,8.5
+King,033,Washington,7.5
+Eau Claire,035,Wisconsin,5.5
+Florence,037,Wisconsin,8
+Forest,041,Wisconsin,12.4
+Grant,043,Wisconsin,5.3
+Green Lake,047,Wisconsin,6.9
+Iowa,049,Wisconsin,6.1
+Jefferson,055,Wisconsin,5.4
+Juneau,057,Wisconsin,7.2
+Kenosha,059,Wisconsin,7.1
+Niobrara,027,Wyoming,3.8
+Park,029,Wyoming,5.4
+Sublette,035,Wyoming,7.2
+Sweetwater,037,Wyoming,7.4
+Washakie,043,Wyoming,5.3
+Lincoln,043,Washington,6.8
+Pend Oreille,051,Washington,10.7
+Pierce,053,Washington,9.6
+Hardeman,197,Texas,4.4
+Hardin,199,Texas,9
+Harris,201,Texas,8.9
+Harrison,203,Texas,7.9
+Hemphill,211,Texas,4.4
+Henderson,213,Texas,6.4
+Hidalgo,215,Texas,11.6
+Hopkins,223,Texas,5.1
+Irion,235,Texas,6
+Jack,237,Texas,7
+Jackson,239,Texas,5.8
+Jeff Davis,243,Texas,5.1
+Jim Wells,249,Texas,13
+Jones,253,Texas,7
+Kendall,259,Texas,5
+Tazewell,185,Virginia,7.6
+Washington,191,Virginia,5.8
+Wise,195,Virginia,7.6
+Bristol,520,Virginia,0
+Chesapeake,550,Virginia,0
+Covington,580,Virginia,0
+Falls Church,610,Virginia,0
+Galax,640,Virginia,0
+Lexington,678,Virginia,0
+Manassas,683,Virginia,0
+Manassas Park,685,Virginia,0
+Norfolk,710,Virginia,0
+Petersburg,730,Virginia,0
+Radford,750,Virginia,0
+Staunton,790,Virginia,0
+Lafayette,065,Wisconsin,4.3
+Marinette,075,Wisconsin,7.8
+Marquette,077,Wisconsin,6.7
+Oconto,083,Wisconsin,6.3
+Oneida,085,Wisconsin,7.3
+Pepin,091,Wisconsin,5.9
+Pierce,093,Wisconsin,7
+Portage,097,Wisconsin,5.4
+Spokane,063,Washington,8.8
+Thurston,067,Washington,8.3
+Wahkiakum,069,Washington,8.8
+Yakima,077,Washington,9.7
+Berkeley,003,West Virginia,6.2
+Boone,005,West Virginia,10.5
+Brooke,009,West Virginia,9
+Cabell,011,West Virginia,8
+Clay,015,West Virginia,12.5
+Fayette,019,West Virginia,10
+Franklin,037,Florida,5.4
+Hillsborough,057,Florida,7.1
+Jefferson,065,Florida,5.6
+Park,093,Colorado,5.7
+Prowers,099,Colorado,4.4
+Routt,107,Colorado,7.9
+San Miguel,113,Colorado,10.9
+Sedgwick,115,Colorado,3.4
+Saline,125,Arkansas,5.1
+Sebastian,131,Arkansas,6
+Union,139,Arkansas,8.3
+Warren,171,Indiana,5.4
+Wayne,177,Indiana,6.8
+Allamakee,005,Iowa,5.1
+Gallatin,059,Illinois,9.2
+Hancock,067,Illinois,6.9
+Harrison,061,Indiana,6.3
+Jasper,073,Indiana,7
+Johnson,081,Indiana,5.6
+Knox,083,Indiana,5.9
+Lake,089,Indiana,10.3
+Montgomery,107,Indiana,5.2
+Miami,121,Kansas,5
+Morton,129,Kansas,3
+Norton,137,Kansas,2.7
+Phillips,147,Kansas,3.4
+Rawlins,153,Kansas,2.5
+Riley,161,Kansas,5
+Seward,175,Kansas,4.4
+Madison,065,Louisiana,8.4
+Fairfield,001,Connecticut,7.9
+Clay,021,Arkansas,6
+Knott,119,Kentucky,8.5
+Lawrence,127,Kentucky,8.3
+Letcher,133,Kentucky,10.2
+Logan,141,Kentucky,5.5
+McLean,149,Kentucky,5.6
+Marion,155,Kentucky,7.8
+Mohave,015,Arizona,10
+Meade,163,Kentucky,7.1
+Muhlenberg,177,Kentucky,8.7
+Davis,051,Iowa,4
+Fayette,065,Iowa,5.5
+Fremont,071,Iowa,3.1
+Hardin,083,Iowa,4.6
+Harrison,085,Iowa,4
+Jackson,097,Iowa,6.1
+Kossuth,109,Iowa,3.8
+Newton,111,Indiana,6.9
+Lyon,119,Iowa,2.5
+Monona,133,Iowa,4.8
+Osceola,143,Iowa,2.9
+Sioux,167,Iowa,2.7
+Taylor,173,Iowa,3.7
+Wayne,185,Iowa,4.5
+Winneshiek,191,Iowa,4.9
+Allen,001,Kansas,5.4
+Barber,007,Kansas,3.4
+Bourbon,011,Kansas,5.6
+Orleans,071,Louisiana,12.2
+Lake,075,Minnesota,7.3
+Mason,161,Kentucky,8
+Ramsey,123,Minnesota,6.9
+Roseau,135,Minnesota,5.7
+Swift,151,Minnesota,5.8
+Traverse,155,Minnesota,4.4
+Watonwan,165,Minnesota,4.6
+Wilkin,167,Minnesota,4.1
+Yellow Medicine,173,Minnesota,4.6
+Adams,001,Mississippi,11
+Choctaw,019,Mississippi,6.4
+Clay,025,Mississippi,11.6
+Coahoma,027,Mississippi,12.5
+Lucas,117,Iowa,3.6
+Currituck,053,North Carolina,6.3
+Greene,079,North Carolina,5.6
+Henderson,089,North Carolina,6.9
+Clinton,035,Pennsylvania,8.7
+Cumberland,041,Pennsylvania,6.7
+Cherokee,021,Kansas,5.2
+Issaquena,055,Mississippi,9.2
+Jefferson,063,Mississippi,18.4
+Lafayette,071,Mississippi,6.1
+Androscoggin,001,Maine,5.5
+Aroostook,003,Maine,5.5
+St. Bernard,087,Louisiana,10.2
+Burleigh,015,North Dakota,4.4
+Dickey,021,North Dakota,3.3
+Divide,023,North Dakota,3.2
+Golden Valley,033,North Dakota,3.2
+McHenry,049,North Dakota,5.5
+Harrison,047,Mississippi,9.5
+Oktibbeha,105,Mississippi,7.6
+Perry,111,Mississippi,8.7
+Pike,113,Mississippi,8.9
+Sharkey,125,Mississippi,10.9
+Stone,131,Mississippi,7.5
+San Miguel,047,New Mexico,8.3
+Sierra,051,New Mexico,9.2
+Taos,055,New Mexico,11.6
+Albany,001,New York,7.2
+Bronx,005,New York,16
+Dauphin,043,Pennsylvania,8.8
+Greene,059,Pennsylvania,9.7
+Jefferson,065,Pennsylvania,8.8
+Lancaster,071,Pennsylvania,7.5
+Lehigh,077,Pennsylvania,9.6
+McKean,083,Pennsylvania,9.9
+Klamath,035,Oregon,8.7
+Cumberland,005,Maine,5.3
+Colleton,029,South Carolina,6.1
+Florence,041,South Carolina,5.6
+Georgetown,043,South Carolina,7.5
+Chester,023,Tennessee,5.7
+McIntosh,051,North Dakota,3.3
+Mercer,057,North Dakota,5.8
+Jefferson,067,Oklahoma,6.7
+Latimer,077,Oklahoma,10
+Le Flore,079,Oklahoma,7
+McCurtain,089,Oklahoma,6.6
+Marshall,095,Oklahoma,6.4
+Nowata,105,Oklahoma,5.2
+Osage,113,Oklahoma,6.4
+Chemung,015,New York,8.8
+Cortland,023,New York,7.9
+Delaware,025,New York,7.2
+Erie,029,New York,9.5
+Texas,139,Oklahoma,2.3
+Woods,151,Oklahoma,3.4
+Baker,001,Oregon,7.2
+Clatsop,007,Oregon,9.6
+Lincoln,041,Oregon,10.9
+Pierce,139,Nebraska,3.3
+Red Willow,145,Nebraska,3.3
+Cass,029,Iowa,3.9
+Chickasaw,037,Iowa,4.7
+Jersey,083,Illinois,7.4
+Jo Daviess,085,Illinois,8.3
+Lake,097,Illinois,8.1
+Macon,115,Illinois,9.9
+Madison,119,Illinois,7.7
+Decatur,039,Tennessee,8.6
+Dickson,043,Tennessee,5.9
+Gibson,053,Tennessee,7
+Giles,055,Tennessee,8.4
+Knox,013,Maine,5.4
+Penobscot,019,Maine,5.4
+Somerset,025,Maine,6.6
+Pittsburg,121,Oklahoma,7.6
+Roger Mills,129,Oklahoma,4.8
+Wicomico,045,Maryland,7.5
+Suffolk,025,Massachusetts,9.7
+Alcona,001,Michigan,9.9
+Curry,015,Oregon,8.7
+Harney,025,Oregon,5.9
+Leelanau,089,Michigan,8
+Mason,105,Michigan,9.2
+Walthall,147,Mississippi,8.4
+Schuylkill,107,Pennsylvania,9.2
+Wayne,127,Pennsylvania,9.2
+Westmoreland,129,Pennsylvania,9.1
+Emery,015,Utah,4.7
+Iron,021,Utah,4.5
+Kane,025,Utah,5.4
+Cocke,029,Tennessee,10.2
+Waldo,027,Maine,5.2
+Scotts Bluff,157,Nebraska,4.2
+Sioux,165,Nebraska,2.3
+Valley,175,Nebraska,2.8
+Washington,177,Nebraska,3.7
+Churchill,001,Nevada,5.6
+Clark,003,Nevada,14.7
+Arenac,011,Michigan,11.4
+Park,067,Montana,7.4
+Pondera,073,Montana,4.9
+Prairie,079,Montana,6.8
+Ravalli,081,Montana,5.8
+Sanders,089,Montana,7.8
+Stillwater,095,Montana,5.1
+Menominee,109,Michigan,6.4
+Warren,149,Mississippi,8.7
+Yalobusha,161,Mississippi,7.9
+Atchison,005,Missouri,4
+Barton,011,Missouri,4.9
+Boone,019,Missouri,4.2
+Caldwell,025,Missouri,5.4
+Lake,085,Ohio,8.4
+Lucas,095,Ohio,10.4
+Washington,009,Rhode Island,7.8
+Barnwell,011,South Carolina,7.4
+Beaufort,013,South Carolina,5.4
+Lander,015,Nevada,4.8
+Lyon,019,Nevada,8.5
+Storey,029,Nevada,8.3
+Monroe,111,Ohio,10.6
+Montgomery,113,Ohio,8.6
+Ottawa,123,Ohio,9.1
+Scioto,145,Ohio,8.7
+Trumbull,155,Ohio,10.4
+Treasure,103,Montana,3.6
+Valley,105,Montana,4.3
+Richland,077,North Dakota,3.9
+Sioux,085,North Dakota,3.9
+Walsh,099,North Dakota,4.5
+Williams,105,North Dakota,9.6
+Cape Girardeau,031,Missouri,5.2
+Cass,037,Missouri,5.3
+Kings,047,New York,12.5
+Madison,053,New York,7.8
+New York,061,New York,9.5
+Onondaga,067,New York,8.4
+Malheur,045,Oregon,5.2
+Sherman,055,Oregon,6.1
+Tillamook,057,Oregon,8.1
+Wallowa,063,Oregon,7.1
+Washington,067,Oregon,6.5
+Johnson,101,Missouri,5.7
+Lafayette,107,Missouri,5.3
+Lincoln,113,Missouri,6.3
+Madison,123,Missouri,6.5
+Marion,127,Missouri,4.8
+Vinton,163,Ohio,9.1
+Hawkins,073,Tennessee,7.7
+Henry,079,Tennessee,7.5
+Jefferson,089,Tennessee,7.5
+Johnson,091,Tennessee,6.5
+Lauderdale,097,Tennessee,9.2
+Lincoln,103,Tennessee,8.6
+Marion,115,Tennessee,7.6
+Meigs,121,Tennessee,8.6
+Monroe,123,Tennessee,8
+Obion,131,Tennessee,7
+Ashtabula,007,Ohio,8.3
+Pecos,371,Texas,8.1
+Presidio,377,Texas,14.7
+Refugio,391,Texas,8.2
+Rusk,401,Texas,7.3
+San Jacinto,407,Texas,8.1
+San Patricio,409,Texas,10.3
+Putnam,079,New York,7.6
+Terrell,443,Texas,4.6
+Upton,461,Texas,5.6
+Val Verde,465,Texas,7.9
+Waller,473,Texas,7.8
+Webb,479,Texas,8.5
+Wilbarger,487,Texas,5.9
+Winkler,495,Texas,9.3
+Yoakum,501,Texas,11.9
+Zapata,505,Texas,12.4
+Box Elder,003,Utah,4.4
+Angelina,005,Texas,7.6
+Aransas,007,Texas,8.5
+Bowie,037,Texas,7.4
+Brewster,043,Texas,6.7
+St. Charles,183,Missouri,5.2
+St. Louis,189,Missouri,6.3
+Scotland,199,Missouri,3.3
+Baltimore,005,Maryland,6.8
+Harford,025,Maryland,5.8
+Baraga,013,Michigan,11.7
+Charlevoix,029,Michigan,9.8
+Yellowstone,111,Montana,5.4
+Boyd,015,Nebraska,2.8
+Burt,021,Nebraska,3.9
+Muskegon,121,Michigan,11.4
+Oceana,127,Michigan,10.3
+Ottawa,139,Michigan,6.8
+Presque Isle,141,Michigan,11.1
+Sanilac,151,Michigan,9.7
+Schoolcraft,153,Michigan,9.7
+Charleston,019,South Carolina,6.3
+Jackson,071,South Dakota,4.3
+Lawrence,081,South Dakota,6.2
+Lincoln,083,South Dakota,3.6
+McPherson,089,South Dakota,5.1
+Minnehaha,099,South Dakota,4.5
+Perkins,105,South Dakota,3.8
+Roberts,109,South Dakota,6.4
+Belknap,001,New Hampshire,6.9
+Coos,007,New Hampshire,7.9
+Hillsborough,011,New Hampshire,7
+Merrimack,013,New Hampshire,5.8
+Atlantic,001,New Jersey,17.8
+Burlington,005,New Jersey,8.2
+Cumberland,011,New Jersey,10.8
+Cherry,031,Nebraska,2.4
+Dakota,043,Nebraska,4.8
+Deuel,049,Nebraska,3
+Douglas,055,Nebraska,5.1
+Franklin,061,Nebraska,3.5
+Gage,067,Nebraska,4
+Cuyahoga,035,Ohio,10.4
+Fulton,051,Ohio,7.9
+Gallia,053,Ohio,8
+DeKalb,063,Missouri,4.3
+Dunklin,069,Missouri,7.3
+Harrison,081,Missouri,4.5
+Howard,089,Missouri,4.1
+Howell,091,Missouri,6.7
+Bertie,015,North Carolina,6.4
+Burke,023,North Carolina,7.2
+Camden,029,North Carolina,5.5
+Carteret,031,North Carolina,6.2
+Mississippi,133,Missouri,5.3
+New Madrid,143,Missouri,5.8
+Oregon,149,Missouri,6.7
+Pemiscot,155,Missouri,8
+Platte,165,Missouri,5.4
+Johnston,101,North Carolina,6.3
+Lenoir,107,North Carolina,6.2
+Macon,113,North Carolina,6.7
+Mecklenburg,119,North Carolina,7.8
+Moore,125,North Carolina,7.2
+Adair,001,Oklahoma,5.8
+Beaver,007,Oklahoma,2.7
+Cherokee,021,Oklahoma,5.4
+Choctaw,023,Oklahoma,7.6
+Cotton,033,Oklahoma,7
+Delaware,041,Oklahoma,5.3
+Grady,051,Oklahoma,6.1
+Watauga,189,North Carolina,6.2
+Burleson,051,Texas,6.3
+Hidalgo,023,New Mexico,5.8
+Luna,029,New Mexico,15.9
+McKinley,031,New Mexico,10.3
+Otero,035,New Mexico,8.3
+Sequatchie,153,Tennessee,7.8
+Shelby,157,Tennessee,9.7
+Sullivan,163,Tennessee,7.2
+Unicoi,171,Tennessee,8.3
+Wayne,181,Tennessee,7.1
+Lancaster,057,South Carolina,6.9
+Richmond,085,New York,10.6
+Schuyler,097,New York,8.6
+Sullivan,105,New York,8.8
+Ulster,111,New York,8
+Washington,115,New York,7.2
+Westchester,119,New York,8.4
+York,091,South Carolina,6.1
+Bon Homme,009,South Dakota,4.1
+Brown,013,South Dakota,4.4
+Campbell,021,South Dakota,3.7
+Stone,209,Missouri,9.8
+Vernon,217,Missouri,4.4
+Worth,227,Missouri,4.2
+Beaverhead,001,Montana,4
+Surry,171,North Carolina,6.9
+Tyrrell,177,North Carolina,8.9
+Harrison,067,Ohio,9.2
+Hocking,073,Ohio,7.4
+Jackson,079,Ohio,8.7
+Calhoun,057,Texas,5.8
+Chambers,071,Texas,9.5
+Comanche,093,Texas,5.5
+Cooke,097,Texas,7.1
+Baltimore,510,Maryland,6.8
+Lexington,063,South Carolina,4.4
+Marion,067,South Carolina,7.8
+Pickens,077,South Carolina,5.3
+Gogebic,053,Michigan,7.7
+Clay,027,South Dakota,4.5
+Corson,031,South Dakota,5
+Fall River,047,South Dakota,6
+Gregory,053,South Dakota,3.8
+Beltrami,007,Minnesota,6.3
+Brown,015,Minnesota,5.1
+Cass,021,Minnesota,9.2
+Clay,027,Minnesota,4.3
+Tripp,123,South Dakota,3.1
+Yankton,135,South Dakota,4.6
+Carter,011,Montana,2.9
+Custer,017,Montana,4.8
+Fallon,025,Montana,4
+Fergus,027,Montana,4.6
+Garfield,033,Montana,2.7
+Granite,039,Montana,8.2
+Judith Basin,045,Montana,4.9
+Otoe,131,Nebraska,3.5
+Bristol,005,Massachusetts,10.2
+Essex,009,Massachusetts,9.8
+Nantucket,019,Massachusetts,0
+Middlesex,023,New Jersey,8.7
+Grand Traverse,055,Michigan,8.4
+Hooker,091,Nebraska,2.7
+Jefferson,095,Nebraska,2.7
+Keya Paha,103,Nebraska,2
+Lincoln,111,Nebraska,3.9
+Madison,089,Mississippi,6.6
+Marshall,093,Mississippi,7.6
+Cook,031,Minnesota,8.4
+Goodhue,049,Minnesota,5.9
+Houston,055,Minnesota,4.3
+Craven,049,North Carolina,6.6
+Cumberland,051,North Carolina,9.5
+Northampton,131,North Carolina,7.3
+Pamlico,137,North Carolina,5.6
+Polk,149,North Carolina,6.2
+Robeson,155,North Carolina,8.8
+Montgomery,091,Pennsylvania,7.6
+Northumberland,097,Pennsylvania,9.4
+Pike,103,Pennsylvania,10.6
+Monmouth,025,New Jersey,8.8
+Union,039,New Jersey,9.9
+Catron,003,New Mexico,7.2
+Chaves,005,New Mexico,8.1
+Curry,009,New Mexico,5.5
+Mineral,061,Montana,10.2
+Adams,001,North Dakota,3.8
+New London,011,Connecticut,9.6
+Kent,001,Delaware,8.6
+New Castle,003,Delaware,7.7
+Brevard,009,Florida,6.6
+Levy,075,Florida,6
+Craighead,031,Arkansas,5.3
+Crittenden,035,Arkansas,8.3
+Desha,041,Arkansas,7
+Hempstead,057,Arkansas,5.2
+Independence,063,Arkansas,5.8
+Jefferson,069,Arkansas,8
+Lawrence,075,Arkansas,6.1
+Lee,077,Arkansas,7.5
+Yavapai,025,Arizona,7.5
+Baxter,005,Arkansas,5.9
+Benton,007,Arkansas,4.5
+Owyhee,073,Idaho,6
+Valley,085,Idaho,7.9
+Washington,087,Idaho,5.4
+Calhoun,013,Illinois,7.6
+Christian,021,Illinois,8.1
+Clinton,027,Illinois,5.8
+Cassia,031,Idaho,3.7
+Clearwater,035,Idaho,8.2
+Custer,037,Idaho,5
+Idaho,049,Idaho,6.7
+Lemhi,059,Idaho,6.7
+Clinton,023,Indiana,5.6
+Collier,021,Florida,6.9
+Escambia,033,Florida,6.7
+Bear Lake,007,Idaho,4.2
+Bingham,011,Idaho,3.9
+Blaine,013,Idaho,7.8
+Perry,105,Arkansas,5.5
+Phillips,107,Arkansas,9.1
+Pulaski,119,Arkansas,7.4
+Cook,031,Illinois,11.1
+Perry,123,Indiana,6.5
+Posey,129,Indiana,4.9
+Scott,143,Indiana,8.4
+Spencer,147,Indiana,5.6
+Switzerland,155,Indiana,8.1
+Vanderburgh,163,Indiana,7.2
+Dearborn,029,Indiana,6.9
+Dubois,037,Indiana,4.5
+Elkhart,039,Indiana,7.5
+Gwinnett,135,Georgia,6.3
+Harris,145,Georgia,4.6
+Henry,151,Georgia,7.4
+Jeff Davis,161,Georgia,5.1
+Johnson,167,Georgia,4.9
+Lee,177,Georgia,4.6
+Liberty,179,Georgia,6.2
+Linn,107,Kansas,7
+Marshall,117,Kansas,3.1
+Pike,149,Illinois,6
+Randolph,157,Illinois,7.1
+Rock Island,161,Illinois,9.4
+Scott,171,Illinois,6.6
+Shelby,173,Illinois,6.4
+Union,181,Illinois,8.1
+Wabash,185,Illinois,8.3
+White,193,Illinois,7.6
+Winnebago,201,Illinois,11.4
+Turner,287,Georgia,7.2
+Union,291,Georgia,4.4
+Ware,299,Georgia,5.6
+Hickman,105,Kentucky,5.5
+Kleberg,273,Texas,8.4
+McMullen,311,Texas,2.8
+Marion,315,Texas,8.2
+Matagorda,321,Texas,10.5
+Montague,337,Texas,6.6
+McDowell,047,West Virginia,12.6
+Mineral,057,West Virginia,7.6
+Monroe,063,West Virginia,7.1
+Pendleton,071,West Virginia,4.9
+Preston,077,West Virginia,7.3
+Fairfax,059,Virginia,5.8
+Giles,071,Virginia,6.3
+Grayson,077,Virginia,5.7
+Halifax,083,Virginia,7
+Henry,089,Virginia,7.6
+Isle of Wight,093,Virginia,5.1
+King George,099,Virginia,4.5
+Lee,105,Virginia,6.4
+Caldwell,033,Kentucky,6.2
+Wayne,305,Georgia,5.6
+Mecklenburg,117,Virginia,6.8
+Chelan,007,Washington,8.4
+Deaf Smith,117,Texas,3.6
+Kenedy,261,Texas,5.4
+Ector,135,Texas,11
+El Paso,141,Texas,8.3
+Foard,155,Texas,4.2
+Freestone,161,Texas,8.3
+Gaines,165,Texas,5.6
+Loudoun,107,Virginia,5.3
+Northampton,131,Virginia,7.8
+Prince Edward,147,Virginia,6.5
+Prince George,149,Virginia,6.5
+Richmond,159,Virginia,4.9
+Roanoke,161,Virginia,5.1
+Rockingham,165,Virginia,4.7
+Southampton,175,Virginia,5
+Spotsylvania,177,Virginia,6
+Kewaunee,061,Wisconsin,4.6
+Teton,039,Wyoming,6
+Okanogan,047,Washington,9
+Donley,129,Texas,4.4
+Galveston,167,Texas,8.7
+Hood,221,Texas,6.6
+Houston,225,Texas,5.3
+Hudspeth,229,Texas,8
+Jefferson,245,Texas,11.9
+Kaufman,257,Texas,6.5
+Westmoreland,193,Virginia,5.9
+York,199,Virginia,5.6
+Jefferson,031,Washington,9.4
+Douglas,031,Wisconsin,9.2
+Iron,051,Wisconsin,11.2
+Pacific,049,Washington,10.7
+Colonial Heights,570,Virginia,0
+Fredericksburg,630,Virginia,0
+Hampton,650,Virginia,0
+Newport News,700,Virginia,0
+Poquoson,735,Virginia,0
+Roanoke,770,Virginia,5.1
+Manitowoc,071,Wisconsin,6.2
+Milwaukee,079,Wisconsin,8.2
+Ozaukee,089,Wisconsin,5.4
+San Juan,055,Washington,7.9
+Snohomish,061,Washington,8.5
+Walla Walla,071,Washington,6.9
+Whatcom,073,Washington,9.3
+Evangeline,039,Louisiana,7.7
+Scott,139,Minnesota,5.9
+Logan,113,Nebraska,2.5
+Clay,043,North Carolina,7.4
+Greene,057,Ohio,6.4
+Cattaraugus,009,New York,9.4
+Trousdale,169,Tennessee,6.1
+Jerauld,073,South Dakota,2.5
+Panola,365,Texas,8.4
+Haskell,207,Texas,4.3
+Martinsville,690,Virginia,0
+Washington,131,Wisconsin,5.6
+Nicholas,067,West Virginia,10.3
+Henrico,087,Virginia,6.5
+Cullman,043,Alabama,4.3
+Pike,109,Alabama,4.9
+New Haven,009,Connecticut,8
+Fulton,049,Arkansas,5.1
+Scott,127,Arkansas,4.5
+Kenton,117,Kentucky,5.8
+Mahaska,123,Iowa,4.8
+Cannon,015,Tennessee,6.5
+Bowman,011,North Dakota,3.4
+Sheridan,083,North Dakota,6
+Potter,375,Texas,5.5
+Furnas,065,Nebraska,2.8
+Tallahatchie,135,Mississippi,7.4
+Douglas,019,Oregon,7.7
+Bates,013,Missouri,5.3
+Adams,001,Wisconsin,9.5
+Skagit,057,Washington,9.8
+Santa Clara,085,California,7
+Ben Hill,017,Georgia,6.9
+Franklin,047,Indiana,5.9
+West Carroll,123,Louisiana,10.1
+Ionia,067,Michigan,7.9
+Warren,185,North Carolina,9.8
+Berkeley,015,South Carolina,5.6
+Carroll,045,Georgia,6.4
+Hoke,093,North Carolina,8.7
+Pottawatomie,149,Kansas,4.3
+DeSoto,033,Mississippi,6
+Adams,001,Pennsylvania,6.9
+Rutherford,161,North Carolina,9.3
+Clay,051,Kentucky,8.6
+Richmond,245,Georgia,7.6
+Screven,251,Georgia,8.2
+Sumter,261,Georgia,7.4
+Talbot,263,Georgia,6.9
+Terrell,273,Georgia,7.5
+Thomas,193,Kansas,2.9
+Wallace,199,Kansas,2.2
+Washington,201,Kansas,2.5
+Pike,195,Kentucky,8.4
+Shelby,211,Kentucky,5.5
+Simpson,213,Kentucky,7.2
+Trimble,223,Kentucky,6.8
+Union,225,Kentucky,6.3
+Crawford,037,Kansas,5.5
+Doniphan,043,Kansas,4.5
+Geary,061,Kansas,6.9
+Grant,067,Kansas,4.1
+Greeley,071,Kansas,1.8
+Hodgeman,083,Kansas,2.7
+Jewell,089,Kansas,3.1
+Calcasieu,019,Louisiana,9
+Claiborne,027,Louisiana,6.6
+Concordia,029,Louisiana,8.1
+East Feliciana,037,Louisiana,6.7
+Clallam,009,Washington,10.2
+Grays Harbor,027,Washington,11.7
+Rock,105,Wisconsin,7.1
+Sheboygan,117,Wisconsin,5.7
+Walworth,127,Wisconsin,6.1
+Brown,009,Wisconsin,6
+Uintah,047,Utah,9.2
+Washington,053,Utah,5.3
+Addison,001,Vermont,5
+Essex,009,Vermont,6.5
+Orange,017,Vermont,4.8
+Washington,023,Vermont,4.8
+Allen,003,Louisiana,9.2
+Avoyelles,009,Louisiana,8
+St. Mary,101,Louisiana,9.2
+Tensas,107,Louisiana,8.4
+Terrebonne,109,Louisiana,7.7
+Boyle,021,Kentucky,7.4
+Bracken,023,Kentucky,6.2
+Iberia,045,Louisiana,9.4
+Christian,047,Kentucky,7.8
+Crittenden,055,Kentucky,5.5
+Daviess,059,Kentucky,6.1
+Franklin,073,Kentucky,6.6
+Fulton,075,Kentucky,6.5
+Greenup,089,Kentucky,8.9
+Harlan,095,Kentucky,11.9
+Waushara,137,Wisconsin,6.3
+Albany,001,Wyoming,4
+Carbon,007,Wyoming,4.5
+Crook,011,Wyoming,3.9
+Fremont,013,Wyoming,6.2
+Laramie,021,Wyoming,5.1
+Hardy,031,West Virginia,7.2
+Jackson,035,West Virginia,8.6
+Lewis,041,West Virginia,10.9
+Windsor,027,Vermont,5.3
+Accomack,001,Virginia,6.5
+Bland,021,Virginia,5.6
+Buchanan,027,Virginia,9.5
+Charlotte,037,Virginia,5.6
+Chesterfield,041,Virginia,5.9
+Bethel,050,Alaska,11.6
+Hoonah-Angoon,105,Alaska,13.5
+Kenai Peninsula,122,Alaska,9.1
+Kodiak Island,150,Alaska,6.2
+Lake and Peninsula,164,Alaska,9.4
+Nome,180,Alaska,10.5
+Northwest Arctic,188,Alaska,12
+Prince of Wales-Hyder,198,Alaska,9.2
+Valdez-Cordova,261,Alaska,8.7
+Wade Hampton,270,Alaska,19.4
+Dillingham,070,Alaska,8.2
+Juneau,110,Alaska,6.6
+Ketchikan Gateway,130,Alaska,9.6
+North Slope,185,Alaska,5.9
+Petersburg,195,Alaska,8.7
+Sitka,220,Alaska,6.9
+Skagway,230,Alaska,0
+Anchorage,020,Alaska,7.4
+Denali,068,Alaska,15.7
+Aleutians East,013,Alaska,4
+Wrangell,275,Alaska,8.4
+Southeast Fairbanks,240,Alaska,7.4
+Fairbanks North Star,090,Alaska,6.4
+Haines,100,Alaska,15.6
+Matanuska-Susitna,170,Alaska,8.3
+Aleutians West,016,Alaska,4.5
+Bristol Bay,060,Alaska,7.4
+Yukon-Koyukuk,290,Alaska,12.1
+Yakutat,282,Alaska,8.5
+Maui,009,Hawaii,17.8
+Hawaii,001,Hawaii,11.4
+Kauai,007,Hawaii,16.2
+Kalawao,005,Hawaii,0
+Honolulu,003,Hawaii,10.2

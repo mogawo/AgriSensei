@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Connector Dashed Line Styling Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 550px;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart connector line dashed styling.
+Learn how to:
+
+  - Use different connector line styling.
+*/
+      // JS
+      var mainColor = '#E0F2F1';
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        /*These options will apply to all annotations including point nodes and breadcrumbs.*/
+        defaultAnnotation: { margin: 10 },
+        defaultSeries: {
+          color: mainColor,
+          mouseTracking: false,
+          defaultPoint: {
+            /* Default line styling for connector lines */
+            connectorLine: { color: 'gray', width: 1, radius: 0 },
+            label_maxWidth: 70,
+            annotation: {
+              syncWidth: true,
+              syncHeight: true,
+            },
+          },
+        },
+        series: [
+          {
+            points: [
+              { x: 'Board of Directors', id: 'BD' },
+              { x: 'Audit Committee', id: 'AC', parent: 'BD' },
+              { x: 'President/CEO', id: 'CEO', parent: '' },
+
+              { x: 'Other C-Level Managment', id: 'OCM', parent: 'CEO' },
+
+              { x: 'Chief Information Officer', id: 'CIO', parent: 'CEO' },
+              { x: 'Internal Audit', id: 'IA', parent: { id: 'CEO', line_dashStyle: 'Dash' } },
+
+              { x: 'Data Security', id: 'DS', parent: 'CISO' },
+              { x: 'Chief Risk Officer', id: 'CRO', parent: { id: 'CEO', line_dashStyle: 'Dash' } },
+              { x: 'Chief InfoSec Officer', id: 'CISO', parent: 'CEO,AC' },
+              { x: 'IT Steering Committee', id: 'IT SC', parent: 'CIO' },
+              { x: 'Chief Technology Officer', id: 'CTO', parent: 'CIO' },
+              { x: 'Network Administrator', id: 'NA', parent: 'CIO' },
+
+              { x: 'IT Manager', id: 'IT M', parent: 'CIO' },
+              { x: 'Computer Operations', id: 'CO', parent: 'IT M' },
+              { x: 'Proof/Capture', id: 'PC', parent: 'IT M' },
+              { x: 'Reconcilement & Controls', id: 'RC', parent: 'CO' },
+              { x: 'Operators', id: 'O', parent: 'CO' },
+              { x: 'Data Entry', id: 'DE', parent: 'CO' },
+              { x: 'Proof Operator', id: 'PO', parent: 'PC' },
+              { x: 'Item Capture', id: 'IC', parent: 'PC' },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

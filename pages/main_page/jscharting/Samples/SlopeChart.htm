@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dual Axis Slope Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 440px; height: 350px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A slope chart with point axis ticks axis tick.
+Learn how to:
+
+  - Make a slope chart with point axis ticks.
+*/
+      // JS
+      var data = [
+        { name: 'Coal', year2001: 1882826, year2019: 999507 },
+        { name: 'Natural gas', year2001: 554940, year2019: 1474734 },
+        { name: 'Nuclear', year2001: 768826, year2019: 809409 },
+        { name: 'Hydroelectric', year2001: 213749, year2019: 222377 },
+        { name: 'Wind', year2001: 6737, year2019: 389785 },
+      ];
+
+      var series = data.map(function (item) {
+        return {
+          name: item.name,
+          points: [
+            { x: '1/1/2001', y: item.year2001 },
+            { x: '1/1/2019', y: item.year2019 },
+          ],
+        };
+      });
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        title_label_text: 'Electricity Production (GWh) in United States by Fuel Type',
+        palette: ['#757575', '#F9A825', '#689F38', '#0277BD', '#73D2DE'],
+        chartArea_clipContent: false,
+        legend_visible: false,
+        defaultAxis: { defaultTick_label_style_fontSize: '16px' },
+        yAxis: [
+          {
+            defaultTick_enabled: false,
+            scale_range_padding: 0.1,
+          },
+          {
+            id: 'y2',
+            orientation: 'opposite',
+            defaultTick_enabled: false,
+          },
+        ],
+        xAxis: {
+          scale_type: 'time',
+          formatString: 'yyyy',
+          defaultTick: {
+            gridLine_color: '#BDBDBD',
+            line_color: 'none',
+          },
+          scale_interval: { unit: 'year', multiplier: 18 },
+        },
+        defaultSeries: {
+          firstPoint_yAxisTick: {
+            label: {
+              text: '%seriesName',
+              color: '%color',
+            },
+            gridLine_visible: false,
+            line_visible: false,
+          },
+          lastPoint_yAxisTick: {
+            axisId: 'y2',
+            label: {
+              text: '%yValue',
+              color: '%color',
+              style_fontSize: '13px',
+            },
+            gridLine_visible: false,
+            line_visible: false,
+          },
+        },
+        defaultPoint: {
+          hoverAction: 'highlightSeries',
+          marker: {
+            type: 'circle',
+            outline_width: 0,
+            size: 12,
+          },
+          tooltip: '%icon %seriesName %xValue<br><b>%yValue GWh</b>',
+          focusGlow: false,
+        },
+        series: series,
+      });
+    </script>
+  </body>
+</html>

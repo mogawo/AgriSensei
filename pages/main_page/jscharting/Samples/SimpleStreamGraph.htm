@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Simple Stream Graph | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A simulated stream graph using a hidden stacked spline series.
+Learn how to:
+
+  - Stack spline series to create a stream graph.
+*/
+      // JS
+      var chart;
+      JSC.fetch('./resources/google-trends-2020.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        });
+      function renderChart(data) {
+        return JSC.chart('chartDiv', {
+          type: 'area spline',
+          title_label_text: 'Google Trends 2020',
+          legend: {
+            title_label_text: 'Top 5 of Searches:',
+            template: '%icon %name',
+            defaultEntry: {
+              events_click: function () {
+                return false;
+              },
+              cursor: 'default',
+            },
+          },
+          yAxis: {
+            scale_type: 'stacked',
+            visible: false,
+          },
+          xAxis: {
+            crosshair_enabled: true,
+            scale_type: 'time',
+          },
+          defaultPoint: {
+            tooltip: '%icon %seriesName: <b>{%value:n0}</b>',
+            marker_visible: false,
+          },
+          defaultSeries_line_width: 0,
+          series: makeStreamSeries(data, false),
+          toolbar_items: {
+            area: {
+              label_text: 'Switch to area',
+              type: 'toggle',
+              value: false,
+              events_change: function (val) {
+                chart.options({ series: makeStreamSeries(data, val) });
+              },
+            },
+          },
+        });
+      }
+      function makeStreamSeries(data, isArea) {
+        var middleLine;
+        var maxSum = JSC.max(JSC.nest().key('date').rollup('interest', 'sum').points(data), 'y');
+
+        if (!isArea) {
+          middleLine = [
+            {
+              color: 'none',
+              mouseTracking_enabled: false,
+              legendEntry_visible: false,
+              points: JSC.nest()
+                .key('date')
+                .pointRollup(function (key, val) {
+                  return {
+                    x: +key,
+                    y: maxSum / 2 - JSC.sum(val, 'interest') / 2,
+                  };
+                })
+                .points(data),
+            },
+          ];
+        }
+        var series = JSC.nest()
+          .key('term')
+          .key('date')
+          .pointRollup(function (key, val) {
+            return { x: +key, y: val[0].interest };
+          })
+          .series(data);
+        return isArea === false ? series.concat(middleLine) : series;
+      }
+    </script>
+  </body>
+</html>

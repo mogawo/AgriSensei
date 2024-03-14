@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Area Radar Icon Axis Tick Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 480px; height: 600px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Area radar chart with point axis tick text that includes an icon.
+Learn how to:
+
+  - Use point axis ticks with SVG icons.
+*/
+      // JS
+      var icons = {
+        teamwork: 'material/social/people',
+        technicalKnowledge: 'material/action/build',
+        communication: 'material/communication/chat',
+        punctuality: 'material/device/access-time',
+        problemSolving: 'material/action/lightbulb-outline',
+        leadership: 'material/content/flag',
+      };
+      var data = [
+        {
+          name: 'Chris',
+          teamwork: 8,
+          technicalKnowledge: 9,
+          communication: 9,
+          punctuality: 6,
+          problemSolving: 7,
+          leadership: 5,
+        },
+        {
+          name: 'Jane',
+          teamwork: 9,
+          technicalKnowledge: 7,
+          communication: 8,
+          punctuality: 4,
+          problemSolving: 7,
+          leadership: 8,
+        },
+        {
+          name: 'Jordan',
+          teamwork: 4,
+          technicalKnowledge: 10,
+          communication: 5,
+          punctuality: 6,
+          problemSolving: 9,
+          leadership: 4,
+        },
+      ];
+
+      var chart1 = JSC.Chart('chartDiv1', {
+        type: 'radar area',
+        title: {
+          label: {
+            text: 'Employee Skills Analysis',
+            style_fontSize: 20,
+          },
+          position: 'center',
+        },
+        chartArea_clipContent: false,
+        legend: {
+          template: '%icon %name',
+          position: 'inside top',
+        },
+        xAxis: {
+          line_visible: false,
+          defaultTick_label_maxWidth: 80,
+        },
+        yAxis: {
+          defaultTick_label_visible: false,
+          scale_range_max: 10,
+          alternateGridFill: 'none',
+        },
+        defaultSeries: {
+          line_width: 0,
+          shape_padding: 0,
+          opacity: 0.5,
+        },
+        defaultPoint: {
+          marker_visible: false,
+          xAxisTick_label_text: '<icon name=%icon size=18 margin_bottom=4 color=#BDBDBD><br>%xValue',
+        },
+        series: getSeries(data),
+      });
+
+      function getSeries(data) {
+        return data.map(function (v) {
+          return {
+            name: v.name,
+            points: [
+              { x: 'Team Work', y: v.teamwork, attributes_icon: icons.teamwork },
+              { x: 'Tech Knowledge', y: v.technicalKnowledge, attributes_icon: icons.technicalKnowledge },
+              { x: 'Communication', y: v.communication, attributes_icon: icons.communication },
+              { x: 'Punctuality', y: v.punctuality, attributes_icon: icons.punctuality },
+              { x: 'Problem Solving', y: v.problemSolving, attributes_icon: icons.problemSolving },
+              { x: 'Leadership', y: v.leadership, attributes_icon: icons.leadership },
+            ],
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

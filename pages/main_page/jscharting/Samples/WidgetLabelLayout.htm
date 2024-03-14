@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Label Icon Custom Layout Widgets | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 460px) {
+        .chartDiv {
+          width: 100% !important;
+        }
+        #chartDiv1 {
+          height: 200px !important;
+        }
+      }
+      #widgetsWrapper {
+        background: #eeeeee;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      #widgetFlexWrapper {
+        display: flex;
+        max-width: 500px;
+        background: #eeeeee;
+        margin: 8px auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      .chartDiv {
+        width: 100%;
+        background: white;
+        box-sizing: content-box;
+        padding: 15px;
+        margin: 5px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="widgetsWrapper">
+      <div id="widgetFlexWrapper">
+        <div id="chartDiv1" class="chartDiv" style="height: 120px;"></div>
+        <div id="chartDiv2" class="chartDiv" style="max-width: 110px; height: 90px;"></div>
+        <div id="chartDiv4" class="chartDiv" style="max-width: 100px; height: 90px;"></div>
+        <div id="chartDiv3" class="chartDiv" style="max-width: 210px; height: 60px;"></div>
+        <div id="chartDiv5" class="chartDiv" style="max-width: 250px; height: 160px;"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+Label widget layout and sizing.
+Learn how to:
+
+  - Layout widgets.
+*/
+      // JS
+      var chart1, chart2, chart3, chart4;
+
+      //TODO: kind of problematic still
+      //TODO: cleanup.
+      // var exampleTMP = new JSC.Chart('chartDiv5',{
+      // 	title_label: {	// 		text:'KPI Dashboard'	// 	},
+      // 	annotations:[
+      // 		{
+      // 			position: 'inside top left',
+      // 			label: {
+      // 				text: '<icon name=material/social/people size=50>'
+      // 			}
+      // 		},
+      // 		{
+      // 			position:'inside top left',
+      // 			label:{
+      // 			text:'20,345<br>Users',
+      // 				style:{	// 				fontSize:'25px'	// 				}
+      // 			}}
+      // 	]
+      // })
+
+      /* WIDGET DEFINITION */
+
+      /* Default Widget Options */
+      var labelWidgetDefaults = {
+        title: 'Dashboard',
+        data: [{ name: 'Value', value: 100, icon: false }],
+      };
+
+      /* Widget Constructor */
+      function LabelWidget(div, options) {
+        /* Config refers to JSC options, options refers to widget options. */
+        this.currentConfig = this.normalizeOptions(JSC.merge({}, labelWidgetDefaults, options));
+        this.chart = new JSC.chart(
+          div,
+          JSC.merge(
+            {
+              defaultSeries: {
+                type: 'gauge column',
+                opacity: 0,
+                shape: {
+                  padding: 0,
+                  defaultLabel: {
+                    verticalAlign: 'middle',
+                    placement: 'outside',
+                    autoWrap: false,
+                    align: 'left',
+                  },
+                },
+              },
+              defaultAxis_visible: false,
+              legend_visible: false,
+            },
+            this.currentConfig
+          )
+        );
+      }
+
+      /**
+       * Returns chart configuration only for specified options.
+       * @param options - Widget options.
+       * @returns {{}} - Chart configuration.
+       */
+      LabelWidget.prototype.normalizeOptions = function (options) {
+        var result = {};
+        if (options.title) {
+          result.title = {
+            label: {
+              text: options.title,
+              style: {
+                fontWeight: 'bold',
+                fontSize: 16,
+              },
+            },
+          };
+        }
+        if (options.data) {
+          result.series = makeSeries(options.data);
+        }
+        console.log(result);
+        return result;
+
+        function makeSeries(data) {
+          var series = [];
+          data.forEach(function (item) {
+            if (item.icon) {
+              series.push({
+                name: item.name,
+                points: [item.value],
+                shape: {
+                  label: [
+                    {
+                      style_color: item.icon.color,
+                      text: '<icon name=' + item.icon.name + ' size=50>',
+                      align: 'center',
+                      verticalAlign: 'middle',
+                      placement: 'inside',
+                    },
+                    {
+                      align: 'right',
+                      verticalAlign: 'middle',
+
+                      text: '%sum',
+                      style: {
+                        fontSize: 28,
+                        fontWeight: 'bold',
+                      },
+                    },
+                    {
+                      text: '%name',
+
+                      style_fontSize: 14,
+                      align: 'right',
+
+                      verticalAlign: 'middle',
+                    },
+                  ],
+                },
+              });
+            } else {
+              series.push({
+                name: item.name,
+                points: [item.value],
+                shape: {
+                  label: [
+                    {
+                      text: '%name',
+                      align: 'right',
+                      //	offset: '2,-10',
+                      style_fontSize: 14,
+                    },
+                    {
+                      //	offset: '0,-10',
+                      text: '%sum',
+                      align: 'right',
+                      style: {
+                        fontSize: 28,
+                        fontWeight: 'bold',
+                      },
+                    },
+                  ],
+                },
+              });
+            }
+          });
+          return series;
+        }
+      };
+
+      /**
+       * Updates the chart based on provided options.
+       * @param options - Widget options
+       * @param updateOptions - Update options such as animation duration.
+       */
+      LabelWidget.prototype.options = function (options, updateOptions) {
+        var newConfig = this.normalizeOptions(options);
+        /* Maintain chart configuration. */
+        JSC.merge(this.currentConfig, newConfig);
+        /* Update the chart. */
+        this.chart.options(newConfig, updateOptions);
+      };
+
+      /* USING THE WIDGET */
+      chart1 = new LabelWidget('chartDiv1', {
+        title: 'KPI Dashboard',
+        data: [
+          { name: 'Users', value: 20345, icon: { name: 'material/social/people', color: '#03A9F4' } },
+          {
+            name: 'Avg. Session Duration',
+            value: 245,
+            icon: { name: 'material/device/access-time', color: '#00BCD4' },
+          },
+        ],
+      });
+
+      chart2 = new LabelWidget('chartDiv2', {
+        title: '',
+        data: [{ name: 'Users', value: 20345 }],
+      });
+
+      chart3 = new LabelWidget('chartDiv3', {
+        title: '',
+        data: [
+          {
+            name: 'Avg. Session Duration',
+            value: 245,
+            icon: { name: 'material/device/access-time', color: '#323232' },
+          },
+        ],
+      });
+      chart4 = new LabelWidget('chartDiv4', {});
+    </script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SVG Weather Icon Images Browser | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #IconsDesignerWrapper {
+        font-family: tahoma, geneva, sans-serif;
+        color: #424242;
+      }
+      #txtArea {
+        width: 98%;
+      }
+      input[type='button'],
+      input[type='color'] {
+        cursor: pointer;
+      }
+      input[type='button'] {
+        margin: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="IconsDesignerWrapper" style="max-width: 480px; margin: 0 auto;">
+      <div id="chartDiv" style="max-width: 480px; height: 720px; margin: 0px auto;"></div>
+
+      <textarea readonly id="txtArea" rows="5" cols="38" style="background: #f3f3f3;"></textarea>
+      <input id="copyBtn" type="button" value="Copy" />
+    </div>
+
+    <script type="text/javascript">
+      /*
+Weather SVG image picker UI for weather icons included with the bundle images.
+Learn how to:
+
+  - See the SVG weather images included with the bundle samples.
+*/
+      // JS
+      var chart,
+        icons = [
+          'blizzard-day',
+          'blizzard-night',
+          'blizzard',
+          'cloudy-day',
+          'cloudy-night',
+          'cloudy',
+          'fog-day',
+          'fog-night',
+          'fog',
+          'hail-day',
+          'hail-night',
+          'hail',
+          'light-rain-day',
+          'light-rain-night',
+          'light-rain',
+          'light-snow-day',
+          'light-snow-night',
+          'light-snow',
+          'lightning-day',
+          'lightning-night',
+          'lightning',
+          'rain-day',
+          'rain-night',
+          'rain',
+          'rainfall-day',
+          'rainfall-night',
+          'rainfall',
+          'sleet-day',
+          'sleet-night',
+          'sleet',
+          'snow-day',
+          'snow-night',
+          'snow',
+          'thunderstorm-day',
+          'thunderstorm-night',
+          'thunderstorm',
+          'thunderstorm-sleet-day',
+          'thunderstorm-sleet-night',
+          'thunderstorm-sleet',
+          'thunderstorm-snow-day',
+          'thunderstorm-snow-night',
+          'thunderstorm-snow',
+          'clear-day',
+          'clear-night',
+          'dust',
+          'haze',
+          'tornado',
+          'windy-snow',
+          'windy',
+        ];
+
+      var textArea = document.getElementById('txtArea');
+
+      JSC.ready(document).then(function () {
+        chart = JSC.chart('chartDiv', {
+          animation: false,
+          toolbar: {
+            defaultItem: {
+              fill: 'none',
+              outline_width: 0,
+              cursor: 'pointer',
+              states_hover_fill: 'none',
+              events_click: function (val) {
+                updateTextArea(val.label.text);
+              },
+            },
+            items: generateAnnotations(icons, 6, 80),
+          },
+        });
+
+        // Add listeners
+        document.getElementById('copyBtn').addEventListener('click', copyButton);
+      });
+      function generateAnnotations(icons, col, width) {
+        return icons.map(function (item) {
+          var xy = width * Math.round(icons.indexOf(item) % col) + ',' + Math.floor(icons.indexOf(item) / col) * width;
+          return {
+            label_text: '<img src=images/weather-icons/' + item + '.svg width=60 height=60>',
+            position: 'inside ' + xy,
+          };
+        });
+      }
+      // copy button listener event
+      function copyButton() {
+        textArea.select();
+        document.execCommand('copy');
+        document.getElementById('copyBtn').focus();
+      }
+
+      // Update text area with <icon>
+      function updateTextArea(iconStr) {
+        textArea.value = iconStr;
+      }
+    </script>
+  </body>
+</html>

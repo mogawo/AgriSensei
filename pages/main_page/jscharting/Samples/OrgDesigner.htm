@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Organizational Chart Designer | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #modal {
+        display: none; /* Hidden by default */
+        position: fixed; /*Stay in place */
+        z-index: 1; /* Sit on top */
+        background-color: #2b85c4;
+        padding: 10px;
+        margin: 0;
+        height: 66px;
+        border-radius: 6px;
+        overflow: auto; /* Enable scroll if needed */
+        /*    background-color: rgb(0,0,0); Fallback color */
+        /* background-color: rgba(0,0,0,0.4); Black w/ opacity */
+      }
+      #modal input {
+        margin: 3px 1px;
+        padding: 3px 6px;
+        border-radius: 3px;
+        border: 1px solid #bdbdbd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+    <div id="modal">
+      <input id="name" type="text" style="width: 150px;" /><br />
+      <input type="button" id="gobtn" value="Save" />
+      <input type="button" id="cancel" value="Cancel" />
+    </div>
+
+    <script type="text/javascript">
+      /*
+An interactive organizational chart designer with data download feature.
+Learn how to:
+
+  - Use click events inside label text.
+  - Add buttons to labels to trigger interactive events.
+*/
+      // JS
+
+      var modal,
+        nameInput,
+        goBtn,
+        cancelBtn,
+        btnColor = '#01579B',
+        addBtn =
+          "<icon data-id='%id' data-action='add' onclick=handler(this) name='linear/arrows/circle-plus' color=" +
+          btnColor +
+          " size=23 cursor='pointer'> ",
+        removeBtn =
+          "<icon data-id='%id' data-action='remove' onclick=handler(this) name='linear/arrows/circle-minus' color=" +
+          btnColor +
+          " size=23 cursor='pointer'> ",
+        editBtn =
+          "<icon data-id='%id' data-action='edit' onclick=handler(this) name='material/image/edit' color=" +
+          btnColor +
+          " size=23 outerShape=circle padding=5 cursor='pointer'>";
+
+      JSC.ready(document).then(function () {
+        modal = document.getElementById('modal');
+        nameInput = document.getElementById('name');
+        goBtn = document.getElementById('gobtn');
+        cancelBtn = document.getElementById('cancel');
+
+        document.handler = handler;
+      });
+
+      var chart = JSC.chart('chartDiv', {
+        type: 'organizational down',
+        debug: true,
+        animation_duration: 0,
+        defaultPoint: {
+          outline_width: 0,
+          connectorLine_color: btnColor,
+          color: '#0277BD',
+          label: {
+            color: '#E1F5FE',
+            style_fontSize: '15px',
+            text: '<b>%name</b><br/><br/>' + '' + addBtn + removeBtn + editBtn,
+            autoWrap: false,
+          },
+          focusGlow: false,
+          annotation: { padding: 10, margin: 6 },
+        },
+        series: [
+          {
+            mouseTracking_enabled: false,
+            points: [
+              {
+                name: 'Root Node',
+                label_text: '<b>%name</b><br/><br/>' + '' + addBtn + editBtn,
+                id: 'root',
+              },
+              { id: 'sub1', name: 'Sub1', parent: 'root' },
+              { id: 'sub2', name: 'Sub2', parent: 'root' },
+            ],
+          },
+        ],
+        toolbar_items: {
+          'Download Data': { events_click: downloadData },
+        },
+      });
+
+      var actions = {
+        add: function (nodeId, el) {
+          var newId = randomId(),
+            newPoint,
+            newPointEl,
+            domRect;
+          chart.series(0).points.add({ id: newId, parent: nodeId, name: 'name', label_width: 164 });
+          newPoint = chart.series(0).points(newId);
+          //Focus new point
+          newPoint.zoomTo();
+
+          moveModalToNode(newPoint);
+
+          getInputs(
+            nodeId,
+            'name',
+            function (name) {
+              newPoint.options({ name: name, label_width: null });
+            },
+            function () {
+              newPoint.remove();
+            }
+          );
+        },
+        remove: function (nodeId, el) {
+          if (nodeId !== 'root') {
+            var point = chart.series(0).points(nodeId);
+            if (!pointHasChildren(point)) {
+              point.remove();
+            } else {
+              console.log('Cannot remove node. Remove children first.');
+            }
+          }
+
+          function pointHasChildren(p) {
+            return !!chart.series().points(function (pnt) {
+              return pnt !== p && pnt.options('parent') === p.options('id');
+            }).items.length;
+          }
+        },
+        edit: function (nodeId, el) {
+          var pointEl,
+            domRect,
+            point = chart.series(0).points(nodeId);
+
+          point.options({ label_width: 164 });
+
+          moveModalToNode(point);
+          getInputs(
+            nodeId,
+            point.options('name'),
+            function (name) {
+              chart.series(0).points(nodeId).options({ name: name, label_width: null });
+            },
+            function () {
+              point.options({ label_width: null });
+            }
+          );
+        },
+      };
+
+      function moveModalToNode(point) {
+        // Get annotation element position
+        var pointEl = point.visuals.body.rootVisuals.content.el.el,
+          domRect = pointEl.getBoundingClientRect();
+
+        // Position modal over new node
+        modal.style.left = domRect.x - 11 + 'px';
+        modal.style.top = domRect.y - 11 + 'px';
+      }
+
+      function handler(el) {
+        var id = el.dataset.id;
+        var action = el.dataset.action;
+        actions[action](id, el);
+      }
+
+      function getInputs(nodeId, name, cb, cbCancel) {
+        modal.style.display = 'block';
+        nameInput.value = name;
+
+        bind();
+
+        function click() {
+          cb(nameInput.value);
+          modal.style.display = 'none';
+          nameInput.value = '';
+          unbind();
+        }
+
+        function cancel() {
+          modal.style.display = 'none';
+          nameInput.value = '';
+          unbind();
+          cbCancel();
+        }
+
+        function bind() {
+          goBtn.addEventListener('click', click);
+          cancelBtn.addEventListener('click', cancel);
+        }
+
+        function unbind() {
+          goBtn.removeEventListener('click', click);
+          cancelBtn.removeEventListener('click', cancel);
+        }
+      }
+
+      function downloadData() {
+        var rows = chart
+          .series(0)
+          .points()
+          .map(function (point) {
+            return point.replaceTokens('%id,%parentId,%name');
+          });
+        rows.unshift('id,parent,name');
+        var csv = rows.join('\n');
+
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'organization.csv';
+        hiddenElement.click();
+      }
+
+      function randomId() {
+        var n = 5;
+        var randomStringChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        var s = '';
+        while (n--) s += randomStringChars[Math.floor(Math.random() * 51)];
+        return s;
+      }
+    </script>
+  </body>
+</html>

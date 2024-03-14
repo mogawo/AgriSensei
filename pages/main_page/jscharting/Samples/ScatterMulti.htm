@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multi Series Scatter Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Scatter chart with multiple series.
+Learn how to:
+
+  - Draw a scatter chart.
+*/
+      // JS
+      var chart;
+
+      JSC.fetch('./resources/fertilityRateAndLifeExpectancy.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          chart = renderChart(data);
+        });
+      function renderChart(data) {
+        var series = [
+          {
+            name: '1960',
+            type: 'marker',
+            points: data.map(function (item) {
+              return { x: item.fertility_rate1960, y: item.life_expectancy1960, name: item.country };
+            }),
+          },
+          {
+            name: '1990',
+            type: 'marker',
+            points: data.map(function (item) {
+              return { x: item.fertility_rate1990, y: item.life_expectancy1990, name: item.country };
+            }),
+          },
+          {
+            name: '2016',
+            type: 'marker',
+            points: data.map(function (item) {
+              return { x: item.fertility_rate2016, y: item.life_expectancy2016, name: item.country };
+            }),
+          },
+        ];
+        return JSC.chart('chartDiv', {
+          axisToZoom: 'xy',
+          defaultPoint: {
+            tooltip: '<b>%country</b><br>%xAxisLabel: <b>%xValue</b><br>%yAxisLabel: <b>%yValue</b>',
+            opacity: 0.8,
+            marker: {
+              type: 'circle',
+              outline_width: 0,
+              size: 12,
+            },
+          },
+          legend_template: '%icon %name',
+          yAxis: {
+            label_text: 'Life Expectancy',
+            alternateGridFill: 'none',
+          },
+          xAxis: {
+            scale_range: [0, 10],
+            label_text: 'Fertility Rate',
+          },
+          series: series,
+        });
+      }
+    </script>
+  </body>
+</html>

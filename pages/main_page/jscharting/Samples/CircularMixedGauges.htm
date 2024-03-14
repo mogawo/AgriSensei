@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Mixed Circular Gauge Charts | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 300px; height: 700px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Circular gauges with differing styles combined into a single chart.
+Learn how to:
+
+  - Draw multiple circular gauge charts.
+*/
+      // JS
+      var palette = ['#AAF78B', '#FFE853', '#EE6352'];
+      var value1 = 23;
+      var value2 = 52;
+      var value3 = 86;
+
+      var chart = new JSC.chart('chartDiv', {
+        legend_visible: false,
+        palette: {
+          pointValue: '%yValue',
+          ranges: [
+            { value: [0, 30], color: palette[0] },
+            { value: [30, 70], color: palette[1] },
+            { value: [70, 100], color: palette[2] },
+          ],
+        },
+        xAxis: [
+          {
+            id: 'xAx1',
+            scale: { range: [0, 1] },
+          },
+          {
+            id: 'xAx2',
+            spacingPercentage: 0.4,
+            defaultTick_gridLine_color: '#ECEFF1',
+          },
+        ],
+        yAxis: [
+          {
+            id: 'yAx1',
+            defaultTick: {
+              padding: 13,
+              label_visible: false,
+              // enabled:false
+            },
+            line: {
+              width: 10,
+              breaks_gap: 0.03,
+              color: 'smartPalette',
+            },
+            scale: { range: [0, 100], interval: 10 },
+          },
+          {
+            id: 'yAx2',
+            defaultTick: {
+              padding: 13,
+              label_visible: false,
+              // enabled:false
+            },
+            line: {
+              width: 22,
+              // breaks_gap:.03,
+              color: 'smartPalette',
+            },
+            scale: { range: [0, 100], interval: 10 },
+          },
+          {
+            id: 'yAx3',
+            defaultTick: {
+              // padding:10,
+              label_visible: false,
+              enabled: false,
+            },
+            customTicks: [0, 30, 70, 100],
+            line: {
+              width: 10,
+              breaks: {},
+              color: 'smartPalette',
+            },
+            scale_range: [0, 100],
+          },
+        ],
+        defaultTooltip_enabled: false,
+        defaultSeries: {
+          type: 'gauge marker',
+          opacity: 1,
+          shape: {
+            size: '86%',
+            padding: 0,
+            label: {
+              text: '%sum%',
+              align: 'center',
+              verticalAlign: 'middle',
+              style: { fontSize: '45px' },
+            },
+          },
+        },
+        defaultPoint: {
+          marker: { type: 'circle', outline: { width: 8 } },
+        },
+        series: [
+          {
+            yAxis: 'yAx2',
+            xAxis: 'xAx1',
+            defaultPoint: {
+              marker: {
+                outline: { color: 'white' },
+                fill: 'none',
+                size: 28,
+              },
+            },
+            points: [{ id: 'value1', x: 0, y: value1 }],
+          },
+          {
+            type: 'gauge column roundcaps',
+            yAxis: 'yAx3',
+            xAxis: 'xAx2',
+
+            defaultPoint: {
+              //Prevents the circular bar color from fading to another color with high values.
+              altColor: 'currentColor',
+              outline_width: 0,
+            },
+            points: [
+              {
+                id: 'value2',
+                x: 'value2',
+                y: value2,
+              },
+            ],
+          },
+          {
+            yAxis: 'yAx1',
+            xAxis: 'xAx1',
+
+            defaultPoint: {
+              tooltip: '%yValue',
+              marker: {
+                outline: { color: 'currentColor' },
+                fill: 'white',
+                size: 26,
+              },
+            },
+            points: [{ id: 'value3', x: 0, y: value3 }],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

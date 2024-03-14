@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Microchart Tile Map Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="width: 670px; height: 530px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+A tile map chart with microcharts.
+Learn how to:
+
+  - Make a tilemap and bind with CSV data.
+  - Add microcharts to heatmap tiles.
+*/
+      // JS
+      var chart;
+      var partyColors = ['#42a5f5', '#ef5350'];
+
+      /* tile-map-data.csv contains the tile positions for each US state. It is used in makeUSTileMap()
+       * to create the map data.
+       */
+      JSC.fetch('./resources/tile-map-data.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var tileMapData = JSC.csv2Json(text);
+          JSC.fetch('./resources/laborForceUs.csv')
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (text) {
+              var unemploymentData = JSC.csv2Json(text, {
+                coerce: function (d, i) {
+                  return {
+                    state: d.state,
+                    year: d.year,
+                    unemployment_rate: (parseInt(d.unemployed) * 100) / parseInt(d.labor_force),
+                  };
+                },
+              });
+              chart = renderChart(tileMapData, unemploymentData);
+            });
+        });
+      function renderChart(tileMapData, unemploymentData) {
+        return JSC.chart('chartDiv', {
+          type: 'heatmap solid',
+          title: {
+            position: 'center',
+            label: {
+              text: 'Historical US Unemployment Rate 1976-2020',
+              style_fontSize: 16,
+            },
+          },
+          palette: {
+            pointValue: function (p) {
+              return p.options('z');
+            },
+            colors: ['#6ef2f0', '#00d2fa', '#00aeff', '#0084ff', '#4c4bdf'],
+            colorBar_axis_defaultTick_label_text: '%value%',
+          },
+          yAxis: { visible: false, scale_invert: true },
+          xAxis: { visible: false },
+          legend: { position: 'bottom' },
+          defaultPoint: {
+            tooltip: '<b>%state</b><br>2020 Rate: <b>%zValue %</b>',
+            label: {
+              text: '<b>%code</b><br>%micro',
+              placement: 'inside',
+              autoHide: false,
+              color: 'white',
+              align: 'center',
+              verticalAlign: 'middle',
+            },
+          },
+          series: makeUSTileMap(tileMapData, unemploymentData),
+        });
+      }
+
+      function makeUSTileMap(tileMapData, unemploymentData) {
+        var byState = {};
+        tileMapData.forEach(function (item) {
+          byState[item.state] = [item.col, item.row, item.code];
+        });
+
+        return JSC.nest()
+          .key('state')
+          .pointRollup(function (key, val) {
+            var rates = val.map(function (a) {
+              return a.unemployment_rate;
+            });
+            return {
+              x: byState[key][0],
+              y: byState[key][1],
+              z: val[val.length - 1].unemployment_rate,
+              attributes: {
+                micro:
+                  '<chart type=arealine colors="white" width=61 height=39 margin_left=-1 data="' +
+                  rates.join(',') +
+                  '">',
+                code: byState[key][2],
+                state: key,
+              },
+            };
+          })
+          .series(
+            unemploymentData.filter(function (item) {
+              return item.state !== 'Total';
+            })
+          );
+      }
+    </script>
+  </body>
+</html>

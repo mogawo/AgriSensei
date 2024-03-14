@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Node Path Highlighting Flow Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 700px; height: 800px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Flow chart with node path highlighting.
+Learn how to:
+
+  - Highlight node paths on a flow chart.
+*/
+      // JS
+      var selectedPoint;
+      var highlightColor = '#424242';
+      var palette = ['#424242', '#039BE5', '#90A4AE'],
+        cornerRadius = 40;
+      var nodeStyles = {
+        'start/end': {
+          color: palette[0],
+          annotation: {
+            corners: 'round',
+            radius: cornerRadius,
+          },
+        },
+        decision: {
+          color: palette[1],
+          annotation: {
+            corners: 'cut',
+            radius: cornerRadius,
+            label_offset: '0,-4',
+          },
+        },
+        process: {
+          color: palette[2],
+          annotation_corners: 'square',
+        },
+        option: {
+          color: 'white',
+          outline_width: 0,
+          annotation: { padding: 0, margin: 0 },
+          label: { style_fontSize: 11, color: '#424242' },
+        },
+      };
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        title: {
+          position: 'center',
+          label: {
+            text: 'Flow Chart: Login Process',
+            style_fontSize: 16,
+          },
+        },
+        defaultPoint: {
+          outline_width: 0,
+          tooltip: '',
+          label_color: 'white',
+          focusGlow: { color: highlightColor },
+          connectorLine: {
+            width: 1,
+            color: '#c9c9c9',
+            radius: 0,
+            caps_end: { type: 'arrow', size: 6 },
+          },
+          annotation: {
+            width: 100,
+            syncHeight: 'all',
+            padding: 5,
+            margin: 10,
+          },
+          states: {
+            // The mute state is used to style points that are part a clicked path.
+            mute: { enabled: true, opacity: 1, outline: { color: highlightColor } },
+          },
+          events: {
+            // Returning false from these events prevents mute state changes the chart does automatically.
+            mouseOver: function () {
+              this.chart.connectors([this.id, 'up'], { color: highlightColor });
+              this.chart.series().points([this.id, 'up']).options({ muted: true });
+              return false;
+            },
+            mouseOut: function () {
+              styleSelectedPoints(this.chart);
+              return false;
+            },
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: 'Start', id: 'start', attributes_element: 'start/end' },
+          { name: 'Landing Page', id: 'p1', parent: 'start', attributes_element: 'process' },
+          { name: 'Have an account?', id: 'd1', parent: 'p1', attributes_element: 'decision' },
+          { name: 'Yes', id: 'd1_yes', parent: 'd1', attributes_element: 'option' },
+          { name: 'No', id: 'd1_no', parent: 'd1', attributes_element: 'option' },
+          { name: 'Login', id: 'p2', parent: 'd1_yes', attributes_element: 'process' },
+          { name: 'Valid?', id: 'd2', parent: 'p2', attributes_element: 'decision' },
+          { name: 'No', id: 'd2_no', parent: 'd2', attributes_element: 'option' },
+          { name: 'Yes', id: 'd2_yes', parent: 'd2', attributes_element: 'option' },
+          { name: '"Forgot your password?"', id: 'd3', parent: 'd2_no', attributes_element: 'decision' },
+          { name: 'No', id: 'd3_no', parent: 'd3', attributes_element: 'option' },
+          { name: 'Yes', id: 'd3_yes', parent: 'd3', attributes_element: 'option' },
+          { name: 'Mail with password reset', id: 'p3', parent: 'd3_yes', attributes_element: 'process' },
+          { name: 'User chooses new password', id: 'p4', parent: 'p3', attributes_element: 'process' },
+          { name: 'Sign up', id: 'p5', parent: 'd1_no', attributes_element: 'process' },
+          { name: 'User fills form', id: 'p6', parent: 'p5', attributes_element: 'process' },
+          { name: 'Data valid?', id: 'd4', parent: 'p6', attributes_element: 'decision' },
+          { name: 'Yes', id: 'd4_yes', parent: 'd4', attributes_element: 'option' },
+          { name: 'No', id: 'd4_no', parent: 'd4', attributes_element: 'option' },
+          { name: 'Data is invalid', id: 'p7', parent: 'd4_no', attributes_element: 'process' },
+          { name: 'Mail with activation link', id: 'p8', parent: 'd4_yes', attributes_element: 'process' },
+          { name: 'User activates account', id: 'p9', parent: 'p8', attributes_element: 'process' },
+          { name: 'Logged in', id: 'p10', parent: 'p9', attributes_element: 'process' },
+          { name: 'End', id: 'end', parent: 'p10', attributes_element: 'start/end' },
+        ];
+
+        return points.map(function (point) {
+          return JSC.merge(point, nodeStyles[point.attributes_element]);
+        });
+      }
+
+      function styleSelectedPoints(c) {
+        // Clear styling
+        c.connectors();
+        c.series().points().options({ muted: false });
+        if (selectedPoint) {
+          var path = [selectedPoint, 'up'];
+          c.connectors(path, { color: highlightColor, width: 2 });
+          c.series().points(path).options({ muted: true });
+        }
+      }
+    </script>
+  </body>
+</html>

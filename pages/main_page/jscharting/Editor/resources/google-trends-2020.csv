@@ -1,0 +1,261 @@
+date,term,interest
+1/5/2020,Coronavirus,0
+1/12/2020,Coronavirus,0
+1/19/2020,Coronavirus,5
+1/26/2020,Coronavirus,15
+2/2/2020,Coronavirus,9
+2/9/2020,Coronavirus,7
+2/16/2020,Coronavirus,6
+2/23/2020,Coronavirus,28
+3/1/2020,Coronavirus,37
+3/8/2020,Coronavirus,74
+3/15/2020,Coronavirus,100
+3/22/2020,Coronavirus,88
+3/29/2020,Coronavirus,68
+4/5/2020,Coronavirus,68
+4/12/2020,Coronavirus,58
+4/19/2020,Coronavirus,44
+4/26/2020,Coronavirus,31
+5/3/2020,Coronavirus,27
+5/10/2020,Coronavirus,24
+5/17/2020,Coronavirus,19
+5/24/2020,Coronavirus,16
+5/31/2020,Coronavirus,14
+6/7/2020,Coronavirus,13
+6/14/2020,Coronavirus,12
+6/21/2020,Coronavirus,13
+6/28/2020,Coronavirus,13
+7/5/2020,Coronavirus,13
+7/12/2020,Coronavirus,13
+7/19/2020,Coronavirus,11
+7/26/2020,Coronavirus,10
+8/2/2020,Coronavirus,10
+8/9/2020,Coronavirus,9
+8/16/2020,Coronavirus,8
+8/23/2020,Coronavirus,7
+8/30/2020,Coronavirus,7
+9/6/2020,Coronavirus,7
+9/13/2020,Coronavirus,8
+9/20/2020,Coronavirus,7
+9/27/2020,Coronavirus,7
+10/4/2020,Coronavirus,7
+10/11/2020,Coronavirus,7
+10/18/2020,Coronavirus,7
+10/25/2020,Coronavirus,8
+11/1/2020,Coronavirus,7
+11/8/2020,Coronavirus,7
+11/15/2020,Coronavirus,7
+11/22/2020,Coronavirus,5
+11/29/2020,Coronavirus,5
+12/6/2020,Coronavirus,5
+12/13/2020,Coronavirus,5
+12/20/2020,Coronavirus,6
+12/27/2020,Coronavirus,6
+1/5/2020,Election results,0
+1/12/2020,Election results,0
+1/19/2020,Election results,0
+1/26/2020,Election results,0
+2/2/2020,Election results,0
+2/9/2020,Election results,1
+2/16/2020,Election results,0
+2/23/2020,Election results,0
+3/1/2020,Election results,0
+3/8/2020,Election results,0
+3/15/2020,Election results,0
+3/22/2020,Election results,0
+3/29/2020,Election results,0
+4/5/2020,Election results,0
+4/12/2020,Election results,0
+4/19/2020,Election results,0
+4/26/2020,Election results,0
+5/3/2020,Election results,0
+5/10/2020,Election results,0
+5/17/2020,Election results,0
+5/24/2020,Election results,0
+5/31/2020,Election results,0
+6/7/2020,Election results,0
+6/14/2020,Election results,0
+6/21/2020,Election results,0
+6/28/2020,Election results,0
+7/5/2020,Election results,0
+7/12/2020,Election results,0
+7/19/2020,Election results,0
+7/26/2020,Election results,0
+8/2/2020,Election results,0
+8/9/2020,Election results,0
+8/16/2020,Election results,0
+8/23/2020,Election results,0
+8/30/2020,Election results,0
+9/6/2020,Election results,0
+9/13/2020,Election results,0
+9/20/2020,Election results,0
+9/27/2020,Election results,0
+10/4/2020,Election results,0
+10/11/2020,Election results,0
+10/18/2020,Election results,0
+10/25/2020,Election results,0
+11/1/2020,Election results,78
+11/8/2020,Election results,8
+11/15/2020,Election results,2
+11/22/2020,Election results,1
+11/29/2020,Election results,1
+12/6/2020,Election results,0
+12/13/2020,Election results,0
+12/20/2020,Election results,0
+12/27/2020,Election results,0
+1/5/2020,Kobe Bryant,0
+1/12/2020,Kobe Bryant,0
+1/19/2020,Kobe Bryant,0
+1/26/2020,Kobe Bryant,23
+2/2/2020,Kobe Bryant,1
+2/9/2020,Kobe Bryant,1
+2/16/2020,Kobe Bryant,1
+2/23/2020,Kobe Bryant,1
+3/1/2020,Kobe Bryant,0
+3/8/2020,Kobe Bryant,0
+3/15/2020,Kobe Bryant,0
+3/22/2020,Kobe Bryant,0
+3/29/2020,Kobe Bryant,0
+4/5/2020,Kobe Bryant,0
+4/12/2020,Kobe Bryant,0
+4/19/2020,Kobe Bryant,0
+4/26/2020,Kobe Bryant,0
+5/3/2020,Kobe Bryant,0
+5/10/2020,Kobe Bryant,0
+5/17/2020,Kobe Bryant,0
+5/24/2020,Kobe Bryant,0
+5/31/2020,Kobe Bryant,0
+6/7/2020,Kobe Bryant,0
+6/14/2020,Kobe Bryant,0
+6/21/2020,Kobe Bryant,0
+6/28/2020,Kobe Bryant,0
+7/5/2020,Kobe Bryant,0
+7/12/2020,Kobe Bryant,0
+7/19/2020,Kobe Bryant,0
+7/26/2020,Kobe Bryant,0
+8/2/2020,Kobe Bryant,0
+8/9/2020,Kobe Bryant,0
+8/16/2020,Kobe Bryant,0
+8/23/2020,Kobe Bryant,0
+8/30/2020,Kobe Bryant,0
+9/6/2020,Kobe Bryant,0
+9/13/2020,Kobe Bryant,0
+9/20/2020,Kobe Bryant,0
+9/27/2020,Kobe Bryant,0
+10/4/2020,Kobe Bryant,0
+10/11/2020,Kobe Bryant,0
+10/18/2020,Kobe Bryant,0
+10/25/2020,Kobe Bryant,0
+11/1/2020,Kobe Bryant,0
+11/8/2020,Kobe Bryant,0
+11/15/2020,Kobe Bryant,0
+11/22/2020,Kobe Bryant,0
+11/29/2020,Kobe Bryant,0
+12/6/2020,Kobe Bryant,0
+12/13/2020,Kobe Bryant,0
+12/20/2020,Kobe Bryant,0
+12/27/2020,Kobe Bryant,0
+1/5/2020,Zoom,0
+1/12/2020,Zoom,0
+1/19/2020,Zoom,0
+1/26/2020,Zoom,0
+2/2/2020,Zoom,0
+2/9/2020,Zoom,0
+2/16/2020,Zoom,1
+2/23/2020,Zoom,1
+3/1/2020,Zoom,1
+3/8/2020,Zoom,1
+3/15/2020,Zoom,3
+3/22/2020,Zoom,6
+3/29/2020,Zoom,7
+4/5/2020,Zoom,7
+4/12/2020,Zoom,6
+4/19/2020,Zoom,6
+4/26/2020,Zoom,5
+5/3/2020,Zoom,5
+5/10/2020,Zoom,5
+5/17/2020,Zoom,4
+5/24/2020,Zoom,4
+5/31/2020,Zoom,4
+6/7/2020,Zoom,3
+6/14/2020,Zoom,3
+6/21/2020,Zoom,3
+6/28/2020,Zoom,3
+7/5/2020,Zoom,3
+7/12/2020,Zoom,3
+7/19/2020,Zoom,2
+7/26/2020,Zoom,2
+8/2/2020,Zoom,2
+8/9/2020,Zoom,3
+8/16/2020,Zoom,3
+8/23/2020,Zoom,4
+8/30/2020,Zoom,4
+9/6/2020,Zoom,3
+9/13/2020,Zoom,3
+9/20/2020,Zoom,3
+9/27/2020,Zoom,3
+10/4/2020,Zoom,3
+10/11/2020,Zoom,2
+10/18/2020,Zoom,3
+10/25/2020,Zoom,2
+11/1/2020,Zoom,2
+11/8/2020,Zoom,2
+11/15/2020,Zoom,2
+11/22/2020,Zoom,2
+11/29/2020,Zoom,2
+12/6/2020,Zoom,2
+12/13/2020,Zoom,2
+12/20/2020,Zoom,2
+12/27/2020,Zoom,1
+1/5/2020,IPL,0
+1/12/2020,IPL,0
+1/19/2020,IPL,0
+1/26/2020,IPL,0
+2/2/2020,IPL,0
+2/9/2020,IPL,0
+2/16/2020,IPL,0
+2/23/2020,IPL,0
+3/1/2020,IPL,0
+3/8/2020,IPL,0
+3/15/2020,IPL,0
+3/22/2020,IPL,0
+3/29/2020,IPL,0
+4/5/2020,IPL,0
+4/12/2020,IPL,0
+4/19/2020,IPL,0
+4/26/2020,IPL,0
+5/3/2020,IPL,0
+5/10/2020,IPL,0
+5/17/2020,IPL,0
+5/24/2020,IPL,0
+5/31/2020,IPL,0
+6/7/2020,IPL,0
+6/14/2020,IPL,0
+6/21/2020,IPL,0
+6/28/2020,IPL,0
+7/5/2020,IPL,0
+7/12/2020,IPL,0
+7/19/2020,IPL,0
+7/26/2020,IPL,0
+8/2/2020,IPL,0
+8/9/2020,IPL,0
+8/16/2020,IPL,0
+8/23/2020,IPL,0
+8/30/2020,IPL,0
+9/6/2020,IPL,1
+9/13/2020,IPL,3
+9/20/2020,IPL,13
+9/27/2020,IPL,14
+10/4/2020,IPL,16
+10/11/2020,IPL,16
+10/18/2020,IPL,16
+10/25/2020,IPL,17
+11/1/2020,IPL,14
+11/8/2020,IPL,6
+11/15/2020,IPL,0
+11/22/2020,IPL,0
+11/29/2020,IPL,0
+12/6/2020,IPL,0
+12/13/2020,IPL,0
+12/20/2020,IPL,0
+12/27/2020,IPL,0

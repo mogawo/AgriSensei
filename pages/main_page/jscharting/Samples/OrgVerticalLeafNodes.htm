@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Vertical Layout Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 600px; height: 570px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with vertical leaf point layout.
+Learn how to:
+
+  - Use vertical leaf point layout.
+*/
+      // JS
+      var paletteVP = ['#039BE5', '#00ACC1', '#00897B', '#43A047', '#7CB342', '#C0CA33'];
+      var palette = ['white', 'white', '#4FC3F7', '#4DD0E1', '#4DB6AC', '#81C784', '#AED581', '#DCE775'];
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational',
+        defaultSeries: {
+          mouseTracking_enabled: false,
+          defaultLeafPoint_label_align: 'left',
+        },
+        defaultPoint: {
+          outline_width: 0,
+          color: 'white',
+          connectorLine: { width: 1, color: '#e0e0e0' },
+          leafPointLayout: 'vertical',
+          annotation_syncWidth_with: 'all',
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: 'Marcy Travers', id: 'g', attributes: { position: 'Governor' }, label_style_fontSize: 14 },
+          {
+            name: 'Jayde Bailey',
+            id: 'fm',
+            parent: 'g',
+            attributes: { department: 'Finance and Management', position: 'Division Director' },
+          },
+          { name: '', id: 'fm_f', parent: 'fm', attributes: { department: 'Finance' } },
+          { name: '', id: 'fm_as', parent: 'fm', attributes: { department: 'Aviation Services' } },
+          { name: '', id: 'fm_c', parent: 'fm', attributes: { department: 'Communication' } },
+          { name: '', id: 'fm_art', parent: 'fm', attributes: { department: 'Air, Rail, Transit' } },
+
+          {
+            name: 'Jolyon St John',
+            id: 'pe',
+            parent: 'g',
+            attributes: { department: 'Planning and Engineering', position: 'Division Director' },
+          },
+          { name: '', id: 'pe_a', parent: 'pe', attributes: { department: 'Administration' } },
+          { name: '', id: 'pe_bd', parent: 'pe', attributes: { department: 'Bridge Design' } },
+          { name: '', id: 'pe_fp', parent: 'pe', attributes: { department: 'Federal Programs' } },
+          { name: '', id: 'pe_ms', parent: 'pe', attributes: { department: 'Materials and Surfacing' } },
+          { name: '', id: 'pe_pd', parent: 'pe', attributes: { department: 'Projects Development' } },
+          { name: '', id: 'pe_rw', parent: 'pe', attributes: { department: 'Right of Way' } },
+          { name: '', id: 'pe_rd', parent: 'pe', attributes: { department: 'Road Design' } },
+          { name: '', id: 'pe_r', parent: 'pe', attributes: { department: 'Research' } },
+          { name: '', id: 'pe_tim', parent: 'pe', attributes: { department: 'Transportation Inventory Management' } },
+
+          {
+            name: 'Shelby Brooke',
+            id: 'o',
+            parent: 'g',
+            attributes: { department: 'Operations', position: 'Division Director' },
+          },
+          { name: '', id: 'o_os', parent: 'o', attributes: { department: 'Operations Support' } },
+          { name: '', id: 'o_isa', parent: 'o', attributes: { department: 'International Services/Audits' } },
+          {
+            name: '',
+            id: 'o_ar',
+            parent: 'o',
+            attributes: { department: 'Aberdeen Region', subdeps: ['Aberdeen Area', 'Huron Area', 'Watertown Area'] },
+          },
+          {
+            name: '',
+            id: 'o_mr',
+            parent: 'o',
+            attributes: {
+              department: 'Mitchell Region',
+              subdeps: ['Mitchell Area', 'Sioux Falls Area', 'Yankton Area'],
+            },
+          },
+          {
+            name: '',
+            id: 'o_pr',
+            parent: 'o',
+            attributes: { department: 'Pierre Region', subdeps: ['Pierre Area', 'Mobridge Area', 'Winner Area'] },
+          },
+          {
+            name: '',
+            id: 'o_rcr',
+            parent: 'o',
+            attributes: {
+              department: 'Rapid City Region',
+              subdeps: ['Rapid City Area', 'Belle Fourche Area', 'Custer Area'],
+            },
+          },
+        ];
+
+        points.forEach(function (point, i) {
+          JSC.merge(point, { label_text: '<b>%position</b><br>%name' });
+          if (point.parent === 'g') {
+            JSC.merge(point, { label_text: '<b>%department</b><br>%name<br><i>%position</i>' });
+          }
+          if (point.parent === 'o' || point.parent === 'pe' || point.parent === 'fm') {
+            JSC.merge(point, {
+              label_text: '%department',
+              annotation_width: 120,
+            });
+            if (point.attributes.subdeps) {
+              JSC.merge(point, {
+                label_text:
+                  '%department<br><span style="color:#9E9E9E">' +
+                  makeSubDepartmentsText(point.attributes.subdeps) +
+                  '</span>',
+              });
+            }
+          }
+        });
+        return points;
+
+        function makeSubDepartmentsText(arr) {
+          arr = arr.map(function (name, i) {
+            return '- ' + name;
+          });
+          return arr.join('<br>');
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Waffle Pictogram Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 410px; height: 800px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Organizational chart with waffle pictograms.
+Learn how to:
+
+  - Integrate waffle pictograms into organizational chart nodes.
+*/
+      // JS
+      var maleColor = '#03A9F4',
+        femaleColor = '#FF5722';
+      var points = [
+        { name: 'CEO', id: 'ceo', parent: '', attributes_diversity: '', label_style_fontSize: 14 },
+
+        { name: 'Purchasing Department', id: 'pd', parent: 'ceo', attributes_diversity: makeWaffleChart([52, 48]) },
+        { name: 'Supplier Management', id: 'pd_sm', parent: 'pd', attributes_diversity: makeWaffleChart([44, 56]) },
+        { name: 'Delivery Control', id: 'pd_dc', parent: 'pd', attributes_diversity: makeWaffleChart([62, 38]) },
+        { name: 'Inventory Management', id: 'pd_im', parent: 'pd', attributes_diversity: makeWaffleChart([51, 49]) },
+
+        { name: 'Sales Department', id: 'sd', parent: 'ceo', attributes_diversity: makeWaffleChart([44, 56]) },
+        {
+          name: 'Customer Relationship Management',
+          id: 'sd_crm',
+          parent: 'sd',
+          attributes_diversity: makeWaffleChart([40, 60]),
+        },
+        {
+          name: 'Customer Order Management',
+          id: 'sd_com',
+          parent: 'sd',
+          attributes_diversity: makeWaffleChart([48, 52]),
+        },
+
+        { name: 'Finances Department', id: 'fd', parent: 'ceo', attributes_diversity: makeWaffleChart([43, 57]) },
+        {
+          name: 'Human Resources Department',
+          id: 'hrd',
+          parent: 'ceo',
+          attributes_diversity: makeWaffleChart([54, 46]),
+        },
+      ];
+      var chart = renderChart(points);
+
+      function renderChart(points) {
+        return JSC.chart('chartDiv', {
+          debug: true,
+          type: 'organizational',
+          title: {
+            position: 'center',
+            label: {
+              text: 'Gender Diversity by Department',
+              style: {
+                fontSize: 16,
+                fontWeight: 'bold',
+              },
+            },
+          },
+          defaultSeries_color: 'white',
+          legend: {
+            visible: true,
+            template: '%icon %name',
+            customEntries: [
+              { name: 'Male', icon_color: maleColor },
+              { name: 'Female', icon_color: femaleColor },
+            ],
+            position: 'inside top right',
+            defaultEntry_icon: {
+              name: 'system/default/circle',
+              outline_width: 0,
+              size: 12,
+            },
+          },
+          defaultPoint: {
+            connectorLine: { color: '#B0BEC5', radius: 6 },
+            leafPointLayout: 'vertical',
+            label: {
+              text: '%name<br>%diversity',
+              style_color: 'black',
+              verticalAlign: 'bottom',
+            },
+            outline_width: 0,
+            focusGlow_visible: false,
+            annotation: {
+              syncWidth: 'all',
+              syncHeight: 'level',
+              margin: [10, 0],
+              width: 80,
+            },
+            tooltip: '',
+          },
+          series: [{ points: points }],
+        });
+      }
+
+      function makeWaffleChart(values) {
+        return (
+          '<span style="color:' +
+          maleColor +
+          '" >' +
+          values[0] +
+          '%</span><br>' +
+          makePictograph(values, [getIcon(maleColor), getIcon(femaleColor)], 10, 10) +
+          '<span style="color:' +
+          femaleColor +
+          '" >' +
+          values[1] +
+          '%</span>'
+        );
+        function getIcon(color) {
+          return '<icon name=system/default/circle size=5 margin=1 color=' + color + '>';
+        }
+      }
+      function makePictograph(values, icons, width, height) {
+        var iconsArr = [],
+          valuesSum = JSC.sum(values),
+          area = width * height;
+
+        values.forEach(function (item, i) {
+          var iconCount = Math.round((item / valuesSum) * area);
+          for (var j = 0; j < iconCount; j++) {
+            addIcon(icons[i]);
+          }
+        });
+        return iconsArr.join('');
+
+        /**
+         * Adds icon to array and line break when needed.
+         * @param iconText
+         */
+        function addIcon(iconText) {
+          var br = (iconsArr.length + 1) % width ? '' : '<br>';
+          iconsArr.push(iconText + br);
+        }
+      }
+    </script>
+  </body>
+</html>

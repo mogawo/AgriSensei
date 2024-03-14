@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Line Segment Selection | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div style="max-width: 740px; margin: 0px auto; font-family: tahoma, geneva, sans-serif;">
+      Life Expectancy vs. Fertility Rate in&nbsp;<select id="selectState"></select
+      >&nbsp;1990 to 2018
+    </div>
+
+    <div id="chartDiv" style="max-width: 740px; height: 400px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Muted vector segments that appear on hover or when selected with a drop down.
+Learn how to:
+
+  - Use selection to highlight segment series.
+*/
+      // JS
+      var chart, selectEl;
+
+      JSC.fetch('./resources/fertilityRateAndLifeExpectancy2.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text);
+          bindUi();
+          chart = renderChart(makeSeries(data));
+          dropdownSelect('United States');
+          highlightSeries('United States');
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function renderChart(series) {
+        populateDropdown(series);
+        return JSC.chart('chartDiv', {
+          type: 'line',
+          animation_duration: 0,
+          defaultTooltip_enabled: false,
+          defaultAxis: {
+            label_color: '#979797',
+            defaultTick_label_color: '#747474',
+          },
+          yAxis: {
+            alternateGridFill: 'none',
+            label_text: 'LIFE EXPECTANCY',
+          },
+          xAxis: {
+            label_text: 'FERTILITY RATE',
+            scale_interval: 1,
+          },
+          defaultPoint: {
+            marker: {
+              type: 'circle',
+              outline_width: 0,
+              size: 6,
+            },
+            states: {
+              hover_enabled: false,
+              mute_enabled: false,
+            },
+            focusGlow: false,
+          },
+          legend_visible: false,
+          defaultSeries: {
+            color: '#9575CD',
+            opacity: 0.1,
+            line: {
+              width: 1,
+              caps_end: { type: 'arrow', size: '500%' },
+            },
+            states: {
+              select_opacity: 1,
+              hover_enabled: false,
+              mute_enabled: false,
+            },
+            events: {
+              mouseOver: function () {
+                var id = this.options('name');
+                dropdownSelect(id);
+                highlightSeries(id);
+                return false;
+              },
+            },
+          },
+          series: series,
+        });
+      }
+
+      function makeSeries(data) {
+        return JSC.nest()
+          .key('country')
+          .key('year')
+          .pointRollup(function (key, val) {
+            var values = val[0];
+            return {
+              x: values.fertility_rate,
+              y: values.life_expectancy,
+              attributes_year: key,
+            };
+          })
+          .series(data);
+      }
+
+      function highlightSeries(id) {
+        var selectedSeries = chart.series(function (s) {
+          return s.options('selected');
+        }).items;
+        if (selectedSeries.length) {
+          unselect(selectedSeries[0]);
+        }
+
+        select(chart.series(id));
+
+        function select(ser) {
+          ser.options({ selected: true, firstPoint_label_text: '%year', lastPoint_label_text: '%seriesName<br>%year' });
+        }
+
+        function unselect(ser) {
+          ser.options({ selected: false, firstPoint_label_visible: false, lastPoint_label_visible: false }, false);
+        }
+      }
+
+      function selectChanged(control) {
+        highlightSeries(control.options[control.selectedIndex].value);
+      }
+
+      function bindUi() {
+        selectEl = document.getElementById('selectState');
+        selectEl.addEventListener('change', function () {
+          selectChanged(this);
+        });
+      }
+
+      function dropdownSelect(id) {
+        for (var i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].text === id) {
+            selectEl.options[i].selected = true;
+            return;
+          }
+        }
+      }
+
+      function populateDropdown(series) {
+        series.forEach(function (s) {
+          var el = document.createElement('option');
+          el.textContent = s.name;
+          el.value = s.name;
+          selectEl.appendChild(el);
+        });
+      }
+    </script>
+  </body>
+</html>

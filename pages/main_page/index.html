@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
+    
 <head>
     <title>AgriSense</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script type="text/javascript" src="jscharting/JSC/jscharting.js"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0-beta.min.js"></script>
 </head>
 <body>
     <div class="banner">
-        <h1>AgriSense</h1>
+        <h1>AgriSensei</h1>
         <div class="settings">
             <div class="imageContainer">
-                <img src="/images/cog-xxl.png">
+                <img src="images/cog-xxl.png">
                 <button class="settingsBtn" onclick="openSettings()"></button>
             </div>
             <div class="menu" id="menu">
                 <ul>
                     <li><button id="addItemButton">Add Sensor</button></li>
+                    <!-- <li><button id="fillerButton">Fill</button></li> -->
                 </ul>
             </div>
         </div>
     </div>
     <div class="screen">
-        <div class="container">
+        <div class="sensorContainer">
+            <button id="addNewSensor" class="addSensorButton">Add Sensor</button>
             <div class="sensors">
                 <!-- New sensors will be added dynamically here -->
             </div>
@@ -30,6 +36,6 @@
                 
         </div>
     </div>
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

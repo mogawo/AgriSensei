@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Euler Diagram of British Isles | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 600px; height: 600px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Euler diagram of the British Isles.
+Learn how to:
+
+  - Draw a venn diagram.
+*/
+      // JS
+      function makeTooltip(p) {
+        var tooltip =
+          '<span style="font-size:14px;"><b>' +
+          p.name +
+          '</b></span><br>' +
+          '<span style="width:170px;">Information: ' +
+          p.options('attributes_info') +
+          '</span><br>' +
+          'Population: <b>' +
+          JSC.formatNumber(p.options('attributes_population'), 'n0') +
+          '</b>';
+        if (p.name === 'British Isles') return tooltip;
+        return (
+          tooltip +
+          '<br><chart pie size=30 verticalAlign=middle margin=4 ' +
+          'data=' +
+          p.options('attributes_population') +
+          ',' +
+          (71600784 - p.options('attributes_population')) +
+          '} ' +
+          'colors=,' +
+          p.tokenValue('%color') +
+          ',lightgray>' +
+          '<b>' +
+          JSC.formatNumber((p.options('attributes_population') / 71600784) * 100, 'n1') +
+          '%</b> of total Isles population'
+        );
+      }
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'venn',
+        title_label_text: 'Euler diagram of the British Isles',
+        toolbar_visible: false,
+        palette: 'waterMeadow',
+        defaultPoint: {
+          label: { autoHide: false, autoWrap: true },
+          tooltip: makeTooltip,
+        },
+        series: [
+          {
+            points: [
+              {
+                name: 'British Isles',
+                y: 90,
+                attributes: { population: 71600784, info: 'Group of islands' },
+              },
+              {
+                name: 'British Islands',
+                y: 60,
+                attributes: {
+                  population: 66679284,
+                  info: 'A legal term that refers to the United Kingdom, Guernsey, Jersey and the Isle of Man',
+                },
+              },
+              {
+                name: 'Channel Islands',
+                y: 5,
+                attributes: {
+                  population: 169592,
+                  info: 'Islands that are politically composed of two self-governing bailiwicks: Guernsey and Jersey',
+                },
+              },
+              {
+                name: 'United Kingdom',
+                label: { offset: '10,100' },
+                y: 25,
+                attributes: {
+                  population: 66426378,
+                  info:
+                    'Country that is composed of the countries on the island of Great Britain along with the country of Northern Ireland',
+                },
+              },
+              {
+                name: 'Ireland (island)',
+                y: 7,
+                attributes: {
+                  population: 6806900,
+                  info: 'Island in the North Atlantic',
+                },
+              },
+              {
+                name: 'Ireland',
+                y: 1,
+                attributes: {
+                  population: 4921500,
+                  info: 'Country (also known as the Republic of Ireland)',
+                },
+              },
+              {
+                name: 'Northern Ireland',
+                y: 1,
+                attributes: { population: 1885400, info: 'Country' },
+              },
+              {
+                name: 'Great Britain',
+                y: 8,
+                attributes: {
+                  population: 64540978,
+                  info: 'Island that is home to the countries of England, Scotland and Wales.',
+                },
+              },
+              {
+                name: 'Scotland',
+                y: 1,
+                attributes: { population: 5424800, info: 'Country' },
+              },
+              {
+                name: 'Wales',
+                y: 1,
+                attributes: { population: 3139000, info: 'Country' },
+              },
+              {
+                name: 'England',
+                y: 1,
+                attributes: { population: 55977178, info: 'Country' },
+              },
+              {
+                name: 'Isle of Man',
+                y: 1,
+                attributes: {
+                  population: 83314,
+                  info: 'Self-governing British Crown dependency',
+                },
+              },
+              {
+                name: 'Guernsey',
+                y: 1,
+                attributes: {
+                  population: 62792,
+                  info: 'Self-governing British Crown dependency',
+                },
+              },
+              {
+                name: 'Jersey',
+                y: 1,
+                attributes: {
+                  population: 106800,
+                  info: 'Self-governing British Crown dependency',
+                },
+              },
+              { sets: ['Great Britain', 'Scotland'], y: 1 },
+              { sets: ['Great Britain', 'Wales'], y: 1 },
+              { sets: ['Great Britain', 'England'], y: 1 },
+              { sets: ['United Kingdom', 'Great Britain'], y: 8 },
+              { sets: ['United Kingdom', 'Scotland'], y: 1 },
+              { sets: ['United Kingdom', 'Wales'], y: 1 },
+              { sets: ['United Kingdom', 'England'], y: 1 },
+              {
+                sets: ['United Kingdom', 'Northern Ireland'],
+                y: 1,
+              },
+              {
+                sets: ['United Kingdom', 'Ireland (island)'],
+                y: 3,
+              },
+              { sets: ['Ireland (island)', 'Ireland'], y: 1 },
+              {
+                sets: ['Ireland (island)', 'Northern Ireland'],
+                y: 1,
+              },
+              {
+                sets: ['British Islands', 'United Kingdom'],
+                y: 25,
+              },
+              {
+                sets: ['British Islands', 'Channel Islands'],
+                y: 5,
+              },
+              { sets: ['British Islands', 'Great Britain'], y: 8 },
+              { sets: ['British Islands', 'Scotland'], y: 1 },
+              { sets: ['British Islands', 'Wales'], y: 1 },
+              { sets: ['British Islands', 'England'], y: 1 },
+              {
+                sets: ['British Islands', 'Northern Ireland'],
+                y: 1,
+              },
+              { sets: ['British Islands', 'Isle of Man'], y: 1 },
+              { sets: ['British Islands', 'Guernsey'], y: 1 },
+              { sets: ['British Islands', 'Jersey'], y: 1 },
+              {
+                sets: ['British Islands', 'Ireland (island)'],
+                y: 3,
+              },
+              {
+                sets: ['British Isles', 'British Islands'],
+                y: 60,
+              },
+              { sets: ['British Isles', 'Channel Islands'], y: 5 },
+              { sets: ['British Isles', 'United Kingdom'], y: 25 },
+              { sets: ['British Isles', 'Great Britain'], y: 8 },
+              { sets: ['British Isles', 'Scotland'], y: 1 },
+              { sets: ['British Isles', 'Wales'], y: 1 },
+              { sets: ['British Isles', 'England'], y: 1 },
+              { sets: ['British Isles', 'Isle of Man'], y: 1 },
+              { sets: ['British Isles', 'Guernsey'], y: 1 },
+              { sets: ['British Isles', 'Jersey'], y: 1 },
+              {
+                sets: ['British Isles', 'Ireland (island)'],
+                y: 7,
+              },
+              { sets: ['British Isles', 'Ireland'], y: 1 },
+              {
+                sets: ['British Isles', 'Northern Ireland'],
+                y: 1,
+              },
+              { sets: ['Channel Islands', 'Jersey'], y: 1 },
+              { sets: ['Channel Islands', 'Guernsey'], y: 1 },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fill Gradient Styling UI | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      #IconsDesignerWrapper {
+        font-family: tahoma, geneva, sans-serif;
+        color: #424242;
+      }
+      #txtArea {
+        width: 98%;
+      }
+      input[type='button'],
+      input[type='color'] {
+        cursor: pointer;
+      }
+      input[type='button'] {
+        margin: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="IconsDesignerWrapper" style="max-width: 340px; margin: 0 auto;">
+      <div id="chartDiv" style="max-width: 300px; height: 220px; margin: 0px auto;"></div>
+      <div style="max-width: 285px; margin: 0px auto;">
+        <label style="font-size: 12px;">Colors:</label> <input id="addBtn" type="button" value="+" />
+        <input id="removeBtn" type="button" value="-" />
+      </div>
+      <div id="colorPicker" style="max-width: 290px; margin: 7px auto;"></div>
+
+      <textarea readonly id="txtArea" rows="3" style="background: #f3f3f3;"></textarea>
+      <input id="copyBtn" type="button" value="Copy" />
+    </div>
+
+    <script type="text/javascript">
+      /*
+Designer UI for styling background and fill gradients.
+Learn how to:
+
+  - Style backgrounds with gradients and rotation.
+*/
+      // JS
+      var chart,
+        fill = ['#0061ff', '#60efff'],
+        fillAngle = 90;
+
+      var colorPickerParentDiv = document.getElementById('colorPicker'),
+        textArea = document.getElementById('txtArea');
+
+      JSC.ready(document).then(function () {
+        generateColorPickerParentDiv(fill);
+        updateTextArea(getFillStr(fill, fillAngle));
+
+        chart = JSC.chart('chartDiv', {
+          animation: false,
+          box: {
+            fill: getFillStr(fill, fillAngle),
+            radius: 10,
+          },
+          margin_bottom: 40,
+          toolbar_defaultItem: {
+            position: 'bottom left',
+            boxVisible: false,
+            offset: '0,40',
+          },
+          toolbar_items: {
+            'Fill Rotation': {},
+            fillRotation: {
+              type: 'range',
+              margin: [0, 10],
+              value: fillAngle,
+              min: 0,
+              max: 360,
+              width: 200,
+              events_change: function (value) {
+                fillAngle = Math.round(value);
+                updateVisual();
+              },
+            },
+          },
+        });
+
+        // Add listeners
+        document.getElementById('copyBtn').addEventListener('click', copyButton);
+        document.getElementById('removeBtn').addEventListener('click', removeColor);
+        document.getElementById('addBtn').addEventListener('click', addColor);
+
+        // Generate colors pickers inputs by default
+        function generateColorPickerParentDiv(colors) {
+          colors.forEach(function (item, i) {
+            colorPickerParentDiv.append(generateColorPickerInput('colorpicker' + i, item));
+          });
+        }
+      });
+
+      // copy button listener event
+      function copyButton() {
+        textArea.select();
+        document.execCommand('copy');
+        document.getElementById('copyBtn').focus();
+      }
+
+      // [-] button listener event
+      function removeColor() {
+        var colorsNumber = colorPickerParentDiv.children.length;
+        if (colorsNumber >= 2) {
+          colorPickerParentDiv.removeChild(colorPickerParentDiv.lastChild);
+          fill = Array.from(getFill());
+        }
+        updateVisual();
+      }
+
+      // [+] button listener event
+      function addColor() {
+        var colorsNumber = colorPickerParentDiv.children.length;
+        colorPickerParentDiv.append(generateColorPickerInput('colorpicker' + colorsNumber, '#000000'));
+        fill = Array.from(getFill());
+        updateVisual();
+      }
+
+      function updateVisual() {
+        var fillText = getFillStr(fill, fillAngle);
+        updateFill(fillText);
+        updateTextArea(fillText);
+      }
+
+      // Update text area with [fill]
+      function updateTextArea(fillStr) {
+        textArea.value = JSON.stringify(fillStr);
+      }
+
+      // Update chart box fill
+      function updateFill(fillStr) {
+        chart.options({ box: { fill: fillStr, radius: 10 } });
+      }
+
+      // Get [fill]
+      function getFillStr(fill, FAngle) {
+        if (fill.length > 1) {
+          var fillArr = [].concat(fill);
+          fillArr.push(FAngle);
+          return fillArr;
+        } else return fill[0];
+      }
+
+      // Generate new color picker input
+      function generateColorPickerInput(id, color) {
+        var colorPicker = document.createElement('input');
+        colorPicker.type = 'color';
+        colorPicker.setAttribute('id', id);
+        colorPicker.value = color;
+        colorPicker.style.width = '33px';
+        colorPicker.addEventListener('change', changeColorPickerValue);
+        return colorPicker;
+      }
+
+      // Color pickers listener
+      function changeColorPickerValue() {
+        fill = Array.from(getFill());
+        updateVisual();
+      }
+
+      // Get colors from color picker inputs
+      function getFill() {
+        var children = colorPickerParentDiv.children;
+        var fill = [];
+        for (var i = 0; i < children.length; i++) {
+          fill.push(children[i].value);
+        }
+        return fill;
+      }
+    </script>
+  </body>
+</html>

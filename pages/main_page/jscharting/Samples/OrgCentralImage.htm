@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multiple Parent Styled Image Org Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 600px; height: 410px;"></div>
+
+    <script type="text/javascript">
+      /*
+Multiple Parent organizational chart with circular pictures and curved connectors.
+Learn how to:
+
+  - Use images in organizational charts.
+*/
+      // JS
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        defaultTooltip_enabled: false,
+
+        /*These options will apply to all annotations including point nodes and breadcrumbs.*/
+        defaultAnnotation: { margin: 20 },
+        defaultSeries: {
+          mouseTracking: false,
+          color: 'white',
+          defaultPoint: {
+            outline_width: 0,
+            connectorLine: {
+              radius: 100,
+              width: 1,
+              color: '#BDBDBD',
+            },
+            /* Make node widths sync for every level. */
+            annotation_syncWidth_with: 'level',
+            label_text:
+              '<img width=48 height=48 margin_bottom=4 src=%image><br><b>%name</b><br><span style="font-size:10px;">%role</span>',
+          },
+        },
+        series: [
+          {
+            points: [
+              {
+                name: 'Tyrique Kent',
+                id: 'd1',
+                attributes: { role: 'Director', image: 'images/photo-avatars3/avatar_8.png' },
+              },
+              {
+                name: 'Robin Mill',
+                id: 'd2',
+                attributes: { role: 'Director', image: 'images/photo-avatars3/avatar_2.png' },
+              },
+              {
+                name: 'Bushra Barnett',
+                id: 'd3',
+                attributes: { role: 'Director', image: 'images/photo-avatars3/avatar_3.png' },
+              },
+              {
+                name: 'Linzi Cassidy',
+                id: 'ceo',
+                parent: 'd1,d2,d3',
+                attributes: { role: 'CEO', image: 'images/photo-avatars3/avatar_5.png' },
+              },
+              {
+                name: 'Samara Munoz',
+                id: 'm1',
+                parent: 'ceo',
+                attributes: { role: 'Manager finance', image: 'images/photo-avatars3/avatar_9.png' },
+              },
+              {
+                name: 'Alya Roberts',
+                id: 'm2',
+                parent: 'ceo',
+                attributes: { role: 'Manager advertising', image: 'images/photo-avatars3/avatar_7.png' },
+              },
+              {
+                name: 'Glyn Dawe',
+                id: 'm3',
+                parent: 'ceo',
+                attributes: { role: 'Manager sales', image: 'images/photo-avatars3/avatar_6.png' },
+              },
+              {
+                name: 'Chad Read',
+                id: 'm4',
+                parent: 'ceo',
+                attributes: { role: 'Manager production', image: 'images/photo-avatars3/avatar_4.png' },
+              },
+            ],
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>

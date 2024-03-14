@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Horizontal Flow Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" class="chartDiv" style="max-width: 910px; height: 220px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Flow chart using organizational chart type with different node styling.
+Learn how to:
+
+  - Use organizational chart type to create a flow chart.
+*/
+      // JS
+      var palette = ['#424242', '#43A047', '#FF5722', '#FBC02D', '#00B0FF'];
+      var nodeStyles = {
+        'start/end': {
+          color: palette[0],
+          annotation: { corners: 'round', radius: 40 },
+        },
+        decision: {
+          color: palette[1],
+          annotation: {
+            corners: 'cut',
+            radius: 40,
+            label_offset: '0,-4',
+          },
+        },
+        process: { annotation_corners: 'square' },
+        option: {
+          color: 'white',
+          outline_width: 0,
+          annotation: { padding: 0, margin: 0, width: 20 },
+          label: { style_fontSize: 11, color: '#424242' },
+        },
+      };
+
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'organizational right',
+        defaultSeries_mouseTracking_enabled: false,
+        defaultPoint: {
+          outline_width: 0,
+          label_color: 'white',
+          connectorLine: {
+            width: 1,
+            color: '#c9c9c9',
+            radius: 0,
+          },
+          annotation: {
+            width: 100,
+            syncHeight: 'all',
+            padding: 6,
+            margin: 10,
+          },
+        },
+        series: [{ points: getPoints() }],
+      });
+
+      function getPoints() {
+        var points = [
+          { name: 'Brainstorming session', id: 'start', attributes_element: 'start/end' },
+          {
+            name: 'New product idea',
+            id: 'process1',
+            parent: 'start',
+            attributes_element: 'process',
+            color: palette[2],
+          },
+          { name: 'Prototype Evaluation', id: 'decision1', parent: 'process1', attributes_element: 'decision' },
+          { name: 'Yes', id: 'option1', parent: 'decision1', attributes_element: 'option' },
+          { name: 'No', id: 'option2', parent: 'decision1', attributes_element: 'option' },
+          {
+            name: 'Prototyping',
+            id: 'process2',
+            parent: 'process1,process7',
+            attributes_element: 'process',
+            color: palette[2],
+          },
+          { name: 'Design', id: 'process3', parent: 'option1', attributes_element: 'process', color: palette[3] },
+          {
+            name: 'Implementation',
+            id: 'process4',
+            parent: 'process3',
+            attributes_element: 'process',
+            color: palette[3],
+          },
+          { name: 'End', id: 'end', parent: 'process4', attributes_element: 'start/end' },
+          { name: 'Review', id: 'process5', parent: 'option2', attributes_element: 'process', color: palette[4] },
+          {
+            name: 'Requirements refinement',
+            id: 'process6',
+            parent: 'process5',
+            attributes_element: 'process',
+            color: palette[4],
+          },
+          {
+            name: 'Quick design',
+            id: 'process7',
+            parent: 'process6',
+            attributes_element: 'process',
+            color: palette[4],
+          },
+        ];
+
+        return points.map(function (point) {
+          return JSC.merge(point, nodeStyles[point.attributes_element]);
+        });
+      }
+    </script>
+  </body>
+</html>

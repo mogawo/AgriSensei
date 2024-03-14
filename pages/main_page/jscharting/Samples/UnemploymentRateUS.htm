@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Map Sparkline Dashboard | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      @media (max-width: 476px) {
+        #chartDiv {
+          height: 340px !important;
+        }
+      }
+      #mapGridWrapper {
+        max-width: 740px;
+        margin: 0px auto;
+      }
+      #mapGridWrapper a {
+        text-decoration: none;
+      }
+      #mapGridWrapper p {
+        margin-left: 5px;
+        font-size: 12px;
+        font-family: tahoma, geneva, sans-serif;
+      }
+
+      .jscGrid .dataTable {
+        font-family: tahoma, geneva, sans-serif;
+      }
+      .jscGrid .dataTable thead th {
+        background-color: white;
+        color: #424242;
+        font-size: 12px;
+        font-weight: bold;
+        border-bottom: 1px solid #f5f5f5;
+      }
+      .jscGrid .dataTable tr {
+        background-color: white !important;
+      }
+      .jscGrid .dataTable td {
+        font-size: 12px;
+        padding: 3px;
+        border-bottom: 1px solid #f5f5f5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mapGridWrapper">
+      <div id="chartDiv" style="max-width: 700px; height: 400px;"></div>
+      <div id="grid" style="max-width: 600px; margin: 0 auto;"></div>
+      <p style="max-width: 600px; margin: 0 auto;">
+        Source: <a href="https://www.bls.gov/">U.S. Bureau of Labor Statistics</a>
+      </p>
+    </div>
+
+    <script type="text/javascript">
+      /*
+A dashboard with a map and grid with microchart sparklines.
+Learn how to:
+
+  - Create a dashboard with a grid and map charts.
+  - Use template for charts on the same page.
+*/
+      // JS
+      var chart, grid;
+      var palette = ['#6ef2f0', '#00d2fa', '#00aeff', '#0084ff', '#4c4bdf'];
+      var width = window.matchMedia('(max-width: 476px)');
+
+      JSC.fetch('./resources/laborForceUs.csv')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          var data = JSC.csv2Json(text, {
+            coerce: function (d) {
+              return {
+                state: d.state,
+                year: d.year,
+                unemployment_rate: (parseInt(d.unemployed) * 100) / parseInt(d.labor_force),
+                unemployed: parseInt(d.unemployed),
+              };
+            },
+          });
+          var mapData = data.filter(function (v) {
+            return v.year === '2020';
+          });
+          var mapSeries = [
+            {
+              points: mapData.map(function (v) {
+                return {
+                  map: 'US.name:' + v.state,
+                  z: v.unemployment_rate,
+                  attributes_unemployed: v.unemployed,
+                };
+              }),
+            },
+          ];
+          chart = renderMap(mapSeries);
+          grid = renderGrid(generateGridData(data));
+          width.addListener(function () {
+            WidthChange(data);
+          });
+        });
+
+      function renderGrid(data) {
+        return new JSC.Grid('grid', {
+          data: data,
+          className: 'dataTable',
+          exportFile: false,
+          columns: [
+            { header: 'State', value: '%state', align: 'left' },
+            { header: '2020 Rate', value: '%rate_bar%', align: 'left' },
+            { header: 'Trends (1976-2020)', value: '%trends_line', align: 'center' },
+            { header: 'Min Rate', value: '%min_rate', align: 'right' },
+            { header: 'Max Rate', value: '%max_rate', align: 'right' },
+          ],
+        });
+      }
+      function mapValue(toStart, toEnd, fromStart, fromEnd, value) {
+        return toStart + ((value - fromStart) / (fromEnd - fromStart)) * (toEnd - toStart);
+      }
+
+      function round(value) {
+        return Math.round(value * 10) / 10;
+      }
+
+      function renderMap(series) {
+        return JSC.chart('chartDiv', {
+          type: 'map',
+          chartArea_boxVisible: false,
+          legend: { position: 'bottom' },
+          title: {
+            label: {
+              text: 'US Unemployment Rate, 2020',
+              style_fontSize: '15px',
+            },
+            position: 'center',
+          },
+          defaultPoint_tooltip: '%name <b>{%zValue:n1}%</b><br>(<b>{%unemployed:n0}</b> people)',
+          palette: {
+            pointValue: '{%zValue:n1}%',
+            colors: ['#6ef2f0', '#00d2fa', '#00aeff', '#0084ff', '#4c4bdf'],
+            colorBar: {
+              width: 16,
+              axis_defaultTick_label: { text: '%value%' },
+            },
+          },
+          chartArea_fill: 'none',
+          series: series,
+          toolbar_items: {
+            export_visible: true,
+            zoom_visible: false,
+          },
+        });
+      }
+
+      function generateGridData(data) {
+        var data2020 = data.filter(function (v) {
+          return v.year === '2020';
+        });
+        var minRate = JSC.min(data2020, 'unemployment_rate');
+        var maxRate = JSC.max(data2020, 'unemployment_rate');
+        var isSmallWindow = document.getElementById('mapGridWrapper').offsetWidth <= 460;
+        return JSC.nest()
+          .key('state')
+          .pointRollup(function (key, val) {
+            var rateList = val.map(function (a) {
+              return a.unemployment_rate;
+            });
+            var rates = {
+              last: rateList[rateList.length - 1],
+              min: JSC.min(rateList),
+              max: JSC.max(rateList),
+            };
+            var color = palette[Math.round(mapValue(0, 4, minRate, maxRate, rates.last))];
+            if (isSmallWindow) {
+              return {
+                state: key,
+                trends_line:
+                  '<chart type=sparkline colors="#333F89,,#00aeff" width=70 height=20 margin=3 data="' +
+                  rateList.join(',') +
+                  '">',
+                rate_bar: round(rates.last),
+                min_rate: round(rates.min) + '%',
+                max_rate:
+                  '<span style="' +
+                  (+1976 + rateList.indexOf(rates.max) === 2020 ? 'font-weight:bold; color:black;' : '') +
+                  '">' +
+                  round(rates.max) +
+                  '%' +
+                  '</span>',
+              };
+            } else {
+              return {
+                state: key,
+                trends_line:
+                  '<chart type=sparkline colors="#333F89,,#00aeff" width=130 height=20 margin=3 data="' +
+                  rateList.join(',') +
+                  '">',
+                rate_bar:
+                  '<chart type=bar margin_right=5 verticalAlign=middle color="' +
+                  color +
+                  '" data=' +
+                  rates.last +
+                  ' max=13.3>' +
+                  round(rates.last),
+                min_rate: round(rates.min) + '% (' + (+1976 + rateList.indexOf(rates.min)) + ')',
+                max_rate:
+                  '<span style="' +
+                  (+1976 + rateList.indexOf(rates.max) === 2020 ? 'font-weight:bold; color:black;' : '') +
+                  '">' +
+                  round(rates.max) +
+                  '% (' +
+                  (+1976 + rateList.indexOf(rates.max)) +
+                  ')' +
+                  '</span>',
+              };
+            }
+          })
+          .points(data);
+      }
+
+      function WidthChange(data) {
+        if (width.matches) {
+          grid.options({ data: generateGridData(data) });
+        } else {
+          grid.options({ data: generateGridData(data) });
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gantt Point Segments | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/toolbar.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      /*CSS*/
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv" style="max-width: 840px; min-width: 350px; height: 250px; margin: 0px auto;"></div>
+
+    <script type="text/javascript">
+      /*
+Uses axis grid lines drawn on top of data points to segment Gantt bars into day parts.
+Learn how to:
+
+  - Use multiple axes.
+*/
+      // JS
+      var data = [
+        {
+          name: 'Preparations',
+          range: ['1/1/2022', '1/15/2022'],
+        },
+        {
+          name: 'Execution',
+          range: ['1/16/2022', '1/20/2022'],
+        },
+        {
+          name: 'Cleanup',
+          range: ['1/21/2022', '2/12/2022'],
+        },
+        {
+          name: 'Presentation',
+          range: ['2/13/2022', '2/15/2022'],
+        },
+      ];
+      var palette = ['#483C46', '#3C6E71', '#70AE6E', '#BEEE62'];
+      var chart = JSC.chart('chartDiv', {
+        type: 'horizontal column solid',
+        title_label_text: 'Project Alpha',
+        defaultPoint: { tooltip: '%xValue<br>%yStart - %yValue' },
+        legend_visible: false,
+        // Makes bars fill the width of the category space
+        zAxis_scale_type: 'stacked',
+        xAxis: {
+          scale_invert: true,
+          spacingPercentage: 0.05,
+        },
+        yAxis: [
+          {
+            //The main y (horizontal) axis
+            scale: { type: 'time' },
+            defaultTick: {
+              gridLine_visible: false,
+              line_visible: false,
+            },
+          },
+          {
+            // Extra axis used to draw daily grid lines on top of data points.
+            scale_interval_unit: 'day',
+            defaultTick: {
+              label_visible: false,
+              line_visible: false,
+              gridLine: { color: 'white', onTop: true },
+            },
+          },
+        ],
+
+        series: generateSeries(data),
+      });
+
+      function generateSeries(data) {
+        return data.map(function (item) {
+          return { points: [{ x: item.name, y: item.range }] };
+        });
+      }
+    </script>
+  </body>
+</html>

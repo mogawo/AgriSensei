@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Node and Connector Line Styling Organizational Chart | JSCharting</title>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+
+    <script type="text/javascript" src="../jsc/jscharting.js"></script>
+
+    <script type="text/javascript" src="../jsc/modules/types.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+    <style>
+      .chartDiv {
+        margin: 8px auto;
+        padding: 15px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chartDiv1" class="chartDiv" style="max-width: 700px; height: 380px;"></div>
+
+    <script type="text/javascript">
+      /*
+Styles organizational chart line connectors and point outlines by group.
+Learn how to:
+
+  - Style nodes and connectors by groups.
+*/
+      // JS
+      var palette = ['#006E90', '#79B4A9', '#9CC69B', '#BDE4A8', '#D7F2BA'];
+      var points = [
+        { x: 'Project Manager', id: 'PM', attributes_role: 'Project Manager' },
+        { x: 'Deputy Project Manager', id: 'DPM', parent: 'PM', attributes_role: 'Deputy Project Manager' },
+        { x: 'System Engineering', id: 'SE', parent: 'DPM', attributes_role: 'Department' },
+        { x: 'Independent Test Group', id: 'ITG', parent: 'DPM', attributes_role: 'Department' },
+        { x: 'Project Technical Lead', id: 'PTL', parent: 'DPM', attributes_role: 'Department' },
+        { x: 'Quality Assurance', id: 'QA', parent: 'DPM', attributes_role: 'Department' },
+        { x: 'Configuration Manager', id: 'CM', parent: 'DPM', attributes_role: 'Department' },
+
+        { x: 'S/W Subproject Manager 1', id: 'SM1', parent: 'PTL', attributes_role: 'Subproject Manager' },
+        { x: 'Team 1', id: 'team11', parent: 'SM1', attributes_role: 'Team' },
+        { x: 'Team 2', id: 'team12', parent: 'SM1', attributes_role: 'Team' },
+        { x: 'Team 3', id: 'team13', parent: 'SM1', attributes_role: 'Team' },
+
+        { x: 'S/W Subproject Manager 2', id: 'SM2', parent: 'PTL', attributes_role: 'Subproject Manager' },
+        { x: 'Team 1', id: 'team21', parent: 'SM2', attributes_role: 'Team' },
+        { x: 'Team 2', id: 'team22', parent: 'SM2', attributes_role: 'Team' },
+
+        { x: 'S/W Subproject Manager 3', id: 'SM3', parent: 'PTL', attributes_role: 'Subproject Manager' },
+        { x: 'Team 1', id: 'team31', parent: 'SM3', attributes_role: 'Team' },
+        { x: 'Team 2', id: 'team32', parent: 'SM3', attributes_role: 'Team' },
+      ];
+
+      // Group points by unique roles
+      var pointsByRoles = JSC.nest().key('attributes_role').entries(points);
+
+      // Apply a color from palette to each group of points
+      pointsByRoles.forEach(function (group, i) {
+        group.values.forEach(function (point) {
+          point.outline = { color: palette[i], width: 2 };
+          point.connectorLine = { color: palette[i] };
+        });
+      });
+
+      var chart = JSC.chart('chartDiv1', {
+        debug: true,
+        type: 'organizational',
+        defaultTooltip_enabled: false,
+        /* These options will apply to all annotations including point nodes. */
+        defaultAnnotation: { padding: [5, 10], margin: 7 },
+        annotations: [
+          {
+            position: 'bottom',
+            label_text: 'Modifies line connectors data based on roles before the chart is rendered.',
+          },
+        ],
+        defaultSeries: {
+          color: 'white',
+          defaultPoint: {
+            connectorLine: {
+              color: 'gray',
+              width: 2,
+              radius: 0,
+            },
+            label_maxWidth: 100,
+          },
+        },
+        series: [{ points: points }],
+      });
+    </script>
+  </body>
+</html>
