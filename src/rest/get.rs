@@ -39,26 +39,30 @@ use super::post::{PostMessage, Query};
 pub struct GetMessage{}
 impl Message for GetMessage{
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>>
-    {
-        let uri_path = req.uri().path();
+    {   
+        let uri_path = req.uri().path();   
+        print!("------------\n{}\n-------------\n", uri_path);
 
         //If section returns json of user profile
         // SUPPOSED to return back a html webpage, but this should be
         // fine for now
-        if let Some(user_id) = Regex::new(Patterns::USER_OPTIONS)
+
+        if let Some(user_id) = Regex::new(Patterns::GET_USERID)
             .unwrap()
             .captures(uri_path)
             .and_then(|cap|cap
             .name("user_id"))
             .and_then(|mat| mat.as_str().parse::<u64>().ok()){
+                println!("1");
                 let profile = UserProfile::pull_user(user_id).unwrap()
                     .include(&Query::All)
                     .within(&Query::All);
+                println!("2");
 
                 let profile = serde_json::to_vec(&profile).unwrap();
+                println!("3");
                 GetMessage::response_data(profile)
             } else {
-                print!("{}", uri_path);
                 match uri_path
                 {
                     r"/pages/main_page/index.html" => GetMessage::response(r"pages\main_page\index.html"),
