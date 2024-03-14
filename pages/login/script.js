@@ -89,7 +89,6 @@ function handleSignUp()
 function handleLogIn() {
     if (username.value in users)
     {
-        setUser(username.value);
         localStorage.setItem('loggedInUser', username.value);
         window.location.href = "../main_page/index.html"; 
         // if (password.value == users[username.value] || password.value == '')
@@ -107,7 +106,6 @@ function handleLogIn() {
         `;
         body.appendChild(response);
     }
-    console.log("Invalid Username or Password");
     username.value = '';
     password.value = '';
 }
