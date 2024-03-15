@@ -177,7 +177,7 @@ function createSensorElement(devices, k) {
     });
 
     let interval = 5000;
-    setInterval(updateSensors(newSensor, interval), interval);
+    setInterval(updateSensors(newSensor, devices, interval), interval);
 
     return newSensor;
 }
@@ -468,7 +468,7 @@ window.onclick = function(event) {
     }
 }
 
-function updateSensors(sensorData, interval) {
+function updateSensors(sensorData, devices, interval) {
     var apiUrl = '../../user/' + String(id) + '/';
 
     fetch(apiUrl)
@@ -479,18 +479,15 @@ function updateSensors(sensorData, interval) {
             return response.json();
         })
         .then(data => {
-            let devices = data['devices'];
             let sensors = devices['sensors'];
-            console.log("UPDATING");
+            console.log('---------------');
             console.log(devices);
             console.log(sensors);
-            console.log(sensors.length);
-
 
             for (let i = 0; i < sensors.length; i++)
             {
-                if (sensors[i]['sensor_id'] == newSensor.dataset.itemId) {
-                    for (let k = i; k < devices['sensors'].length; k++) {
+                if (sensors[i]['sensor_id'] == sensorData.dataset.itemId) {
+                    for (let k = i; k < sensors.length; k++) {
                         if (sensors[k]['sensor_id'] != sensors[i]['sensor_id']) {
                             break;
                         }
@@ -510,7 +507,7 @@ function updateSensors(sensorData, interval) {
                 handleDetailsTab(sensorData);
             }
 
-            setInterval(updateSensors(sensorData, interval), interval);
+            setInterval(updateSensors(sensorData, devices, interval), interval);
 
         })
         .catch(error => {
