@@ -177,7 +177,7 @@ function createSensorElement(devices, k) {
     });
 
     let interval = 5000;
-    setInterval(updateSensors(newSensor, devices, interval), interval);
+    setInterval(() => { updateSensors(newSensor, devices, interval) }, interval);
 
     return newSensor;
 }
@@ -480,9 +480,6 @@ function updateSensors(sensorData, devices, interval) {
         })
         .then(data => {
             let sensors = devices['sensors'];
-            console.log('---------------');
-            console.log(devices);
-            console.log(sensors);
 
             for (let i = 0; i < sensors.length; i++)
             {
@@ -507,7 +504,7 @@ function updateSensors(sensorData, devices, interval) {
                 handleDetailsTab(sensorData);
             }
 
-            setInterval(updateSensors(sensorData, devices, interval), interval);
+            // setInterval(updateSensors(sensorData, devices, interval), interval);
 
         })
         .catch(error => {
