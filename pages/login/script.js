@@ -28,9 +28,6 @@ var users =
     "Remy": '',
 };
 
-console.log(login);
-
-
 
 function handleSignUp()
 {
@@ -41,6 +38,9 @@ function handleSignUp()
     }
     
     console.log("Pressed Sign Up");
+
+    findUserId(username.value);
+
     const response = document.createElement('div'); 
     response.classList.add('response');
     for (var i = 0; i < username.value.length; i++)
@@ -89,7 +89,7 @@ function handleSignUp()
 function handleLogIn() {
     if (username.value in users)
     {
-        localStorage.setItem('loggedInUser', username.value);
+        localStorage.setItem('loggedInUser', findUserId(username.value));
         window.location.href = "../main_page/index.html"; 
         // if (password.value == users[username.value] || password.value == '')
         // {
@@ -108,4 +108,23 @@ function handleLogIn() {
     }
     username.value = '';
     password.value = '';
+}
+
+function findUserId(username) {
+    var apiUrl = '../../last_user_id';
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Last User ID: " + data['last_user_id']);
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }

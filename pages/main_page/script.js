@@ -12,28 +12,29 @@ function main(id)
     var apiUrl = '../../user/' + String(id) + '/';
 
     fetch(apiUrl)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        let userId = data['user_id'];
-        let user = data['username'];
-        let array = data['sensors'];
-        
-        displayUser(user);
-        for (let i = 0; i < array.length; i++)
-        {
-            const newSensor = createSensorElement(array[i]);
-            itemsContainer.appendChild(newSensor);
-        }
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            let userId = data['user_id'];
+            let user = data['username'];
+            let array = data['sensors'];
+            
+            displayUser(user);
+            for (let i = 0; i < array.length; i++)
+            {
+                const newSensor = createSensorElement(array[i]);
+                itemsContainer.appendChild(newSensor);
+            }
 
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function displayUser(username) {
