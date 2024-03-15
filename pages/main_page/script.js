@@ -26,7 +26,6 @@ function main()
             return response.json();
         })
         .then(data => {
-            console.log(data);
             let devices = data['devices'];
             let userId = data['user_id'];
             displayUser(userId);
@@ -472,8 +471,6 @@ window.onclick = function(event) {
 }
 
 function updateSensors(sensorData, devices, interval) {
-    var apiUrl = '../../user/' + String(id) + '/';
-
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
