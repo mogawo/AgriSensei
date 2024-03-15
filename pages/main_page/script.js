@@ -4,13 +4,20 @@ const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
 const usernameDisplay = document.createElement('div');
 
-var loggedInUser;
-localStorage.getItem('loggedInUser', loggedInUser);
+var loggedInUser = localStorage.getItem('loggedInUser');
+var passedLogIn = localStorage.getItem('passedLogIn');
 
-function main(id)
+var existingSensors = [];
+
+var currentTab = 0;
+var currentSensor = 0;
+
+var id = loggedInUser;
+id = 1;
+const apiUrl = '../../user/' + String(id) + '/';
+
+function main()
 {
-    var apiUrl = '../../user/' + String(id) + '/';
-
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -20,15 +27,20 @@ function main(id)
         })
         .then(data => {
             console.log(data);
+            let devices = data['devices'];
             let userId = data['user_id'];
-            let user = data['username'];
-            let array = data['sensors'];
-            
-            displayUser(user);
-            for (let i = 0; i < array.length; i++)
+            displayUser(userId);
+            for (let i = 0; i < devices.length; i++)
             {
-                const newSensor = createSensorElement(array[i]);
-                itemsContainer.appendChild(newSensor);
+                for (let k = 0; k < devices[i]['sensors'].length; k++) {
+                    let sensorName = String(devices[i]['device_id']) + String(devices[i]['sensors'][k]['sensor_id']);
+                    if (!existingSensors.includes(sensorName))
+                    {
+                        existingSensors.push(sensorName);
+                        const newSensor = createSensorElement(devices[i], k);
+                        itemsContainer.appendChild(newSensor);
+                    }
+                }
             }
 
         })
@@ -40,7 +52,7 @@ function main(id)
 function displayUser(username) {
     usernameDisplay.classList.add('username');
     usernameDisplay.innerHTML = `
-        <p>Logged in with username: ${username}<p>
+        <p>Logged in with user ID: ${username}<p>
     `;
     sensorDisplay.appendChild(usernameDisplay);
 }
@@ -58,7 +70,7 @@ let itemIdCounter = 1;
 //     sensorDisplay
 // });
 
-function createSensorElement(sensorInfo) {
+function createSensorElement(devices, k) {
     const newSensor = document.createElement('div');
     newSensor.classList.add('sensor');
     newSensor.onclick = function ()
@@ -70,19 +82,23 @@ function createSensorElement(sensorInfo) {
         handleSummaryTab(newSensor);
     };
 
-    newSensor.dataset.itemId = sensorInfo['sensor_id'];
+    let sensorName = String(devices['device_id']) + String(devices['sensors'][k]['sensor_id']);
+    newSensor.dataset.itemId = String(sensorName);
     itemIdCounter++;
     newSensor.dataset.batteryLevel = 100; // Change to take level from API
     newSensor.dataset.description = "Add Description";
     newSensor.dataset.name = "Sensor " + newSensor.dataset.itemId;
-    let packets = sensorInfo['packets'];
     let humidityArray = [];
     let timeArray = [];
     let batteryArray = [100];
-    for (let i = 0; i < packets.length; i++)
+    for (let i = k; i < devices['sensors'].length; i++)
     {
-        humidityArray.push(packets[i]['amount'] * 10);
-        timeArray.push(timeConversion(packets[i]['date_time']));
+        if (devices['sensors'][i]['sensor_id'] != devices['sensors'][k]['sensor_id']) {
+            break;
+        }
+        humidityArray.push(devices['sensors'][i]['value'] * 10);
+        // humidityArray.push(sensors[i]['amount'] * 10);
+        timeArray.push(timeConversion(devices['sensors'][i]['date_time']));
     }
     // let array = [85, 82, 81, 82, 84, 84];
     newSensor.dataset.humidityHistory = JSON.stringify(humidityArray);
@@ -160,7 +176,8 @@ function createSensorElement(sensorInfo) {
         });
     });
 
-
+    let interval = 5000;
+    setInterval(() => { updateSensors(newSensor, devices, interval) }, interval);
 
     return newSensor;
 }
@@ -171,7 +188,7 @@ function timeConversion(time) { // TODO
 
 function showSensorInfo(sensorData) {
     // Erase anything in the current display
-    const elements = document.querySelectorAll('.sensorData')
+    const elements = document.querySelectorAll('.sensorData');
     elements.forEach(element => {
         element.remove();
     });
@@ -241,6 +258,8 @@ function showSensorInfo(sensorData) {
 
 function handleSummaryTab(sensorData)
 {
+    currentSensor = sensorData.dataset.itemId;
+    currentTab = 1;
     const summaryDisplay = document.createElement('div');
     summaryDisplay.classList.add('sensorReadings');
 
@@ -278,6 +297,8 @@ function handleSummaryTab(sensorData)
 
 function handleGraphTab(sensorData)
 { 
+    currentSensor = sensorData.dataset.itemId;
+    currentTab = 2;
     const graphDisplay = document.createElement('div');
     graphDisplay.classList.add('sensorReadings');
 
@@ -402,6 +423,8 @@ function generateGraph(sensorData, graphID)
 
 function handleDetailsTab(sensorData)
 {
+    currentSensor = sensorData.dataset.itemId;
+    currentTab = 3;
     const detailsDisplay = document.createElement('div');
     detailsDisplay.classList.add('sensorReadings');
     detailsDisplay.innerHTML = `
@@ -448,4 +471,65 @@ window.onclick = function(event) {
     }
 }
 
-main(1);
+function updateSensors(sensorData, devices, interval) {
+    var apiUrl = '../../user/' + String(id) + '/';
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            let sensors = devices['sensors'];
+
+            for (let i = 0; i < sensors.length; i++)
+            {
+                if (sensors[i]['sensor_id'] == sensorData.dataset.itemId) {
+                    for (let k = i; k < sensors.length; k++) {
+                        if (sensors[k]['sensor_id'] != sensors[i]['sensor_id']) {
+                            break;
+                        }
+                        humidityArray.push(devices['sensors'][k]['value'] * 10);
+                        timeArray.push(devices['sensors'][k]['date_time']);
+                    }
+                    break;
+                }
+            }
+            if (currentSensor == sensorData.dataset.itemId){
+                if (currentTab == 1) {
+                    const elements = document.querySelectorAll('.sensorReadings');
+                    elements.forEach(element => {
+                        element.remove();
+                    });
+                    handleSummaryTab(sensorData);
+                }
+                else if (currentTab == 2) {
+                    const elements = document.querySelectorAll('.sensorReadings');
+                    elements.forEach(element => {
+                        element.remove();
+                    });
+                    handleGraphTab(sensorData);
+                }
+                else if (currentTab == 3) {
+                    const elements = document.querySelectorAll('.sensorReadings');
+                    elements.forEach(element => {
+                        element.remove();
+                    });
+                    handleDetailsTab(sensorData);
+                }
+            }
+
+            // setInterval(updateSensors(sensorData, devices, interval), interval);
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+if (passedLogIn == 1) {
+    // main(loggedInUser);
+    main(1);
+} 

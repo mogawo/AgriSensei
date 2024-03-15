@@ -27,6 +27,7 @@ var users =
     "Jorden": '',
     "Remy": '',
 };
+localStorage.setItem('passedLogIn', 0);
 
 
 function handleSignUp()
@@ -90,12 +91,8 @@ function handleLogIn() {
     if (username.value in users)
     {
         localStorage.setItem('loggedInUser', findUserId(username.value));
-        window.location.href = "../main_page/index.html"; 
-        // if (password.value == users[username.value] || password.value == '')
-        // {
-        //     setUser(username.value);
-        //     window.location = "../main_page/index.html"; 
-        // }
+        localStorage.setItem('passedLogIn', 1);
+        window.location.href = "../main_page/index.html";
     }
     else
     {    
@@ -115,7 +112,6 @@ function findUserId(username) {
 
     fetch(apiUrl)
         .then(response => {
-            console.log("Ay yoo" + response);
             if (!response.ok) {
 
                 throw new Error('Network response was not ok');
