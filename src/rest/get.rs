@@ -1,4 +1,8 @@
+use serde_json::json;
+
 use crate::{message::*, Device};
+
+use super::post::Database;
 
 // -GET REQUESTS-
 
@@ -46,6 +50,14 @@ impl Message for GetMessage{
         } else {
             match uri_path
                 {
+                    "/last_user_id" => {
+                        let conn = Database::connect();
+                        let last_user_id: i64 = conn.last_insert_rowid();
+                        let json_data = json!({
+                            "last_user_id" : last_user_id
+                        }).to_string().into_bytes();
+                        GetMessage::response_data(json_data)
+                    }
                     "/"                   => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\index.html"),
                     "/script.js"          => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\script.js"),
                     "/style.css"          => GetMessage::response(r"C:\Users\Fyuke\Projects\CapstoneProject\server\pages\main_page\style.css"),
