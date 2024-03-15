@@ -4,13 +4,15 @@ const itemsContainer = document.querySelector('.sensors');
 const sensorDisplay = document.querySelector('.display');
 const usernameDisplay = document.createElement('div');
 
-var loggedInUser;
-localStorage.getItem('loggedInUser', loggedInUser);
+var loggedInUser = localStorage.getItem('loggedInUser');
+var passedLogIn = localStorage.getItem('passedLogIn');
 
-function main(id)
+var id = loggedInUser;
+id = 1;
+const apiUrl = '../../user/' + String(id) + '/';
+
+function main()
 {
-    var apiUrl = '../../user/' + String(id) + '/';
-
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -160,7 +162,7 @@ function createSensorElement(sensorInfo) {
         });
     });
 
-
+    setInterval(updateSensors(newSensor), 5000);
 
     return newSensor;
 }
@@ -448,4 +450,45 @@ window.onclick = function(event) {
     }
 }
 
-main(1);
+function updateSensors(sensorData) {
+    var apiUrl = '../../user/' + String(id) + '/';
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            let array = data['sensors'];
+
+            for (let i = 0; i < array.length; i++)
+            {
+                if (array[i]['sensor_id'] == newSensor.dataset.itemId)   
+                {
+                    let packets = array['packets'];
+                    let humidityArray = [];
+                    let timeArray = [];
+                    for (let k = 0; k < packets.length; k++)
+                    {
+                        humidityArray.push(packets[k]['amount'] * 10);
+                        timeArray.push(timeConversion(packets[i]['date_time']));
+                    }
+                    sensorData.dataset.humidityHistory = JSON.stringify(humidityArray);
+                    sensorData.dataset.timeHistory = JSON.stringify(timeArray);
+                    break;
+                }    
+            }
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+if (passedLogIn == 1) {
+    // main(loggedInUser);
+    main(1);
+} 
