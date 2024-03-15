@@ -3,6 +3,7 @@ use serde_json::json;
 use crate::{message::*, Device};
 
 use super::post::Database;
+use crate::database::TableColumnNames;
 
 // -GET REQUESTS-
 
@@ -45,7 +46,8 @@ impl Message for GetMessage{
                 {
                   "/last_user_id" => {
                         let conn = Database::connect();
-                        let last_user_id: i64 = conn.last_insert_rowid();
+                        let statement = format!("SELECT MAX({}) FROM {};", TableColumnNames::USER_ID, TableColumnNames::USERS);
+                        let last_user_id: i64 = conn.query_row(&statement, [], |row| row.get(0)).unwrap();
                         let json_data = json!({
                             "last_user_id" : last_user_id
                         }).to_string().into_bytes();
@@ -65,13 +67,14 @@ impl Message for GetMessage{
                     r"/pages/login/style.css/ws" => GetMessage::response(r"pages\login\style.css"),
                     r"/pages/main_page/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
                     r"/pages/main_page/images/pencil.png" => GetMessage::response(r"pages\main_page\images\pencil.png"),
-                    r"/pages/main_page/images/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
+                    r"/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
                     r"/pages/main_page/jscharting/JSC/jscharting.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\jscharting.js"),
                     r"/pages/main_page/jscharting/JSC/modules/debug.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\modules\debug.js"),
                     _                       => {
                         let other_path: Vec<&str> = uri_path.split('/').collect();
-                        let user_id = other_path.get(2).unwrap().parse::<i64>();
-                        let device_id = other_path.get(3).unwrap().parse::<i64>();
+                        print!("{:#?}", other_path);
+                        let user_id = other_path.get(1).unwrap().parse::<i64>();
+                        let device_id = other_path.get(2).unwrap().parse::<i64>();
                         if let (Ok(ur_id), Ok(dev_id)) = (user_id, device_id) {
                             let device = Device::pull_device(ur_id, dev_id).unwrap();
                             return GetMessage::response_data(device.to_json().into_bytes());

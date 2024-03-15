@@ -30,7 +30,6 @@ impl Device{
         
             let mut dev = Device{user_id: user_id, device_id: device_id, sensors: Vec::new()};
         let measures_iter = statement.query_map(params![user_id], |row|{
-            
             Ok(Measurements{
                 sensor_id: row.get(1)?,
                 value: row.get(2)?

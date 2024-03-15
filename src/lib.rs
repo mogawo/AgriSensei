@@ -17,7 +17,7 @@ mod rest{
 // use rest::get;
 
 mod database;
-use database::Database;
+pub use database::Database;
 
 mod handler;
 use handler::handle_connection;
