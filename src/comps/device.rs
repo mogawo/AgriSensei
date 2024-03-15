@@ -4,8 +4,8 @@ use crate::comps::components::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Device{
-    pub user_id: u64,
-    pub device_id: u64,
+    pub user_id: i64,
+    pub device_id: i64,
     pub sensors: Vec<Measurements> // DIFFERENT FROM THE OTHER SENSOR STRUCT
 }
 #[derive(Serialize, Deserialize, Debug)]
@@ -18,7 +18,7 @@ impl Device{
     pub fn push_device(&self){
         Database::add_device_measurements(&self);
     }
-    pub fn pull_device(user_id: u64, device_id: u64) -> Result<Self, rusqlite::Error>{
+    pub fn pull_device(user_id: i64, device_id: i64) -> Result<Self, rusqlite::Error>{
         let conn = Database::connect();
         let (table, user_id_col) = 
             (TableColumnNames::DEVICE_TABLE, TableColumnNames::USER_ID);

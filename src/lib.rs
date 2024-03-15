@@ -117,6 +117,6 @@ pub fn add_device_measurements(device: &Device){
     Database::add_device_measurements(device)
 }
 
-pub fn pull_device(user_id: u64, device_id: u64) -> device::Device{
+pub fn pull_device(user_id: i64, device_id: i64) -> device::Device{
     Device::pull_device(user_id, device_id).unwrap()
 }

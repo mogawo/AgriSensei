@@ -41,13 +41,6 @@ impl Message for GetMessage{
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>>
     {
         let uri_path = req.uri().path();
-        let other_path: Vec<&str> = uri_path.split('/').collect();
-        let user_id = other_path.get(2);
-        let device_id = other_path.get(3);
-        if let (Some(ur_id), Some(dev_id)) = (user_id, device_id) {
-            let device = Device::pull_device(ur_id.parse::<u64>().unwrap(), dev_id.parse::<u64>().unwrap()).unwrap();
-            GetMessage::response_data(device.to_json().into_bytes())
-        } else {
            match uri_path
                 {
                   "/last_user_id" => {
@@ -75,9 +68,18 @@ impl Message for GetMessage{
                     r"/pages/main_page/images/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
                     r"/pages/main_page/jscharting/JSC/jscharting.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\jscharting.js"),
                     r"/pages/main_page/jscharting/JSC/modules/debug.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\modules\debug.js"),
-                    _                       => GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))
+                    _                       => {
+                        let other_path: Vec<&str> = uri_path.split('/').collect();
+                        let user_id = other_path.get(2).unwrap().parse::<i64>();
+                        let device_id = other_path.get(3).unwrap().parse::<i64>();
+                        if let (Ok(ur_id), Ok(dev_id)) = (user_id, device_id) {
+                            let device = Device::pull_device(ur_id, dev_id).unwrap();
+                            return GetMessage::response_data(device.to_json().into_bytes());
+                        } else {
+                            return GetMessage::error_response(MessageError("Get Request Error"))
+                        }
+                    }
                 }
-        }
     }
 }
 
