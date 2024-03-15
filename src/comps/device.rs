@@ -14,7 +14,8 @@ pub struct Device{
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Measurements{
     pub sensor_id: i64,
-    pub value: f64
+    pub value: f64,
+    pub date_time: Option<DateTime<Utc>>
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DevicePackage{
@@ -31,7 +32,8 @@ pub struct DeviceRow{
     pub user_id: i64,
     pub sensor_id: i64,
     pub device_id: i64,
-    pub value: f64
+    pub value: f64,
+    pub date_time: DateTime<Utc>
 }
 
 impl Device{
@@ -53,7 +55,8 @@ impl Device{
                 user_id: row.get(0)?,
                 device_id: row.get(1)?,
                 sensor_id: row.get(2)?,
-                value: row.get(3)?
+                value: row.get(3)?,
+                date_time: row.get(4)?
             })
         })?;
         let mut dev_package = DevicePackage{user_id: user_id, devices: Vec::new()};
@@ -66,13 +69,15 @@ impl Device{
                         dev_package.devices.push(Device { user_id: user_id, device_id: dev_row.device_id, sensors: Vec::new() });
                         dev_package.devices.last_mut().unwrap().sensors.push(Measurements{
                             sensor_id: dev_row.sensor_id,
-                            value: dev_row.value
+                            value: dev_row.value,
+                            date_time: Some(dev_row.date_time)
                         })
                     } else {
                         let found_dev = dev_package.devices.iter_mut().find(|dev| dev.device_id == dev_row.device_id).unwrap();
                         found_dev.sensors.push(Measurements{
                             sensor_id: dev_row.sensor_id,
-                            value: dev_row.value
+                            value: dev_row.value,
+                            date_time: Some(dev_row.date_time)
                         })
                     }
                 }

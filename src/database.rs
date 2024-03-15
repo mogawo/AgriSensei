@@ -162,6 +162,7 @@ impl<'d> Database{
             [{deviceID}] INTEGER NOT NULL,
             [{sensorID}] INTEGER NOT NULL,
             [{value}] FLOAT NOT NULL,
+            [{date_time}] TEXT NOT NULL,
             FOREIGN KEY ({userID}) REFERENCES {usersForeign} ({userID})
           );",
           devices      = Col::DEVICE_TABLE,
@@ -169,7 +170,8 @@ impl<'d> Database{
           userID       = Col::USER_ID,
           deviceID     = Col::DEVICE_ID,
           sensorID     = Col::SENSOR_ID,
-          value        = Col::VALUE
+          value        = Col::VALUE,
+          date_time    = Col::DATE_TIME
         );
 
         let conn = Database::connect();
@@ -254,16 +256,18 @@ impl<'d> Database{
     pub fn add_device_measurements(device: &device::Device){
         // print!("{:#?}", device);
         let conn = Database::connect();
-        let device_insert = format!("INSERT INTO {deviceTable}({userID}, {deviceID}, {sensorID}, {value}) VALUES (?1, ?2, ?3, ?4)", 
+        let device_insert = format!("INSERT INTO {deviceTable}({userID}, {deviceID}, {sensorID}, {value}, {date_time}) VALUES (?1, ?2, ?3, ?4, ?5)", 
             deviceTable = Col::DEVICE_TABLE,
             userID      = Col::USER_ID,
             deviceID    = Col::DEVICE_ID,
             sensorID    = Col::SENSOR_ID,
-            value       = Col::VALUE
+            value       = Col::VALUE,
+            date_time   = Col::DATE_TIME
         );
 
         for sen in &device.sensors{
-            match conn.execute(&device_insert, params![device.user_id, device.device_id, sen.sensor_id, sen.value]){
+            let now = Utc::now();
+            match conn.execute(&device_insert, params![device.user_id, device.device_id, sen.sensor_id, sen.value, now]){
                 Ok(0) => {println!("Same Device{} was Inputed, measurement was not stored", device.device_id); },
                 Ok(_) => {println!("Device{} was added for Sensor{}", device.device_id, sen.sensor_id)},
                 Err(e) => panic!("\n[Add Device Measurement Device Insert] Bad SQL Insert\n{e}\n"),
