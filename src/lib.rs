@@ -14,7 +14,8 @@ mod rest{
     pub mod get;
     pub mod post;
 }
-// use rest::get;
+
+pub use rest::get::GetMessage;
 
 mod database;
 use database::Database;

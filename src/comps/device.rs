@@ -14,6 +14,15 @@ pub struct Measurements{
     pub value: f64
 }
 
+pub struct DevicePackage{
+    pub user_id: u64,
+    pub devices: Vec<Device>
+}
+
+impl DevicePackage{
+    pub fn pull_users_devices(user_id: u64){}
+}
+
 impl Device{
     pub fn push_device(&self){
         Database::add_device_measurements(&self);
