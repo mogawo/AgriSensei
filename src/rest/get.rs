@@ -6,8 +6,7 @@ use super::post::Database;
 use crate::database::TableColumnNames;
 
 // -GET REQUESTS-
-
-// GET /user/<user_id>/<device_id> HTTP/1.1          Returns ALL data about a userprofile
+// GET /user/<user_id>/<device_id> HTTP/1.1          Returns ALL device data from a user
 // <no body or header needed>
 
 // -SERVER RESPONSE- you can run this files main.rs to get an example json response as well
@@ -15,28 +14,30 @@ use crate::database::TableColumnNames;
 // Content-Type: application/json
 // Content-Length: ## of bytes of json body
 // {
-//   {
-//   "user_id": 1,
-//   "device_id": 1,
-//   "sensors": [
-//     {
-//       "sensor_id": 1,
-//       "value": 1.0
-//     },
-//     {
-//       "sensor_id": 1,
-//       "value": 1.0
-//     },
-//     {
-//       "sensor_id": 1,
-//       "value": 1.0
-//     },
-//     {
-//       "sensor_id": 1,
-//       "value": 1.0
-//     }]
-//   }
-
+//     "user_id": 1,
+//     "devices": [
+//       {
+//         "user_id": 1,
+//         "device_id": 1,
+//         "sensors": [
+//           {
+//             "sensor_id": 1,
+//             "value": 2.0,
+//             "date_time": "2024-03-15T04:21:38.553920300Z"
+//           },
+//           {
+//             "sensor_id": 1,
+//             "value": 3.0,
+//             "date_time": "2024-03-15T04:21:38.558603Z"
+//           },
+//           {
+//             "sensor_id": 1,
+//             "value": 4.0,
+//             "date_time": "2024-03-15T04:21:38.563353900Z"
+//           }
+//         ]
+//     }
+// }
 pub struct GetMessage{}
 impl Message for GetMessage{
     fn process_request(req: Request<String>) -> ResultResponse<'static, Vec<u8>>

@@ -6,6 +6,7 @@ pub use crate::database::*;
 pub use crate::components::*;
 use crate::sensor::SensorType;
 use crate::Device;
+use crate::Measurements;
 pub use http::response;
 pub use http::StatusCode;
 pub use regex::Regex;
@@ -17,33 +18,6 @@ pub use crate::server_error::ServerError::*;
 pub use crate::comps::{sensor::Sensor, components::Patterns};
 
 // -POST REQUESTS-
-// 
-// /new/user/                    creates new user profile
-// /new/user/<user_id>/sensor/   creates new sensor for user_id
-// /new/user/<user_id>/data/     creates new data packet for user_id
-
-// POST /new/user/<user_id>/sensor/ HTTP/1.1
-
-// POST /new/user/<user_id>/sensor/ HTTP/1.1
-// {
-//     "sensor_type" : "Temperature" or "Moisture"
-// }
-
-// POST /new/user/<user_id>/data/ HTTP/1.1
-// {
-//     "date_time": time_now,
-//     "frequency": 5, //int seconds
-//     "duration" : 5, //int seconds
-//     "amount"   : 5,
-//     "sensor_id": sensor_id 
-// }
-
-// -SERVER RESPONSE- 
-//
-// HTTP/1.1 200
-// Location: /user/<user_id>/            <- uri path where user should be redirected too; 
-//                                          need to added htmx path to get.rs match cases
-
 // POST /new/user/<user_id>/measurements/ HTTP/1.1
 // {
 //   "device_id": 1,
@@ -67,25 +41,12 @@ impl Message for PostMessage{
         
         println!("Processing POST Request...");
         
-        let uri_path = req.uri().path();
+        let uri_path: Vec<&str> = req.uri().path().split('/').collect();
         let json_data = PostMessage::parse_body(req.body())?;
-        let uri_capture = Regex::new(Patterns::GET_USERID)
-            .unwrap()
-            .captures(uri_path)
-            .ok_or(MessageError("URI does not match Regex pattern"))?;
-
-        let user_id = uri_capture.name("user_id");
-        let user_options = uri_capture.name("user_options");
-
-        match (user_id, user_options){
-            (None, None) =>  PostMessage::new_user(json_data),   
-            (Some(id), Some(opt)) => match opt.as_str(){
-                "sensor" => PostMessage::new_sensor(id.as_str().parse()?, json_data),
-                "data" => PostMessage::add_packet(id.as_str().parse()?, json_data),
-                "measurements" => PostMessage::add_measurements(id.as_str().parse()?, json_data),
-                    _ => PostMessage::error_response(MessageError("Invalid User Options {sensor, data}"))
-            },
-            (_, _) => PostMessage::error_response(MessageError("Modifying Server Components have not been implemented yet"))
+        let user_id = uri_path.get(2);
+        match user_id{
+            Some(u_id) => PostMessage::add_measurements(u_id.parse::<u64>().unwrap(), json_data),
+            _ => PostMessage::error_response(MessageError("Invalid User Options {sensor, data}"))
         }
     }
 }

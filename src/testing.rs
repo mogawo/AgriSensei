@@ -3,11 +3,7 @@ use serde_json::json;
 
 use crate::{database::Database, rest::post::PostMessage};
 
-const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
-                                "Kimberly", "Kara", "Juan", "Billy", 
-                                "Braulio", "Damien", "Ezra", "Margarita", 
-                                "Gisselle", "Leeann", "Davis", "Alex", 
-                                "Justin", "Kenna", "Jorden", "Remy"];
+const TEST_NAMES: [&str; 4] = ["Yareli", "Sophie", "Winston", "Norman"];
 
 pub fn init_database(){
     Database::new();
@@ -57,8 +53,8 @@ pub fn add_packet(){
 pub fn add_measurements(){
     
     let mut sensors = Vec::new();
-    for sensor_id in 1..= 5 {
-        for val in 1..=5{
+    for sensor_id in 1..= 2 {
+        for val in 1..=2{
             let sensor_data = json!(
                 {
                     "sensor_id": sensor_id,
@@ -68,7 +64,7 @@ pub fn add_measurements(){
             sensors.push(sensor_data);
         }
     }
-    for device_id in 1..=2{
+    for device_id in 1..=1{
         let json_data = json!(
             {
                 "device_id": device_id,
