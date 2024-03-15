@@ -44,47 +44,47 @@ impl Message for GetMessage{
     {
         let uri_path = req.uri().path();
          
-           match uri_path
+        match uri_path
+            {
+                "/last_user_id" => {
+                    let conn = Database::connect();
+                    let statement = format!("SELECT MAX({}) FROM {}", TableColumnNames::USER_ID, TableColumnNames::USERS);
+                    let last_user_id: i64 = conn.query_row(&statement, [], |row| row.get(0)).unwrap();
+                    let json_data = json!({
+                        "last_user_id" : last_user_id
+                    }).to_string().into_bytes();
+                    GetMessage::response_data(json_data)
+                },
+                r"/pages/main_page/index.html" => GetMessage::response(r"pages\main_page\index.html"),
+                r"/pages/main_page/index.html/ws" => GetMessage::response(r"pages\main_page\index.html"),
+                r"/pages/main_page/script.js" => GetMessage::response(r"pages\main_page\script.js"),
+                r"/pages/main_page/script.js/ws" => GetMessage::response(r"pages\main_page\script.js"),
+                r"/pages/main_page/style.css" => GetMessage::response(r"pages\main_page\style.css"),
+                r"/pages/main_page/style.css/ws" => GetMessage::response(r"pages\main_page\style.css"),
+                r"/pages/login/index.html" => GetMessage::response(r"pages\login\index.html"),
+                r"/pages/login/index.html/ws" => GetMessage::response(r"pages\login\index.html"),
+                r"/pages/login/script.js" => GetMessage::response(r"pages\login\script.js"),
+                r"/pages/login/script.js/ws" => GetMessage::response(r"pages\login\script.js"),
+                r"/pages/login/style.css" => GetMessage::response(r"pages\login\style.css"),
+                r"/pages/login/style.css/ws" => GetMessage::response(r"pages\login\style.css"),
+                r"/pages/main_page/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
+                r"/pages/main_page/images/pencil.png" => GetMessage::response(r"pages\main_page\images\pencil.png"),
+                r"/pages/main_page/images/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
+                r"/pages/main_page/jscharting/JSC/jscharting.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\jscharting.js"),
+                r"/pages/main_page/jscharting/JSC/modules/debug.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\modules\debug.js"),
+                _                       => 
+                
                 {
-                  "/last_user_id" => {
-                        let conn = Database::connect();
-                        let statement = format!("SELECT MAX({}) FROM {}", TableColumnNames::USER_ID, TableColumnNames::USERS);
-                        let last_user_id: i64 = conn.query_row(&statement, [], |row| row.get(0)).unwrap();
-                        let json_data = json!({
-                            "last_user_id" : last_user_id
-                        }).to_string().into_bytes();
-                        GetMessage::response_data(json_data)
-                    },
-                    r"/pages/main_page/index.html" => GetMessage::response(r"pages\main_page\index.html"),
-                    r"/pages/main_page/index.html/ws" => GetMessage::response(r"pages\main_page\index.html"),
-                    r"/pages/main_page/script.js" => GetMessage::response(r"pages\main_page\script.js"),
-                    r"/pages/main_page/script.js/ws" => GetMessage::response(r"pages\main_page\script.js"),
-                    r"/pages/main_page/style.css" => GetMessage::response(r"pages\main_page\style.css"),
-                    r"/pages/main_page/style.css/ws" => GetMessage::response(r"pages\main_page\style.css"),
-                    r"/pages/login/index.html" => GetMessage::response(r"pages\login\index.html"),
-                    r"/pages/login/index.html/ws" => GetMessage::response(r"pages\login\index.html"),
-                    r"/pages/login/script.js" => GetMessage::response(r"pages\login\script.js"),
-                    r"/pages/login/script.js/ws" => GetMessage::response(r"pages\login\script.js"),
-                    r"/pages/login/style.css" => GetMessage::response(r"pages\login\style.css"),
-                    r"/pages/login/style.css/ws" => GetMessage::response(r"pages\login\style.css"),
-                    r"/pages/main_page/images/cog-xxl.png" => GetMessage::response(r"pages\main_page\images\cog-xxl.png"),
-                    r"/pages/main_page/images/pencil.png" => GetMessage::response(r"pages\main_page\images\pencil.png"),
-                    r"/pages/main_page/images/favicon.ico" => GetMessage::response(r"pages\main_page\images\favicon.ico"),
-                    r"/pages/main_page/jscharting/JSC/jscharting.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\jscharting.js"),
-                    r"/pages/main_page/jscharting/JSC/modules/debug.js" => GetMessage::response(r"pages\main_page\jscharting\JSC\modules\debug.js"),
-                    _                       => 
-                    
-                    {
-                        let other_path: Vec<&str> = uri_path.split('/').collect();
-                        let user_id = other_path.get(2);
-                        let device_id = other_path.get(3);
-                        if let (Some(ur_id), Some(dev_id)) = (user_id, device_id) {
-                            let device = Device::pull_device(ur_id.parse::<u64>().unwrap(), dev_id.parse::<u64>().unwrap()).unwrap();
-                            return GetMessage::response_data(device.to_json().into_bytes());
-                    } else {
-                        GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))}
-                    }
+                    let other_path: Vec<&str> = uri_path.split('/').collect();
+                    let user_id = other_path.get(2);
+                    let device_id = other_path.get(3);
+                    if let (Some(ur_id), Some(dev_id)) = (user_id, device_id) {
+                        let device = Device::pull_device(ur_id.parse::<u64>().unwrap(), dev_id.parse::<u64>().unwrap()).unwrap();
+                        return GetMessage::response_data(device.to_json().into_bytes());
+                } else {
+                    GetMessage::error_response(ServerError::PathError(("Requested Path not Found", uri_path.to_string())))}
                 }
+            }
     }
 }
 
