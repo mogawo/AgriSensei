@@ -28,7 +28,7 @@ function main()
         .then(data => {
             let devices = data['devices'];
             let userId = data['user_id'];
-            displayUser(userId);
+            // displayUser(userId);
             for (let i = 0; i < devices.length; i++)
             {
                 for (let k = 0; k < devices[i]['sensors'].length; k++) {
@@ -38,6 +38,11 @@ function main()
                         existingSensors.push(sensorName);
                         const newSensor = createSensorElement(devices[i], k);
                         itemsContainer.appendChild(newSensor);
+                        if (sensorName == '11')
+                        {
+                            newSensor.click()
+                            // handleGraphTab(newSensor);
+                        }
                     }
                 }
             }
@@ -78,7 +83,7 @@ function createSensorElement(devices, k) {
             usernameDisplay.remove();
         }
         showSensorInfo(newSensor);
-        handleSummaryTab(newSensor);
+        handleGraphTab(newSensor);
     };
 
     let sensorName = String(devices['device_id']) + String(devices['sensors'][k]['sensor_id']);
@@ -92,12 +97,10 @@ function createSensorElement(devices, k) {
     let batteryArray = [100];
     for (let i = k; i < devices['sensors'].length; i++)
     {
-        if (devices['sensors'][i]['sensor_id'] != devices['sensors'][k]['sensor_id']) {
-            break;
+        if (devices['sensors'][i]['sensor_id'] == devices['sensors'][k]['sensor_id']) {
+            humidityArray.push(devices['sensors'][i]['value'] * 100);
+            timeArray.push(timeConversion(devices['sensors'][i]['date_time']));
         }
-        humidityArray.push(devices['sensors'][i]['value'] * 10);
-        // humidityArray.push(sensors[i]['amount'] * 10);
-        timeArray.push(timeConversion(devices['sensors'][i]['date_time']));
     }
     // let array = [85, 82, 81, 82, 84, 84];
     newSensor.dataset.humidityHistory = JSON.stringify(humidityArray);
@@ -479,6 +482,7 @@ function updateSensors(sensorData, devices, interval) {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             let sensors = devices['sensors'];
 
             for (let i = 0; i < sensors.length; i++)
@@ -488,8 +492,8 @@ function updateSensors(sensorData, devices, interval) {
                         if (sensors[k]['sensor_id'] != sensors[i]['sensor_id']) {
                             break;
                         }
-                        humidityArray.push(devices['sensors'][k]['value'] * 10);
-                        timeArray.push(devices['sensors'][k]['date_time']);
+                        humidityArray.push(devices['sensors'][i]['value'] * 100);
+                        timeArray.push(devices['sensors'][i]['date_time']);
                     }
                     break;
                 }

@@ -97,7 +97,7 @@ pub struct Database{}
 
 impl<'d> Database{
     const DB_NAME: &'static str = "AgriSensei Database";
-    const DB_PATH: &'static str = r"data\agrisensei.db";
+    const DB_PATH: &'static str = r"data/agrisensei.db";
 
     pub fn connect() -> Connection{
         match Connection::open(Database::DB_PATH){

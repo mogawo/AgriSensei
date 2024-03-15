@@ -43,7 +43,8 @@ impl Message for PostMessage{
         
         let uri_path: Vec<&str> = req.uri().path().split('/').collect();
         let json_data = PostMessage::parse_body(req.body())?;
-        let user_id = uri_path.get(2);
+        print!("{:#?}", uri_path);
+        let user_id = uri_path.get(3);
         match user_id{
             Some(u_id) => PostMessage::add_measurements(u_id.parse::<u64>().unwrap(), json_data),
             _ => PostMessage::error_response(MessageError("Invalid User Options {sensor, data}"))
@@ -74,7 +75,7 @@ impl PostMessage{
         let Some(user_id) = Database::new_user(name) else {
             return PostMessage::error_response(MessageError("Could Not Insert New User into Database"));
         };
-        PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}")) 
+        PostMessage::response(r"pages/test_pages/sensor_confirm.html", &format!(r"/user/{user_id}")) 
     }
 
     pub  fn new_sensor(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
@@ -86,14 +87,14 @@ impl PostMessage{
 
         if matches!(sensor_type, SensorType::UnknownType){ return Err(MessageError("No Sensor Type Provided"))};
         let sensor_id = Database::new_sensor(sensor_type, user_id).ok_or(MessageError("Could not make a new Sensor"))?;
-        PostMessage::response(r"pages\test_pages\sensor_confirm.html", &format!(r"/user/{user_id}/sensor/{sensor_id}"))
+        PostMessage::response(r"pages/test_pages/sensor_confirm.html", &format!(r"/user/{user_id}/sensor/{sensor_id}"))
     }
 
     pub  fn add_packet(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>> {
         println!("Adding Data Packets...");
         let packet: DataPacket = serde_json::from_value(Value::Object(json_data))?;
         packet.push_packet()?;
-        PostMessage::response(r"pages\test_pages\added_packet_confirm.html", &format!(r"/user/{user_id}/"))
+        PostMessage::response(r"pages/test_pages/added_packet_confirm.html", &format!(r"/user/{user_id}/"))
     }
 
     pub fn add_measurements(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
@@ -105,6 +106,6 @@ impl PostMessage{
         with_usersid.extend(json_data);
         let measure: Device = serde_json::from_value(Value::Object(with_usersid)).unwrap();
         measure.push_device();
-        PostMessage::response(r"pages\test_pages\measurement_confirm.html", "/measurement_wip/")
+        PostMessage::response(r"pages/test_pages/measurement_confirm.html", "/measurement_wip/")
     }
 }
