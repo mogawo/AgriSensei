@@ -1,11 +1,10 @@
-use std::str::FromStr;
+
 
 use crate::data_packet::DataPacket;
 pub use crate::message::*;
 pub use crate::database::*;
 pub use crate::components::*;
 use crate::sensor::SensorType;
-use crate::user_profile::UserProfile;
 use crate::Device;
 pub use http::response;
 pub use http::StatusCode;
@@ -136,7 +135,7 @@ impl PostMessage{
         PostMessage::response(r"pages\test_pages\added_packet_confirm.html", &format!(r"/user/{user_id}/"))
     }
 
-    pub fn add_measurements(user_id: u64, mut json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
+    pub fn add_measurements(user_id: u64, json_data: serde_json::Map<String, Value>) -> ResultResponse<'static, Vec<u8>>{
         println!("Adding Measurements...");
         let mut with_usersid: serde_json::Map<String, Value> = json!({
             TableColumnNames::USER_ID: user_id
@@ -144,7 +143,7 @@ impl PostMessage{
 
         with_usersid.extend(json_data);
         let measure: Device = serde_json::from_value(Value::Object(with_usersid)).unwrap();
-        measure.push_device(user_id);
+        measure.push_device();
         PostMessage::response(r"pages\test_pages\measurement_confirm.html", "/measurement_wip/")
     }
 }

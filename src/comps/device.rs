@@ -1,6 +1,6 @@
-use serde::de;
 
-use crate::{comps::components::*, UserProfile};
+
+use crate::comps::components::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Device{
@@ -15,17 +15,17 @@ pub struct Measurements{
 }
 
 impl Device{
-    pub fn push_device(&self, user_id: u64){
+    pub fn push_device(&self){
         Database::add_device_measurements(&self);
     }
     pub fn pull_device(user_id: u64, device_id: u64) -> Result<Self, rusqlite::Error>{
         let conn = Database::connect();
-        let (table, userID) = 
+        let (table, user_id_col) = 
             (TableColumnNames::DEVICE_TABLE, TableColumnNames::USER_ID);
         let mut statement = conn.prepare(&format!(
             "SELECT * 
             FROM {table} 
-            WHERE {table}.{userID} = (?1)
+            WHERE {table}.{user_id_col} = (?1)
             ")).unwrap();
         
             let mut dev = Device{user_id: user_id, device_id: device_id, sensors: Vec::new()};

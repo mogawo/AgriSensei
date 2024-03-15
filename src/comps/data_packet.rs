@@ -1,5 +1,4 @@
-use crate::comps::{components::*};
-use crate::database::TableColumnNames as Col;
+use crate::comps::components::*;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DataPacket{
     // #[serde(with = "ts_seconds")]

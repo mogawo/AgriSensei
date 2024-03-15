@@ -8,7 +8,7 @@ pub use rusqlite::types::{FromSql, FromSqlError, ValueRef::*};
 pub use chrono::prelude::*;
 pub use chrono::serde::ts_seconds;
 
-pub use crate::{database::{Database, TableColumnNames}};
+pub use crate::database::{Database, TableColumnNames};
 
 pub use serde::{Serialize, Deserialize};
 pub use crate::server_error::ServerError;

@@ -1,12 +1,5 @@
-use std::str::FromStr;
+use crate::{message::*, Device};
 
-use crate::{device, message::*, Device};
-use crate::components::Patterns;
-use crate::user_profile::UserProfile;
-use regex::Regex;
-use serde_json::json;
-
-use super::post::{PostMessage, Query};
 // -GET REQUESTS-
 
 // GET /user/<user_id>/<device_id> HTTP/1.1          Returns ALL data about a userprofile

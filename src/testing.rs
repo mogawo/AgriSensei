@@ -1,10 +1,7 @@
 use chrono::prelude::*;
-use serde_json::{json, Value};
+use serde_json::json;
 
 use crate::{database::Database, rest::post::PostMessage};
-
-
-use crate::*;
 
 const TEST_NAMES: [&str; 20] = ["Yareli", "Sophie", "Winston", "Norman", 
                                 "Kimberly", "Kara", "Juan", "Billy", 
@@ -16,7 +13,7 @@ pub fn init_database(){
     Database::new();
     for name in TEST_NAMES{
         let json_data = json!({"user_name" : name}).as_object().unwrap().to_owned();
-        PostMessage::new_user(json_data);
+        let _ = PostMessage::new_user(json_data);
     }
 }
 
@@ -27,7 +24,7 @@ pub fn add_sensor(){
         }
     ).as_object().unwrap().to_owned();
 
-    PostMessage::new_sensor(1, json_data);
+    let _ = PostMessage::new_sensor(1, json_data);
 
     let json_data = json!(
         {
@@ -35,7 +32,7 @@ pub fn add_sensor(){
         }
     ).as_object().unwrap().to_owned();
 
-    PostMessage::new_sensor(1, json_data);
+    let _ = PostMessage::new_sensor(1, json_data);
 }
 
 pub fn add_packet(){
