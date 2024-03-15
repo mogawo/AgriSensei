@@ -2,7 +2,6 @@
 pub use crate::server_error::ServerError::{self, *};
 pub use http::{self, Method, Request, Response, header, method, status, uri};
 use serde_json::Map;
-use core::panic;
 pub use std::{
     fmt::{Display, Debug},
     fs
@@ -32,7 +31,7 @@ pub trait Message {
         match serde_json::from_str(body.as_ref()){
             Ok(Value::Object(map)) => Ok(map),
             Ok(_) => Err(MessageError("HTTP Body is not a dictionary")),
-            Err(e) => Err(MessageError("Could not parse HTTP Body"))
+            Err(_) => Err(MessageError("Could not parse HTTP Body"))
         }
     }
 }

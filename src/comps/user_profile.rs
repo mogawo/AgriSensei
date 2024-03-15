@@ -1,5 +1,5 @@
-use std::borrow::BorrowMut;
-use crate::{comps::{components::*, sensor::*}, Device};
+
+use crate::comps::{components::*, sensor::*};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserProfile{
@@ -11,7 +11,7 @@ pub struct UserProfile{
 impl UserProfile{
     pub fn pull_user(user_id: u64) -> Option<Self>{
         match UserProfile::pull(user_id){
-            Ok(mut profile) => Some(profile),
+            Ok(profile) => Some(profile),
             Err(e) => {
                 println!("[UserProfile::pull_user] No User Found for ID {user_id}\n{e}");
                 None

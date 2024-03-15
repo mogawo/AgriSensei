@@ -1,12 +1,9 @@
-use std::str::FromStr;
-
-use crate::{device, message::*, Device};
-use crate::components::Patterns;
-use crate::user_profile::UserProfile;
-use regex::Regex;
 use serde_json::json;
 
-use super::post::{PostMessage, Query};
+use crate::{message::*, Device};
+
+use super::post::Database;
+
 // -GET REQUESTS-
 
 // GET /user/<user_id>/<device_id> HTTP/1.1          Returns ALL data about a userprofile
@@ -53,6 +50,14 @@ impl Message for GetMessage{
         } else {
            match uri_path
                 {
+                  "/last_user_id" => {
+                        let conn = Database::connect();
+                        let last_user_id: i64 = conn.last_insert_rowid();
+                        let json_data = json!({
+                            "last_user_id" : last_user_id
+                        }).to_string().into_bytes();
+                        GetMessage::response_data(json_data)
+                    },
                     r"/pages/main_page/index.html" => GetMessage::response(r"pages\main_page\index.html"),
                     r"/pages/main_page/index.html/ws" => GetMessage::response(r"pages\main_page\index.html"),
                     r"/pages/main_page/script.js" => GetMessage::response(r"pages\main_page\script.js"),

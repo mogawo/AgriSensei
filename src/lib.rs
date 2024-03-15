@@ -33,7 +33,6 @@ use comps::*;
 use chrono::prelude::*;
 
 mod testing;
-use testing::*;
 
 pub use comps::user_profile::UserProfile;
 pub use comps::sensor::{Sensor, SensorType};
@@ -55,7 +54,7 @@ pub fn start_server(host_address: &'static str){
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        pool.execute(|| {handle_connection(stream);});
+        pool.execute(|| {let _ = handle_connection(stream);});
     }
 }
 

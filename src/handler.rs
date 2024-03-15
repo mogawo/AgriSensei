@@ -1,5 +1,5 @@
 use std::{
-    net::{TcpStream},
+    net::TcpStream,
     io::{prelude::*, BufReader}
 };
 
@@ -94,6 +94,6 @@ impl Assemble for Response<Vec<u8>>{
     {
         &Method::GET => GetMessage::process_request(req),
         &Method::POST => PostMessage::process_request(req),
-        meth => GetMessage::error_response(MessageError("=> ResponseError: Unhandled method request"))
+        _ => GetMessage::error_response(MessageError("=> ResponseError: Unhandled method request"))
     }
 }

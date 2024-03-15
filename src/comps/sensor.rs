@@ -1,5 +1,5 @@
-use crate::{comps::{components::*, data_packet::DataPacket}, message::Message};
-use std::{borrow::BorrowMut, fmt::write, str::{from_utf8, FromStr}};
+use crate::comps::{components::*, data_packet::DataPacket};
+use std::str::from_utf8;
 
 
 // measurement - Acts as a heartbeat
@@ -28,7 +28,7 @@ pub enum SensorType{
 
 impl Sensor{
     pub fn push(self){
-        if let Some(sen_id) = Database::new_sensor(self.sensor_type, self.user_id){
+        if let Some(_) = Database::new_sensor(self.sensor_type, self.user_id){
             let u_id = self.user_id;
             let s_id = self. sensor_id;
             println!("New User[{u_id}]-Sen[{s_id}] added to DB ")
