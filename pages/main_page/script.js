@@ -10,6 +10,7 @@ var passedLogIn = localStorage.getItem('passedLogIn');
 var existingSensors = [];
 
 var currentTab = 0;
+var currentSensor = 0;
 
 var id = loggedInUser;
 id = 1;
@@ -96,9 +97,8 @@ function createSensorElement(devices, k) {
             break;
         }
         humidityArray.push(devices['sensors'][i]['value'] * 10);
-        timeArray.push(0);
         // humidityArray.push(sensors[i]['amount'] * 10);
-        // timeArray.push(timeConversion(sensors[i]['date_time']));
+        timeArray.push(timeConversion(devices['sensors'][i]['date_time']));
     }
     // let array = [85, 82, 81, 82, 84, 84];
     newSensor.dataset.humidityHistory = JSON.stringify(humidityArray);
@@ -188,7 +188,7 @@ function timeConversion(time) { // TODO
 
 function showSensorInfo(sensorData) {
     // Erase anything in the current display
-    const elements = document.querySelectorAll('.sensorData')
+    const elements = document.querySelectorAll('.sensorData');
     elements.forEach(element => {
         element.remove();
     });
@@ -258,7 +258,8 @@ function showSensorInfo(sensorData) {
 
 function handleSummaryTab(sensorData)
 {
-    currentTab = 0;
+    currentSensor = sensorData.dataset.itemId;
+    currentTab = 1;
     const summaryDisplay = document.createElement('div');
     summaryDisplay.classList.add('sensorReadings');
 
@@ -296,7 +297,8 @@ function handleSummaryTab(sensorData)
 
 function handleGraphTab(sensorData)
 { 
-    currentTab = 1;
+    currentSensor = sensorData.dataset.itemId;
+    currentTab = 2;
     const graphDisplay = document.createElement('div');
     graphDisplay.classList.add('sensorReadings');
 
@@ -421,6 +423,7 @@ function generateGraph(sensorData, graphID)
 
 function handleDetailsTab(sensorData)
 {
+    currentSensor = sensorData.dataset.itemId;
     currentTab = 3;
     const detailsDisplay = document.createElement('div');
     detailsDisplay.classList.add('sensorReadings');
@@ -489,19 +492,33 @@ function updateSensors(sensorData, devices, interval) {
                             break;
                         }
                         humidityArray.push(devices['sensors'][k]['value'] * 10);
-                        timeArray.push(0);
+                        timeArray.push(devices['sensors'][k]['date_time']);
                     }
                     break;
                 }
             }
-            if (currentTab == 1) {
-                handleDetailsTab(sensorData);
-            }
-            else if(currentTab == 2){
-                handleGraphTab(sensorData);
-            }
-            else if(currentTab == 3){
-                handleDetailsTab(sensorData);
+            if (currentSensor == sensorData.dataset.itemId){
+                if (currentTab == 1) {
+                    const elements = document.querySelectorAll('.sensorReadings');
+                    elements.forEach(element => {
+                        element.remove();
+                    });
+                    handleSummaryTab(sensorData);
+                }
+                else if (currentTab == 2) {
+                    const elements = document.querySelectorAll('.sensorReadings');
+                    elements.forEach(element => {
+                        element.remove();
+                    });
+                    handleGraphTab(sensorData);
+                }
+                else if (currentTab == 3) {
+                    const elements = document.querySelectorAll('.sensorReadings');
+                    elements.forEach(element => {
+                        element.remove();
+                    });
+                    handleDetailsTab(sensorData);
+                }
             }
 
             // setInterval(updateSensors(sensorData, devices, interval), interval);
